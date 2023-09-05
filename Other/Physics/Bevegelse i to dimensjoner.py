@@ -34,3 +34,4 @@ pplot.xlabel('x-akse, enhet meter')
 pplot.ylabel('y-akse, enhet meter')
 pplot.show()
 
+
