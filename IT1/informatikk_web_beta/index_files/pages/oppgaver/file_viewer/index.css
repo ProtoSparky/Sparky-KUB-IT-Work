@@ -1,0 +1,28 @@
+.file_viewer{
+    position:absolute; 
+    width:150px;
+    height:220px;
+    background-color: rgba(198, 198, 198, 0.345);    
+    border-radius:12px;
+    margin-bottom:150px;
+}
+.image{
+    position:absolute;
+    top:10;
+    left:20px;
+    width:100px;
+    height:auto;
+
+}
+.text{
+    position:absolute;
+    top:120px;
+    left:30px;
+    
+}
+#filename{
+    top:140px;
+}
+#creation{
+    top:160px;
+}

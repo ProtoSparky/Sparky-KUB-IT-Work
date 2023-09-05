@@ -1,0 +1,13 @@
+body {
+    overflow: hidden;
+    background-color:black;
+}
+
+.BGimg{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:auto;
+    overflow-y:hidden;
+}

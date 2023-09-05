@@ -1,0 +1,90 @@
+body{
+    background-color:pink;
+
+}
+
+#overskrift {
+    position:absolute;
+    top:10px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    width:400px;
+    text-align:center;
+    background-color:#8282c7;
+    color:white;
+    font-size:26;
+
+}
+
+#tekst {
+    position:absolute;
+    top:60px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    width:800px;
+    height:400px;
+    background-color:rgb(166, 166, 255);
+    border:2px solid black;
+    color:rgb(0, 0, 0);
+
+}
+#bilde1 {
+    position:absolute;
+    top:10px;
+    left:10px;
+    width: 100px;
+    height:100px;
+    border-radius:50%;
+}
+
+#img_vam_1 {
+    position:absolute;
+    top:0;
+    left:0;
+
+    z-index:1; 
+}
+
+#img_vam_2 {
+    position:absolute;
+    top:400;
+    left:400;
+    border:8px solid lightgrey;
+    z-index:2;
+
+}
+
+#img_vam_3 {
+    position:absolute;
+    top:400;
+    right:300;
+    border:8px solid lightgrey;
+    z-index:2;   
+
+}
+
+.overskrift {
+    z-index:3;
+    border: 2px solid rgb(166, 166, 255);
+}
+
+#tbl_kraftverk{
+    position:absolute;
+    top:200px;
+    left:0;
+    right:0; 
+    margin-left:auto;
+    margin-right:auto;
+    width:400px;
+    background-color:rgb(166, 166, 255);
+    text-align:center;
+}
+
+#rad_top {
+    font-size:20px; 
+    background-color:rgb(140, 140, 211);
+}

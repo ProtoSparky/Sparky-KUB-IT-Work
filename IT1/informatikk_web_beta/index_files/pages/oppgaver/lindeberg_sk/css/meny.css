@@ -1,0 +1,18 @@
+body {
+    background-color:#1d1d1d;
+}
+
+.button {
+    background-color:#8e99ae;
+    width:100px;
+    height:30px;
+    color:#222222;
+    border-color:#8f9aae;
+    margin-bottom:3px;
+}
+
+#btn_back{
+    height:80px;
+}
+
+

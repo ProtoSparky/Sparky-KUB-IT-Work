@@ -1,0 +1,27 @@
+body {
+    background-color:#1d1d1d;
+}
+
+#meny {
+    position:absolute;
+    top:5px;
+    left:1%;
+    width:120px;
+    height:97%;
+    z-index:3;
+    
+    
+}
+
+#innhold {
+    position:absolute;
+    top:5;
+    right:1%;
+    width:88%;
+    height:99%;
+    max-width:1500px;
+    min-width:700px;
+    z-index:2;
+   
+
+}

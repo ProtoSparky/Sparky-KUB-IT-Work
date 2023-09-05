@@ -1,0 +1,21 @@
+body {
+    background-color:#25272b;
+    background-image: URL("./../bilder/bg1.jpg");
+    background-repeat:no-repeat;
+    background-size: 70%;
+    background-position:center center;
+    overflow:hidden;
+    }
+     #heks3 {
+    position:absolute;
+     top:100px;
+     }
+     .blink {
+     animation: blinker 1.5s linear infinite;
+     }
+    
+     @keyframes blinker {
+     50% {
+    opacity: 0;
+    }
+    } 

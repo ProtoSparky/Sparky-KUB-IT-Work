@@ -1,0 +1,45 @@
+window.center.large-t
+window.center.small
+window.right.large
+window.right.small
+window.left.large
+window.left.small
+
+
+
+TODO
+chat with markdown
+add uservane, timestamp of sent message feks 23:22|23.02.2023 Anon223 | this is a message
+or 23:22|23.22.2023 Kris | this is a message
+unauthorizeud users have to verify trough email 
+
+
+
+anonymus people will have to login to write to chat. max 10 messages per session unless user is special
+
+accounts:
+kris, seb, x
+1 , 2, 3
+
+
+
+
+//chat//
+email | chat_email        | string
+otp   | chat_otp          | code
+is log| chat_is_logged_in | val- 0 1
+
+
+
+
+preg_match('/[-A-Za-z0-9!#$%&\'*+\/=?^_`{|}~]+(?:\\.[-A-Za-z0-9!#$%&\'*+\/=?^_`{|}~]+)*@(?:[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?/i'
+preg_match('/^\d+$/',
+
+
+
+
+
+
+
+
+

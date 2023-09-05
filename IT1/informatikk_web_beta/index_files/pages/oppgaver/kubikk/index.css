@@ -1,0 +1,89 @@
+
+
+#div{
+    position:absolute;
+    width:50%;
+    height:100%;
+    bottom:0;
+    right:0;
+}
+#datashow{
+    padding-left:50px;
+    width:auto;
+    height: 90%;
+
+}
+.main{
+    font-size: 25px;
+    position:absolute;
+    
+    
+}
+
+#outer_cube_rot{
+    top:20px;
+    transform: rotate(270deg); 
+    right:300px;
+    width:100%;
+}
+
+#outer_cube{
+    bottom:7%;
+    margin-left:40%;
+}
+
+#outer_cube_volume{
+    bottom:13%;
+    margin-left:11%;
+    color:white;
+}
+
+#inner_cube_volume{
+    bottom:29%;
+    margin-left:29%;
+    color:white;
+}
+
+#wall_thickness{
+    bottom:20%;
+    margin-left:17%;
+
+}
+
+/*UI*/
+.text{
+    position:absolute;
+    color:white;
+    width:500px;
+}
+
+#cube_text{
+    top:10px;
+    left:70px;
+}
+#cube_thickness_text{
+    top:110px;
+    left:70px;
+}
+#cube_width{
+    position:absolute;
+    top:30px;
+    left:70px;
+}
+
+#cube_thickness{
+    position:absolute;
+    top:130px;
+    left:70px;
+}
+#submit{
+    position:absolute;
+    top:170px;
+    left:70px;
+}
+
+#error{
+    position:absolute;
+    top:200px;
+    left:70px;
+}

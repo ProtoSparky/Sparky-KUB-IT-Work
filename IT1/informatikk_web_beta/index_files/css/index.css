@@ -1,0 +1,455 @@
+body{
+    background-color:#1d1d1d;
+    overflow-y:hidden;
+}
+#bg{
+    position:absolute;
+    height:auto;
+    width:100%; 
+    left:0;
+    top:0;
+    
+}
+body::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+
+
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------MENU---------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------*/
+#menu{
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:60px;
+    background-color:#000000c9;
+    z-index:2;
+    
+}
+
+.menu_text_align{
+    position:relative;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    
+}
+.menu_text{
+    position:absolute;
+    top:50%;
+    left:100%;
+    transform:translate(-50%,-50%);
+    color:white; 
+    font-size:23px;
+    user-select:none;   
+}
+
+
+
+#menu_icon{
+    height:40px;
+    width:auto;
+}
+
+#menu_text_1{
+    left:30;
+}
+
+#menu_text_2{
+    left:150px;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:5px;
+    padding-bottom:5px; 
+}
+#menu_text_2:hover{
+    color:#25aa72;
+    font-weight: bold;
+    font-size:22;
+    background-color:#1515155b;
+    border-radius:5px;
+}
+
+#menu_text_3{
+    left:250px;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:5px;
+    padding-bottom:5px; 
+}
+#menu_text_3:hover{
+    color:#25aa72;
+    font-weight: bold;
+    font-size:22;
+    background-color:#1515159d;
+    border-radius:5px;
+}
+#menu_text_4{
+    left:350px;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:5px;
+    padding-bottom:5px; 
+}
+#menu_text_4:hover{
+    color:#25aa72;
+    font-weight: bold;
+    font-size:22;
+    background-color:#1515159d;
+    border-radius:5px;
+}
+#menu_text_5{
+    left:430px;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:5px;
+    padding-bottom:5px; 
+}
+#menu_text_5:hover{
+    color:#403ece; 
+    font-weight: bold;
+    font-size:22;
+    background-color:#1515159d;
+    border-radius:5px;
+}
+
+/*HAMBURGER*/
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------DROPDOWN-----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------*/
+#menu_ham {
+    position:fixed;
+    width:40px;
+    height:40px;
+    right:150;   
+}
+/**/
+#ham_dropdown{
+    display:inline-block;
+    top:45px;
+    width:250;
+    height:70px;
+    cursor:pointer;
+}
+
+
+#dropdown_menu{
+    user-select:none; 
+    position:fixed;
+    background-color:#1d1d1d; 
+    top:50;
+    right:125; 
+    width:200px;
+    height: 150px;    
+    box-shadow: -9px 9px 0px -5px rgba(0,0,0,0.33);
+    -webkit-box-shadow: -9px 9px 0px -5px rgba(0,0,0,0.33);
+    -moz-box-shadow: -9px 9px 0px -5px rgba(0,0,0,0.33);
+    display:none;
+    
+}
+
+
+#ham_dropdown:hover #dropdown_menu{
+    display:block; 
+}
+
+
+.dropdown_menu_button_text{
+    position:absolute;
+    width:190px;
+    height:40px;
+    left:5px;  
+    background-color:#1d1d1d;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:20px;
+    text-align:left;
+    cursor:pointer;
+    
+}
+.dropdown_menu_button_text:hover{
+    background-color:black;
+    color:#25aa72;
+    font-weight: bold;
+    
+}
+
+.dropdown_menu_button_text:focus{
+    outline:none;
+}
+#dropdown_menu_button_prove{
+    margin-top:10px;
+}
+#dropdown_menu_button_oppgaver{
+    margin-top:55px;
+}
+#dropdown_menu_button_login{ 
+    margin-top:100px;
+}
+/*When logged in*/
+
+#dropdown_menu_button_login_lo{ 
+    margin-top:145px;
+}
+#dropdown_menu_button_admin_lo{ 
+    margin-top:100px;
+}
+#dropdown_menu_big{
+    user-select:none; 
+    position:fixed;
+    background-color:#1d1d1d; 
+    top:50;
+    right:125; 
+    width:200px;
+    height: 200px;    
+    box-shadow: -9px 9px 0px -5px rgba(0,0,0,0.33);
+    -webkit-box-shadow: -9px 9px 0px -5px rgba(0,0,0,0.33);
+    -moz-box-shadow: -9px 9px 0px -5px rgba(0,0,0,0.33);
+    display:none;    
+}
+
+
+#ham_dropdown:hover #dropdown_menu_big{
+    display:block; 
+}
+.dropdown_menu_button_text_lo{
+    position:absolute;
+    width:190px;
+    height:40px;
+    left:5px;  
+    background-color:#1d1d1d;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:20px;
+    text-align:left;
+    cursor:pointer;
+    
+}
+.dropdown_menu_button_text_lo:hover{
+    background-color:black;
+    color:#403ece;
+    font-weight: bold;
+    
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------CONTENT------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------*/
+
+
+#content{
+    position:absolute;
+    left:0;
+    top:60px;
+    width:100%;
+    height:100%;
+    z-index:1; 
+}
+
+
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------FORMATTING---------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------*/
+
+
+.link:link{
+  color:rgba(71, 77, 255, 0.879);
+}
+.link:visited{
+    color:rgba(71,77,255,0.99);
+}
+.text{
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:20;
+}
+
+.text_small{
+    font-size:15;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:100;
+    color:white;
+    line-height:0.1;
+}
+
+.text_center{
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:20;
+    text-align:center;
+}
+
+.window_center_large{
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+    border-radius:10px; 
+    z-index:2;
+    color:white; 
+    /*Glass effect*/
+    -webkit-backdrop-filter: blur(8px);  /* Safari 9+ */
+    backdrop-filter: blur(8px); /* Chrome and Opera */
+    box-shadow: 0px 10px 15px 10px rgba(0, 0, 0, 0.04);
+    background-color: rgba(228, 228, 228, 0.026); 
+}
+.window_center_large_noBG{
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+    border-radius:10px; 
+    z-index:2;
+    color:white; 
+}
+
+
+
+.window_center_large-t{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border-radius:10px; 
+    width:900px;
+    height:800px;
+    z-index:2;
+    color:white; 
+    /*Glass effect*/
+    -webkit-backdrop-filter: blur(8px);  /* Safari 9+ */
+    backdrop-filter: blur(8px); /* Chrome and Opera */
+    box-shadow: 0px 10px 15px 10px rgba(0, 0, 0, 0.04);
+    background-color: rgba(228, 228, 228, 0.026); 
+}
+#changelog_window{
+    height:400px;
+    top:20%;
+}
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------CHAT---------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------*/
+#chat_window_bg{
+    width:1000px;
+    height:100%;
+}
+#chat_window_text{
+    width:1000px;
+    height:80%;  
+
+}
+#chat_textarea{
+    overflow-y:auto;
+    scrollbar-width: thin;
+    position:absolute;
+    width:950px;
+    left:35px;
+    top:2%;
+    height:97%;    
+    
+}
+
+#chat_window_menu{
+    width:1000px;
+    height:20%;
+    bottom:0; 
+    
+}
+#chat_input{
+    position:absolute;
+    top:20%;
+    left: 10px;
+    width:300px;
+    height:50px; 
+    border-radius:5px; 
+    background-color:rgba(228, 228, 228, 0.141);
+    box-shadow:none;
+    color:white;
+    border-color:#00000000 solid; 
+}
+.chat_submit {
+    position:absolute;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:20; 
+    background-color:rgba(228, 228, 228, 0.322);
+    box-shadow:none;
+    color:white;
+    border-color:#00000000;
+    border-radius:5px;   
+}
+#chat_submit{
+    top:20%; 
+    left: 350px; 
+    width:100px;
+    height:50px;
+}
+#chat_login_info{
+    font-family:Arial, Helvetica, sans-serif;
+    position:absolute;
+    top:25%;
+    right:100px;
+
+}
+.divider{
+    position:absolute;
+    top:10%;
+    height:89%;
+    width:2px;
+    background-color:#2e2e2f;
+    
+    box-shadow: 1px 7px 15px 0px rgba(228,228,228,0.58);
+    -webkit-box-shadow: 1px 7px 15px 0px rgba(228,228,228,0.58);
+    -moz-box-shadow: 1px 7px 15px 0px rgba(228,228,228,0.58);
+    border-radius:4px; 
+
+}
+#chat_divider{
+    
+    right:350px;
+}
+
+
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------CHAT---------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------*/
+
+/*For object iframes (fullscreen)*/
+#object_data_f{
+    position:absolute;
+    top:0px; 
+    left:0px;
+    width:100%;
+    height:100%;
+}
+
+.button{
+    position:absolute;
+    color:white;
+    background-color:#1d1d1d;
+    border:none;
+    border-radius:5px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:30px;
+    text-align:left;
+    cursor:pointer;
+        
+}
+.button:hover{
+    background-color:black;
+    color:#25aa72;
+    font-weight: bold;
+   
+}
+
+
+
+@media only screen and (min-width: 1366px) {}
+

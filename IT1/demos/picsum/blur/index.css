@@ -1,0 +1,17 @@
+body {
+    overflow: hidden;
+    background-color:black;
+}
+
+.BGimg{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:auto;
+    overflow-y:hidden;
+
+    -webkit-filter: blur(4px); /* Safari 6.0 - 9.0 */
+    filter: blur(4px);
+
+}

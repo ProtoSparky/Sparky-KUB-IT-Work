@@ -1,0 +1,27 @@
+body {
+    z-index:-1;
+    background: url("../bilder/bg.jpg") no-repeat;
+    background-size:cover;
+    backdrop-filter: blur(19px);
+    width:auto;
+    height:auto;
+
+  }
+  
+ 
+
+#overskrift {
+    position:absolute;
+    top:10px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    width:400px;
+    text-align:center;
+    background-color:#8D99AE;
+    color:#2B2D42;
+    font-size:26;
+    z-index:3;
+
+}

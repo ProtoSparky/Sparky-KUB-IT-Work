@@ -1,0 +1,90 @@
+.input_field{
+    position:absolute;
+    top:25px;
+    background-color:#e8eaed;
+    border-color:white;
+    border-radius:5px;
+}
+.text{
+    position:absolute;
+    top:0;
+    width:500px;
+    color:white;
+}
+/*text*/
+#reg_text{
+    left:10px;
+    
+}
+
+#name_text{
+    left:205px;
+    color:white; 
+}
+#model_text{
+    left:303px;
+    
+}
+#color_text{
+    left:480px;
+}
+#year_text{
+    left:672px;
+    
+}
+
+/*input*/
+#car_let{
+    width:50px;
+    left:10px;
+}
+#car_num{
+    width:100px;
+    left:60px;
+}
+#car_name{
+    width:100px;
+    left:189px;
+}
+#car_model{
+    width:100px;
+    left:290px;
+}
+#car_year{
+    left:669px;
+    width:100px;
+}
+
+#car_colorR{
+    left:419px;
+}
+#car_colorG{
+    left:493px;
+}
+#car_colorB{
+    left:567px;
+
+}
+
+#submit{
+    position:absolute;
+    top:25px;
+    left:778px;
+}
+
+#content{
+    position:absolute;
+    top:100px;
+}
+
+#form{
+    position:absolute;
+    top:80px
+}
+
+th{
+    color:white; 
+}
+td{
+    color:white; 
+}

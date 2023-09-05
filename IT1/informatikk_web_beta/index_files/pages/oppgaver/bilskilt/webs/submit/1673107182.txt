@@ -1,0 +1,8 @@
+
+<tr>
+<td>EK 94944</td>
+<td>HYUNDAI</td>
+<td>Ioniq 5</td>
+<td>2023</td>
+<td style="color:rgb(50,168,82)">50 168 82</td>
+</tr>

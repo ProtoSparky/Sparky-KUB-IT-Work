@@ -1,0 +1,17 @@
+body{
+    background-color:#1f1f1f;
+}
+
+code{
+
+    font-family:monospace;
+}
+.property{
+    color:#db734a;
+}
+.syntax{
+    color:#5dd6f9;
+}
+.separator{
+    color:white;
+}

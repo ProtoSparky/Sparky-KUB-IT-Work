@@ -1,0 +1,86 @@
+body {
+    background-color:#1d1d1d
+}
+
+#overskrift {
+    position:absolute;
+    top:10px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    width:400px;
+    text-align:center;
+    background-color:#8D99AE;
+    color:#2B2D42;
+    font-size:26;
+    z-index:3;
+
+}
+
+.text {
+    color:white;
+    position:absolute;
+    top:100px;
+    z-index:2;
+    inline-size:600px;
+    overflow-wrap:break-word;
+    font-family: "Grill Sans",sans-serif;
+
+}
+
+#par2{
+    padding-top:45px;
+}
+
+#map {
+    position:absolute;
+    top:5;
+    right:1%;
+    width:400;
+    height:417;
+
+}
+
+
+/* Images */
+.image{
+    position:absolute;
+    z-index:2;
+    width:auto;
+    top:100px;
+}
+
+#out_img{
+    right:10px;
+    max-height:200px;
+}
+
+#sal_img{
+    right:10px;
+    max-height:200px;
+    padding-top:18%;
+    
+}
+
+#kl_img{
+    right:10px;
+    height:250px;
+    padding-top:50px;
+}
+
+/* End of images */
+
+/*captions*/
+#elev_st{
+    position:absolute;
+    top:400px;
+    right:1%;
+    inline-size:300px;
+    overflow-wrap:break-word;
+    font-size:12;
+    color:white;
+
+}
+
+/*end of captions*/

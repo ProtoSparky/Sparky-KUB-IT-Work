@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <script src="./1.js">
+        </script>
+        <link rel="stylesheet" type="text/css" href="./1.css">
+    </head>
+    <body>
+        <div id="ramme">
+            <div id="overskrift" class="felles">
+                Based color game
+            </div>
+ 
+            <select name="velgfarge" id="velgfarge" class="felles" value="0">
+               <!--
+                <option value="red">red</option>
+                <option value="yellow">yellow</option>
+                <option value="green">green</option>
+                <option value="blue">blue</option>
+                <option value="orange">orange</option>   
+               -->
+            </select>
+            
+            
+
+        </input>
+            <button id="visfarge" class="felles" onclick="fargegjetting(velgfarge)">Check selection</button>
+            <button id="clear_color" class="felles" onclick="clear_color()">Clear points</button>
+
+            <div id="randomfarge" class="felles"></div>
+            <input type="text" id="tilbakemelding" class="felles" value='test your "luck"' readonly="true">
+            <input type="text" id="poeng" class="felles" value="0" readonly="true">
+            <div class="felles" id="total_fail_counter_box">
+                <div class="felles" id="fail_text">Total fail counter</div>
+                <input type="text" id="total_fail_counter" class="felles" value="-14393" readonly="true">
+            </div>
+            
+        </div>
+        <script>update_select()</script>
+        
+
+    
+    </body>
+</html>
