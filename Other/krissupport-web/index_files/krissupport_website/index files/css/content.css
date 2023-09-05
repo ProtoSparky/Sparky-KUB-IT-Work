@@ -1,0 +1,586 @@
+/*-----------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------NORMAL WINDOW SIZE----------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------*/
+body{
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+
+/*Custom scrollbar*/
+::-webkit-scrollbar {  
+    width:5px; 
+     
+}
+::-webkit-scrollbar-button {
+    background:transparent;
+    margin-top:33px;
+    
+}
+
+::-webkit-scrollbar-track {
+    background:transparent;    
+}
+
+::-webkit-scrollbar-track-piece:start {
+    margin-top:33px;
+}
+
+::-webkit-scrollbar-track-piece:end {
+    margin-bottom:283px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(186, 186, 186);
+}
+
+
+
+.text{
+    position:absolute;
+    top:8%; 
+}
+
+    /* a black bar on the botttom of the page for contacts */
+.bottom_menu{
+    position: absolute;
+    top:300%;
+    margin-top:25;
+    margin-left:-11;
+    height: 300px;
+    width: 100.3%;
+    background-color:#4e4e4e;
+    color:#fff;
+    z-index:1;    
+
+}
+#bottom_menu_kontakt{
+    top:800px;
+}
+#bottom_menu_order{
+    top:550px;
+}
+
+    /* Krissupport logo within black bar */
+#banner-bottom{
+    position:absolute;
+    max-height:10%;
+    width:auto;
+    bottom:13%;
+    right:30px;
+}
+
+
+    /*bar "om oss" placement*/
+.bar_info{
+    position:absolute;
+    top:35px;
+    
+}
+
+#bar_info1{
+    left:5%;
+}
+
+    /*bar "Kontakt oss" placement*/
+#bar_info2{
+    left:30%;
+}
+
+    /*bar "om oss" , "kontakt oss" heading*/
+.bar_head{
+    color:white;
+    font-family:sans-serif;
+    font-size:20px;
+    text-align:center;
+}
+
+
+    /*bar "om oss" , "Kontakt oss" divider*/
+.bar_div{
+    position:relative;
+    border-bottom:3px solid #6d6d6d;
+    width:300px;
+    top:10px;   
+    
+}
+
+    /*bar "om oss" ,"kontakt oss" small heading*/
+.bar_head_small{
+    position:absolute;
+    font-family:sans-serif;
+    font-size:17px;
+}
+
+    /*bar "om oss" ,"kontakt oss" small heading placement*/
+#bar_head_small1{
+    top:50px;
+}
+
+#bar_head_small2{
+    top:95px;
+}
+
+#bar_head_small3{
+    top:140px;
+}
+
+#bar_head_small4{
+    top:185px;
+}
+
+    /*bar "om oss" ,"kontakt oss" text*/
+.bar_text{
+    position:absolute;   
+    font-family:sans-serif;
+    font-size:15px;
+    color:#bebebe;
+    width:300px;
+}
+
+    /*Social media icons*/
+.SoMe{
+    position:absolute;
+    bottom:10px;
+    max-height:10%;
+    width:auto;
+}
+
+#facebook{
+    right:40px;
+}
+#instagram{
+    right:80px;
+}
+#reddit{
+    right:120px;
+}
+#twitter{
+    right:160px;
+}
+
+.nyheter{
+    position:absolute;
+    top:100px;
+    width:50%;
+    height:400px;
+    left:343px;
+    box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.086);
+    background-color: rgb(228 228 228 / 15%);
+    border-radius:10px;
+    overflow: hidden;
+}
+
+.kontaktboks{
+    position:absolute;
+    top:100px;
+    width:50%;
+    height:650px;
+    left:343px;
+    box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.086);
+    background-color: rgb(228 228 228 / 15%);
+    border-radius:10px;
+    overflow: hidden;
+
+}
+#text_boks-om{
+    height:1000px;
+}
+
+
+#nyheter2{
+    top: 600px;
+}
+
+#nyheter3{
+    top: 1100px;
+}
+#bottom_menu_om{
+    top:1100px;
+}
+
+
+/*-----------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------SMALL WINDOW----------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------*/
+
+
+@media screen and (max-width: 1300px) {
+
+    .text{
+        position:absolute;
+        top:8%; 
+    }
+    
+    
+    
+         /* a black bar on the botttom of the page for contacts */
+    .bottom_menu{
+        position: absolute;
+        top: 300%;
+        margin-top:25;
+        margin-left:-11;
+        height: 300px;
+        width: 100.2%;
+        background-color:#4e4e4e;
+        color:#fff;
+        z-index:1;    
+    
+    }
+    
+        /* Krissupport logo within black bar */
+    
+    #banner-bottom{
+        position:absolute;
+        max-height:10%;
+        width:auto;
+        bottom:13%;
+        right:30px;
+    }
+    
+    
+        /*bar "om oss" placement*/
+    .bar_info{
+        position:absolute;
+        top:35px;
+        
+    }
+    
+    #bar_info1{
+        left:5%;
+    }
+    
+        /*bar "Kontakt oss" placement*/
+    #bar_info2{
+        left:400px;
+    }
+    
+        /*bar "om oss" , "kontakt oss" heading*/
+    .bar_head{
+        color:white;
+        font-family:sans-serif;
+        font-size:20px;
+        text-align:center;
+    }
+    
+    
+    
+        /*bar "om oss" , "Kontakt oss" divider*/
+    .bar_div{
+        position:relative;
+        border-bottom:3px solid #6d6d6d;
+        width:300px;
+        top:10px;   
+        
+    }
+    
+        /*bar "om oss" ,"kontakt oss" small heading*/
+    .bar_head_small{
+        position:absolute;
+        font-family:sans-serif;
+        font-size:17px;
+    }
+    
+    /*bar "om oss" ,"kontakt oss" small heading placement*/
+    #bar_head_small1{
+        top:50px;
+    }
+    
+    #bar_head_small2{
+        top:95px;
+    }
+    
+    #bar_head_small3{
+        top:140px;
+    }
+    
+    #bar_head_small4{
+        top:185px;
+    }
+
+        /*bar "om oss" text*/
+    .bar_text{
+        position:absolute;   
+        font-family:sans-serif;
+        font-size:15px;
+        color:#bebebe;
+        width:300px;
+    }
+    
+    
+    
+    
+        /*Social media icons*/
+    
+    .SoMe{
+        position:absolute;
+        bottom:10px;
+        max-height:10%;
+        width:auto;
+    }
+    #facebook{
+        right:40px;
+    }
+    #instagram{
+        right:80px;
+    }
+    #reddit{
+        right:120px;
+    }
+    #twitter{
+        right:160px;
+    }
+
+
+    .nyheter{
+        position:absolute;
+        top:100px;
+        width:50%;
+        height:400px;
+        left:26%;
+        box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.086);
+        background-color: rgb(228 228 228 / 15%);
+        border-radius:10px;
+        overflow: hidden;
+    }
+
+    .kontaktboks{
+        position:absolute;
+        top:100px;
+        width:50%;
+        height:650px;
+        left:26%;
+        box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.086);
+        background-color: rgb(228 228 228 / 15%);
+        border-radius:10px;
+        overflow: hidden;
+    }
+    #text_boks-om{
+        height:1300px;
+    }
+    
+}
+
+#nyheter2{
+    top: 600px;
+}
+
+#nyheter3{
+    top: 1100px;
+}
+
+
+/*-----------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------MOBILE----------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------*/
+
+@media screen and (max-width: 540px) {
+            /* a black bar on the botttom of the page for contacts */
+    .bottom_menu{
+        position: absolute;
+        top: 300%;
+        margin-top:25;
+        margin-left:-11;
+        height: 600px;
+        width: 100%;
+        background-color:#4e4e4e;
+        color:#fff;
+        z-index:1;    
+
+    }
+
+        /* Krissupport logo within black bar */
+
+    #banner-bottom{
+        position:absolute;
+        max-height:10%;
+        width:auto;
+        bottom:10%;
+        right:70px;
+    }
+
+
+         /*bar "om oss" placement*/
+    .bar_info{
+        position:absolute;
+        top:35px;
+        
+    }
+
+    #bar_info1{
+        left:10%;
+    }
+
+        /*bar "Kontakt oss" placement*/
+    #bar_info2{
+        left:10%;
+        top:300px;
+    }
+
+        /*bar "om oss" , "kontakt oss" heading*/
+    .bar_head{
+        color:white;
+        font-family:sans-serif;
+        font-size:20px;
+        text-align:center;
+    }
+
+
+
+        /*bar "om oss" , "Kontakt oss" divider*/
+    .bar_div{
+        position:relative;
+        border-bottom:3px solid #6d6d6d;
+        width:300px;
+        top:10px;   
+        
+    }
+
+        /*bar "om oss" ,"kontakt oss" small heading*/
+    .bar_head_small{
+        position:absolute;
+        font-family:sans-serif;
+        font-size:17px;
+    }
+
+        /*bar "om oss" ,"kontakt oss" small heading placement*/
+    #bar_head_small1{
+        top:50px;
+    }
+
+    #bar_head_small2{
+        top:95px;
+    }
+
+    #bar_head_small3{
+        top:140px;
+    }
+
+    #bar_head_small4{
+        top:185px;
+    }
+
+        /*bar "om oss" text*/
+    .bar_text{
+        position:absolute;   
+        font-family:sans-serif;
+        font-size:15px;
+        color:#bebebe;
+        width:300px;
+    }
+
+        /*Social media icons*/
+
+    .SoMe{
+        position:absolute;
+        bottom:10px;
+        max-height:5%;
+        width:auto;
+    }
+    
+    #facebook{
+        right:75px;
+    }
+    #instagram{
+        right:115px;
+    }
+    #reddit{
+        right:155px;
+    }
+    #twitter{
+        right:193px;
+    }
+
+    .nyheter{
+        position:absolute;
+        top:100px;
+        width:100%;
+        height:400px;
+        left:0px;
+        box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.086);
+        background-color: rgb(228 228 228 / 15%);
+        border-radius:10px;
+        overflow: hidden;
+    }
+
+    .kontaktboks{
+        position:absolute;
+        top:100px;
+        width:100%;
+        height:600px;
+        left:0px;
+        box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.086);
+        background-color: rgb(228 228 228 / 15%);
+        border-radius:10px;
+        overflow: hidden;
+    }
+    #text_boks-om{
+        height:1300px;
+    }
+    
+
+    /*Hide scrollbar on mobile devices*/
+    ::-webkit-scrollbar {  
+        width:0;
+          
+         
+    }
+    ::-webkit-scrollbar-button {
+        background: #f6f6f6;
+        
+    }
+    ::-webkit-scrollbar-track-piece {
+        background: #f6f6f6;
+        
+      
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgb(186, 186, 186);
+    }
+}
+
+#nyheter2{
+    top: 600px;
+}
+
+#nyheter3{
+    top: 1100px;
+}
+#bottom_menu_om{
+    top:1400px;
+}
+
+
+
+
+
+/*-----------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------The duct tape corner--------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------*/
+
+@media screen and (device-width: 1366px) {
+    /* Krissupport logo within black bar */
+    #banner-bottom{
+        position:absolute;
+        max-height:10%;
+        width:auto;
+        bottom:13%;
+        right:40px;
+        
+    
+    }  
+}
+
+
+
+/*-----------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------Temporary seb stuff---------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------*/
+
+#nyheter_if{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+

@@ -1,0 +1,43 @@
+/*headers*/
+.header{
+    position:absolute;
+    top:10;
+    left:35%;
+    font-family:sans-serif;
+    font-size:20px;
+    text-align:center;
+}
+
+
+.konsulering_div{
+    position:absolute;
+    top:100px;
+
+}
+
+
+.felleskurs_div{
+    position:absolute;
+    top:220px;
+
+}
+
+
+.text{
+    position:absolute;
+    top:0px;
+    left:50px;
+    font-family:sans-serif;
+    font-size:20px;
+    text-align:center;
+}
+.btn_arr{
+    position:absolute;
+    max-width:40px;
+    height:auto;
+    top:-3px;
+    left:200px;
+    border-radius:10px;
+
+}
+

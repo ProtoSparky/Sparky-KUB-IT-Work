@@ -1,0 +1,54 @@
+.text_boks_text-2{
+    position: absolute;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    left: 0;
+    width: 100%;
+}
+
+.text_boks_text-3{
+    position: absolute;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    left: 0;
+    width: 100%;
+    word-wrap: break-word;      /* IE 5.5-7 */
+    white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+    white-space: pre-wrap;      /* current browsers */
+}
+
+#text_boks_header-2{
+    font-size: 200%;
+    height: 10%;
+    top: 30%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.image123{
+    position: absolute;
+    left:0;
+    width: 100%;
+    height: auto;
+}
+
+#text_boks_image-2{
+    top: -10%;
+}
+
+#text_boks_image-3{
+    top: 0;
+}
+
+#text_boks_brodtekst-2{
+    font-size: 20;
+    top: 40%;
+    background-color: rgba(243, 243, 243, 95);
+    height: 6000;
+}
+
+#tableboks{
+    position: absolute;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    font-size: 20;
+}

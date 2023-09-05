@@ -1,0 +1,81 @@
+
+#content{
+    background-color:#f6f6f6;
+    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    height: 100%;	
+    width:100%;
+    position:relative;
+    top:0;
+    left:0px;
+    right:0px;
+    bottom:100%;
+    z-index:2;
+    
+    
+}
+#menu{
+    -webkit-backdrop-filter: blur(15px);  /* Safari 9+ */
+    backdrop-filter: blur(15px); /* Chrome and Opera */
+    box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.041);
+    background-color: rgb(228 228 228 / 15%); 
+    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    height:8%;
+    width:150%;
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    z-index:3;
+    
+    
+   
+}
+
+
+
+/*-----------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------The duct tape corner--------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------------*/
+
+@media screen and (device-width: 1366px) {
+    #menu{
+        -webkit-backdrop-filter: blur(8px);  /* Safari 9+ */
+        backdrop-filter: blur(20px); /* Chrome and Opera */
+        box-shadow: 0px 10px 45px 10px rgba(0, 0, 0, 0.041);
+        background-color: rgb(228 228 228 / 15%); 
+        overflow:hidden;
+        overflow-x:hidden;
+        overflow-y:hidden;
+        height:10%;
+        width:150%;
+        position:absolute;
+        top:0px;
+        left:0px;
+        right:0px;
+        bottom:0px;
+        z-index:3;
+        
+       
+    }
+    #content{
+        background-color:#f6f6f6;
+        overflow:hidden;
+        overflow-x:hidden;
+        overflow-y:hidden;
+        height: 98%;
+        
+        width:100%;
+        position:relative;
+        top:2%;
+        left:0px;
+        right:0px;
+        bottom:100%;
+        z-index:2;
+
+}
+}
