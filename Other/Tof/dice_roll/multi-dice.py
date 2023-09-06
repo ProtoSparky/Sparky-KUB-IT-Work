@@ -7,7 +7,7 @@ sim_length=1000             #Amount of dice rolls
 dice_amount = 10            #Amount of dices
 Dx = 6                      #Amount of sides each dice has
 print_output = 0            #Print output as array in terminal. 1 = on. 0= off
-verbose_output = 1          #Verbose text progressbar. It's nice to have this on if youre simulating many many many many dice.  1=on.  0=off 
+verbose_output = 0          #Verbose text progressbar. It's nice to have this on if youre simulating many many many many dice.  1=on.  0=off 
 
 ###############################################################
 
