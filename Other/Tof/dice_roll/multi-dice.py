@@ -30,7 +30,7 @@ def die_roller(die_amount):
     return sum
 
 
-while loop_op <= sim_length:
+while loop_op < sim_length:
     loop_op += 1
     array +=[die_roller(dice_amount)]
 
