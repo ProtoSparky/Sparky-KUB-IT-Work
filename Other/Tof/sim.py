@@ -3,25 +3,22 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 sim_length=1000
-loop_op= 1
-array=[0]
+loop_op= 0
+array=[]
 
 
-fig = plt.figure(figsize =(10, 7))
-while loop_op < sim_length:
+fig = plt.figure(figsize =(10, 5))
+while loop_op <= sim_length:
     die1=random.randint(1,6)
     die2=random.randint(1,6)
     die_total=die1+die2
-    ##print(die_total)
-    #array.insert(loop_op,die_total)
     loop_op += 1
+    array +=[die_total]
 
 
-        # Creating plot
     
-    plt.hist(die_total, bins = [0, 10, 20, 30,
-                        40, 50, 60, 70,
-                        80, 90, 100])
+print(array)
+plt.hist(array, bins = [2,3,4,5,6,7,8,9,10,11,12])
     
 
 
@@ -29,17 +26,9 @@ while loop_op < sim_length:
 
 
 
-# Creating dataset
-#a = np.random.randint(100, size =(50))
+
  
-# Creating plot
-#fig = plt.figure(figsize =(10, 7))
- 
-#plt.hist(a, bins = [0, 10, 20, 30,
-#                    40, 50, 60, 70,
-#                    80, 90, 100])
- 
-plt.title("Numpy Histogram")
+plt.title("Terningkast")
  
 
 plt.show()
