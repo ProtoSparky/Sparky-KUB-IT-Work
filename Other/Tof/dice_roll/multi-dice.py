@@ -6,7 +6,8 @@ from matplotlib import pyplot as plt
 sim_length=1000             #Amount of dice rolls
 dice_amount = 10            #Amount of dices
 Dx = 6                      #Amount of sides each dice has
-print_output = 0            #Print output as array in terminal. 1 = on. 0= 0ff
+print_output = 0            #Print output as array in terminal. 1 = on. 0= off
+verbose_output = 1          #Verbose text progressbar. It's nice to have this on if youre simulating many many many many dice.  1=on.  0=off 
 
 ###############################################################
 
@@ -33,6 +34,11 @@ while loop_op <= sim_length:
     loop_op += 1
     array +=[die_roller(dice_amount)]
 
+    ##Debug
+    if verbose_output == 1:
+        print("rolling dice " + str(loop_op) + "/" + str(sim_length))
+    ##Debug
+
 histogram_size= dice_amount-1
 hist_array=[]
 while histogram_size < Dx * dice_amount:
@@ -49,4 +55,3 @@ if print_output == 1:
 plt.hist(array, hist_array) 
 plt.title(str(dice_amount)+" terninger " + str(Dx)+ " sider. Simulasjon mengde " + str(sim_length))
 plt.show()
-
