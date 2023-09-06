@@ -1,7 +1,6 @@
 import random
 import numpy as np
 from matplotlib import pyplot as plt
-import os 
 ###############################################################
 
 sim_length=1000             #Amount of dice rolls
