@@ -8,4 +8,4 @@ Newly worked on projects:
 ======
 [05.09.2023](./IT2/bits/05.09.2023/)
 
-[Physics-Sim.py](./Other/Physics/sim.py)
+[Physics-Sim.py](./Other/Tof/dice_roll/sim.py)
