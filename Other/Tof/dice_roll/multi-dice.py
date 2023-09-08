@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 ###############################################################
 
-sim_length=1000             #Amount of dice rolls
+sim_length= 1000            #Amount of dice rolls
 dice_amount = 10            #Amount of dices
 Dx = 6                      #Amount of sides each dice has
 print_output = 0            #Print output as array in terminal. 1 = on. 0= off
