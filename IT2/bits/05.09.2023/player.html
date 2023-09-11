@@ -1,14 +1,22 @@
 <html>
     <head>
             <link rel="stylesheet" href="./index.css">
-        <style>
-            
+        <style>            
             
         </style>
         <script src="./player_ctrl.js"></script>
         <script src="./points.js"></script>
+        <script src="errorai.js"></script>
     </head>
     <body onkeydown="check_move(event)">
-        <img src="./assets/error.png" id="error" class="temp" width="50px" height="45px" onclick="hit()">
+        <img src="./assets/error.png" id="player_error" class="temp" width="50px" height="45px" onclick="hit()">
+        <!--error enemy-->
+        <img src="./assets/error.png" id="error" class="temp" width="50px" height="45px">
+        <div id="points" class="temp" style="color:white;">0</div>
+        <script>
+            start();
+            var error_interval = setInterval(error_move,5000);
+        </script>
+        <!--error enemy-->
     </body>
 </html>
