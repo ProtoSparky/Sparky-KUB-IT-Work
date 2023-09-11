@@ -37,7 +37,7 @@ function check_move(event){
             hit();
             break;
 
-        case 9:
+        case 27:
             reset_game();
             break; 
         
