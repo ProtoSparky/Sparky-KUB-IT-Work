@@ -23,10 +23,11 @@ window.hit = function hit(){
     PlayerPosY = Number(PlayerPosY); 
 
 
-    if((PlayerPosX >= ErrorPosX) && (PlayerPosX + 55 <= ErrorPosX + 55) && (PlayerPosY >= ErrorPosY) && (PlayerPosY + 55 <= ErrorPosY + 55)){
+    if((PlayerPosX >= ErrorPosX) && (PlayerPosX  <= ErrorPosX + ((50/2)+12)) && (PlayerPosY >= ErrorPosY) && (PlayerPosY <= ErrorPosY + ((50/2)-10))){
+        //When player and enemy align
         Points = Number(Points) +1;
         document.getElementById("points").innerHTML = Points; 
-        console.log("HIT!");
+        error_move(); //move enemy
         return;
     }
     else{
