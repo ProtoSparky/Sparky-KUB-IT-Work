@@ -10,14 +10,9 @@ function game_loop(){
 
 function init(){
     console.log("init start");
-    /*
-    const player = document.querySelector('#player1');
-    const top_offset = player.style.top;
-    console.log(top_offset);
-    */
-   player = document.getElementById("player1");
-   player.style.top  =(innerHeight /5);
-   player.style.left =(innerWidth /2);  
+    player = document.getElementById("player1");
+    player.style.top  =(innerHeight /5);
+    player.style.left =(innerWidth /2);  
    
 }
 //player input
@@ -80,6 +75,9 @@ function check_player_input(){
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
         IScollided(300, 281, "col_mesh");
+
+        var current_player_width = player.style.offsetHeight;
+        console.log(current_player_width);
     }
     /*DEBUG*/
 
@@ -88,31 +86,32 @@ function check_player_input(){
 function IScollided(playerCoordinateX,playerCoordinateY,ColMeshName){
     col_mesh = document.getElementsByClassName(ColMeshName);
     for(let colMeshPointer=0; colMeshPointer<col_mesh.length; colMeshPointer++){
-     const current_col_mesh = col_mesh[colMeshPointer];
-     const current_col_mesh_X1 = current_col_mesh.offsetLeft;
-     const current_col_mesh_Y1 = parseInt(current_col_mesh.offsetTop);
-     const current_col_mesh_X2 = current_col_mesh.offsetWidth;
-     const current_col_mesh_Y2 = parseInt(current_col_mesh.offsetHeight);
-     console.log(current_col_mesh_X1 + "X1 " + current_col_mesh_Y1 + "Y1 " + current_col_mesh_X2 + "X2 " + current_col_mesh_Y2 + "Y2");
-     //console.log(current_col_mesh_Y1-current_col_mesh_Y2);
-
-     const current_col_mesh_Y_from_bottom = current_col_mesh_Y1 + current_col_mesh_Y2; //this is the value from bottom of col mesh to top in px value
-     const current_col_mesh_X_from_right  = current_col_mesh_X1 + current_col_mesh_X2; //Same here but from right 
-     for(let colMeshCoordinateY = current_col_mesh_Y1; colMeshCoordinateY <= current_col_mesh_Y_from_bottom; colMeshCoordinateY++ ){
-        /*
-        if(colMeshCoordinateY == playerCoordinateY){
-            console.log("Y coordinate is same");    
-        }
-        */
-        for(let colMeshCoordinateX = current_col_mesh_X1; colMeshCoordinateX <= current_col_mesh_X_from_right; colMeshCoordinateX++){
-            if(colMeshCoordinateY == playerCoordinateY && colMeshCoordinateX == playerCoordinateX){
-                console.log("X and Y coordinate is same!");    
-                return true;
-            }
-        }     
         
+        const current_col_mesh = col_mesh[colMeshPointer];
+        const current_col_mesh_X1 = current_col_mesh.offsetLeft;
+        const current_col_mesh_Y1 = parseInt(current_col_mesh.offsetTop);
+        const current_col_mesh_X2 = current_col_mesh.offsetWidth;
+        const current_col_mesh_Y2 = parseInt(current_col_mesh.offsetHeight);
+        console.log(current_col_mesh_X1 + "X1 " + current_col_mesh_Y1 + "Y1 " + current_col_mesh_X2 + "X2 " + current_col_mesh_Y2 + "Y2");
+      
 
-     }
+        const current_col_mesh_Y_from_bottom = current_col_mesh_Y1 + current_col_mesh_Y2; //this is the value from bottom of col mesh to top in px value
+        const current_col_mesh_X_from_right  = current_col_mesh_X1 + current_col_mesh_X2; //Same here but from right 
+        for(let colMeshCoordinateY = current_col_mesh_Y1; colMeshCoordinateY <= current_col_mesh_Y_from_bottom; colMeshCoordinateY++ ){
+            /*
+            if(colMeshCoordinateY == playerCoordinateY){
+                console.log("Y coordinate is same");    
+            }
+            */
+            for(let colMeshCoordinateX = current_col_mesh_X1; colMeshCoordinateX <= current_col_mesh_X_from_right; colMeshCoordinateX++){
+                if(colMeshCoordinateY == playerCoordinateY && colMeshCoordinateX == playerCoordinateX){
+                    console.log("X and Y coordinate is same!");    
+                    return true;
+                    //const colTrue = true;  
+                }
+            }  
+
+        }
      
      
     }
