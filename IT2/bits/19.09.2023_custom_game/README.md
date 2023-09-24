@@ -1,4 +1,4 @@
-#done:
+# done:
 * added player control
 * added diagnoal movement
 * hitboxes
@@ -7,7 +7,7 @@
 * add function in player movement that stops player from leaving wall grounds
 
 
-#todo: 
+# todo: 
 * enemy
 * enemy spawning
 * add sliding along walls. Player should be able to slide up and down along walls if player collides
