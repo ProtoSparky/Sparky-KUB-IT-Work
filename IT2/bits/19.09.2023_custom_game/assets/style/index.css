@@ -25,14 +25,37 @@
 
 .col_mesh{
     position:absolute;
-    top:45%;
-    width:100%;
-    height:10px; 
     background-color:black;
 }
+#sea{    
+    top:45%;
+    width:100%;
+    height:10px;    
+}
 
-#col_mesh_2{
-    top:70%;
-    left:100px;
-    width:70%;
+#GameWallLeft{
+    top:0;
+    left:0;
+    height:100%; 
+    width:1px;
+}
+#GameWallRight{
+    top:0;
+    right:1;
+    height:100%; 
+    width:1px;
+}
+#GameWallTop{
+    top:0;
+    left:0;
+    height:1px; 
+    width:100%;
+}
+#GameWallBottom{
+    position:absolute;
+    bottom: 0px;
+    left:0;
+    height:1px; 
+    width:100%;
+    background-color:black;
 }

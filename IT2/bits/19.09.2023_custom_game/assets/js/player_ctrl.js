@@ -8,8 +8,7 @@ var player_sizeY = 50;
 var col_mesh;
 
 function game_loop(){
-    check_player_input();
-    
+    check_player_input(); 
 
 }
 
@@ -98,17 +97,11 @@ function ArraysCommon(arr1, arr2) {
 
 function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, playerCoordinateY_W, ColMeshName){
     col_mesh = document.getElementsByClassName(ColMeshName);
-    /*
-    const playerCoordinateX_W = 50;
-    const playerCoordinateY_W = 50;
-    */
     const playerCoordinateX_from_right = playerCoordinateX_W + playerCoordinateX;
     const playerCoordinateY_W_from_bottom = playerCoordinateY_W + playerCoordinateY; 
     let playerPossibleCoordinateX = [];
     let playerPossibleCoordinateY = [];
-    let colMeshPossibleCoordinateX = [];  
-    let colMeshPossibleCoordinateY = [];  
-
+    let IsCollided = [];
     for(let playerMeshCoordinateX = playerCoordinateX; playerMeshCoordinateX <= playerCoordinateX_from_right; playerMeshCoordinateX ++){
         for(let playerMeshCoordinateY = playerCoordinateY; playerMeshCoordinateY <= playerCoordinateY_W_from_bottom; playerMeshCoordinateY++){
             const playerMeshCoordinateX_offset = playerMeshCoordinateX - playerCoordinateX; 
@@ -119,15 +112,25 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
         }
     }
 
-    for(let colMeshPointer=0; colMeshPointer<col_mesh.length; colMeshPointer++){     
+    for (let colMeshPointer = 0; colMeshPointer < col_mesh.length; colMeshPointer++){
+        let colMeshPossibleCoordinateX = [];  
+        let colMeshPossibleCoordinateY = [];  
+            for(let playerMeshCoordinateX = playerCoordinateX; playerMeshCoordinateX <= playerCoordinateX_from_right; playerMeshCoordinateX ++){
+                for(let playerMeshCoordinateY = playerCoordinateY; playerMeshCoordinateY <= playerCoordinateY_W_from_bottom; playerMeshCoordinateY++){
+                    const playerMeshCoordinateX_offset = playerMeshCoordinateX - playerCoordinateX; 
+                    const playerMeshCoordinateY_offset = playerMeshCoordinateY - playerCoordinateY; 
+                    playerPossibleCoordinateX[playerMeshCoordinateX_offset]=playerMeshCoordinateX;
+                    playerPossibleCoordinateY[playerMeshCoordinateY_offset]=playerMeshCoordinateY;
+                    //this for loop checks for all coordinates the player occupies
+                }
+    }
         //run for all meshes   
         const current_col_mesh = col_mesh[colMeshPointer];
         const current_col_mesh_X1 = current_col_mesh.offsetLeft;
         const current_col_mesh_Y1 = parseInt(current_col_mesh.offsetTop);
         const current_col_mesh_X2 = current_col_mesh.offsetWidth;
         const current_col_mesh_Y2 = parseInt(current_col_mesh.offsetHeight);
-        //console.log(current_col_mesh_X1 + "X1 " + current_col_mesh_Y1 + "Y1 " + current_col_mesh_X2 + "X2 " + current_col_mesh_Y2 + "Y2");
-      
+        //console.log(current_col_mesh_X1 + "X1 " + current_col_mesh_Y1 + "Y1 " + current_col_mesh_X2 + "X2 " + current_col_mesh_Y2 + "Y2");      
 
         const current_col_mesh_Y_from_bottom = current_col_mesh_Y1 + current_col_mesh_Y2; //this is the value from bottom of col mesh to top in px value
         const current_col_mesh_X_from_right  = current_col_mesh_X1 + current_col_mesh_X2; //Same here but from right 
@@ -139,24 +142,18 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
                 const colMeshCoordinateY_offset = colMeshCoordinateY - current_col_mesh_Y1;
                 colMeshPossibleCoordinateX[colMeshCoordinateX_offset] = colMeshCoordinateX;
                 colMeshPossibleCoordinateY[colMeshCoordinateY_offset] = colMeshCoordinateY;        
-
             }  
-
         }
-        console.log(col_mesh.length);
         if(ArraysCommon(colMeshPossibleCoordinateX,playerPossibleCoordinateX) && ArraysCommon(colMeshPossibleCoordinateY, playerPossibleCoordinateY)){
-            return [true, colMeshPointer];
+            IsCollided[colMeshPointer] = true;
         }
-        else{
-            
-            return [false, colMeshPointer];
-        }
-        
-        
-
-     
+        else{            
+            IsCollided[colMeshPointer] = false;
+        }     
      
     }
+
+    return IsCollided; //return true or false for all col_mesh
 
     
 }
