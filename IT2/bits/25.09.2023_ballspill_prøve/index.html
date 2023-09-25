@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./assets/style/index.css">
+        <script type="text/javascript" src="./assets/js/player_ctrl.js"></script>
+        <script type="text/javascript" src="./assets/js/enemies.js"></script>
+    </head>
+    <body>
+        <div class="gameframe">
+            <div class="player" id="player1"></div>
+            <!--
+            <div class="col_mesh" id="sea"></div>
+            -->
+            
+            <div class="col_mesh" id="GameWallLeft"></div>            
+            <div class="col_mesh" id="GameWallRight_1"></div>
+            <div class="col_mesh" id="GameWallRight_2"></div>
+            <div class="col_mesh" id="GameWallTop"></div>
+            <div class="col_mesh" id="GameWallBottom"></div>
+
+            <div class="ball" id="ball_1"></div>
+            
+        </div>
+        <div class="hud" id="hud1">
+            <div class="text">
+                Kontroller:
+                <br>
+                * W = opp
+                <br>
+                * S = ned
+                <br>
+                * E Debug (Flytter eple)
+            </div>
+        </div>
+    </body>
+    <script>
+        init();
+    </script>
+</html>

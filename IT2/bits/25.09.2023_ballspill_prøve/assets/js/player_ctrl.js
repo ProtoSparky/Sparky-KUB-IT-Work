@@ -2,8 +2,8 @@ var player;
 var current_player_X;
 var current_player_Y;
 var player_speed = 10;
-var player_sizeX = 50;
-var player_sizeY = 50;
+var player_sizeX = 30;
+var player_sizeY = 150;
 var col_mesh;
 var DEBUG = false; 
 //-------------------------------------------------------------------------------------------------------------
@@ -12,6 +12,9 @@ var DEBUG = false;
 
 function game_loop(){
     check_player_input(); 
+    //summon_enemy("ball_1");
+    
+    
 
 }
 
@@ -21,7 +24,11 @@ function init(){
     console.log("Welcome to the world's worst game engine. It's so bad, it should be invited into a freak show.... Anyways, it looks like things started correctly");
     player = document.getElementById("player1");
     player.style.top  =(innerHeight /5);
-    player.style.left =(innerWidth /2);  
+    player.style.left =(innerWidth /1.1);  
+
+    place_ball("ball_1");
+    
+
    
 }
 
@@ -45,23 +52,24 @@ function check_player_input(){
     const key_D = keys["D"] || keys["d"];
 
     
-
+    /*
     if(key_W && key_A){
         if(DEBUG){
             console.log("wa"); 
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3] && !IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[2] && !IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[0]){
             player.style.top = (current_player_Y - player_speed);
             player.style.left = (current_player_X - player_speed);
         }
     }
+    
     else if(key_W && key_D){
         if(DEBUG){
             console.log("wd");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[2] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
             player.style.top = (current_player_Y - player_speed);
             player.style.left = (current_player_X + player_speed);
         }
@@ -71,7 +79,7 @@ function check_player_input(){
             console.log("as");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[4]){
+        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[0] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[3]){
             player.style.left = (current_player_X - player_speed);
             player.style.top = (current_player_Y + player_speed);
         }
@@ -86,12 +94,13 @@ function check_player_input(){
             console.log("sd");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2] && !IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[4]){
+        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1] && !IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[3]){
             player.style.top = (current_player_Y + player_speed);
             player.style.left = (current_player_X + player_speed);
         }
     }
-    else if(key_W){
+     */
+    if(key_W){
         if(DEBUG){
             console.log("w");
         }
@@ -101,15 +110,17 @@ function check_player_input(){
         }
         
     }
+    /*
     else if(key_A){
         if(DEBUG){
             console.log("a");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[0]){
             player.style.left = (current_player_X - player_speed);
         }
     }
+    */
     else if(key_S){
         if(DEBUG){
             console.log("s");
@@ -119,22 +130,26 @@ function check_player_input(){
             player.style.top = (current_player_Y + player_speed);
         }
     }
+    /*
     else if(key_D){
         if(DEBUG){
             console.log("D");   
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
+        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
             player.style.left = (current_player_X + player_speed);
         }
     }
+    */
     
     /*DEBUG*/
     //Press E, and things in here will run.
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
-        console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
-        console.log(GetElementSize(1, "col_mesh", 3));
+        //console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
+        //console.log(GetElementSize(1, "col_mesh", 3));
+        summon_enemy("ball_1");
+        
     }
     /*DEBUG*/
 
