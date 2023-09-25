@@ -134,6 +134,7 @@ function check_player_input(){
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
         console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
+        console.log(GetElementSize(1, "player1"));
     }
     /*DEBUG*/
 
@@ -175,7 +176,7 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
     for (let colMeshPointer = 0; colMeshPointer < col_mesh.length; colMeshPointer++){
         let colMeshPossibleCoordinateX = [];  
         let colMeshPossibleCoordinateY = []; 
-        /* I think this code is redundant, which is why i commented it away. What could go wrong
+        /* I think this code is redundant, which is why i commented it away. What could go wrong ¯\_(ツ)_/¯
 
             for(let cplayerMeshCoordinateX = playerCoordinateX; cplayerMeshCoordinateX <= playerCoordinateX_from_right; cplayerMeshCoordinateX ++){
                 for(let cplayerMeshCoordinateY = playerCoordinateY; cplayerMeshCoordinateY <= playerCoordinateY_W_from_bottom; cplayerMeshCoordinateY++){
@@ -190,9 +191,9 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
 
         //run for all meshes   
         const current_col_mesh = col_mesh[colMeshPointer];
-        const current_col_mesh_X1 = current_col_mesh.offsetLeft;
+        const current_col_mesh_X1 = parseInt(current_col_mesh.offsetLeft);
         const current_col_mesh_Y1 = parseInt(current_col_mesh.offsetTop);
-        const current_col_mesh_X2 = current_col_mesh.offsetWidth;
+        const current_col_mesh_X2 = parseInt(current_col_mesh.offsetWidth);
         const current_col_mesh_Y2 = parseInt(current_col_mesh.offsetHeight);
         //console.log(current_col_mesh_X1 + "X1 " + current_col_mesh_Y1 + "Y1 " + current_col_mesh_X2 + "X2 " + current_col_mesh_Y2 + "Y2");      
 
@@ -218,8 +219,7 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
      
     }
 
-    return IsCollided; //return true or false for all col_mesh
-    
+    return IsCollided; //return true or false for all col_mesh    
 }
 //-------------------------------------------------------------------------------------------------------------
 //------------------------------------HITBOX COLLISION---------------------------------------------------------
@@ -228,3 +228,35 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
 //This is the game interval. It runs a function named game_loop() every 10ms.
 setInterval(game_loop,10);
 
+function GetElementSize(IdOrClass, divname, divID){
+    //divID only used for classes
+    returnARR = []; 
+    if(IdOrClass == 1){
+        //Run for id
+        object = document.getElementById(divname);
+        const current_object_X = parseInt(object.style.left);
+        const current_object_Y = parseInt(object.style.top);
+        const current_object_X_W = parseInt(object.clientWidth);
+        const current_object_Y_H = parseInt(object.clientHeight);
+        const current_object_X_IW = current_object_X + current_object_X_W;
+        const current_object_Y_FB = current_object_Y + current_object_Y_H;
+
+        // Current object name; Current object x coordinate; current object width; current object x coordinate inc width; current object y; current object height; current object coordinate inc H
+        returnARR = [divname, current_object_X , current_object_X_W, current_object_X_IW, current_object_Y,current_object_Y_H, current_object_Y_FB]; 
+    }
+    else if(IdOrClass == 2){
+        //run for class
+        object = document.getElementsByClassName(divname);
+        const current_object_X = parseInt(object.style.left);
+        const current_object_Y = parseInt(object.style.top);
+        const current_object_X_W = parseInt(object.clientWidth);
+        const current_object_Y_H = parseInt(object.clientHeight);
+        const current_object_X_IW = current_object_X + current_object_X_W;
+        const current_object_Y_FB = current_object_Y + current_object_Y_H;
+        
+        // Current object name; Current object x coordinate; current object width; current object x coordinate inc width; current object y; current object height; current object coordinate inc H
+        returnARR = [divname, current_object_X , current_object_X_W, current_object_X_IW, current_object_Y,current_object_Y_H, current_object_Y_FB]; 
+    }
+
+    return returnARR; 
+}
