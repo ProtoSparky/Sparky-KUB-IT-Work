@@ -134,7 +134,7 @@ function check_player_input(){
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
         console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
-        console.log(GetElementSize(1, "player1"));
+        //console.log(GetElementSize(1, "col_mesh", 3));
     }
     /*DEBUG*/
 
@@ -231,31 +231,41 @@ setInterval(game_loop,10);
 function GetElementSize(IdOrClass, divname, divID){
     //divID only used for classes
     returnARR = []; 
-    if(IdOrClass == 1){
-        //Run for id
-        object = document.getElementById(divname);
-        const current_object_X = parseInt(object.style.left);
-        const current_object_Y = parseInt(object.style.top);
-        const current_object_X_W = parseInt(object.clientWidth);
-        const current_object_Y_H = parseInt(object.clientHeight);
-        const current_object_X_IW = current_object_X + current_object_X_W;
-        const current_object_Y_FB = current_object_Y + current_object_Y_H;
+    if(IdOrClass == 0){
+        if(document.getElementById(divname) == null){
+            console.log("ERROR element"+ divname+" not found in GetElementSize()");
+        }
+        else{
+            //Run for id
+            object = document.getElementById(divname);
+            const current_object_X = parseInt(object.style.left);
+            const current_object_Y = parseInt(object.style.top);
+            const current_object_X_W = parseInt(object.clientWidth);
+            const current_object_Y_H = parseInt(object.clientHeight);
+            const current_object_X_IW = current_object_X + current_object_X_W;
+            const current_object_Y_FB = current_object_Y + current_object_Y_H;
 
-        // Current object name; Current object x coordinate; current object width; current object x coordinate inc width; current object y; current object height; current object coordinate inc H
-        returnARR = [divname, current_object_X , current_object_X_W, current_object_X_IW, current_object_Y,current_object_Y_H, current_object_Y_FB]; 
+            // Current object name; Current object x coordinate; current object width; current object x coordinate inc width; current object y; current object height; current object coordinate inc H
+            returnARR = [divname, current_object_X , current_object_X_W, current_object_X_IW, current_object_Y,current_object_Y_H, current_object_Y_FB, div_ID]; 
+        }
     }
-    else if(IdOrClass == 2){
-        //run for class
-        object = document.getElementsByClassName(divname);
-        const current_object_X = parseInt(object.style.left);
-        const current_object_Y = parseInt(object.style.top);
-        const current_object_X_W = parseInt(object.clientWidth);
-        const current_object_Y_H = parseInt(object.clientHeight);
-        const current_object_X_IW = current_object_X + current_object_X_W;
-        const current_object_Y_FB = current_object_Y + current_object_Y_H;
-        
-        // Current object name; Current object x coordinate; current object width; current object x coordinate inc width; current object y; current object height; current object coordinate inc H
-        returnARR = [divname, current_object_X , current_object_X_W, current_object_X_IW, current_object_Y,current_object_Y_H, current_object_Y_FB]; 
+    else if(IdOrClass == 1){
+        if(document.getElementsByClassName(divname)[divID] == null){
+            console.log("ERROR element"+ divname +" not found in GetElementSize()");
+        }
+        else{          
+            //run for class
+            object = document.getElementsByClassName(divname);
+            const current_object_X = parseInt(object[divID].offsetLeft);
+            const current_object_Y = parseInt(object[divID].offsetTop);
+            const current_object_X_W = parseInt(object[divID].offsetWidth);
+            const current_object_Y_H = parseInt(object[divID].offsetHeight);
+            const current_object_X_IW = current_object_X + current_object_X_W;
+            const current_object_Y_FB = current_object_Y + current_object_Y_H;
+            
+            // Current object name; Current object x coordinate; current object width; current object x coordinate inc width; current object y; current object height; current object coordinate inc H
+            returnARR = [divname, current_object_X , current_object_X_W, current_object_X_IW, current_object_Y,current_object_Y_H, current_object_Y_FB, divID]; 
+        }
     }
 
     return returnARR; 
