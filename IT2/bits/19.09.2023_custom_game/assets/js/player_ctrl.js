@@ -17,8 +17,9 @@ function game_loop(){
 
 function init(){
     //This function runs before everything else. That's why it's called init you dumb fuck. Isn't it fun to document a bunch of code?
-    console.log("init start");
-    console.log("Welcome to the world's worst game engine. It's so bad, it should be invited into a freak show.... Anyways, it looks like things started correctly");
+    //console.log("init start");
+    console.log("Welcome to the world's worst game engine. Check for updates at github.com/ProtoSparky/SparkGameEngine");
+    console.log("init() run correctly!")
     player = document.getElementById("player1");
     player.style.top  =(innerHeight /5);
     player.style.left =(innerWidth /2);  
@@ -55,6 +56,12 @@ function check_player_input(){
             player.style.top = (current_player_Y - player_speed);
             player.style.left = (current_player_X - player_speed);
         }
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3]){
+            player.style.top = (current_player_Y - player_speed);
+        }
+        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+            player.style.left = (current_player_X - player_speed);
+        }
     }
     else if(key_W && key_D){
         if(DEBUG){
@@ -63,6 +70,12 @@ function check_player_input(){
         //check if player is about to not collide, and move
         if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
             player.style.top = (current_player_Y - player_speed);
+            player.style.left = (current_player_X + player_speed);
+        }
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3]){
+            player.style.top = (current_player_Y - player_speed);
+        }
+        else if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
             player.style.left = (current_player_X + player_speed);
         }
     }
@@ -74,6 +87,12 @@ function check_player_input(){
         if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[4]){
             player.style.left = (current_player_X - player_speed);
             player.style.top = (current_player_Y + player_speed);
+        }
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[4]){
+            player.style.top = (current_player_Y + player_speed);   
+        }
+        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+            player.style.left = (current_player_X - player_speed);
         }
 
         
@@ -88,6 +107,12 @@ function check_player_input(){
         //check if player is about to not collide, and move
         if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2] && !IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[4]){
             player.style.top = (current_player_Y + player_speed);
+            player.style.left = (current_player_X + player_speed);
+        }
+        else if (!IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[4]){
+            player.style.top = (current_player_Y + player_speed);
+        }
+        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
             player.style.left = (current_player_X + player_speed);
         }
     }
@@ -134,7 +159,7 @@ function check_player_input(){
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
         console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
-        console.log(GetElementSize(1, "col_mesh", 3));
+        //console.log(GetElementSize(1, "col_mesh", 3));
     }
     /*DEBUG*/
 
