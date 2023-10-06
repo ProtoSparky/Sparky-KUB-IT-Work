@@ -16,6 +16,7 @@ var second_loop_counter = 0;
 function game_loop(){
     //This loop runs every 10ms. Us it for fast OPS
     check_player_input(); 
+    
 
     if(IsPlayerUnderWater("player","underwater")){
         point_element = document.getElementById("drown_counter");
@@ -40,12 +41,16 @@ function game_loop(){
     }
 }
 function second_game_loop(){
-    //This loop runs every 
+    //This loop runs every 800ms 
     for(let ai_arr_key = 0; ai_arr_key <= ClassIndexLength("enemy") - 1; ai_arr_key ++){
         MoveAi("enemy", ai_arr_key);
     }
+    
 
-
+}
+function second_timed_game_loop(){
+    //This loop runs every 1s
+    open_door();
 }
 
 
@@ -183,7 +188,7 @@ function check_player_input(){
             player.style.top = (current_player_Y + player_speed);
         }
 
-        else if(IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface1","col_mesh")] || IScollided(current_player_X , player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface2","col_mesh")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface3","col_mesh")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface4","col_mesh")]){
+        else if(IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface1","sea_surface")] || IScollided(current_player_X , player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface2","sea_surface")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface3","sea_surface")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface4","sea_surface")]){
             player.style.top = (current_player_Y + player_speed);
             
         }
@@ -369,3 +374,4 @@ function ClassIndexToId(class_name, index) {
 //This is the game interval. It runs a function named game_loop() every 10ms.
 setInterval(game_loop,10);
 setInterval(second_game_loop, 800);
+setInterval(second_timed_game_loop, 1000);

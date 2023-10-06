@@ -1,3 +1,6 @@
+body{
+    overflow:hidden;
+}
 .gameframe{
     position:absolute;
     width:100%;
@@ -30,35 +33,50 @@
     background-color:white;   
 }
 
+.color_surface{
+    position:absolute;
+    background-color:red;
+    width:50px;
+    height:10px;
+    top:45%;
+}
+
+.sea_surface{
+    position:absolute; 
+}
+
 
 #sea_surface1{
     top:45%;
-    left:2%;
-    left:0%; 
+    left:50px; 
     width:50px; 
     height:10px;
-    background-color:purple;    
+    background-color:red;
+      
 }
 #sea_surface2{
     top:45%;
-    left:20%;
+    left:400px;
     width:50px; 
     height:10px;
-    background-color:red;    
+    background-color:red;
+     
 }
 #sea_surface3{
     top:45%;
-    left:65%;
+    left:900px;
     width:50px; 
     height:10px;
-    background-color:purple;     
+    background-color:red;
+       
 }
 #sea_surface4{
     top:45%;
-    left:80%; 
+    left:1200px; 
     width:50px; 
     height:10px;
-    background-color:red;     
+    background-color:red;
+        
 }
 
 

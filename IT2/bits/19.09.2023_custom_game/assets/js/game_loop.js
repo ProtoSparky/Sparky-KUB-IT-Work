@@ -28,3 +28,30 @@ function summon_enemy(amount) {
       parentElement.appendChild(enemy);
     }
 }
+
+var door_sate = 0 
+var door_id = 0;
+function open_door(){
+    const max_time = 5; //seconds
+    door_element = document.getElementById("door_counter");
+    current_points = parseInt(door_element.innerHTML);
+    future_points = current_points - 1;
+    door_element.innerHTML = future_points + "s";
+    if(future_points == -1){
+        //open door
+        door_element.innerHTML = max_time + "s"; 
+        if(door_sate == 0){
+            door_sate = 1;
+            //Open door
+            hud_element = document.getElementById("door_text");
+            hud_element.innerHTML = "Door closes in:";
+            
+        }
+        else if(door_sate == 1){
+            door_sate = 0;
+            hud_element = document.getElementById("door_text");
+            hud_element.innerHTML = "Door opens in:";
+        }
+
+    }
+}
