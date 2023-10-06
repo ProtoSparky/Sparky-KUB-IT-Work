@@ -8,13 +8,14 @@
 * enemy spawning
 * enemy
 * add sliding along walls. Player should be able to slide up and down along walls if player collides
-
+* points
+* time left
+* killing enemies
 
 # todo: 
-* points
 * death
-* killing enemies
 * timer to kill player if under water for too long 
-* time left
+* finetune how to stop player from diving
+
 
 

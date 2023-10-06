@@ -2,10 +2,13 @@ var player;
 var current_player_X;
 var current_player_Y;
 var player_speed = 10;
-var player_sizeX = 50;
-var player_sizeY = 50; 
+var player_sizeX = 56;
+var player_sizeY = 56; 
 var col_mesh;
 var DEBUG = false; 
+
+var player_breath = 300;
+
 //-------------------------------------------------------------------------------------------------------------
 //------------------------------------VARS---------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
@@ -13,6 +16,28 @@ var second_loop_counter = 0;
 function game_loop(){
     //This loop runs every 10ms. Us it for fast OPS
     check_player_input(); 
+
+    if(IsPlayerUnderWater("player","underwater")){
+        point_element = document.getElementById("drown_counter");
+        current_points = parseInt(point_element.innerHTML);
+        let future_points = current_points - 2;
+        
+        if(future_points < 0){
+            console.log("u ded ");
+        }
+        else{
+            point_element.innerHTML = future_points;
+        }
+    }
+    else{
+        point_element = document.getElementById("drown_counter");
+        if(parseInt(point_element.innerHTML) < player_breath){
+            current_points = parseInt(point_element.innerHTML);
+            point_element.innerHTML  = current_points + 1;
+        }
+        
+        
+    }
 }
 function second_game_loop(){
     //This loop runs every 
@@ -33,7 +58,7 @@ function init(){
     player.style.top  =(innerHeight /5);
     player.style.left =(innerWidth /2);  
 
-    summon_enemy("50");
+    summon_enemy(RandomRangedIntiger(50,80));
     
    
 }
@@ -56,6 +81,7 @@ function check_player_input(){
     const key_A = keys["A"] || keys["a"];
     const key_S = keys["S"] || keys["s"];
     const key_D = keys["D"] || keys["d"];
+    const snatch = keys[" "] || keys[" "];
 
     
 
@@ -119,12 +145,15 @@ function check_player_input(){
             player.style.top = (current_player_Y + player_speed);
             player.style.left = (current_player_X + player_speed);
         }
-        else if (!IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[4]){
+        else if (!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);
         }
-        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
+
+        
+        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
             player.style.left = (current_player_X + player_speed);
         }
+        
     }
     else if(key_W){
         if(DEBUG){
@@ -150,8 +179,13 @@ function check_player_input(){
             console.log("s");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);
+        }
+
+        else if(IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface1","col_mesh")] || IScollided(current_player_X , player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface2","col_mesh")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface3","col_mesh")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea_surface4","col_mesh")]){
+            player.style.top = (current_player_Y + player_speed);
+            
         }
     }
     else if(key_D){
@@ -163,12 +197,15 @@ function check_player_input(){
             player.style.left = (current_player_X + player_speed);
         }
     }
+    else if(snatch){
+        KillEnemy();
+    }
     
     /*DEBUG*/
     //Press E, and things in here will run.
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
-        KillEnemy();
+        console.log(IsPlayerUnderWater("player","underwater"));
     }
     /*DEBUG*/
 
