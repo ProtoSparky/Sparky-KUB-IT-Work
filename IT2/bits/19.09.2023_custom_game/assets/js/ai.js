@@ -61,7 +61,22 @@ function MoveAi(ai_class, ai_class_id){
 
 
 }
-function AiAmount(ai_class){
-    object = document.getElementsByClassName(ai_class);
+function ClassIndexLength(class_id){
+    object = document.getElementsByClassName(class_id);
     return object.length; 
+}
+
+// counts how many times funtion has been run, returns true after given amount
+function Counter(ReturnAfterRuns) {
+    let count = 0;  
+    return function () {
+        count++;
+
+        if (count >= ReturnAfterRuns) {
+        count = 0; 
+        return true;
+        }
+
+        return false;
+    };
 }

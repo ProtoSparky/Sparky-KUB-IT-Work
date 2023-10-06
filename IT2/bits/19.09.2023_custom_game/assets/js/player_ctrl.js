@@ -16,7 +16,7 @@ function game_loop(){
 }
 function second_game_loop(){
     //This loop runs every 
-    for(let ai_arr_key = 0; ai_arr_key <= AiAmount("enemy") - 1; ai_arr_key ++){
+    for(let ai_arr_key = 0; ai_arr_key <= ClassIndexLength("enemy") - 1; ai_arr_key ++){
         MoveAi("enemy", ai_arr_key);
     }
 
