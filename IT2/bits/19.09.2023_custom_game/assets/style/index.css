@@ -19,13 +19,8 @@
     left:10px; 
     top:100px;
 }
-
-
-
-
 .col_mesh{
-    position:absolute;
-    
+    position:absolute;    
 }
 #sea{    
     top:45%;
@@ -33,6 +28,13 @@
     height:10px; 
     background-color:black;   
 }
+
+
+
+
+/*-----------------------------------------*/
+/*-----------------------------------------*/
+/*-----------------------------------------*/
 
 #GameWallLeft{
     top:0;
@@ -74,6 +76,47 @@
     transition:.5s;
 }
 .underwater{
-    position:absolute;    
+    position:absolute;   
 
+}
+.hud{
+    position:absolute;
+    left:0;
+    top:0;
+    width:280px;
+    height:80px;
+    background-color:#ffffff8f;
+    z-index:9999;
+}
+
+.text{
+    position:absolute;
+    font-family:sans-serif;
+    font-weight:bold;
+}
+#time_left{
+    top:0;
+    left:0;
+}
+#time_left_counter{
+    top:0;
+    left:150px;
+    
+}
+#points{
+    top:25px;
+}
+#points_counter{
+    top:25px;
+    left:150px;
+}
+#menu{
+    top:50px;
+}
+#button_text{
+    top:50px;
+}
+#button{
+    top:50px;
+    left:150px;
 }

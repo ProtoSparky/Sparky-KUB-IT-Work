@@ -3,7 +3,7 @@ function RandomRangedIntiger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//Class index lookup
+//Kook up class index from element id
 function ClassIndexLookup(id, class_name){
     const elements = document.getElementsByClassName(class_name);
     for(let arr_index = 0; arr_index <elements.length; arr_index ++){
@@ -14,6 +14,17 @@ function ClassIndexLookup(id, class_name){
     console.error("ERROR: ClassIndexLookup() could not find arr key for class: '" + class_name + "' id: '" + id + "'");
     return -1; //return -1 if id not found  
 }
+
+function ClassIndexToId(class_name, index) {
+    const elements = document.getElementsByClassName(class_name);
+    if (index >= 0 && index < elements.length) {
+      return elements[index].id;
+    } else {
+      console.error("ERROR: ClassIndexToId() could not find ID for class: '" + class_name + "' and index: '" + index + "'");
+      return null; // return null on faliure
+    }
+}
+
 
 //This function checks if any of the two arrays have similar numbers
 function ArraysCommon(arr1, arr2) {

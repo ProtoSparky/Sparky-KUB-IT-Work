@@ -40,22 +40,22 @@ function MoveAi(ai_class, ai_class_id){
     
 
    //If nothing is hitting
-    if (!IScollided(current_object_X,current_object_X_W, current_object_Y - ai_speed, current_object_Y_H, "col_mesh")[0] && !IScollided(current_object_X,current_object_X_W, current_object_Y + ai_speed, current_object_Y_H, "col_mesh")[4] && !IScollided(current_object_X + (ai_speed + 10),current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[2] && !IScollided(current_object_X - ai_speed,current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[1]){
+    if (!IScollided(current_object_X,current_object_X_W, current_object_Y - ai_speed, current_object_Y_H, "col_mesh")[ClassIndexLookup("sea","col_mesh")] && !IScollided(current_object_X,current_object_X_W, current_object_Y + ai_speed, current_object_Y_H, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")] && !IScollided(current_object_X + (ai_speed + 10),current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")] && !IScollided(current_object_X - ai_speed,current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
         object[ai_class_id].style.left = (current_object_X + pos_offsetX);
         object[ai_class_id].style.top = (current_object_Y + pos_offsetY);  
     }
-    else if(IScollided(current_object_X,current_object_X_W, current_object_Y - ai_speed, current_object_Y_H, "col_mesh")[0]){
+    else if(IScollided(current_object_X,current_object_X_W, current_object_Y - ai_speed, current_object_Y_H, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
         object[ai_class_id].style.top = (current_object_Y - neg_pos_offset);         
     }
-    else if(IScollided(current_object_X,current_object_X_W, current_object_Y + ai_speed, current_object_Y_H, "col_mesh")[4]){
+    else if(IScollided(current_object_X,current_object_X_W, current_object_Y + ai_speed, current_object_Y_H, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
         object[ai_class_id].style.top = (current_object_Y + neg_pos_offset); 
         
     }
-    else if(IScollided(current_object_X + (ai_speed + 10),current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[2]){
+    else if(IScollided(current_object_X + (ai_speed + 10),current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
         object[ai_class_id].style.left = (current_object_X - ai_speed);
         
     }
-    else if (IScollided(current_object_X - (ai_speed + 10),current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[1]){
+    else if (IScollided(current_object_X - (ai_speed + 10),current_object_X_W, current_object_Y, current_object_Y_H, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
         object[ai_class_id].style.left = (current_object_X + ai_speed);
     } 
 

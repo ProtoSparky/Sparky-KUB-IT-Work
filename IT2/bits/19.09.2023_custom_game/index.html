@@ -4,83 +4,37 @@
         <script type="text/javascript" src="./assets/js/player_ctrl.js"></script>
         <script type="text/javascript" src="./assets/js/ai.js"></script>
         <script type="text/javascript" src="./assets/js/underwater.js"></script>
+        <script type="text/javascript" src="./assets/js/game_loop.js"></script>
     </head>
     <body>
-        <div class="gameframe">
+        <div class="gameframe" id="gameframe">
+            <div class="hud">
+                <div id="counter">
+                    <div class="text" id="time_left">Time left: </div>
+                    <div class="text" id="time_left_counter">350</div>
+
+                </div>
+                <div id="points">
+                    <div class="text" id="points">Enemies killed: </div>
+                    <div class="text" id="points_counter">0</div>
+                </div>
+                <div id="menu">
+                    <div class="text" id="button_text">
+                        Restart counter
+                    </div>
+                    <button class="text" id="button" onclick="ResetCounter()">Reset counter</button> 
+                </div>
+            </div>
             <div class="player" id="player1">player1</div>
 
-            <div class="enemy" id="enemy1">enemy</div>
-            <div class="enemy" id="enemy">enemy2</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy1">enemy</div>
-            <div class="enemy" id="enemy">enemy2</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy1">enemy</div>
-            <div class="enemy" id="enemy">enemy2</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy1">enemy</div>
-            <div class="enemy" id="enemy">enemy2</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
-            <div class="enemy" id="enemy">enemy3</div>
 
 
 
-            <div class="col_mesh" id="sea"></div>            
+
+
+
+            <div class="col_mesh" id="sea"></div> 
+
             <div class="col_mesh" id="GameWallLeft"></div>            
             <div class="col_mesh" id="GameWallRight"></div>
             <div class="col_mesh" id="GameWallTop"></div>
