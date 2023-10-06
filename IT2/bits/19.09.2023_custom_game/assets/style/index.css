@@ -68,9 +68,13 @@
     height:50px;
     border-color:rgb(255, 0, 0);
     border-style:dashed;
-}
-#enemy1{
-    left:10px; 
+    left:40%; 
     bottom:100px;
     color:red;
+    transition:.5s;
+}
+.underwater{
+    position:absolute;
+     
+
 }

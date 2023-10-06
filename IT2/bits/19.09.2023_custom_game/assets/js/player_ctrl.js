@@ -16,7 +16,12 @@ function game_loop(){
 }
 function second_game_loop(){
     //This loop runs every 
+    for(let ai_arr_key = 0; ai_arr_key <= AiAmount("enemy") - 1; ai_arr_key ++){
+        MoveAi("enemy", ai_arr_key);
+    }
+
 }
+
 
 function init(){
     //This function runs before everything else. That's why it's called init you dumb fuck. Isn't it fun to document a bunch of code?
@@ -160,11 +165,14 @@ function check_player_input(){
     //Press E, and things in here will run.
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
-        console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
+        /*console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
         if(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "enemy")[0]){
             console.log("Player within enemy");
         }
-        MoveAi("enemy", "0");
+        */
+       console.log(IsPlayerUnderWater("player", "underwater"));
+        
+        
         //console.log(GetElementSize(1, "col_mesh", 3));
     }
     /*DEBUG*/
@@ -306,4 +314,4 @@ function RandomRangedIntiger(min, max) {
 //-------------------------------------------------------------------------------------------------------------
 //This is the game interval. It runs a function named game_loop() every 10ms.
 setInterval(game_loop,10);
-setInterval(second_game_loop, 1000);
+setInterval(second_game_loop, 800);
