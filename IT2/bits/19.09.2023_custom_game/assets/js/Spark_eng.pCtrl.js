@@ -135,12 +135,7 @@ function check_player_input(){
     //Press E, and things in here will run.
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
-        console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
-        if(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "enemy")[0]){
-            console.log("Player within enemy");
-        }
-        MoveAi("enemy", "0");
-        //console.log(GetElementSize(1, "col_mesh", 3));
+        
     }
     /*DEBUG*/
 

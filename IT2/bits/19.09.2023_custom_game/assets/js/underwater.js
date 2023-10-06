@@ -20,8 +20,6 @@ function IsPlayerUnderWater(player_class, underwater_class){
     }
     else{
         return false;
-    }
-
-    
+    }   
 
 }

@@ -1,6 +1,6 @@
 //ai_class = class name for ai object | ai_class_id = array key for ai class. Top most ai object will have arr key 0
 function MoveAi(ai_class, ai_class_id){
-    const ai_speed = 45;
+    const ai_speed = 50;
     const ai_speed_adder = 10; //Encourages ai to use entire display
     //Get pos
     object = document.getElementsByClassName(ai_class);
@@ -10,9 +10,29 @@ function MoveAi(ai_class, ai_class_id){
     const current_object_Y_H = parseInt(object[ai_class_id].offsetHeight);
     const current_object_X_IW = current_object_X + current_object_X_W;
     const current_object_Y_FB = current_object_Y + current_object_Y_H;
+    const coin_flipX = RandomRangedIntiger(1,2);
+    const coin_flipY = RandomRangedIntiger(1,2);
 
-    const pos_offsetX = RandomRangedIntiger(- ai_speed - ai_speed_adder, ai_speed + ai_speed_adder);
-    const pos_offsetY = RandomRangedIntiger(- ai_speed, ai_speed); 
+
+    let pos_offsetX = 0;
+    let pos_offsetY = 0;
+
+    if(coin_flipX == 1){
+        pos_offsetX = RandomRangedIntiger(0, ai_speed);
+    }
+    else{
+        pos_offsetX = RandomRangedIntiger(-ai_speed, 0);
+    }
+
+    if(coin_flipY == 1){
+        pos_offsetY = RandomRangedIntiger(0, ai_speed);
+    }
+    else{
+        pos_offsetY = RandomRangedIntiger(-ai_speed, 0);
+    }
+
+    //pos_offsetX = RandomRangedIntiger(- ai_speed - ai_speed_adder, ai_speed + ai_speed_adder);
+    //pos_offsetY = RandomRangedIntiger(- ai_speed, ai_speed); 
     const neg_pos_offset = RandomRangedIntiger(- ai_speed, 0); 
     //Generate new location offset;
 

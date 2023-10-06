@@ -61,14 +61,14 @@ function check_player_input(){
             console.log("wa"); 
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3] && !IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
             player.style.left = (current_player_X - player_speed);
         }
-        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3]){
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
         }
-        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
             player.style.left = (current_player_X - player_speed);
         }
     }
@@ -77,14 +77,14 @@ function check_player_input(){
             console.log("wd");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
             player.style.left = (current_player_X + player_speed);
         }
-        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[3]){
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
         }
-        else if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
+        else if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
             player.style.left = (current_player_X + player_speed);
         }
     }
@@ -93,14 +93,14 @@ function check_player_input(){
             console.log("as");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[4]){
+        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
             player.style.left = (current_player_X - player_speed);
             player.style.top = (current_player_Y + player_speed);
         }
-        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[4]){
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);   
         }
-        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
             player.style.left = (current_player_X - player_speed);
         }    
 
@@ -112,14 +112,14 @@ function check_player_input(){
             console.log("sd");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2] && !IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[4]){
+        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);
             player.style.left = (current_player_X + player_speed);
         }
         else if (!IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[4]){
             player.style.top = (current_player_Y + player_speed);
         }
-        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
+        else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
             player.style.left = (current_player_X + player_speed);
         }
     }
@@ -128,7 +128,7 @@ function check_player_input(){
             console.log("w");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y- player_speed,player_sizeY, "col_mesh")[3]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y- player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
         }
         
@@ -138,7 +138,7 @@ function check_player_input(){
             console.log("a");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
+        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
             player.style.left = (current_player_X - player_speed);
         }
     }
@@ -147,7 +147,7 @@ function check_player_input(){
             console.log("s");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[4]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);
         }
     }
@@ -156,7 +156,7 @@ function check_player_input(){
             console.log("D");   
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[2]){
+        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
             player.style.left = (current_player_X + player_speed);
         }
     }
@@ -165,15 +165,7 @@ function check_player_input(){
     //Press E, and things in here will run.
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
-        /*console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
-        if(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "enemy")[0]){
-            console.log("Player within enemy");
-        }
-        */
-       console.log(IsPlayerUnderWater("player", "underwater"));
-        
-        
-        //console.log(GetElementSize(1, "col_mesh", 3));
+        console.log(ClassIndexLookup("GameWallRight","col_mesh"));
     }
     /*DEBUG*/
 
@@ -260,7 +252,7 @@ function GetElementSize(IdOrClass, divname, divID){
     if(IdOrClass == 0){
         if(document.getElementById(divname) == null){
             const ERROR = "ERROR element ID"+IdOrClass+" '"+divname+"' not found in GetElementSize()";
-            console.log(ERROR);
+            console.warn(ERROR);
             return null;
         }
         else{
@@ -281,7 +273,7 @@ function GetElementSize(IdOrClass, divname, divID){
     else if(IdOrClass == 1){
         if(document.getElementsByClassName(divname)[divID] == null){
             const ERROR = "ERROR element ID"+IdOrClass+" '"+divname+"' not found in GetElementSize()";
-            console.log(ERROR);
+            console.warn(ERROR);
             return null;
             
         }
@@ -307,6 +299,18 @@ function GetElementSize(IdOrClass, divname, divID){
 function RandomRangedIntiger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function ClassIndexLookup(id, class_name){
+    const elements = document.getElementsByClassName(class_name);
+    for(let arr_index = 0; arr_index <elements.length; arr_index ++){
+        if(elements[arr_index].id === id){
+            return arr_index; //return array index if id matches
+        }
+    }  
+    console.error("ERROR: ClassIndexLookup() could not find arr key for class: '" + class_name + "' id: '" + id + "'");
+    return -1; //return -1 if id not found  
+}
+
 
 
 //-------------------------------------------------------------------------------------------------------------
