@@ -3,16 +3,19 @@ var current_player_X;
 var current_player_Y;
 var player_speed = 10;
 var player_sizeX = 50;
-var player_sizeY = 50;
+var player_sizeY = 50; 
 var col_mesh;
 var DEBUG = false; 
 //-------------------------------------------------------------------------------------------------------------
 //------------------------------------VARS---------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
-
+var second_loop_counter = 0;
 function game_loop(){
+    //This loop runs every 10ms. Us it for fast OPS
     check_player_input(); 
-
+}
+function second_game_loop(){
+    //This loop runs every 
 }
 
 function init(){
@@ -23,6 +26,7 @@ function init(){
     player = document.getElementById("player1");
     player.style.top  =(innerHeight /5);
     player.style.left =(innerWidth /2);  
+    
    
 }
 
@@ -93,9 +97,7 @@ function check_player_input(){
         }
         else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[1]){
             player.style.left = (current_player_X - player_speed);
-        }
-
-        
+        }    
 
         
         
@@ -159,6 +161,10 @@ function check_player_input(){
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
         console.log(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "col_mesh"));
+        if(IScollided(current_player_X, player_sizeX,  current_player_Y,player_sizeY, "enemy")[0]){
+            console.log("Player within enemy");
+        }
+        MoveAi("enemy", "0");
         //console.log(GetElementSize(1, "col_mesh", 3));
     }
     /*DEBUG*/
@@ -201,18 +207,6 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
     for (let colMeshPointer = 0; colMeshPointer < col_mesh.length; colMeshPointer++){
         let colMeshPossibleCoordinateX = [];  
         let colMeshPossibleCoordinateY = []; 
-        /* I think this code is redundant, which is why i commented it away. What could go wrong ¯\_(ツ)_/¯
-
-            for(let cplayerMeshCoordinateX = playerCoordinateX; cplayerMeshCoordinateX <= playerCoordinateX_from_right; cplayerMeshCoordinateX ++){
-                for(let cplayerMeshCoordinateY = playerCoordinateY; cplayerMeshCoordinateY <= playerCoordinateY_W_from_bottom; cplayerMeshCoordinateY++){
-                    const cplayerMeshCoordinateX_offset = cplayerMeshCoordinateX - playerCoordinateX; 
-                    const cplayerMeshCoordinateY_offset = cplayerMeshCoordinateY - playerCoordinateY; 
-                    playerPossibleCoordinateX[cplayerMeshCoordinateX_offset]=cplayerMeshCoordinateX;
-                    playerPossibleCoordinateY[cplayerMeshCoordinateY_offset]=cplayerMeshCoordinateY;
-                    //this for loop checks for all possible coordinates the player occupies
-                }
-            }
-        */
 
         //run for all meshes   
         const current_col_mesh = col_mesh[colMeshPointer];
@@ -250,8 +244,7 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
 //------------------------------------HITBOX COLLISION---------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
 
-//This is the game interval. It runs a function named game_loop() every 10ms.
-setInterval(game_loop,10);
+
 
 function GetElementSize(IdOrClass, divname, divID){
     //divID only used for classes
@@ -298,7 +291,19 @@ function GetElementSize(IdOrClass, divname, divID){
             returnARR = [divname, current_object_X , current_object_X_W, current_object_X_IW, current_object_Y,current_object_Y_H, current_object_Y_FB, divID]; 
             return returnARR; 
         }
-    }
-
-    
+    }    
 }
+
+
+
+function RandomRangedIntiger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+//-------------------------------------------------------------------------------------------------------------
+//------------------------------------GAME LOOP---------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
+//This is the game interval. It runs a function named game_loop() every 10ms.
+setInterval(game_loop,10);
+setInterval(second_game_loop, 1000);
