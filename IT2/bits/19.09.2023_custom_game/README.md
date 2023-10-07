@@ -11,12 +11,14 @@
 * points
 * time left
 * killing enemies
-
-# todo: 
+* actually open and close doors 
 * death
 * timer to kill player if under water for too long 
+
+# todo: 
+
 * finetune how to stop player from diving
-* actually open and close doors 
+
 
 
 

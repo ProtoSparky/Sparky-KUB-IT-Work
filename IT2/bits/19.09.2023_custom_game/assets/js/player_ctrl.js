@@ -6,8 +6,9 @@ var player_sizeX = 56;
 var player_sizeY = 56; 
 var col_mesh;
 var DEBUG = false; 
+var gamestate_int = 1; 
 
-var player_breath = 300;
+var player_breath = 250;
 
 //-------------------------------------------------------------------------------------------------------------
 //------------------------------------VARS---------------------------------------------------------------------
@@ -24,7 +25,10 @@ function game_loop(){
         let future_points = current_points - 2;
         
         if(future_points < 0){
-            console.log("u ded ");
+            gamestate_int = 0
+            gamestate = document.getElementById("gamestate");
+            gamestate.innerHTML = "Dead!";
+            console.log("Player Dead");
         }
         else{
             point_element.innerHTML = future_points;
@@ -39,6 +43,31 @@ function game_loop(){
         
         
     }
+    if(gamestate_int == 0){
+        //Stop movement
+        console.log("deathtriggered");
+        player = document.getElementById("player1");
+        player.style.top  =(innerHeight /5);
+        player.style.left =(innerWidth /2);  
+
+        air_countdown = document.getElementById("drown_counter");
+        air_countdown.innerHTML = "0";
+
+        air_countdown = document.getElementById("time_left_counter");
+        air_countdown.innerHTML = "0s";
+
+        player_Death = document.getElementById("player1");
+        player_Death.innerHTML = "DEAD!";
+
+        player_Death = document.getElementById("door_counter");
+        player_Death.innerHTML = "5s";
+
+        player_Death = document.getElementById("sea_surface");
+        player_Death.style.left = -1000;      
+    
+
+    }
+
 }
 function second_game_loop(){
     //This loop runs every 800ms 
@@ -51,6 +80,7 @@ function second_game_loop(){
 function second_timed_game_loop(){
     //This loop runs every 1s
     open_door();
+    update_time_left();
 }
 
 
@@ -63,7 +93,7 @@ function init(){
     player.style.top  =(innerHeight /5);
     player.style.left =(innerWidth /2);  
 
-    summon_enemy(RandomRangedIntiger(50,80));
+    summon_enemy(RandomRangedIntiger(30,60));
     
    
 }
@@ -95,7 +125,7 @@ function check_player_input(){
             console.log("wa"); 
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")] ){
             player.style.top = (current_player_Y - player_speed);
             player.style.left = (current_player_X - player_speed);
         }
@@ -111,11 +141,11 @@ function check_player_input(){
             console.log("wd");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
             player.style.left = (current_player_X + player_speed);
         }
-        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")]){
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y - player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
         }
         else if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")]){
@@ -127,11 +157,11 @@ function check_player_input(){
             console.log("as");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
+        if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.left = (current_player_X - player_speed);
             player.style.top = (current_player_Y + player_speed);
         }
-        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
+        else if(!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);   
         }
         else if(!IScollided(current_player_X - player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallLeft","col_mesh")]){
@@ -146,11 +176,11 @@ function check_player_input(){
             console.log("sd");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
+        if(!IScollided(current_player_X + player_speed, player_sizeX,  current_player_Y,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallRight","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+ player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);
             player.style.left = (current_player_X + player_speed);
         }
-        else if (!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")]){
+        else if (!IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallBottom","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.top = (current_player_Y + player_speed);
         }
 
@@ -165,7 +195,7 @@ function check_player_input(){
             console.log("w");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(current_player_X, player_sizeX,  current_player_Y- player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")]){
+        if(!IScollided(current_player_X, player_sizeX,  current_player_Y- player_speed,player_sizeY, "col_mesh")[ClassIndexLookup("GameWallTop","col_mesh")] && !IScollided(current_player_X, player_sizeX,  current_player_Y + player_speed +100,player_sizeY, "col_mesh")[ClassIndexLookup("sea","col_mesh")]){
             player.style.top = (current_player_Y - player_speed);
         }
         
@@ -188,7 +218,7 @@ function check_player_input(){
             player.style.top = (current_player_Y + player_speed);
         }
 
-        else if(IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface1","sea_surface")] || IScollided(current_player_X , player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface2","sea_surface")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface3","sea_surface")] || IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface4","sea_surface")]){
+        else if(IScollided(current_player_X, player_sizeX,  current_player_Y+player_speed,player_sizeY, "sea_surface")[ClassIndexLookup("sea_surface","sea_surface")] ){
             player.style.top = (current_player_Y + player_speed);
             
         }
@@ -210,7 +240,8 @@ function check_player_input(){
     //Press E, and things in here will run.
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
-        console.log(IsPlayerUnderWater("player","underwater"));
+        //console.log(IsPlayerUnderWater("player","underwater"));
+        open_door();
     }
     /*DEBUG*/
 
@@ -373,5 +404,5 @@ function ClassIndexToId(class_name, index) {
 //-------------------------------------------------------------------------------------------------------------
 //This is the game interval. It runs a function named game_loop() every 10ms.
 setInterval(game_loop,10);
-setInterval(second_game_loop, 800);
+setInterval(second_game_loop, 900);
 setInterval(second_timed_game_loop, 1000);

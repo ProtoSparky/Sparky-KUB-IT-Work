@@ -38,20 +38,54 @@ function open_door(){
     future_points = current_points - 1;
     door_element.innerHTML = future_points + "s";
     if(future_points == -1){
-        //open door
+        
         door_element.innerHTML = max_time + "s"; 
         if(door_sate == 0){
             door_sate = 1;
             //Open door
             hud_element = document.getElementById("door_text");
-            hud_element.innerHTML = "Door closes in:";
-            
+            hud_element.innerHTML = "Door closes in:"; 
+
+            const water_sufrace_width = window.innerWidth - 50;
+            let door = document.getElementById("sea_surface");
+
+            let doorNewLeft = RandomRangedIntiger(0, water_sufrace_width);
+            door.style.left= doorNewLeft;
+
+
+
+
+
         }
         else if(door_sate == 1){
             door_sate = 0;
             hud_element = document.getElementById("door_text");
             hud_element.innerHTML = "Door opens in:";
+
+            let door = document.getElementById("sea_surface");            
+            let doorNewLeft = -1000; 
+            door.style.left= doorNewLeft;
         }
+        
 
     }
+}
+
+
+function update_time_left(){
+    countdown_element = document.getElementById("time_left_counter");
+    hud_countdown = parseInt(countdown_element.innerHTML)
+    hud_countdown --; 
+    countdown_element.innerHTML = hud_countdown + "s"; 
+    if(hud_countdown <= 0){
+        countdown_element.innerHTML = 0 +"s"; 
+        gamestate = document.getElementById("gamestate");
+        gamestate.innerHTML = "Time Over";
+        gamestate_int = 0;
+    }
+
+}
+
+function ResetCounter(){
+    location.reload();
 }

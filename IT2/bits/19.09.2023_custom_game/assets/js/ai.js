@@ -1,7 +1,6 @@
 //ai_class = class name for ai object | ai_class_id = array key for ai class. Top most ai object will have arr key 0
 function MoveAi(ai_class, ai_class_id){
     const ai_speed = 50;
-    const ai_speed_adder = 10; //Encourages ai to use entire display
     //Get pos
     object = document.getElementsByClassName(ai_class);
     const current_object_X = parseInt(object[ai_class_id].offsetLeft);
