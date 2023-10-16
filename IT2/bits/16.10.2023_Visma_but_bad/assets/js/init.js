@@ -10,5 +10,7 @@ function init(){
         ];
 
     spawn_table2(tbl_data, 1, "1A");
+
+    spawn_table2(tbl_data, 2, "1C");
     
 }
