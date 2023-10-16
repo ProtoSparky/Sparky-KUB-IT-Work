@@ -13,11 +13,12 @@ const scriptFiles = ["./assets/js/Spark_eng/Spark_eng.HitBX.js",
 //------------------------------------VARS---------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
 function game_loop(){
-  
+  CheckForVoid();
+  SnowFall();
   
 }
 function second_game_loop(){
-    
+ // SnowFall();
 }
 
 function init(){
@@ -25,7 +26,8 @@ function init(){
   //LoadScripts(scriptFiles,1);
   console.info("init() successful");
   //
-  SummonSnow(500);
+  SummonSnow(300);
+
    
 }
 
@@ -68,4 +70,4 @@ function Spark_eng_dependencies(func_name, func_loc) {
 //-------------------------------------------------------------------------------------------------------------
 //This is the game interval. It runs a function named game_loop() every 10ms.
 setInterval(game_loop,10);
-setInterval(second_game_loop, 1000);
+setInterval(second_game_loop, 500);

@@ -8,7 +8,7 @@ if (typeof ArraysCommon !== 'function') {
 //-------------------------------------------------------------------------------------------------------------
 //------------------------------------HITBOX COLLISION---------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
-function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, playerCoordinateY_W, ColMeshName, z_index){
+function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, playerCoordinateY_W, ColMeshName){
     col_mesh = document.getElementsByClassName(ColMeshName);
     const playerCoordinateX_from_right = playerCoordinateX_W + playerCoordinateX;
     const playerCoordinateY_W_from_bottom = playerCoordinateY_W + playerCoordinateY; 
@@ -50,9 +50,7 @@ function IScollided(playerCoordinateX,playerCoordinateX_W, playerCoordinateY, pl
         }
         //This bad boy checks if the player and collision object x and y values match. If it's a tinder match, itll return true. IF one or the other
         //rejects, its a false
-        if(z_index == -1){
-            
-        }
+
         if(ArraysCommon(colMeshPossibleCoordinateX,playerPossibleCoordinateX) && ArraysCommon(colMeshPossibleCoordinateY, playerPossibleCoordinateY)){
             IsCollided[colMeshPointer] = true;
         }
