@@ -26,6 +26,7 @@ var FormCurrentSelectedClass = null;
 var ClassEditorApply = false; 
 
 var CreateClass_Toggle = false; 
+var EditClass_Toggle = false;
 
 function formINIT(){
 
@@ -66,7 +67,7 @@ function CreateClass(){
         ClassEditorCreate_apply.class = "input";
         ClassEditorCreate_apply.addEventListener("click", function(){
             //apply onclick() event
-            ReadAndApply(0,'ClassEditorCreate_input');
+            ReadAndApply(0,ClassEditorCreate_input.value, null);
         });
 
         ClassEditorCreate_apply.innerHTML = "Apply created element";
@@ -92,8 +93,47 @@ function CreateClass(){
 
 }
 function EditClass(){
-    if(FormCurrentSelectedClass !=null){
-        console.log("Current selected class is " +FormCurrentSelectedClass );
+    if(!EditClass_Toggle){
+        const ClassEditorEdit = document.getElementById("ClassEditorEdit"); 
+
+        //Old data input
+        const ClassEditorEdit_OldName = document.createElement("input");
+        ClassEditorEdit_OldName.id="ClassEditorEdit_OldName";
+        ClassEditorEdit_OldName.class = "input";
+        ClassEditorEdit_OldName.placeholder = "Select current class, feks 1A";
+        ClassEditorEdit.appendChild(ClassEditorEdit_OldName);
+        //Old data input
+
+        //New data input
+        const ClassEditorEdit_NewName = document.createElement("input");
+        ClassEditorEdit_NewName.id = "ClassEditorEdit_NewName";
+        ClassEditorEdit_NewName.class = "input";
+        ClassEditorEdit_NewName.placeholder = "New class name, feks 1B";
+        ClassEditorEdit.appendChild(ClassEditorEdit_NewName);
+        //New data input
+
+        //Apply button
+        const ClassEditorEdit_apply = document.createElement("button");
+        ClassEditorEdit_apply.id = "ClassEditorEdit_apply";
+        ClassEditorEdit_apply.class = "input";
+        ClassEditorEdit_apply.innerHTML = "Edit selected element"
+
+        ClassEditorEdit_apply.addEventListener("click", function(){
+            //apply onclick() element
+            ReadAndApply(1,ClassEditorEdit_OldName.value,ClassEditorEdit_NewName.value);
+        }) 
+        ClassEditorEdit.appendChild(ClassEditorEdit_apply);
+        //Apply button
+        EditClass_Toggle= true;
+    }
+    else{
+        const ClassEditorEdit_OldName = document.getElementById("ClassEditorEdit_OldName");
+        const ClassEditorEdit_NewName = document.getElementById("ClassEditorEdit_NewName");
+        const ClassEditorEdit_apply = document.getElementById("ClassEditorEdit_apply");
+        ClassEditorEdit_OldName.remove();
+        ClassEditorEdit_NewName.remove();
+        ClassEditorEdit_apply.remove();
+        EditClass_Toggle= false;
     }
 
 }
@@ -101,11 +141,11 @@ function DeleteClass(){
 
 }
 
-function ReadAndApply(Op, InputID){
+function ReadAndApply(Op, Data1, Data2){
     //0 Op to create
     //1 Op to edit
     //2 Op to delete
-    console.log("Operation " + Op + " Input id " + InputID);
-    const CurrentData = document.getElementById(InputID);
-    console.log(CurrentData.value);
+    console.log("Operation " + Op + " Input " + Data1);
+    
+    console.log(Data1);
 }
