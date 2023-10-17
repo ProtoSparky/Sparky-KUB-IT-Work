@@ -39,7 +39,6 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
 
     if(RemovedTable !=null){
         //Remove if same table wants to spawn
-        console.log("is not null");
         RemovedTable.remove(); 
         FormCurrentSelectedClass = null;
     }

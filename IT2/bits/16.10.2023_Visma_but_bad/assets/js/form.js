@@ -27,6 +27,7 @@ var ClassEditorApply = false;
 
 var CreateClass_Toggle = false; 
 var EditClass_Toggle = false;
+var DeleteClass_Toggle = false; 
 
 function formINIT(){
 
@@ -100,7 +101,7 @@ function EditClass(){
         const ClassEditorEdit_OldName = document.createElement("input");
         ClassEditorEdit_OldName.id="ClassEditorEdit_OldName";
         ClassEditorEdit_OldName.class = "input";
-        ClassEditorEdit_OldName.placeholder = "Select current class, feks 1A";
+        ClassEditorEdit_OldName.placeholder = "current class, feks 1A";
         ClassEditorEdit.appendChild(ClassEditorEdit_OldName);
         //Old data input
 
@@ -138,7 +139,39 @@ function EditClass(){
 
 }
 function DeleteClass(){
+    
+    if (!DeleteClass_Toggle){
+        const ClassEditorDelete = document.getElementById("ClassEditorDelete");
 
+        //Data input
+        const ClassEditorDelete_ClassName = document.createElement("input");
+        ClassEditorDelete_ClassName.id = "ClassEditorDelete_ClassName";
+        ClassEditorDelete_ClassName.class = "input";
+        ClassEditorDelete_ClassName.placeholder = "Class to be deleted";
+        ClassEditorDelete.appendChild(ClassEditorDelete_ClassName);
+        //Data input
+
+        //Apply button
+        const ClassEditorDelete_apply = document.createElement("button");
+        ClassEditorDelete_apply.id = "ClassEditorDelete_apply";
+        ClassEditorDelete_apply.class = "input"; 
+        ClassEditorDelete_apply.addEventListener("click", function(){
+            //add onclick() element
+            ReadAndApply(2,ClassEditorDelete_ClassName.value, null);
+        })
+        ClassEditorDelete_apply.innerHTML = "Delete class";
+        ClassEditorDelete.appendChild(ClassEditorDelete_apply);
+        //Apply button
+
+        DeleteClass_Toggle = true;        
+    }
+    else{
+        const ClassEditorDelete_ClassName = document.getElementById("ClassEditorDelete_ClassName");
+        const ClassEditorDelete_apply = document.getElementById("ClassEditorDelete_apply");
+        ClassEditorDelete_ClassName.remove();
+        ClassEditorDelete_apply.remove();
+        DeleteClass_Toggle = false;
+    }
 }
 
 function ReadAndApply(Op, Data1, Data2){
