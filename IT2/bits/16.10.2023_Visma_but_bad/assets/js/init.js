@@ -9,8 +9,8 @@ function init(){
 
         ];
 
-    spawn_table2(tbl_data, 1, "1A");
+    spawn_table2(tbl_data, 1, "1A", 0);
 
-    spawn_table2(tbl_data, 2, "1C");
+    spawn_table2(tbl_data, 2, "1C", 0);
     
 }

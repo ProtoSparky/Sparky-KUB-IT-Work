@@ -15,12 +15,15 @@ function ClassIndexLookup(id, class_name){
     return -1; //return -1 if id not found  
 }
 
-function ClassIndexToId(class_name, index) {
+function ClassIndexToId(class_name, index, DisableErrors) {
     const elements = document.getElementsByClassName(class_name);
     if (index >= 0 && index < elements.length) {
       return elements[index].id;
-    } else {
-      console.error("ERROR: ClassIndexToId() could not find ID for class: '" + class_name + "' and index: '" + index + "'");
+    } 
+    else {
+        if(!DisableErrors){
+            console.error("ERROR: ClassIndexToId() could not find ID for class: '" + class_name + "' and index: '" + index + "'");
+        }
       return null; // return null on faliure
     }
 }
