@@ -9,18 +9,30 @@
     <body>
         
 
+        <div class="menu" id="ClassEditor">
+            <div class="menu" id="ClassEditorCreate">
+                <button id="ClassEditorCreate_button" onclick="CreateClass()">Create New Class</button>
+            </div>
+            <div class="menu" id="ClassEditorEdit">
+                <button onclick="EditClass()">Edit class</button>
+            </div>
+            <div class="menu" id="ClassEditorDelete">
+                <button onclick="DeleteClass()">Delete class</button>
+            </div>
+            
+            
+        </div>
+
+        <div class="menu" id="classSelector">
+            Choose class
+            <button onclick="SelectClass('1A')">1A</button>
+            <button onclick="SelectClass('1B')">1B</button>
+        </div>
+
         <div id="TableArea">
 
         </div>
 
-        <div class="menu" id="classMenu">
-            Choose class
-            <button onclick="SelectClass('A1')">A1</button>
-            <button onclick="SelectClass('B1')">B1</button>
-        </div>
-        <div class="menu" id="Edit">
-            
-        </div>
         
     </body>
     <script>

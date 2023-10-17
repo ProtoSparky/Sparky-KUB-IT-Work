@@ -1,3 +1,4 @@
+var FormCurrentSelectedClass = null;
 function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
     
     const tbl_cell_Len = Table_Data[0].length;
@@ -40,17 +41,13 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
         //Remove if same table wants to spawn
         console.log("is not null");
         RemovedTable.remove(); 
-
-
+        FormCurrentSelectedClass = null;
     }
     else{
         if(AllowMultipleTables){
             //summon multiple tables within same element
-            //TableArea.appendChild(RootTable);
             
             TableArea.appendChild(RootTable);
-            TableArea.appendChild(RootTable);
-
             const TableParent = document.getElementById("RootTableID_" + TableID);
 
             //Header
@@ -87,7 +84,6 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
             if(TableClass.length > 0){
                 TableClass[0].remove();
                 TableArea.appendChild(RootTable);
-                TableArea.appendChild(RootTable);
 
                 const TableParent = document.getElementById("RootTableID_" + TableID);
 
@@ -123,8 +119,7 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
 
             } 
             else{
-                //do nothing
-                TableArea.appendChild(RootTable);
+               
                 TableArea.appendChild(RootTable);
             
                 const TableParent = document.getElementById("RootTableID_" + TableID);
