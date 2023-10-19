@@ -33,9 +33,6 @@ var DeleteClass_Toggle = false;
 
 function formINIT(){
     SpawnEditTable();
-    //DEBUG
-    runINIT();
-    //DEBUG
 }
 
 function SelectClass(SelectedClass){
