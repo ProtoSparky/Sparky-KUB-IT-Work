@@ -1,37 +1,33 @@
 var FormCurrentSelectedClass = null;
-function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
-    
+
+//spawn_table2(tbl_data[1], 0, SelectedClass, false,["TableArea","RootTableID_","table"]);
+
+function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables,TableMetaData ){
+    //Last input input
+    /*
+    [
+        Table area       |TableMetaData[0]      // Div id table should spawn in
+        table id         |TableMetaData[1]      //Id for table element
+        table class name |TableMetaData[2]      //class name for table element
+
+
+    ]
+
+
+    */
     const tbl_cell_Len = Table_Data[0].length;
     const tbl_row_Len = Table_Data.length;
-    const TableArea = document.getElementById("TableArea");
+    const TableArea = document.getElementById(TableMetaData[0]);
 
     //Summon multiple tables
 
     const RootTable = document.createElement("table");
-    const CurrentRootTableID = "RootTableID_" + TableID;
+    const CurrentRootTableID = TableMetaData[1] + TableID;
     RootTable.id = CurrentRootTableID;
-    RootTable.className = "Table";
-
-    
-    
-    // allow only one table with same id
-    /*
-    const RemovedTable = document.getElementById(CurrentRootTableID); 
-
-    if(RemovedTable != null){
-        console.info("spawn_table2(); Id= '" + CurrentRootTableID + "' Exists already");        
-        RemovedTable.remove();        
-    }
-
-    const TableAmount = document.getElementsByClassName("Table");   
-    if(TableAmount.length > 1){
-        const RemoveLastTable = document.getElementById(ClassIndexToId("Table", 1, true));
-        RemoveLastTable.remove();
-    }
-    */
+    RootTable.className = TableMetaData[2] ;
 
     const RemovedTable = document.getElementById(CurrentRootTableID); 
-    const TableClass = document.getElementsByClassName("table");
+    const TableClass = document.getElementsByClassName(TableMetaData[2]);
 
     if (Table_Data == 0 && TableID==0 && Header==0){
         //delete all tables
@@ -47,7 +43,7 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
             //summon multiple tables within same element
             
             TableArea.appendChild(RootTable);
-            const TableParent = document.getElementById("RootTableID_" + TableID);
+            const TableParent = document.getElementById(TableMetaData[1] + TableID);
 
             //Header
             const TableCaption = document.createElement("caption");
@@ -84,7 +80,7 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
                 TableClass[0].remove();
                 TableArea.appendChild(RootTable);
 
-                const TableParent = document.getElementById("RootTableID_" + TableID);
+                const TableParent = document.getElementById(TableMetaData[1] + TableID);
 
                 //Header
                 const TableCaption = document.createElement("caption");
@@ -121,7 +117,7 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
                
                 TableArea.appendChild(RootTable);
             
-                const TableParent = document.getElementById("RootTableID_" + TableID);
+                const TableParent = document.getElementById(TableMetaData[1] + TableID);
             
                 //Header
                 const TableCaption = document.createElement("caption");
@@ -161,7 +157,7 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
     TableArea.appendChild(RootTable);
     TableArea.appendChild(RootTable);
 
-    const TableParent = document.getElementById("RootTableID_" + TableID);
+    const TableParent = document.getElementById(TableMetaData[1] + TableID);
 
     //Header
     const TableCaption = document.createElement("caption");
@@ -194,3 +190,6 @@ function spawn_table2(Table_Data, TableID, Header , AllowMultipleTables){
     */
 
 }
+
+
+

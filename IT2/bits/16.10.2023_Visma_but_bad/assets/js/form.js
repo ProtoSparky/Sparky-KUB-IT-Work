@@ -29,21 +29,25 @@ var CreateClass_Toggle = false;
 var EditClass_Toggle = false;
 var DeleteClass_Toggle = false; 
 
+
+
 function formINIT(){
-
-
+    SpawnEditTable();
+    //DEBUG
+    runINIT();
+    //DEBUG
 }
 
 function SelectClass(SelectedClass){
     if(SelectedClass == "1A"){
         //run for class a1
-        spawn_table2(tbl_data[0], 1, SelectedClass, false);
+        spawn_table2(tbl_data[0], 1, SelectedClass, false,["TableArea","RootTableID_","table"]);
 
         FormCurrentSelectedClass = 0;
     }
     else if(SelectedClass == "1B"){
         //run for b1
-        spawn_table2(tbl_data[1], 0, SelectedClass, false);
+        spawn_table2(tbl_data[1], 0, SelectedClass, false,["TableArea","RootTableID_","table"]);
 
         FormCurrentSelectedClass = 1;
     }
@@ -174,11 +178,38 @@ function DeleteClass(){
     }
 }
 
-function ReadAndApply(Op, Data1, Data2){
+function ReadAndApply(op, Data1, Data2){
     //0 Op to create
     //1 Op to edit
     //2 Op to delete
-    console.log("Operation " + Op + " Input " + Data1);
+    console.log("Operation " + op + " Input " + Data1);
     
     console.log(Data1);
+
+    if(op == 0){
+        //Create class
+    }
+    else if(op == 1){
+        //Edit class name
+    }
+    else if(op == 2){
+        //delete class name
+    }
+}
+
+
+function SpawnEditTable(){
+    const tbl_buttons = [
+        //Table 0
+        [" ",           "Monday", "Tuesday", "Wednsday", "Thursday", "Friday"], //Row 0
+        ["08:00 - 10:00", "<div></div>", "Tue R1", "Wed R1" , "Thur R1", "Frid R1"], //Row 1
+        ["10:00 - 12:00", "Mon R2", "Tue R2", "Wed R2" , "Thur R2", "Frid R2"], //Row 2     
+        ["Lunsj        ", "      ", "      ", "      " , "       ", "       "], //Row 3
+        ["13:30 - 14-30", "Mon R4", "Tue R4", "Wed R4" , "Thur R4", "Frid R4"], //Row 4
+        ["14:30 - 16:00", "Mon R5", "Tue R5", "Wed R5" , "Thur R5", "Frid R5"]  //Row 5 
+    ];
+
+    spawn_table2(tbl_buttons, 0, "DUMMY", false,["SettingTable","DummyTable_","SettingsTable"]);
+
+
 }
