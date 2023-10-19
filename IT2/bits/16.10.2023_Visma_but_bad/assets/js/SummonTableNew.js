@@ -1,85 +1,7 @@
-var Table = [
-    [ 
-        [
-            "0",    //Table id
-            "",     //Custom css for entire table
-            "1A",   //Table caption
-
-
-
-        ], 
-        //Table 1
-        [
-            //Row0
-            ["   "/*Data*/, false /*Treat innerHTML*/,"background-style:red;" /*Custom css*/],
-            ["Monday"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],   
-            ["Tuesday"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            ["Wednsday"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            ["Fhursday"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            ["Friday"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-        
-        ], 
-        [
-            //Row1
-            ["08:00 - 10:00"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],
-            ["Mon R1"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-            ["Tue R1"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            ["Wed R1"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Thur R1"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Fri R1"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-        ],
-        [
-            //Row2
-            ["10:00 - 12:00"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],
-            ["Mon R2"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-            ["Tue R2"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            ["Wed R2"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Thur R2"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Fri R2"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-        ],
-        [
-            //Row3
-            ["Lunch "/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],
-            [" "/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-            [" "/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            [" "/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            [" "/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            [" "/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-        ],
-        [
-            //Row4
-            ["13:30 - 14-30"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],
-            ["Mon R3"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-            ["Tue R3"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            ["Wed R3"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Thur R3"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Fri R3"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-        ],
-        [
-            //Row5
-            ["14:30 - 16:00"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],
-            ["Mon R4"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-            ["Tue R4"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/], 
-            ["Wed R4"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Thur R4"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],      
-            ["Fri R4"/*Data*/, false /*Treat innerHTML*/,"" /*Custom css*/],  
-        ],
-
-
-        
-
-
-    ],
-
-
-
-];
-
-
 var tableMetadata = [
     "TableArea", /* Summon table within this div id*/
-    "Table01", /*Summoned table ID*/
-    "Table",/*Summoned table Class*/
+    "table01", /*Summoned table ID*/
+    "table",/*Summoned table Class*/
 ];
 
 function SpawnTable(TableData, TableMetaData ){
@@ -87,6 +9,7 @@ function SpawnTable(TableData, TableMetaData ){
     !Table specific Metadata!
     TableData[0][0] | Table id. Can be used to locate table if pointers in for loop are offset
     TableData[0][1] | Load custom css on entire table
+    TableData[0][2] | Spawn table with given caption
     !Table specific Metadata!
 
     !Data!
@@ -103,30 +26,57 @@ function SpawnTable(TableData, TableMetaData ){
     */
 
 
-
     //Summon <table> element
     const RootTableElement = document.getElementById(TableMetaData[0]); 
     const TableElement = document.createElement("table");
     TableElement.id = TableMetaData[1];
     TableElement.className = TableMetaData[2];    
     RootTableElement.appendChild(TableElement);
-    CssArr2style(TableMetaData[0], ["background-color:red;","color:blue;"]);
+    //TODO apply css to root table (TableData[0][1])
     //Summon <table> element
 
+    //Summon caption for table
+    const TableCaption = document.createElement("caption");
+    TableCaption.innerHTML = TableData[0][2];
+    TableElement.appendChild(TableCaption);
+    //Summon Caption for table
+
+    //Summon Row for table
+        //Now the indexes have to start at 1 and not 0
+    for(let CurrentTableRowIndex = 1; CurrentTableRowIndex < TableData.length; CurrentTableRowIndex++){
+        //Summon tr
+        const CurrentTableRow = document.createElement("tr");
+        TableElement.appendChild(CurrentTableRow);
+        //summon tr
+
+        const CurrentTableRowIndexOffset = CurrentTableRowIndex - 1;
+        if(CurrentTableRowIndexOffset == 0){
+            //Summon Header for Table
+            for(let CurrentHeaderIndex = 0; CurrentHeaderIndex < TableData[1].length; CurrentHeaderIndex++){
+                const CurrentTableHeader = document.createElement("th");
+                CurrentTableHeader.innerHTML = TableData[1][CurrentHeaderIndex][0];
+                CurrentTableRow.appendChild(CurrentTableHeader);
+            }
+            //Summon Header for Table
+
+        }
+        else{
+            //Summon cells
+            for(let CurrentCellIndex = 0; CurrentCellIndex < TableData[1].length; CurrentCellIndex++){
+                const CurrentTableCell = document.createElement("td");
+                CurrentTableCell.innerHTML = TableData[CurrentTableRowIndex][CurrentCellIndex][0];
+                CurrentTableRow.appendChild(CurrentTableCell);
+            }
+             //Summon cells            
+        }       
 
 
-
-}
-
-function runINIT(){
-    SpawnTable(Table[0],tableMetadata);
-}
-
-function CssArr2style(DocumetObject, StyleArr) {
-    // Import array of CSS styles to a document object
-    const currentObject = document.getElementById(DocumetObject);
-    for (let StylePointer = 0; StylePointer < StyleArr.length; StylePointer++) {
-        const { property, value } = StyleArr[StylePointer];        
-        currentObject.style[property] = value;
     }
+
+    //Summon Row for table
+
+
+
+
 }
+
