@@ -1,8 +1,9 @@
-var tableMetadata = [
-    "TableArea", /* Summon table within this div id*/
-    "table01", /*Summoned table ID*/
-    "table",/*Summoned table Class*/
+/*var tableMetadata = [
+    "TableArea", /* Summon table within this div id
+    "table01", /*Summoned table ID
+    "table",/*Summoned table Class
 ];
+*/
 
 function SpawnTable(TableData, TableMetaData ){
     /*
@@ -79,4 +80,24 @@ function SpawnTable(TableData, TableMetaData ){
 
 
 }
+
+function Table2Array(tableID){
+    const table = document.getElementById(tableID);
+    const rows = table.querySelectorAll('tr');
+    const tableData = [];
+
+    rows.forEach(row => {
+        const rowData = [];
+        const cells = row.querySelectorAll('td, th');
+
+        cells.forEach(cell => {
+            rowData.push(cell.textContent);
+        });
+
+        tableData.push(rowData);
+    });
+
+    return tableData;
+}
+
 
