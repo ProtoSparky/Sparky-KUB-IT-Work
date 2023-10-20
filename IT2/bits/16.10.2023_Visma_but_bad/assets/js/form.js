@@ -7,7 +7,9 @@ var DeleteClass_Toggle = false;
 
 
 function formINIT(){
-    SpawnEditTable();
+    SpawnEditTable();    
+    DataOP(0,true,"ButtonTable",ButtonTable);
+
 }
 
 function SelectClass(SelectedClass){
@@ -16,7 +18,7 @@ function SelectClass(SelectedClass){
     if(SelectedClass == "1A"){
         //Check if other tables are in <tablearea>
         if(currentTableAmount == 0){
-            SpawnTable(ButtonTable[0],["TableArea","table01","table",]);
+            SpawnTable((DataOP(1,true, "ButtonTable", )[0]),["TableArea","table01","table",]);
         }
         else{
             currentTables[0].remove();
@@ -193,4 +195,41 @@ function SpawnEditTable(coordinate){
     }
     
     
+}
+
+function DataOP(operation,isArray,StorageName, Data){
+    /*
+    Operation = 0 | Put data in storagename 
+    Operation = 1 | Get data from storagename
+    Operation = 2 | Remove all data from storagename
+    Operation = 3 | Delete everything
+    */
+
+    if(operation == 0){
+        //put data in storageName
+        if(isArray){
+            localStorage.setItem(StorageName, JSON.stringify(Data));
+        }
+        else{
+            localStorage.setItem(StorageName, Data);
+        }
+    }
+    else if(operation == 1){
+        //get data from StorageName
+        if(isArray){
+            return JSON.parse(localStorage.getItem(StorageName));            
+        }
+        else{
+            return localStorage.getItem(StorageName);
+        }
+    
+    }
+    else if(operation == 2){
+        //remove all data fom StorageName
+        localStorage.RemoveItem(StorageName); 
+    }
+    else if(operation = 3){
+        //Remove everything
+        localStorage.clear();
+    }
 }
