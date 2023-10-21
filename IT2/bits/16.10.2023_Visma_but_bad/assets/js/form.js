@@ -9,10 +9,12 @@ function formINIT(){
     DataOP(0,true,"ButtonTable",ButtonTable);
 
     if(DataOP(1, true, "TableData") == null){
-        DataOP(0, true, "TableData", ["empty"]); 
+        DataOP(0, true, "TableData", []); 
         console.info("TableData = undefined");
         console.info("Created TableData!");
     }
+    
+    
 }
 
 function SelectClass(SelectedClass){
@@ -211,24 +213,65 @@ function ReadAndApply(op, Data1, Data2){
 function SaveTable(TableId,TableArray, tableName){
     const DataTable = document.getElementById(TableId);
     const TableArrayRowLength =TableArray[0].length; 
-
     //go trough all rows and cells
+
+
+    //generate root array
+    const SavedDataArray = [];
+    const EntireSavedArray =[];
+
+    SavedDataArray[0] = [
+        "0",          //Table id
+        "",           //Custom css for entire table
+        tableName ,   //Table caption
+    ]; 
+    SavedDataArray[1] = [
+        //Row0
+        ["   "/*Data*/,"" /*Custom css*/],
+        ["Monday"/*Data*/,"" /*Custom css*/],   
+        ["Tuesday"/*Data*/,"" /*Custom css*/], 
+        ["Wednsday"/*Data*/,"" /*Custom css*/], 
+        ["Thursday"/*Data*/,"" /*Custom css*/], 
+        ["Friday"/*Data*/,"" /*Custom css*/],  
+    ]; 
+    //generate root array
+
     for(let CurrentRowPointer = 2; CurrentRowPointer < TableArrayRowLength; CurrentRowPointer ++){
         const TableArrayCellLength = TableArray[0][CurrentRowPointer].length;
+
+        //Generate new data array
+        SavedDataArray[CurrentRowPointer] = [];  
+        //Generate new data array
+
         for(let CurrentCellPointer = 1;CurrentCellPointer < TableArrayCellLength;CurrentCellPointer++){
             const CurrentCellId = GetStringBetween(TableArray[0][CurrentRowPointer][CurrentCellPointer][0], '<input id="', '" class="input0">');
             const CurrentCellObject = document.getElementById(CurrentCellId);
-            //Get data from all cells                        
+            //Get data from all cells     
+            
+            
+            //Generate new data array
+            SavedDataArray[CurrentRowPointer][CurrentCellPointer - 1] = ["",CurrentCellObject.value,""];
+            //Generate new data array
 
+            /*
             if(CurrentCellObject.value == ""){
                 console.log("EMPTY STRING");
             }
             else{
                 console.log(CurrentCellObject.value);
+
             }
+            */
+
+
             
         }
     }
+
+    console.log(SavedDataArray);
+    const tableDataLength = DataOP(1, true, "TableData").length;
+    EntireSavedArray[tableDataLength]  = SavedDataArray
+    DataOP(0, true, "TableData",EntireSavedArray); 
 
 
 
