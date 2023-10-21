@@ -1,15 +1,18 @@
 var FormCurrentSelectedClass = null; 
-var ClassEditorApply = false; 
-
 var CreateClass_Toggle = false; 
 var EditClass_Toggle = false;
 var DeleteClass_Toggle = false; 
 
 
 function formINIT(){
-    SpawnEditTable();    
+    //  SpawnEditTable();    
     DataOP(0,true,"ButtonTable",ButtonTable);
 
+    if(DataOP(1, true, "TableData") == null){
+        DataOP(0, true, "TableData", ["empty"]); 
+        console.info("TableData = undefined");
+        console.info("Created TableData!");
+    }
 }
 
 function SelectClass(SelectedClass){
@@ -172,12 +175,30 @@ function ReadAndApply(op, Data1, Data2){
     //0 Op to create
     //1 Op to edit
     //2 Op to delete
-    console.log("Operation " + op + " Input " + Data1);
-    
-    console.log(Data1);
 
-    if(op == 0){
-        //Create class
+    if(op == 0 ){
+        if(Data1 == null || Data1 != ""){            
+            //Create class
+            SpawnTable(ButtonTable[0],["SettingTable","table00","table",]);
+            const DataTable = document.getElementById("table00");
+            const applyBTN = document.createElement("button");
+            applyBTN.id="apply_table";
+            applyBTN.class="input";
+            applyBTN.innerHTML="Save Table";
+            applyBTN.addEventListener("click", function(){
+                SaveTable("table00", ButtonTable); 
+            });
+            DataTable.appendChild(applyBTN);
+
+
+
+        }
+        else{
+            console.error("ReadAndApply() | INPUT INVALID");
+        }
+        
+        
+
     }
     else if(op == 1){
         //Edit class name
@@ -187,14 +208,9 @@ function ReadAndApply(op, Data1, Data2){
     }
 }
 
-
-function SpawnEditTable(coordinate){
-    if(coordinate !== undefined && coordinate !== null){
-        console.log(coordinate);
-        console.log(Table2Array("table01"));
-    }
-    
-    
+function SaveTable(TableName,TableArray){
+    console.log(TableName);
+    console.log(TableArray);
 }
 
 function DataOP(operation,isArray,StorageName, Data){
@@ -212,24 +228,41 @@ function DataOP(operation,isArray,StorageName, Data){
         }
         else{
             localStorage.setItem(StorageName, Data);
+            
         }
     }
     else if(operation == 1){
         //get data from StorageName
         if(isArray){
-            return JSON.parse(localStorage.getItem(StorageName));            
+            //return JSON.parse(localStorage.getItem(StorageName));  
+            
+            //Error handling
+            if (localStorage.getItem(StorageName) == null || localStorage.getItem(StorageName) == "undefined"){
+                return null;
+            }
+            else{
+                return JSON.parse(localStorage.getItem(StorageName));
+            }
         }
         else{
-            return localStorage.getItem(StorageName);
+            //Error handling
+            if(localStorage.getItem(StorageName) == null || localStorage.getItem(StorageName) == "undefined"){
+                return null; 
+            }
+            else{
+                return localStorage.getItem(StorageName);
+            }
         }
     
     }
     else if(operation == 2){
         //remove all data fom StorageName
         localStorage.RemoveItem(StorageName); 
+        console.info("'" + StorageName + "' Storage cleared!");
     }
     else if(operation = 3){
         //Remove everything
         localStorage.clear();
+        console.info("ALL LocalStorage cleared!");
     }
 }
