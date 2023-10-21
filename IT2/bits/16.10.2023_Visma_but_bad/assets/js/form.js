@@ -186,11 +186,11 @@ function ReadAndApply(op, Data1, Data2){
             applyBTN.class="input";
             applyBTN.innerHTML="Save Table";
             applyBTN.addEventListener("click", function(){
-                SaveTable("table00", ButtonTable); 
+                SaveTable("table00", ButtonTable, Data1); 
             });
             DataTable.appendChild(applyBTN);
-
-
+            const tableCaption = document.getElementById("caption_table00");
+            tableCaption.innerHTML = tableCaption.innerHTML + " " + Data1;
 
         }
         else{
@@ -208,9 +208,33 @@ function ReadAndApply(op, Data1, Data2){
     }
 }
 
-function SaveTable(TableName,TableArray){
-    console.log(TableName);
-    console.log(TableArray);
+function SaveTable(TableId,TableArray, tableName){
+    const DataTable = document.getElementById(TableId);
+    const TableArrayRowLength =TableArray[0].length; 
+
+    //go trough all rows and cells
+    for(let CurrentRowPointer = 2; CurrentRowPointer < TableArrayRowLength; CurrentRowPointer ++){
+        const TableArrayCellLength = TableArray[0][CurrentRowPointer].length;
+        for(let CurrentCellPointer = 1;CurrentCellPointer < TableArrayCellLength;CurrentCellPointer++){
+            const CurrentCellId = GetStringBetween(TableArray[0][CurrentRowPointer][CurrentCellPointer][0], '<input id="', '" class="input0">');
+            const CurrentCellObject = document.getElementById(CurrentCellId);
+            //Get data from all cells                        
+
+            if(CurrentCellObject.value == ""){
+                console.log("EMPTY STRING");
+            }
+            else{
+                console.log(CurrentCellObject.value);
+            }
+            
+        }
+    }
+
+
+
+    
+
+
 }
 
 function DataOP(operation,isArray,StorageName, Data){

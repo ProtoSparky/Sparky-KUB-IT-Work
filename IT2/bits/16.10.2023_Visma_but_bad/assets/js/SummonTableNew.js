@@ -38,7 +38,8 @@ function SpawnTable(TableData, TableMetaData ){
 
     //Summon caption for table
     const TableCaption = document.createElement("caption");
-    TableCaption.innerHTML = TableData[0][2];
+    TableCaption.id = "caption_" + TableMetaData[1];
+    TableCaption.innerHTML =  TableData[0][2];
     TableElement.appendChild(TableCaption);
     //Summon Caption for table
 

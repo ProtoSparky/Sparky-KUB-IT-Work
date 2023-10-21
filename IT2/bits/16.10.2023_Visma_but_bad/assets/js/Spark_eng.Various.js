@@ -59,3 +59,21 @@ function Counter(ReturnAfterRuns) {
         return false;
     };
 }
+
+// finds a string between 2 other strings. Aka where's waldo
+//Str_full is the full string
+//str1 is string on left side of string wanted
+//str2 is string on right side of string wanted
+//returns string in middle
+function GetStringBetween(str_full, str1, str2) {
+    const startIndex = str_full.indexOf(str1);
+    if (startIndex === -1) {
+      return '';
+    }  
+    const endIndex = str_full.indexOf(str2, startIndex + str1.length);
+    if (endIndex === -1) {
+      return '';
+    }  
+    return str_full.substring(startIndex + str1.length, endIndex);
+  }
+  
