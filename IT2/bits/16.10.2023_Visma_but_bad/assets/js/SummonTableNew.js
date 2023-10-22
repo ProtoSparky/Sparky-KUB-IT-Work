@@ -56,20 +56,21 @@ function SpawnTable(TableData, TableMetaData ){
             //Summon Header for Table
             for(let CurrentHeaderIndex = 0; CurrentHeaderIndex < TableData[1].length; CurrentHeaderIndex++){
                 const CurrentTableHeader = document.createElement("th");
-                CurrentTableHeader.innerHTML = TableData[1][CurrentHeaderIndex][0];
+                CurrentTableHeader.innerHTML = TableData[CurrentTableRowIndex][CurrentHeaderIndex][0];
                 CurrentTableRow.appendChild(CurrentTableHeader);
             }
             //Summon Header for Table
 
         }
-        else{
+        else if(CurrentTableRowIndexOffset > 0){
             //Summon cells
             for(let CurrentCellIndex = 0; CurrentCellIndex < TableData[1].length; CurrentCellIndex++){
-                const CurrentTableCell = document.createElement("td");
+                const CurrentTableCell = document.createElement("td");                
                 CurrentTableCell.innerHTML = TableData[CurrentTableRowIndex][CurrentCellIndex][0];
-                CurrentTableRow.appendChild(CurrentTableCell);
+                CurrentTableRow.appendChild(CurrentTableCell);                
             }
-             //Summon cells            
+            //Summon cells     
+                   
         }       
 
 

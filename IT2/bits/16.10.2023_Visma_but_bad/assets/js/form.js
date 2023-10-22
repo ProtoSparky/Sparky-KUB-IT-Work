@@ -218,7 +218,6 @@ function SaveTable(TableId,TableArray, tableName){
 
     //generate root array
     const SavedDataArray = [];
-    const EntireSavedArray =[];
 
     SavedDataArray[0] = [
         "0",          //Table id
@@ -243,39 +242,38 @@ function SaveTable(TableId,TableArray, tableName){
         SavedDataArray[CurrentRowPointer] = [];  
         //Generate new data array
 
-        for(let CurrentCellPointer = 1;CurrentCellPointer < TableArrayCellLength;CurrentCellPointer++){
+
+
+        for(let CurrentCellPointer = 1; CurrentCellPointer < TableArrayCellLength;CurrentCellPointer++){
             const CurrentCellId = GetStringBetween(TableArray[0][CurrentRowPointer][CurrentCellPointer][0], '<input id="', '" class="input0">');
             const CurrentCellObject = document.getElementById(CurrentCellId);
-            //Get data from all cells     
+            //Get data from all cells   
+            
+            //Save Hours
+            
+            SavedDataArray[CurrentRowPointer][0] = [schoolHours[CurrentRowPointer - 2],""];
             
             
             //Generate new data array
-            SavedDataArray[CurrentRowPointer][CurrentCellPointer - 1] = ["",CurrentCellObject.value,""];
-            //Generate new data array
-
-            /*
-            if(CurrentCellObject.value == ""){
-                console.log("EMPTY STRING");
+            if (CurrentCellObject.value == "" || CurrentCellObject.value == null){
+                //Saves empty input as string with space
+                SavedDataArray[CurrentRowPointer][CurrentCellPointer] = [" ",""];
+                console.info("SaveTable() | Saving empty input as string with space");
             }
             else{
-                console.log(CurrentCellObject.value);
-
+                //Saves normal input as normal input
+                SavedDataArray[CurrentRowPointer][CurrentCellPointer] = [CurrentCellObject.value,""];
             }
-            */
-
 
             
         }
     }
 
-    console.log(SavedDataArray);
-    const tableDataLength = DataOP(1, true, "TableData").length;
-    EntireSavedArray[tableDataLength]  = SavedDataArray
-    DataOP(0, true, "TableData",EntireSavedArray); 
-
-
-
-    
+    const EntireSavedArrayInStorage = DataOP(1, true,"TableData"); 
+    const EntireSavedArrayInStorageLength = EntireSavedArrayInStorage.length;
+    EntireSavedArrayInStorage[EntireSavedArrayInStorageLength]  = SavedDataArray;    
+    DataOP(0, true, "TableData",EntireSavedArrayInStorage);   
+    setTimeout(location.reload(), 2000);
 
 
 }
@@ -332,4 +330,9 @@ function DataOP(operation,isArray,StorageName, Data){
         localStorage.clear();
         console.info("ALL LocalStorage cleared!");
     }
+}
+
+function clearTableData(){
+    DataOP(3);
+    setTimeout(location.reload(), 2000);
 }
