@@ -24,3 +24,18 @@ table, th, td {
     right:0px;
     
 }
+
+#TableIframe{
+    position:absolute;
+    bottom:-100px;
+    left:0px;
+    border:none;
+    width:50%;
+    height:400px;
+}
+
+#OpenAllTables{
+    position:absolute;
+    right:10px;
+    top:240px;
+}

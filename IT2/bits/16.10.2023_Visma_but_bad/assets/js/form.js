@@ -1,4 +1,3 @@
-var FormCurrentSelectedClass = null; 
 var CreateClass_Toggle = false; 
 var EditClass_Toggle = false;
 var DeleteClass_Toggle = false; 
@@ -19,37 +18,7 @@ function formINIT(){
     }
     
 }
-
-function SelectClass(SelectedClass){
-    const currentTables = document.getElementsByClassName("table");
-    const currentTableAmount = currentTables.length; 
-    if(SelectedClass == "1A"){
-        //Check if other tables are in <tablearea>
-        if(currentTableAmount == 0){
-            SpawnTable((DataOP(1,true, "ButtonTable", )[0]),["TableArea","table01","table",]);
-        }
-        else{
-            currentTables[0].remove();
-            SpawnTable(ButtonTable[0],["TableArea","table01","table",]);
-        }      
-        //Check if other tables are in <tablearea>
-
-        FormCurrentSelectedClass = 0;
-    }
-    else if(SelectedClass == "1B"){
-        //Check if other tables are in <tablearea>
-        if(currentTableAmount == 0){
-            SpawnTable(Table[1],["TableArea","table02","table",]);
-        }
-        else{
-            currentTables[0].remove();
-            SpawnTable(Table[1],["TableArea","table02","table",]);
-        } 
-        //Check if other tables are in <tablearea>
-
-        FormCurrentSelectedClass = 1;
-    }
-} 
+ 
 
 function CreateClass(){
     if (!CreateClass_Toggle){
@@ -290,6 +259,7 @@ function SaveTable(TableId,TableArray, tableName){
     const EntireSavedArrayInStorageLength = EntireSavedArrayInStorage.length;
     EntireSavedArrayInStorage[EntireSavedArrayInStorageLength]  = SavedDataArray;    
     DataOP(0, true, "TableData",EntireSavedArrayInStorage);   
+    UpdateUI(0, 1,"Table Created Successfully", true);
     setTimeout(location.reload(), 2000);
 
 
@@ -320,10 +290,10 @@ function EditTableName(Data1, Data2){
         
         
     }
-    if (AreArraysEqual(CurrentTableArray,NewArray )){
+    if (AreArraysEqual(DataOP(1, true, "TableData"),NewArray)){
         //Send error if it coudnt find array
         UpdateUI(0, 1, "Table rename failed. Coudn't find table named: '" + Data1 + "'", false);
-
+        
     }
     else{
         //Apply changes if there is any change
@@ -356,6 +326,7 @@ function DeleteTable(Data1){
         //Apply changes if there is any change
         DataOP(0, true, "TableData",NewTableArray);  
         UpdateUI(0, 1, "Table Name change succeeded", true);
+        setTimeout(location.reload(), 5000);
 
     }
 
