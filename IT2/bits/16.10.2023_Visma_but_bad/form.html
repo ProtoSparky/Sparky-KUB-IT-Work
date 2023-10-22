@@ -13,19 +13,25 @@
 
         <div class="menu" id="ClassEditor">
             <div class="menu" id="ClassEditorCreate">
-                <button id="ClassEditorCreate_button" onclick="CreateClass()">Create New Class</button>
+                <button id="ClassEditorCreate_button" onclick="CreateClass()">Create New Table</button>
             </div>
             <div class="menu" id="ClassEditorEdit">
-                <button onclick="EditClass()">Edit class</button>
+                <button onclick="EditClass()">Edit Table</button>
             </div>
             <div class="menu" id="ClassEditorDelete">
                 <button onclick="DeleteClass()">Delete class</button>
             </div>
             <div class="menu" id="DeleteAllData">
-                <button onclick="clearTableData()">Delete all table data</button>
+                <button onclick="clearTableData()" onmouseover="UpdateUI(0,0,'DELETE ALL table data. Be careful, THIS CANNOT BE UNDONE')" onmouseleave="UpdateUI(1,0,)">Delete all table data</button>
             </div>
             
             
+        </div>
+        <div class="menu" id="OP_stat">
+            <b>Operation status:</b>
+        </div>
+        <div class="menu" id="tooltip">
+            <b>Tooltip:</b>
         </div>
 
         <div class="menu" id="classSelector">
@@ -42,6 +48,7 @@
         <div id="SettingTable">
 
         </div>
+        
 
         
     </body>

@@ -1,10 +1,26 @@
-.menu{
-    background-color:grey;
-}
+
 table, th, td {
     border: 1px solid;
     border-collapse: collapse;
 }
 .input0{
     width:100px;
+}
+
+#tooltip{
+    background-color:grey;
+    width:200px;
+    height:150px;
+    position:absolute;
+    top:90;
+    right:0px;
+}
+#OP_stat{
+    position:absolute;
+    background-color:#333333;
+    width:200px;
+    height:90px;
+    top:0px;
+    right:0px;
+    
 }

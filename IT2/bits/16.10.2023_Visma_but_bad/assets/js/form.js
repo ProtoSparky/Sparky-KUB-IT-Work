@@ -13,8 +13,10 @@ function formINIT(){
         DataOP(0, true, "TableData", []); 
         console.info("TableData = undefined");
         console.info("Created TableData!");
+
+        UpdateUI(0, 1, "DB not found <br> Created table DB!", true);
+
     }
-       
     
 }
 
@@ -71,10 +73,12 @@ function CreateClass(){
             ReadAndApply(0,ClassEditorCreate_input.value, null);
         });
 
-        ClassEditorCreate_apply.innerHTML = "Apply created element";
+        ClassEditorCreate_apply.innerHTML = "Apply Table name";
         ClassEditorCreate.appendChild(ClassEditorCreate_apply);
         //Apply Button
         CreateClass_Toggle= true;
+
+        UpdateUI(0, 0, "Write the name of your new table and click 'apply table name' <br> A table will pop up, fill it out and click Save Table ", true);
     }
     else{
         //remove input
@@ -84,6 +88,7 @@ function CreateClass(){
         ClassEditorCreate_apply.remove();
         //set toggle back to false
         CreateClass_Toggle = false;
+        UpdateUI(1, 0, "", true);
         
     }
 
@@ -117,7 +122,7 @@ function EditClass(){
         const ClassEditorEdit_apply = document.createElement("button");
         ClassEditorEdit_apply.id = "ClassEditorEdit_apply";
         ClassEditorEdit_apply.class = "input";
-        ClassEditorEdit_apply.innerHTML = "Edit selected element"
+        ClassEditorEdit_apply.innerHTML = "Save changes"
 
         ClassEditorEdit_apply.addEventListener("click", function(){
             //apply onclick() element
@@ -126,6 +131,7 @@ function EditClass(){
         ClassEditorEdit.appendChild(ClassEditorEdit_apply);
         //Apply button
         EditClass_Toggle= true;
+        UpdateUI(0, 0, "Edit the name of the table caption. First input is the current name <br> 2nd input is new name. Click 'save changes' to save your changes ", true);
     }
     else{
         const ClassEditorEdit_OldName = document.getElementById("ClassEditorEdit_OldName");
@@ -135,6 +141,7 @@ function EditClass(){
         ClassEditorEdit_NewName.remove();
         ClassEditorEdit_apply.remove();
         EditClass_Toggle= false;
+        UpdateUI(1, 0, "", true);
     }
 
 }
@@ -159,9 +166,10 @@ function DeleteClass(){
             //add onclick() element
             ReadAndApply(2,ClassEditorDelete_ClassName.value, null);
         })
-        ClassEditorDelete_apply.innerHTML = "Delete class";
+        ClassEditorDelete_apply.innerHTML = "Delete Table";
         ClassEditorDelete.appendChild(ClassEditorDelete_apply);
         //Apply button
+        UpdateUI(0, 0, "Delete specific table. Type the name of said table in, and click Delete Table", true);
 
         DeleteClass_Toggle = true;        
     }
@@ -171,6 +179,8 @@ function DeleteClass(){
         ClassEditorDelete_ClassName.remove();
         ClassEditorDelete_apply.remove();
         DeleteClass_Toggle = false;
+
+        UpdateUI(1, 0, "", true);
     }
 }
 
@@ -197,7 +207,7 @@ function ReadAndApply(op, Data1, Data2){
 
         }
         else{
-            console.error("ReadAndApply() | INPUT INVALID");
+            UpdateUI(0, 1, "Input invalid. Name cannot be empty", false);
         }
         
         
@@ -209,13 +219,16 @@ function ReadAndApply(op, Data1, Data2){
             EditTableName(Data1 , Data2); 
         }
         else{
-            console.error("ReadAndApply() | INPUT INVALID");
+            UpdateUI(0, 1, "Input invalid. New and or old name cannot be empty", false);
         }
        
     }
     else if(op == 2){
         //delete class name
     }
+}
+function DeleteTable(tableName){
+
 }
 
 function SaveTable(TableId,TableArray, tableName){
@@ -311,7 +324,17 @@ function EditTableName(Data1, Data2){
         
         
     }
-    DataOP(0, true, "TableData",NewArray);   
+    if (AreArraysEqual(CurrentTableArray,NewArray )){
+        //Send error if it coudnt find array
+        UpdateUI(0, 1, "Table rename failed. Coudn't find table named: '" + Data1 + "'", false);
+
+    }
+    else{
+        //Apply changes if there is any change
+        DataOP(0, true, "TableData",NewArray);  
+        UpdateUI(0, 1, "Table Name change succeeded", true);
+    }
+     
 
 }
 
@@ -371,5 +394,70 @@ function DataOP(operation,isArray,StorageName, Data){
 
 function clearTableData(){
     DataOP(3);
-    setTimeout(location.reload(), 2000);
+    UpdateUI(0, 1, "All tables deleted. Refreshing in 2s", true);
+    setTimeout(location.reload(), 2500);
 }
+
+
+function UpdateUI(Op, tooltipORStat, text, succeded){
+    //Op 0 = Add new tooltip or status
+    //Op 1 = Remove status or tooltip
+    //tooltipORStat 0 = Use tooltip
+    //tooltipORStat 1 = Use stat
+    //text string for tooltip or status
+    //succeded true = if tooltip, changes css to green
+    //succeded false = if tooltip, changes css to red
+
+    const tooltipObject = document.getElementById("tooltip");
+    const OperationStat = document.getElementById("OP_stat");
+    const DefaultText = ["<b>Tooltip:</b> ", "<b>Operation status: </b>"];
+
+    if(Op == 0){
+        //Create tooltip or status
+
+        if(tooltipORStat == 0){
+            //Create new tooltip
+            tooltipObject.innerHTML = DefaultText[0] + "<br><i>" + text + "</i>";
+
+        }
+        else if(tooltipORStat == 1){
+            //Create status
+            if(succeded){
+                OperationStat.style.backgroundColor = "green";
+                OperationStat.innerHTML = DefaultText[1] + "<br><i>" + text + "</i>";
+            }
+            else{
+                OperationStat.innerHTML = DefaultText[1] + "<br><i>" + text + "</i>";
+                OperationStat.style.backgroundColor = "#cc0000";
+            }
+
+        }
+    }
+    else if(Op == 1){
+        //Delete tooltip or status      
+
+        if(tooltipORStat == 0){
+            //Delete tooltip
+            tooltipObject.innerHTML = DefaultText[0];
+        }
+        else if(tooltipORStat == 1){
+            //Delete status
+            OperationStat.innerHTML = DefaultText[1];
+            OperationStat.style.backgroundColor = "#333333";
+        }
+    }    
+}  
+
+
+function AreArraysEqual(arr1, arr2) {
+    //Checks if arr 1 and arr2 are equal
+    if (JSON.stringify(arr1) === JSON.stringify(arr2)) {
+        return true;
+    } 
+    else {
+        return false;
+    }
+}
+
+
+
