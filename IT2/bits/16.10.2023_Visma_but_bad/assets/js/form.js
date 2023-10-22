@@ -2,6 +2,7 @@ var FormCurrentSelectedClass = null;
 var CreateClass_Toggle = false; 
 var EditClass_Toggle = false;
 var DeleteClass_Toggle = false; 
+const schoolHours = ["08:00 - 10:00", "10:00 - 12:00", "Lunch", "13:30 - 14-30", "14:30 - 16:00"]; 
 
 
 function formINIT(){
@@ -13,7 +14,7 @@ function formINIT(){
         console.info("TableData = undefined");
         console.info("Created TableData!");
     }
-    
+       
     
 }
 
@@ -179,7 +180,7 @@ function ReadAndApply(op, Data1, Data2){
     //2 Op to delete
 
     if(op == 0 ){
-        if(Data1 == null || Data1 != ""){            
+        if(Data1 != ""){            
             //Create class
             SpawnTable(ButtonTable[0],["SettingTable","table00","table",]);
             const DataTable = document.getElementById("table00");
@@ -204,6 +205,13 @@ function ReadAndApply(op, Data1, Data2){
     }
     else if(op == 1){
         //Edit class name
+        if(Data1 != "" && Data2 != ""){
+            EditTableName(Data1 , Data2); 
+        }
+        else{
+            console.error("ReadAndApply() | INPUT INVALID");
+        }
+       
     }
     else if(op == 2){
         //delete class name
@@ -229,7 +237,7 @@ function SaveTable(TableId,TableArray, tableName){
         ["   "/*Data*/,"" /*Custom css*/],
         ["Monday"/*Data*/,"" /*Custom css*/],   
         ["Tuesday"/*Data*/,"" /*Custom css*/], 
-        ["Wednsday"/*Data*/,"" /*Custom css*/], 
+        ["Wednesday"/*Data*/,"" /*Custom css*/], 
         ["Thursday"/*Data*/,"" /*Custom css*/], 
         ["Friday"/*Data*/,"" /*Custom css*/],  
     ]; 
@@ -275,6 +283,35 @@ function SaveTable(TableId,TableArray, tableName){
     DataOP(0, true, "TableData",EntireSavedArrayInStorage);   
     setTimeout(location.reload(), 2000);
 
+
+}
+function EditTableName(Data1, Data2){
+    //Edits table name
+    const CurrentTableArray  = DataOP(1, true, "TableData");
+    const AmountOfCurrentTables = CurrentTableArray.length;
+    const NewArray = [];
+    for(let CurrentTableIndex = 0; CurrentTableIndex <AmountOfCurrentTables; CurrentTableIndex++){
+        const CurrentTable = CurrentTableArray[CurrentTableIndex];
+        const CurrentTableName = CurrentTable[0][2];
+
+        
+        //Generate new table array because we have to write entire array at once
+
+        if (Data1 == CurrentTableName){
+            //Edit table name
+            const CurrentRootTable = CurrentTableArray[CurrentTableIndex][0][2];
+            NewArray[CurrentTableIndex] = CurrentTableArray[CurrentTableIndex];
+            NewArray[CurrentTableIndex][0][2] = Data2;            
+
+        }
+        else{
+            NewArray[CurrentTableIndex] = CurrentTableArray[CurrentTableIndex];
+            //Write other tables to array if it doenst match
+        }
+        
+        
+    }
+    DataOP(0, true, "TableData",NewArray);   
 
 }
 
