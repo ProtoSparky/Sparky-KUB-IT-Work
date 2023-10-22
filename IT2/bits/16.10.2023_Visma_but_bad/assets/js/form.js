@@ -170,7 +170,6 @@ function DeleteClass(){
         ClassEditorDelete.appendChild(ClassEditorDelete_apply);
         //Apply button
         UpdateUI(0, 0, "Delete specific table. Type the name of said table in, and click Delete Table", true);
-
         DeleteClass_Toggle = true;        
     }
     else{
@@ -179,7 +178,6 @@ function DeleteClass(){
         ClassEditorDelete_ClassName.remove();
         ClassEditorDelete_apply.remove();
         DeleteClass_Toggle = false;
-
         UpdateUI(1, 0, "", true);
     }
 }
@@ -225,10 +223,8 @@ function ReadAndApply(op, Data1, Data2){
     }
     else if(op == 2){
         //delete class name
+        DeleteTable(Data1);
     }
-}
-function DeleteTable(tableName){
-
 }
 
 function SaveTable(TableId,TableArray, tableName){
@@ -333,8 +329,35 @@ function EditTableName(Data1, Data2){
         //Apply changes if there is any change
         DataOP(0, true, "TableData",NewArray);  
         UpdateUI(0, 1, "Table Name change succeeded", true);
+        setTimeout(location.reload(), 2000);
     }
      
+
+}
+
+function DeleteTable(Data1){
+    const CurrentTableArray  = DataOP(1, true, "TableData");
+    const NewTableArray = DataOP(1, true, "TableData");
+    const AmountOfCurrentTables = CurrentTableArray.length;
+    const NewArray = [];
+    for(let CurrentTableIndex = 0; CurrentTableIndex <AmountOfCurrentTables; CurrentTableIndex++){
+        const CurrentTable = CurrentTableArray[CurrentTableIndex];
+        const CurrentTableName = CurrentTable[0][2];
+        if (CurrentTableName == Data1){
+            //Delete array key for table selected
+            NewTableArray.splice(CurrentTableIndex, 1);
+            
+        }
+    }
+    if(AreArraysEqual(CurrentTableArray, NewTableArray)){
+        UpdateUI(0, 1, "Table name to be deleted could not be found", false);
+    }
+    else{
+        //Apply changes if there is any change
+        DataOP(0, true, "TableData",NewTableArray);  
+        UpdateUI(0, 1, "Table Name change succeeded", true);
+
+    }
 
 }
 
