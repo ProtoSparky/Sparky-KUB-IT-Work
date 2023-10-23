@@ -9,8 +9,71 @@
         <div id="webpage">
             <div class="nav" id="topbar">
                 <div class="nav" id="search">
-            
+                    <input class="nav" id="SearchBox">
+                    <button onclick="searchItems()" class="nav" id="SearchButton">Searh items</button>
                 </div>
+                <div class="nav" id="Sort">
+                    <select name="Sort" class="nav" id="SortSelect">
+                        <option value="Pr_LTH">Price low to high</option>
+                        <option value="Pr_HTL">Price high to low</option>
+                        <option value="DiaLTH">Diameter small to large</option>
+                        <option value="DiaHTL">Diameter large to small</option>
+                        <option value="TT_sum">Tire type: Summer</option>
+                        <option value="TT_win">Tire type: Winter (w/o spikes)</option>
+                        <option value="TT_win_sp">Tire type: Winter (w spikes)</option>
+                        <option value="TT_whole">Tire type: Universal</option>
+                        <option value="TT_all">All tires</option>
+                    </select>
+                    <button onclick="ApplySort()" class="nav" id="ApplySort">Apply sort</button>
+                </div>
+
+            </div>
+            <div class="content" id="content_1">
+                <table>
+                
+                    <tr>
+                        <th>Image</th>
+                        <th>Model</th>
+                        <th>Producer</th>
+                        <th>Diameter</th>
+                        <th>Width</th>
+                        <th>Type</th>
+                        <th>View product</th>
+                        <th>Add to cart</th>
+                    </tr>
+                    <tr>
+                        <td><img src="./assets/img/tire/GenericTire.png" class="TableTire"></td>
+                        <td>Nokian Snowproof 1</td>
+                        <td>Nokian Tyres</td>
+                        <td>16"</td>
+                        <td>205</td>
+                        <td>Winter (w/o spikes)</td>
+                        <th>
+                            <button onclick="ViewProduct('228')">View product</button>
+                        </th>
+                        <th>                           
+                            <img src="./assets/img/cart-outline.svg" class="AddToCart" onclick="AddCart('228')">
+                        </th>
+                    </tr>
+
+                    <!--Rim-->
+                    <tr>
+                        <td><img src="./assets/img/tire/GenericRim.png" class="TableTire"></td>
+                        <td>CMS C28</td>
+                        <td>CMS</td>
+                        <td>17"</td>
+                        <td>178</td>
+                        <td>Steel rim</td>
+                        <th>
+                            <button onclick="ViewProduct('229')">View product</button>
+                        </th>
+                        <th>                           
+                            <img src="./assets/img/cart-outline.svg" class="AddToCart" onclick="AddCart('229')">
+                        </th>
+                    </tr>
+
+
+                </table>
             </div>
 
         </div>
