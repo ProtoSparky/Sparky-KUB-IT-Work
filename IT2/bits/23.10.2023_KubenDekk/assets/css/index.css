@@ -20,6 +20,12 @@
 button{
     background-color:#9882ac;
     border:none;
+    
+}
+button:hover{
+    background-color:#453750;
+    color:white;
+    cursor:pointer;
 }
 
 /*Searh*/
@@ -58,7 +64,7 @@ button{
     position:absolute;
     top:80px;
     left:0px;
-    width:100%;
+    width:80%;
 }
 table, th, td {
     border: 1px solid;
@@ -93,6 +99,10 @@ table, th, td {
     bottom:15px;
     left:25px;
 }
+#CheckoutCart:hover{
+    cursor:pointer;
+}
+
 #CheckoutItems{
     color:white;
     top:25px;
@@ -107,4 +117,32 @@ table, th, td {
     right:0px;
     width:400px;
     height:500px;
+    
+    /*
+    animation-name:swoosh_down;
+    animation-duration:0.2s;
+    */
+}
+#CheckoutTable{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:400px;
+}
+
+
+
+/*Animations */
+@keyframes swoosh_down{
+    from {
+        height:0%;
+        width:0%; 
+        opacity:0;
+        right:100px;
+    }
+    to{
+        height:500px;
+        opacity:1;
+    }
 }

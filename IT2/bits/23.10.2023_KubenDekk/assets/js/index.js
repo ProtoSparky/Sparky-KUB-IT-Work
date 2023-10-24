@@ -12,6 +12,7 @@ var Headertable = [
     'Diameter',
     'Width',
     'Type', 
+    'Price',
     'View Product',
     'Add to cart',
 ]
@@ -24,7 +25,8 @@ var Datatable = [
         'Nokian Tyres',
         '16', 
         '205', 
-        '2' //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+        '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+        '1400', //price
     
     ],
     [
@@ -34,7 +36,8 @@ var Datatable = [
         'CMS',
         '17', 
         '178', 
-        '0' //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+        '0', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+        '900', //price
 
 
     ],
@@ -46,6 +49,7 @@ var Datatable = [
         "17",
         "215",
         "3",
+        '2500', //price
     ]
 
 ];
@@ -93,9 +97,16 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
             else if(CurrentTableDataPointer == 6){
                 CurrentTableData.innerHTML = Tiretype[ DataArray[TableRowArrayPointer][CurrentTableDataPointer]];
                 CurrentTableRow.appendChild(CurrentTableData);
+
                 
             }
             else if(CurrentTableDataPointer == 7){
+                //Add price
+                CurrentTableData.innerHTML = DataArray[TableRowArrayPointer][CurrentTableDataPointer] + "kr";
+                CurrentTableRow.appendChild(CurrentTableData);
+
+            } 
+            else if(CurrentTableDataPointer == 8){
                 const TableProduct = document.createElement("button");
                 TableProduct.addEventListener("click", function(){
                     ViewProduct(DataArray[TableRowArrayPointer][0]);
@@ -104,7 +115,7 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
                 CurrentTableData.appendChild(TableProduct);
                 CurrentTableRow.appendChild(CurrentTableData);
             }
-            else if(CurrentTableDataPointer == 8){
+            else if(CurrentTableDataPointer == 9){
                 //This is getting cursed, if not outright illegal
                 const TableCart = document.createElement("img");
                 TableCart.src = "./assets/img/cart-outline.svg";
@@ -182,11 +193,66 @@ function DisplayCheckout(){
             const CartEmptyMessage = document.createElement("div");
             CartEmptyMessage.innerHTML = "Cart empty <br> Nothing to see here :)";
             CartEmptyMessage.className = "nav";
-            CartEmptyMessage.id = "Cart Empty message";
+            CartEmptyMessage.id = "CartEmptymessage";
             CheckOutWindow.appendChild(CartEmptyMessage);
         }
         else{
 
+            //Summon table
+            const NewtableArea = document.createElement("div");
+            NewtableArea.id = "CheckoutTable";
+            NewtableArea.className = "nav";
+            CheckOutWindow.appendChild(NewtableArea);
+
+            const Newtable = document.createElement("table");
+            Newtable.id = "CheckOutList";
+            Newtable.class = "nav";
+            NewtableArea.appendChild(Newtable);
+
+            CartItems.forEach(function(ArrayPointer){
+                // generate table
+                const NewtableDataRow = document.createElement('tr');
+                Newtable.appendChild(NewtableDataRow);
+                
+                const DataTableLength = Datatable.length;
+                for (let DataTablePointer = 0; DataTablePointer < DataTableLength; DataTablePointer ++){
+                    const CurrentData = Datatable[DataTablePointer];
+                    const CurrentProductId = CurrentData[0];
+                    if (CartItems[ArrayPointer] == CurrentProductId ){
+                       
+                        const NewtablecellModel = document.createElement('td');
+                        const NewtablecellPrice = document.createElement('td');
+                        const NewtablecellRemFromCart = document.createElement('td');
+                        const NewtablecellRemFromCartBTN = document.createElement("button");
+                        NewtablecellModel.innerHTML  = CurrentData[2];
+                        NewtablecellPrice.innerHTML = CurrentData[7] + "kr";
+
+                        NewtablecellRemFromCartBTN.addEventListener("click", function(){
+                            RemoveFromShoppingCart(CurrentProductId);   
+                        });
+                        NewtablecellRemFromCartBTN.innerHTML = "Remove from cart";
+                        
+                        NewtableDataRow.appendChild(NewtablecellModel);
+                        NewtableDataRow.appendChild(NewtablecellPrice);
+                        NewtableDataRow.appendChild(NewtablecellRemFromCart);
+                        NewtableDataRow.appendChild(NewtablecellRemFromCartBTN);
+                        //i was going to do this in a for loop, but i tried for 30s, and it didnt word
+                        //so im doing it manually. yay
+                        // as im writing this current line, i found the issue. Guess what im not fixing it. Why?
+                        //because im lazy
+
+
+                    
+
+                    }
+                }
+                
+
+                
+
+
+
+            })
         }
 
     }
@@ -196,6 +262,8 @@ function DisplayCheckout(){
         const CheckOutWindow = document.getElementById("CheckoutWindow");
         CheckOutWindow.remove();
     }
+
+    
     
 
     
@@ -213,5 +281,9 @@ function UpdateCartNumber(){
         CurrentItemInCartObject.innerHTML = "";
         CurrentCartImageObject.src = "./assets/img/cart-outline.svg";
     }
+}
+function RemoveFromShoppingCart(ProductId){
+    console.log(ProductId); 
+    console.log("AAAAAAAAAAA");
 }
 
