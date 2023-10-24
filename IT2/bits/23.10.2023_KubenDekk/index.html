@@ -25,55 +25,15 @@
                         <option value="TT_all">All tires</option>
                     </select>
                     <button onclick="ApplySort()" class="nav" id="ApplySort">Apply sort</button>
+                    <img src="./assets/img/cart-outline.svg" class="nav" id="CheckoutCart">
+                    
                 </div>
 
             </div>
             <div class="content" id="content_1">
-                <table>
-                
-                    <tr>
-                        <th>Image</th>
-                        <th>Model</th>
-                        <th>Producer</th>
-                        <th>Diameter</th>
-                        <th>Width</th>
-                        <th>Type</th>
-                        <th>View product</th>
-                        <th>Add to cart</th>
-                    </tr>
-                    <tr>
-                        <td><img src="./assets/img/tire/GenericTire.png" class="TableTire"></td>
-                        <td>Nokian Snowproof 1</td>
-                        <td>Nokian Tyres</td>
-                        <td>16"</td>
-                        <td>205</td>
-                        <td>Winter (w/o spikes)</td>
-                        <th>
-                            <button onclick="ViewProduct('228')">View product</button>
-                        </th>
-                        <th>                           
-                            <img src="./assets/img/cart-outline.svg" class="AddToCart" onclick="AddCart('228')">
-                        </th>
-                    </tr>
+                <div id="TableArea">
 
-                    <!--Rim-->
-                    <tr>
-                        <td><img src="./assets/img/tire/GenericRim.png" class="TableTire"></td>
-                        <td>CMS C28</td>
-                        <td>CMS</td>
-                        <td>17"</td>
-                        <td>178</td>
-                        <td>Steel rim</td>
-                        <th>
-                            <button onclick="ViewProduct('229')">View product</button>
-                        </th>
-                        <th>                           
-                            <img src="./assets/img/cart-outline.svg" class="AddToCart" onclick="AddCart('229')">
-                        </th>
-                    </tr>
-
-
-                </table>
+                </div>
             </div>
 
         </div>
