@@ -21,7 +21,7 @@ var Datatable = [
     [
         '0', //Tire id 
         'GenericTire.png', //Image
-        'Nokian Snowproof 1',
+        'Snowproof 1',
         'Nokian Tyres',
         '16', 
         '205', 
@@ -32,7 +32,7 @@ var Datatable = [
     [
         '1', //Tire id 
         'GenericRim.png', //Image
-        'CMS C28',
+        'C28',
         'CMS',
         '17', 
         '178', 
@@ -44,13 +44,44 @@ var Datatable = [
     [
         "2",
         "GoodrideIceMasterSpikeZ-506.png",
-        "Goodride IceMaster Spike Z-506",
+        "IceMaster Spike Z-506",
         "Goodride",
         "17",
         "215",
         "3",
         '2500', //price
-    ]
+    ],
+    [
+        '3', //Tire id 
+        'GenericTire.png', //Image
+        'Setula W Race S130',
+        'Rotalla',
+        '16', 
+        '205', 
+        '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+        '1030', //price
+
+    ],
+    [
+        '4', //Tire id 
+        'GenericTire.png', //Image
+        'UltraGrip Performance 3',
+        'Goodyear',
+        '16', 
+        '205', 
+        '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+        '1419', //price
+    ],
+    [
+        '5', //Tire id 
+        'GenericTire.png', //Image
+        'SINCERA SN110',
+        'Falken',
+        '16', 
+        '205', 
+        '1', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+        '1148', //price
+    ],
 
 ];
 var Tiretype = ["Rim", "Summer tire", "Winter (w/o spikes)" , "Winter (w spikes)", "Universal" ];
@@ -245,14 +276,14 @@ function DisplayCheckout(){
                     
 
                     }
-                }
-                
+                }  
 
                 
-
+                console.log(CartItems[ArrayPointer]);
 
 
             })
+            
         }
 
     }
