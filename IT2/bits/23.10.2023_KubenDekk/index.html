@@ -9,7 +9,7 @@
         <div id="webpage">
             <div class="nav" id="topbar">
                 <div class="nav" id="search">
-                    <input class="nav" id="SearchBox">
+                    <input class="nav" id="SearchBox" placeholder = "Search:">
                     <button onclick="searchItems()" class="nav" id="SearchButton">Searh items</button>
                 </div>
                 <div class="nav" id="Sort">
@@ -27,11 +27,13 @@
                     <button onclick="ApplySort()" class="nav" id="ApplySort">Apply sort</button>                
                 </div>
                 <div class="nav" id="Checkout">
-                    <img src="./assets/img/cart-outline.svg" class="nav" id="CheckoutCart">
+                    <img src="./assets/img/cart-outline.svg" class="nav" id="CheckoutCart" onclick="DisplayCheckout()">
+                    <div class="nav" id="CheckoutItems"></div>
                 </div>
 
             </div>
             <div class="content" id="content_1">
+                
                 <div id="TableArea">
 
                 </div>
