@@ -5,5 +5,9 @@
 }
 .input{
     font-family:monospace;
-    
+    border-radius:1px;
+
+}
+body{
+    background-color:grey;
 }

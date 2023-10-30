@@ -121,6 +121,7 @@ function GetProductData(){
         var lastMVA = 0;
         var lastFortjenste = 0;
         var lastTotal = 0;
+        var lastamount = 0;
 
         for(let ReceiptPointer = 0; ReceiptPointer < Receipt.length; ReceiptPointer  ++){
             const TotalMVA = Receipt[ReceiptPointer][3];
@@ -132,6 +133,10 @@ function GetProductData(){
             lastMVA = currentMVA;
             lastFortjenste = currentFortjenste;
             lastTotal = currentTotal; 
+
+            const TotalAmount = Receipt[ReceiptPointer][1];
+            const currentTotalAmount = lastamount + TotalAmount;
+            lastamount = currentTotalAmount; 
 
 
         }
@@ -173,6 +178,9 @@ function GetProductData(){
             lastFortjenste = currentFortjenste;
             lastTotal = currentTotal; 
 
+            const TotalAmount = Receipt[ReceiptPointer][1];
+            const currentTotalAmount = lastamount + TotalAmount;
+            lastamount = currentTotalAmount; 
 
         }
 
