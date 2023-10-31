@@ -117,6 +117,7 @@ table, th, td {
     right:0px;
     width:400px;
     height:500px;
+    z-index:10;
     
     /*
     animation-name:swoosh_down;

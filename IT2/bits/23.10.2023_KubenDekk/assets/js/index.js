@@ -151,7 +151,8 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
                 const TableCart = document.createElement("img");
                 TableCart.src = "./assets/img/cart-outline.svg";
                 TableCart.className = "AddToCart";
-                const ProdID = DataArray[TableRowArrayPointer][0];                 
+                const ProdID = DataArray[TableRowArrayPointer][0];  
+                TableCart.id = "prod_" + ProdID;                
                 TableCart.addEventListener("click", function(){
                     AddCart(ProdID);
                 });
@@ -194,9 +195,14 @@ function AddCart(ProductId){
             DisplayCheckout();
             DisplayCheckout();
             //Reopen checkout screen if it was open (refresh content)
+
         }
+        //Change cart image for product in table 
+        const CurrentCart = document.getElementById("prod_" + ProductId);
+        CurrentCart.src = "./assets/img/cart.svg";
         
     } else {
+        
         //Checks if product id is in array, then removes it
         CartItems.splice(index, 1);
         UpdateCartNumber();
@@ -205,8 +211,12 @@ function AddCart(ProductId){
             DisplayCheckout();
             //Reopen checkout screen if it was open (refresh content)
         }
+
+        //Change cart image for product in table 
+        const CurrentCart = document.getElementById("prod_" + ProductId);
+        CurrentCart.src =  "./assets/img/cart-outline.svg";
     }
-    console.log(CartItems);
+    //console.log(CartItems);
 }
 function DisplayCheckout(){
     const CheckOutWindowParent = document.getElementById("Checkout");
@@ -240,6 +250,49 @@ function DisplayCheckout(){
             Newtable.class = "nav";
             NewtableArea.appendChild(Newtable);
 
+            //console.log(CartItems);
+            const DataTableLength = Datatable.length;
+            for(let ProductPointer = 0; ProductPointer < DataTableLength; ProductPointer ++){
+                const NewtableDataRow = document.createElement('tr');
+                Newtable.appendChild(NewtableDataRow);
+                const CurrentData = Datatable[ProductPointer];
+                const CurrentProductId = CurrentData[0];
+                const CurrentCartIndex = CartItems.indexOf(ProductPointer.toString());
+                //const CurrentCartIndex = CartItems.indexOf("5")
+                //console.log(CurrentCartIndex);
+
+                
+
+                if(CurrentCartIndex != -1){
+                    const CurrentProduct = Datatable[CurrentCartIndex];
+                    console.log(CurrentProduct);
+
+                    const NewtablecellModel = document.createElement('td');
+                    const NewtablecellPrice = document.createElement('td');
+                    const NewtablecellRemFromCart = document.createElement('td');
+                    const NewtablecellRemFromCartBTN = document.createElement("button");
+                    NewtablecellModel.innerHTML  = CurrentProduct[2];
+                    NewtablecellPrice.innerHTML = CurrentProduct[7] + "kr";
+
+                    NewtablecellRemFromCartBTN.addEventListener("click", function(){
+                        RemoveFromShoppingCart(CurrentProductId);   
+                    });
+                    NewtablecellRemFromCartBTN.innerHTML = "Remove from cart";
+                    
+                    NewtableDataRow.appendChild(NewtablecellModel);
+                    NewtableDataRow.appendChild(NewtablecellPrice);
+                    NewtableDataRow.appendChild(NewtablecellRemFromCart);
+                    NewtableDataRow.appendChild(NewtablecellRemFromCartBTN);
+                }
+                
+
+            }
+            
+
+            
+            /*
+
+
             CartItems.forEach(function(ArrayPointer){
                 // generate table
                 const NewtableDataRow = document.createElement('tr');
@@ -249,7 +302,12 @@ function DisplayCheckout(){
                 for (let DataTablePointer = 0; DataTablePointer < DataTableLength; DataTablePointer ++){
                     const CurrentData = Datatable[DataTablePointer];
                     const CurrentProductId = CurrentData[0];
-                    if (CartItems[ArrayPointer] == CurrentProductId ){
+
+                    for(let CartProductPointer = 0; CartProductPointer <DataTableLength; CartProductPointer ++){
+                        
+                    }
+
+                    if (CartItems[ArrayPointer] == CurrentProductId){
                        
                         const NewtablecellModel = document.createElement('td');
                         const NewtablecellPrice = document.createElement('td');
@@ -270,19 +328,17 @@ function DisplayCheckout(){
                         //i was going to do this in a for loop, but i tried for 30s, and it didnt word
                         //so im doing it manually. yay
                         // as im writing this current line, i found the issue. Guess what im not fixing it. Why?
-                        //because im lazy
-
-
-                    
+                        //because im lazy                  
 
                     }
                 }  
 
                 
-                console.log(CartItems[ArrayPointer]);
+                
 
 
             })
+            */
             
         }
 
@@ -314,7 +370,7 @@ function UpdateCartNumber(){
     }
 }
 function RemoveFromShoppingCart(ProductId){
-    console.log(ProductId); 
+    //console.log(ProductId); 
     console.log("AAAAAAAAAAA");
 }
 
