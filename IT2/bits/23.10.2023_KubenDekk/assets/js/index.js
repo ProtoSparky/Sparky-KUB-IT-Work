@@ -602,7 +602,7 @@ function SaveProduct(){
                 DescriptionValue,
                 InstallationPriceValue,
             ]
-            TireAbout[Datatable.length] = GeneratedArray; 
+            TireAbout[TireAbout.length] = GeneratedArray; 
         }
 
         const OldTable = document.getElementById("Table01");
