@@ -1,0 +1,1 @@
+* When sorting products, selected cart icons revert to default unselected state. Item remains in cart, but user is unable to see it on the table. (is visible in checkout)

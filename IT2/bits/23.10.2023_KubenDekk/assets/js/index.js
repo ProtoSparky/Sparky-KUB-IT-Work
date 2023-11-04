@@ -315,7 +315,7 @@ function DisplayCheckout(){
             Newtable.class = "nav";
             NewtableArea.appendChild(Newtable);
 
-
+            let total_price = 0;
             for(let CurrentItem = 0; CurrentItem < Datatable.length; CurrentItem ++){
                 const CurrentCartStatus = Datatable[CurrentItem][8];
                 const CurrentData =  Datatable[CurrentItem];
@@ -338,8 +338,17 @@ function DisplayCheckout(){
                     NewtableDataRow.appendChild(NewtablecellPrice);
                     NewtableDataRow.appendChild(NewtablecellRemFromCart);
                     NewtableDataRow.appendChild(NewtablecellRemFromCartBTN);
+                    const currentPrice = total_price + parseInt(CurrentData[7]);
+                    total_price = currentPrice;
                 } 
-            }           
+            }    
+            //display total
+            const Total = document.createElement("div");
+            Total.id ="TotalCheckoutPrice";
+            Total.innerHTML = "<i>Total: " + total_price + "kr</i>";
+            NewtableArea.appendChild(Total);
+
+
                         
         }
 
