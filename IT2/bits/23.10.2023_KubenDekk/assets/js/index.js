@@ -1,4 +1,3 @@
-var CartItems = [];
 var CheckountStatusClosed = true; 
 function init(){
     console.log("Inut run");
@@ -27,6 +26,7 @@ var Datatable = [
         '205', 
         '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
         '1400', //price
+        '0', //is in cart
     
     ],
     [
@@ -38,6 +38,7 @@ var Datatable = [
         '178', 
         '0', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
         '900', //price
+        '0', //is in cart
 
 
     ],
@@ -50,6 +51,7 @@ var Datatable = [
         "215",
         "3",
         '2500', //price
+        '0', //is in cart
     ],
     [
         '3', //Tire id 
@@ -60,6 +62,7 @@ var Datatable = [
         '205', 
         '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
         '1030', //price
+        '0', //is in cart
 
     ],
     [
@@ -71,6 +74,7 @@ var Datatable = [
         '205', 
         '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
         '1419', //price
+        '0', //is in cart
     ],
     [
         '5', //Tire id 
@@ -81,6 +85,7 @@ var Datatable = [
         '205', 
         '1', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
         '1148', //price
+        '0', //is in cart
     ],
 
 ];
@@ -122,14 +127,11 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
                 TableImage.src = "./assets/img/tire/" + DataArray[TableRowArrayPointer][CurrentTableDataPointer];
                 TableImage.className = "TableTire"; 
                 CurrentTableData.appendChild(TableImage);
-
                 CurrentTableRow.appendChild(CurrentTableData);
             }
             else if(CurrentTableDataPointer == 6){
                 CurrentTableData.innerHTML = Tiretype[ DataArray[TableRowArrayPointer][CurrentTableDataPointer]];
-                CurrentTableRow.appendChild(CurrentTableData);
-
-                
+                CurrentTableRow.appendChild(CurrentTableData);                
             }
             else if(CurrentTableDataPointer == 7){
                 //Add price
@@ -165,7 +167,7 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
                 CurrentTableData.innerHTML = DataArray[TableRowArrayPointer][CurrentTableDataPointer] + '"';
                 CurrentTableRow.appendChild(CurrentTableData);
             }
-            else{
+            else if(CurrentTableDataPointer != 10){
                 CurrentTableData.innerHTML = DataArray[TableRowArrayPointer][CurrentTableDataPointer];
                 CurrentTableRow.appendChild(CurrentTableData);
             }     
@@ -186,6 +188,38 @@ function ViewProduct(ProductId){
 }
 
 function AddCart(ProductId){
+    let CurrentProduct = Datatable[ProductId];
+    let ProductStatus = Datatable[ProductId][8];
+
+    if(Datatable[ProductId][8] != "0"){
+        //Change cart image for product in table 
+        const CurrentCart = document.getElementById("prod_" + ProductId);
+        CurrentCart.src =  "./assets/img/cart-outline.svg"; //empty
+        Datatable[ProductId][8] = "0";
+        UpdateCartNumber();
+        if(!CheckountStatusClosed){
+            DisplayCheckout();
+            DisplayCheckout();
+            //Reopen checkout screen if it was open (refresh content)
+        }
+    }
+    else{
+        Datatable[ProductId][8] = "1";
+        //Change cart image for product in table 
+        const CurrentCart = document.getElementById("prod_" + ProductId);
+        CurrentCart.src = "./assets/img/cart.svg"; //full 
+        UpdateCartNumber();
+        if(!CheckountStatusClosed){
+            DisplayCheckout();
+            DisplayCheckout();
+            //Reopen checkout screen if it was open (refresh content)
+        }
+    }
+
+    /*
+
+
+
     const index = CartItems.indexOf(ProductId);
     if (index === -1) {
         // checks if product id is not in array, then adds it
@@ -195,7 +229,6 @@ function AddCart(ProductId){
             DisplayCheckout();
             DisplayCheckout();
             //Reopen checkout screen if it was open (refresh content)
-
         }
         //Change cart image for product in table 
         const CurrentCart = document.getElementById("prod_" + ProductId);
@@ -217,9 +250,19 @@ function AddCart(ProductId){
         CurrentCart.src =  "./assets/img/cart-outline.svg";
     }
     //console.log(CartItems);
+    */
 }
 function DisplayCheckout(){
     const CheckOutWindowParent = document.getElementById("Checkout");
+    let CartItemLength = 0
+    for(let CartStatus = 0; CartStatus < Datatable.length; CartStatus ++){
+        const CurrentCartStatus = Datatable[CartStatus][8];
+        if(CurrentCartStatus == "1"){
+            CartItemLength ++
+        } 
+    }
+    
+
     if(CheckountStatusClosed){
         //Open checkout
         CheckountStatusClosed = false;
@@ -229,7 +272,7 @@ function DisplayCheckout(){
         CheckOutWindowParent.appendChild(CheckOutWindow);
 
         //check if cart is full or empty
-        const CartItemLength = CartItems.length;
+        //const CartItemLength = CartItems.length;
         if(CartItemLength == 0){
             const CartEmptyMessage = document.createElement("div");
             CartEmptyMessage.innerHTML = "Cart empty <br> Nothing to see here :)";
@@ -244,13 +287,36 @@ function DisplayCheckout(){
             NewtableArea.id = "CheckoutTable";
             NewtableArea.className = "nav";
             CheckOutWindow.appendChild(NewtableArea);
-
             const Newtable = document.createElement("table");
             Newtable.id = "CheckOutList";
             Newtable.class = "nav";
             NewtableArea.appendChild(Newtable);
 
-            //console.log(CartItems);
+
+            for(let CurrentItem = 0; CurrentItem < Datatable.length; CurrentItem ++){
+                const CurrentCartStatus = Datatable[CurrentItem][8];
+                const CurrentData =  Datatable[CurrentItem];
+                if(CurrentCartStatus == "1"){
+                    const CurrentProductId = CurrentData[0];
+                    const NewtableDataRow = document.createElement('tr');
+                    Newtable.appendChild(NewtableDataRow);
+                    const NewtablecellModel = document.createElement('td');
+                    const NewtablecellPrice = document.createElement('td');
+                    const NewtablecellRemFromCart = document.createElement('td');
+                    const NewtablecellRemFromCartBTN = document.createElement("button");
+                    NewtablecellModel.innerHTML  = CurrentData[2];
+                    NewtablecellPrice.innerHTML = CurrentData[7] + "kr";
+                    NewtablecellRemFromCartBTN.addEventListener("click", function(){
+                        AddCart(CurrentProductId);   
+                    });
+                    NewtablecellRemFromCartBTN.innerHTML = "Remove from cart";                    
+                    NewtableDataRow.appendChild(NewtablecellModel);
+                    NewtableDataRow.appendChild(NewtablecellPrice);
+                    NewtableDataRow.appendChild(NewtablecellRemFromCart);
+                    NewtableDataRow.appendChild(NewtablecellRemFromCartBTN);
+                } 
+            }
+            /*
             const DataTableLength = Datatable.length;
             for(let ProductPointer = 0; ProductPointer < DataTableLength; ProductPointer ++){
                 const NewtableDataRow = document.createElement('tr');
@@ -259,9 +325,7 @@ function DisplayCheckout(){
                 const CurrentProductId = CurrentData[0];
                 const CurrentCartIndex = CartItems.indexOf(ProductPointer.toString());
                 //const CurrentCartIndex = CartItems.indexOf("5")
-                //console.log(CurrentCartIndex);
-
-                
+                //console.log(CurrentCartIndex);                
 
                 if(CurrentCartIndex != -1){
                     const CurrentProduct = Datatable[CurrentCartIndex];
@@ -275,7 +339,7 @@ function DisplayCheckout(){
                     NewtablecellPrice.innerHTML = CurrentProduct[7] + "kr";
 
                     NewtablecellRemFromCartBTN.addEventListener("click", function(){
-                        RemoveFromShoppingCart(CurrentProductId);   
+                        AddCart(CurrentProductId);   
                     });
                     NewtablecellRemFromCartBTN.innerHTML = "Remove from cart";
                     
@@ -287,59 +351,9 @@ function DisplayCheckout(){
                 
 
             }
-            
-
-            
-            /*
-
-
-            CartItems.forEach(function(ArrayPointer){
-                // generate table
-                const NewtableDataRow = document.createElement('tr');
-                Newtable.appendChild(NewtableDataRow);
-                
-                const DataTableLength = Datatable.length;
-                for (let DataTablePointer = 0; DataTablePointer < DataTableLength; DataTablePointer ++){
-                    const CurrentData = Datatable[DataTablePointer];
-                    const CurrentProductId = CurrentData[0];
-
-                    for(let CartProductPointer = 0; CartProductPointer <DataTableLength; CartProductPointer ++){
-                        
-                    }
-
-                    if (CartItems[ArrayPointer] == CurrentProductId){
-                       
-                        const NewtablecellModel = document.createElement('td');
-                        const NewtablecellPrice = document.createElement('td');
-                        const NewtablecellRemFromCart = document.createElement('td');
-                        const NewtablecellRemFromCartBTN = document.createElement("button");
-                        NewtablecellModel.innerHTML  = CurrentData[2];
-                        NewtablecellPrice.innerHTML = CurrentData[7] + "kr";
-
-                        NewtablecellRemFromCartBTN.addEventListener("click", function(){
-                            RemoveFromShoppingCart(CurrentProductId);   
-                        });
-                        NewtablecellRemFromCartBTN.innerHTML = "Remove from cart";
-                        
-                        NewtableDataRow.appendChild(NewtablecellModel);
-                        NewtableDataRow.appendChild(NewtablecellPrice);
-                        NewtableDataRow.appendChild(NewtablecellRemFromCart);
-                        NewtableDataRow.appendChild(NewtablecellRemFromCartBTN);
-                        //i was going to do this in a for loop, but i tried for 30s, and it didnt word
-                        //so im doing it manually. yay
-                        // as im writing this current line, i found the issue. Guess what im not fixing it. Why?
-                        //because im lazy                  
-
-                    }
-                }  
-
-                
-                
-
-
-            })
             */
             
+                        
         }
 
     }
@@ -348,29 +362,28 @@ function DisplayCheckout(){
         CheckountStatusClosed=true;
         const CheckOutWindow = document.getElementById("CheckoutWindow");
         CheckOutWindow.remove();
-    }
-
-    
-    
-
-    
+    }    
 }
 
 function UpdateCartNumber(){
     const CurrentItemInCartObject = document.getElementById("CheckoutItems");
     const CurrentCartImageObject = document.getElementById("CheckoutCart");
-    const CurrentItemsInCart = CartItems.length;
-    if (CurrentItemsInCart > 0){
-        CurrentItemInCartObject.innerHTML = CurrentItemsInCart;
+    //const CurrentItemsInCart = CartItems.length;
+    let CartItemLength = 0;
+    for(let CartStatus = 0; CartStatus < Datatable.length; CartStatus ++){
+        const CurrentCartStatus = Datatable[CartStatus][8];
+        if(CurrentCartStatus == "1"){
+            CartItemLength ++
+        } 
+    }
+    
+    if (CartItemLength > 0){
+        CurrentItemInCartObject.innerHTML = CartItemLength;
         CurrentCartImageObject.src = "./assets/img/cart_full.svg";
     }
     else{
         CurrentItemInCartObject.innerHTML = "";
         CurrentCartImageObject.src = "./assets/img/cart-outline.svg";
     }
-}
-function RemoveFromShoppingCart(ProductId){
-    //console.log(ProductId); 
-    console.log("AAAAAAAAAAA");
 }
 
