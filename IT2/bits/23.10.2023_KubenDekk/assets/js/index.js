@@ -1,125 +1,10 @@
 var CheckountStatusClosed = true; 
 var SelectedSort = 0;
+var EditStatus = true;
 function init(){
     console.log("Init run");
     SpawnTable2Arr("TableArea", Headertable, Datatable); 
 }
-
-var Headertable = [
-    'Image',
-    'Model',
-    'Producer',
-    'Diameter',
-    'Width',
-    'Type', 
-    'Price',
-    'View Product',
-    'Add to cart',
-]
-var Datatable = [
-    [
-        '0', //Tire id 
-        'GenericTire.png', //Image
-        'Snowproof 1',
-        'Nokian Tyres',
-        '16', 
-        '205', 
-        '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
-        '1400', //price
-        '0', //is in cart
-    
-    ],
-    [
-        '1', //Tire id 
-        'GenericRim.png', //Image
-        'C28',
-        'CMS',
-        '17', 
-        '178', 
-        '0', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
-        '900', //price
-        '0', //is in cart
-
-
-    ],
-    [
-        "2",
-        "GoodrideIceMasterSpikeZ-506.png",
-        "IceMaster Spike Z-506",
-        "Goodride",
-        "17",
-        "215",
-        "3",
-        '2500', //price
-        '0', //is in cart
-    ],
-    [
-        '3', //Tire id 
-        'GenericTire.png', //Image
-        'Setula W Race S130',
-        'Rotalla',
-        '16', 
-        '205', 
-        '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
-        '1030', //price
-        '0', //is in cart
-
-    ],
-    [
-        '4', //Tire id 
-        'GenericTire.png', //Image
-        'UltraGrip Performance 3',
-        'Goodyear',
-        '16', 
-        '205', 
-        '2', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
-        '1419', //price
-        '0', //is in cart
-    ],
-    [
-        '5', //Tire id 
-        'GenericTire.png', //Image
-        'SINCERA SN110',
-        'Falken',
-        '16', 
-        '205', 
-        '1', //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
-        '1148', //price
-        '0', //is in cart
-    ],
-
-];
-var TireAbout = [
-
-    [
-        "Dette dekket er fantastisk under vinteren. Ny nanoteknologi har gjort det mulig å elliminere dekkstøy, noe som styrker din komfort i bilen i kalde dager. ",
-        "150",
-    ],
-    [
-        "Denne dekkfelgen er billig, og den fungerer. Hvilke forventninger skal du ha til en rusten felg som koster nesten ingenting?",
-        "10"
-    ],
-    [
-        "IceMaster Spike Z-506 er et dekk for deg som liker å stabbe bakken med pigger i vinteren.",
-        "450"
-    ],
-    [
-        "Setula W Race S130, Et dekk for deg som liker å påkjøre småbarn med lastebil. Demper til og med de største humpene i bakken!",
-        "290"
-    ],
-    [
-        "Goodyear lanserer UltraGrip Performance 3, et dekk som bruker gummi fra 100% barnearbeid. Takket være den nye grip teknologien, kan du være en mer hissig bilist uten å påkjøre sykkelistene",
-        "90"
-    ],
-    [
-        "SINCERA SN110, Et sommerdekk som tilbyr den beste kvalitet uten å ødelegge for naturen. Takket være G.R.E.T.A teknologien, kan vi minske co2 utslippet ved å drepe bilisten. Kjøper du produktet vårt, blir du faktisk betalt 250kr for installasjon",
-        "-250"
-    ],
-    [],
-
-]
-var Tiretype = ["Rim", "Summer tire", "Winter (w/o spikes)" , "Winter (w spikes)", "Universal" ];
-
 function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
     const TableArea = document.getElementById(SpawnArea);
     const TableElement = document.createElement("table");
@@ -241,8 +126,6 @@ function ViewProduct(ProductId){
     }
 
     About.appendChild(AboutText);
-
-
 }
 function RemoveProductAbout(){
     //Removes about section (view product) for tires. This section was in ViewProduct(), but i had to split it up due to a bug
@@ -295,7 +178,6 @@ function DisplayCheckout(){
         CheckOutWindowParent.appendChild(CheckOutWindow);
 
         //check if cart is full or empty
-        //const CartItemLength = CartItems.length;
         if(CartItemLength == 0){
             const CartEmptyMessage = document.createElement("div");
             CartEmptyMessage.innerHTML = "Cart empty <br> Nothing to see here :)";
@@ -513,7 +395,6 @@ function searchItems(){
         AddCart(ProductNumber);
     }
     //Fixes bug that hides selected cars on sort
-
 }
 
 function sortByPrice(tireData, operation) {
@@ -575,4 +456,162 @@ function sortByTireType(tireData, tireType) {
     });
 
     return filteredTireData;
+}
+
+function UpdateProducts(){
+    const RootArea = document.getElementById("EditProduct");
+    const EditWindow = document.createElement("div")
+    EditWindow.id= "EditProductWindow";
+    const Blur = document.createElement("div");
+    if(EditStatus){
+        RootArea.appendChild(EditWindow);
+        Blur.id="blur"
+        RootArea.appendChild(Blur);
+        EditStatus = false;
+
+        const ImageName = document.createElement("input");
+        ImageName.className = "input";
+        ImageName.id = "CreateProductImage";
+        ImageName.placeholder = "GenericTire.png";
+
+        const ProductModel = document.createElement("input");
+        ProductModel.className = "input";
+        ProductModel.id= "CreateProductModel";
+        ProductModel.placeholder = "Model";
+
+        const ProductProducer = document.createElement("input");
+        ProductProducer.className = "input";
+        ProductProducer.id = "CreateProductName";
+        ProductProducer.placeholder = "Brand";
+        
+        const ProductDiameter = document.createElement("input");
+        ProductDiameter.className = "input";
+        ProductDiameter.id = "CreateProductDiameter"; 
+        ProductDiameter.placeholder = "Diameter";
+
+        const ProductWidth = document.createElement("input");
+        ProductWidth.className = "input";
+        ProductWidth.id = "CreateProductWidth";
+        ProductWidth.placeholder = "Width";
+
+        /*
+        const ProductType = document.createElement("input");
+        ProductType.className = "input";
+        ProductType.id = "CreateProductType";
+        ProductType.placeholder ="0";
+        */
+        const ProductType = document.createElement("select");
+        ProductType.className = "input";
+        ProductType.id = "CreateProductType";
+        const ProductID = [0,1,2,3,4];
+        const ProductFriendlyType = ["Rim", "Summer tire", "Winter (w/o) spikes", "Winter (w spikes)", "Universal"];
+        EditWindow.appendChild(ProductType);
+        for(let ProductPointer = 0; ProductPointer < ProductID.length; ProductPointer ++){
+            const option = document.createElement("option");
+            option.value = ProductID[ProductPointer];
+            option.innerHTML = ProductFriendlyType[ProductPointer];
+            ProductType.appendChild(option);
+        }
+
+        const ProductPrice = document.createElement("input");
+        ProductPrice.className = "input";
+        ProductPrice.id = "CreateProductPrice";
+        ProductPrice.placeholder = "product price (kr)";
+
+        const SubmitButton = document.createElement("button");
+        SubmitButton.className = "input";
+        SubmitButton.id="CreateProductSubmit";
+        SubmitButton.innerHTML = "Publish product";
+        SubmitButton.addEventListener("click", function(){
+            SaveProduct();
+        });
+        
+        const ProductDescritpion = document.createElement("input");
+        ProductDescritpion.className = "input";
+        ProductDescritpion.id ="SavedProductDescritpion";
+        ProductDescritpion.placeholder = "Product description";
+
+        const ProductInstallationCost = document.createElement("input");
+        ProductInstallationCost.className = "input";
+        ProductInstallationCost.id ="ProductInstallationCost";
+        ProductInstallationCost.placeholder = "installation cost (kr)"; 
+
+
+
+        const ExitEdit = document.createElement("img");
+        ExitEdit.src = "./assets/img/close.png";
+        ExitEdit.id = "CloseBTN";
+        ExitEdit.addEventListener("click", function(){
+            UpdateProducts();
+        });
+
+        
+
+        EditWindow.appendChild(ImageName);
+        EditWindow.appendChild(ProductModel);
+        EditWindow.appendChild(ProductProducer);
+        EditWindow.appendChild(ProductDiameter);
+        EditWindow.appendChild(ProductWidth);
+        EditWindow.appendChild(ProductType);
+        EditWindow.appendChild(ProductPrice);
+        EditWindow.appendChild(SubmitButton);
+        EditWindow.appendChild(ExitEdit);
+        EditWindow.appendChild(ProductDescritpion);
+        EditWindow.appendChild(ProductInstallationCost);
+
+
+
+    }
+    else{
+        EditStatus = true;
+        const CurrentArea = document.getElementById("EditProductWindow")
+        const CurrentBlur = document.getElementById("blur");
+        CurrentArea.remove();
+        CurrentBlur.remove();
+    }
+}
+function SaveProduct(){
+    const ImageValue = document.getElementById("CreateProductImage").value;
+    const ModelValue = document.getElementById("CreateProductModel").value;
+    const NameValue = document.getElementById("CreateProductName").value;
+    const DiamaterValue = document.getElementById("CreateProductDiameter").value;
+    const WidthValue = document.getElementById("CreateProductWidth").value;
+    const TypeValue = document.getElementById("CreateProductType").value;
+    const PriceValue = document.getElementById("CreateProductPrice").value;
+    const DescriptionValue = document.getElementById("SavedProductDescritpion").value;
+    const InstallationPriceValue = document.getElementById("ProductInstallationCost").value;
+
+
+    if(ImageValue != "" || ModelValue != "" || NameValue != "" || DiamaterValue != "" || WidthValue != ""|| PriceValue != ""){       
+
+        const GeneratedArray = [
+            Datatable.length, 
+            ImageValue, 
+            ModelValue, 
+            NameValue, 
+            DiamaterValue, 
+            WidthValue, 
+            TypeValue, 
+            PriceValue, 
+            "0",
+        ]
+        Datatable[Datatable.length] = GeneratedArray;
+        
+        if(DescriptionValue != "" || InstallationPriceValue != ""){
+            const GeneratedArray = [
+                DescriptionValue,
+                InstallationPriceValue,
+            ]
+            TireAbout[Datatable.length] = GeneratedArray; 
+        }
+
+        const OldTable = document.getElementById("Table01");
+        OldTable.remove();
+        UpdateProducts();
+        SpawnTable2Arr("TableArea", Headertable, Datatable); 
+        
+    }
+    else{
+        console.error("edit input empty");
+    }
 }

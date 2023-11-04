@@ -155,7 +155,7 @@ function removeCapitalization(inputString) {
 function search(input, Array) {
     const normalizedInput = input.replace(/\s/g, "").toLowerCase();
     //Blacklist of array keys
-    const ignoredKeys = [1,6, 8];
+    const ignoredKeys = [1,6,8];
     //Blacklist of array keys
 
     const matchingRows = [];
@@ -172,8 +172,7 @@ function search(input, Array) {
           found = true;
           break;
         }
-      }
-  
+      }  
       if (found) {
         matchingRows.push(row.slice()); // Copy the matching row to the new array
       }
