@@ -1,4 +1,5 @@
 var CheckountStatusClosed = true; 
+var SelectedSort = 0;
 function init(){
     console.log("Init run");
     SpawnTable2Arr("TableArea", Headertable, Datatable); 
@@ -236,7 +237,7 @@ function ViewProduct(ProductId){
     }
     else{
         //AboutText.innerHTML = CurrentTireAbout[0] + "<br>" + "Installasjonspris er: " + CurrentTireAbout[1] + "kr"; 
-        AboutText.innerHTML = "<div id='AboutText1'><i>" + CurrentTireAbout[0] + "</i></div>" + "<div id='AboutText2'>Installasjonspris er: " + CurrentTireAbout[1] + "kr</div><img id ='tireIcon' src='./assets/img/tire/" + CurrentTireData[1] + "'></img><div id='ProductID'>Lager ID: <b>" + CurrentTireData[0] + "</b></div>";
+        AboutText.innerHTML = "<div id='AboutText1'><i>" + CurrentTireAbout[0] + "</i></div>" + "<div id='AboutText2'>Installasjonspris: " + CurrentTireAbout[1] + "kr</div><img id ='tireIcon' src='./assets/img/tire/" + CurrentTireData[1] + "'></img><div id='ProductID'>Lager ID: <b>" + CurrentTireData[0] + "</b></div>";
     }
 
     About.appendChild(AboutText);
@@ -372,3 +373,148 @@ function UpdateCartNumber(){
     }
 }
 
+
+function ApplySort(){
+    const SortObject = document.getElementById("SortSelect");
+    const SortValue = SortObject.value;
+    //0 = rim | 1 = Summer tire | 2 = winter (w/o spikes) | 3 = winter (w spikes) | 4 = Universal
+    //SelectedSort | 0 == unsorted
+    if(SortValue  == "Pr_LTH"){
+        //Sort price low to high
+        const WantedSort = 8;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByPrice(Datatable, 0)); 
+        }
+    }
+    else if(SortValue == "Pr_HTL"){
+        //Sort price high to low
+        const WantedSort = 7;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByPrice(Datatable, 1)); 
+
+        }
+    }
+    else if(SortValue == "DiaLTH"){
+        //sort tire diamater small to large
+        const WantedSort = 6;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+        }
+    }
+    else if(SortValue == "DiaHTL"){
+        //Sort tire diamater large to small
+        const WantedSort = 5;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+        }
+    }
+    else if(SortValue == "TT_sum"){
+        //Sort tire type:Summer
+        const WantedSort = 4;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByTireType(Datatable, "1")); 
+        }
+        
+    }
+    else if(SortValue == "TT_win"){
+        //Sort tire type: winter w/o spikes
+        const WantedSort = 3;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByTireType(Datatable, "2")); 
+        }
+    }
+    else if(SortValue == "TT_win_sp"){
+        //Sort tire type: witer with spikes
+        const WantedSort = 2;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByTireType(Datatable, "3")); 
+        }
+    }
+    else if(SortValue == "TT_whole"){
+        //Sort tire type: universal tire
+        const WantedSort = 1;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByTireType(Datatable, "4")); 
+        }
+    }
+    else if(SortValue == "TT_all"){
+        //Show any tires
+        const WantedSort = 0;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, Datatable); 
+        }
+    }
+    else if(SortValue == "RM"){
+        //Sort by just rims
+        const WantedSort = 9;
+        if(SelectedSort != WantedSort){
+            SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByTireType(Datatable, "0")); 
+        }
+    }
+}
+
+function sortByPrice(tireData, operation) {
+    const sortedTireData = [...tireData];
+    sortedTireData.sort((a, b) => {
+        const priceA = parseInt(a[7], 10);
+        const priceB = parseInt(b[7], 10);
+
+        if (operation === 0) {
+            return priceA - priceB; // Sort by lowest price
+        } 
+        else if (operation === 1) {
+            return priceB - priceA; // Sort by highest price
+        }
+        else {
+            return 0; // Default to no sorting
+        }
+    });
+    return sortedTireData;
+}
+function sortByTireType(tireData, tireType) {
+    // copy original array
+    const filteredTireData = tireData.filter(tire => tire[6] === tireType);
+
+    //custom order
+    const tireTypeOrder = {
+        '0': 0,  // rim
+        '1': 1,  // Summer tire
+        '2': 2,  // winter (w/o spikes)
+        '3': 3,  // winter (w spikes)
+        '4': 4   // Universal
+    };
+
+    // create filtered
+    filteredTireData.sort((a, b) => {
+        const tireTypeA = tireTypeOrder[a[6]];
+        const tireTypeB = tireTypeOrder[b[6]];
+
+        return tireTypeA - tireTypeB;
+    });
+
+    return filteredTireData;
+}
