@@ -414,6 +414,9 @@ function ApplySort(){
         const WantedSort = 6;
         if(SelectedSort != WantedSort){
             SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByDia(Datatable, 0)); 
         }
     }
     else if(SortValue == "DiaHTL"){
@@ -421,6 +424,10 @@ function ApplySort(){
         const WantedSort = 5;
         if(SelectedSort != WantedSort){
             SelectedSort = WantedSort;
+            const OldTable = document.getElementById("Table01");
+            OldTable.remove();
+            SpawnTable2Arr("TableArea", Headertable, sortByDia(Datatable, 1)); 
+        
         }
     }
     else if(SortValue == "TT_sum"){
@@ -504,6 +511,25 @@ function sortByPrice(tireData, operation) {
     });
     return sortedTireData;
 }
+function sortByDia(tireData, operation) {
+    const sortedTireData = [...tireData];
+    sortedTireData.sort((a, b) => {
+        const priceA = parseInt(a[4], 10);
+        const priceB = parseInt(b[4], 10);
+
+        if (operation === 0) {
+            return priceA - priceB; // Sort by lowest price
+        } 
+        else if (operation === 1) {
+            return priceB - priceA; // Sort by highest price
+        }
+        else {
+            return 0; // Default to no sorting
+        }
+    });
+    return sortedTireData;
+}
+
 function sortByTireType(tireData, tireType) {
     // copy original array
     const filteredTireData = tireData.filter(tire => tire[6] === tireType);
