@@ -166,19 +166,12 @@ table, th, td {
     color:white;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
-
-
-/*Animations */
-@keyframes swoosh_down{
-    from {
-        height:0%;
-        width:0%; 
-        opacity:0;
-        right:100px;
-    }
-    to{
-        height:500px;
-        opacity:1;
-    }
+#tireIcon{
+    margin-top:50px;
+    width:200px;
+    height:auto; 
+}
+.checkout_btn{
+    background-color:#453750;
+    color:white;
 }

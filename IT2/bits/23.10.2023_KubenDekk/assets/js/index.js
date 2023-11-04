@@ -94,11 +94,26 @@ var TireAbout = [
         "Dette dekket er fantastisk under vinteren. Ny nanoteknologi har gjort det mulig å elliminere dekkstøy, noe som styrker din komfort i bilen i kalde dager. ",
         "150",
     ],
-    [],
-    [],
-    [],
-    [],
-    [],
+    [
+        "Denne dekkfelgen er billig, og den fungerer. Hvilke forventninger skal du ha til en rusten felg som koster nesten ingenting?",
+        "10"
+    ],
+    [
+        "IceMaster Spike Z-506 er et dekk for deg som liker å stabbe bakken med pigger i vinteren.",
+        "450"
+    ],
+    [
+        "Setula W Race S130, Et dekk for deg som liker å påkjøre småbarn med lastebil. Demper til og med de største humpene i bakken!",
+        "290"
+    ],
+    [
+        "Goodyear lanserer UltraGrip Performance 3, et dekk som bruker gummi fra 100% barnearbeid. Takket være den nye grip teknologien, kan du være en mer hissig bilist uten å påkjøre sykkelistene",
+        "90"
+    ],
+    [
+        "SINCERA SN110, Et sommerdekk som tilbyr den beste kvalitet uten å ødelegge for naturen. Takket være G.R.E.T.A teknologien, kan vi minske co2 utslippet ved å drepe bilisten. Kjøper du produktet vårt, blir du faktisk betalt 250kr for installasjon",
+        "-250"
+    ],
     [],
 
 ]
@@ -221,7 +236,7 @@ function ViewProduct(ProductId){
     }
     else{
         //AboutText.innerHTML = CurrentTireAbout[0] + "<br>" + "Installasjonspris er: " + CurrentTireAbout[1] + "kr"; 
-        AboutText.innerHTML = "<div id='AboutText1'>" + CurrentTireAbout[0] + "</div>" + "<div id='AboutText2'>Installasjonspris er: " + CurrentTireAbout[1] + "kr </div>" 
+        AboutText.innerHTML = "<div id='AboutText1'><i>" + CurrentTireAbout[0] + "</i></div>" + "<div id='AboutText2'>Installasjonspris er: " + CurrentTireAbout[1] + "kr</div><img id ='tireIcon' src='./assets/img/tire/" + CurrentTireData[1] + "'></img><div id='ProductID'>Lager ID: <b>" + CurrentTireData[0] + "</b></div>";
     }
 
     About.appendChild(AboutText);
@@ -311,6 +326,7 @@ function DisplayCheckout(){
                     const NewtablecellPrice = document.createElement('td');
                     const NewtablecellRemFromCart = document.createElement('td');
                     const NewtablecellRemFromCartBTN = document.createElement("button");
+                    NewtablecellRemFromCartBTN.className = "checkout_btn";
                     NewtablecellModel.innerHTML  = CurrentData[2];
                     NewtablecellPrice.innerHTML = CurrentData[7] + "kr";
                     NewtablecellRemFromCartBTN.addEventListener("click", function(){
