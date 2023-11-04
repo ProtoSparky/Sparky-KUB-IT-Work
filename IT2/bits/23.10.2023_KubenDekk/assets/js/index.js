@@ -491,6 +491,13 @@ function ApplySort(){
             SpawnTable2Arr("TableArea", Headertable, sortByTireType(Datatable, "0")); 
         }
     }
+
+    //Fixes bug that hides selected cars on sort
+    for(let ProductNumber = 0; ProductNumber < Datatable.length; ProductNumber ++){
+        AddCart(ProductNumber);
+        AddCart(ProductNumber);
+    }
+    //Fixes bug that hides selected cars on sort
 }
 function searchItems(){
     SelectedSort = 10;
@@ -499,6 +506,13 @@ function searchItems(){
     const OldTable = document.getElementById("Table01");
     OldTable.remove();
     SpawnTable2Arr("TableArea", Headertable, search(SearchQuery, Datatable)); 
+
+    //Fixes bug that hides selected cars on sort
+    for(let ProductNumber = 0; ProductNumber < Datatable.length; ProductNumber ++){
+        AddCart(ProductNumber);
+        AddCart(ProductNumber);
+    }
+    //Fixes bug that hides selected cars on sort
 
 }
 
