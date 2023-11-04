@@ -1,6 +1,6 @@
 var CheckountStatusClosed = true; 
 function init(){
-    console.log("Inut run");
+    console.log("Init run");
     SpawnTable2Arr("TableArea", Headertable, Datatable); 
 }
 
@@ -16,7 +16,6 @@ var Headertable = [
     'Add to cart',
 ]
 var Datatable = [
-    //Tire 1
     [
         '0', //Tire id 
         'GenericTire.png', //Image
@@ -89,6 +88,20 @@ var Datatable = [
     ],
 
 ];
+var TireAbout = [
+
+    [
+        "Dette dekket er fantastisk under vinteren. Ny nanoteknologi har gjort det mulig å elliminere dekkstøy, noe som styrker din komfort i bilen i kalde dager. ",
+        "150",
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+
+]
 var Tiretype = ["Rim", "Summer tire", "Winter (w/o spikes)" , "Winter (w spikes)", "Universal" ];
 
 function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
@@ -107,7 +120,6 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
         const TableHeader = document.createElement("th");
         TableHeader.innerHTML = HeaderArray[HeaderArrayPointer];
         TableHeaderTableRow.appendChild(TableHeader);
-
     }
 
     //Add data
@@ -118,8 +130,7 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
         // Read data from array and place in td
         const CurrentTableDataLength = DataArray[TableRowArrayPointer].length;
         for(let CurrentTableDataPointer = 1; CurrentTableDataPointer <CurrentTableDataLength + 2; CurrentTableDataPointer ++ ){
-            const CurrentTableData = document.createElement("td");
-            
+            const CurrentTableData = document.createElement("td");           
 
             //add images and other data
             if(CurrentTableDataPointer == 1){
@@ -137,7 +148,6 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
                 //Add price
                 CurrentTableData.innerHTML = DataArray[TableRowArrayPointer][CurrentTableDataPointer] + "kr";
                 CurrentTableRow.appendChild(CurrentTableData);
-
             } 
             else if(CurrentTableDataPointer == 8){
                 const TableProduct = document.createElement("button");
@@ -158,7 +168,6 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
                 TableCart.addEventListener("click", function(){
                     AddCart(ProdID);
                 });
-
                 CurrentTableData.appendChild(TableCart);
                 CurrentTableRow.appendChild(CurrentTableData);
             }
@@ -170,9 +179,7 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
             else if(CurrentTableDataPointer != 10){
                 CurrentTableData.innerHTML = DataArray[TableRowArrayPointer][CurrentTableDataPointer];
                 CurrentTableRow.appendChild(CurrentTableData);
-            }     
-            
-
+            }
 
 
             
@@ -184,13 +191,50 @@ function SpawnTable2Arr(SpawnArea, HeaderArray, DataArray){
 
 
 function ViewProduct(ProductId){
-    console.log(ProductId);
+    const RootaboutElement = document.getElementById("AboutWindow");
+    const RootSubDiv = document.createElement("div");
+    RootSubDiv.id="rootSubDiv"; 
+    RootaboutElement.appendChild( RootSubDiv);
+    const About =  document.createElement("div");
+    const Blur = document.createElement("div");
+    About.id = "About";
+    RootSubDiv.appendChild(About);    
+    //create content blurry
+    Blur.id = "blur";
+    RootSubDiv.appendChild(Blur);    
+    const closeBTN = document.createElement("img");
+    closeBTN.id = "CloseBTN";
+    closeBTN.src = "./assets/img/close.png";
+    closeBTN.addEventListener("click", function(){
+        RemoveProductAbout(); 
+    })
+    About.appendChild(closeBTN);
+
+    const AboutText = document.createElement("div");
+    AboutText.id = "AboutText";
+
+    
+    const CurrentTireData = Datatable[ProductId];
+    const CurrentTireAbout = TireAbout[ProductId];
+    if(CurrentTireAbout[0] == undefined || CurrentTireAbout[1] == undefined){
+        AboutText.innerHTML = "We have no description for this product. Sorry :(";
+    }
+    else{
+        //AboutText.innerHTML = CurrentTireAbout[0] + "<br>" + "Installasjonspris er: " + CurrentTireAbout[1] + "kr"; 
+        AboutText.innerHTML = "<div id='AboutText1'>" + CurrentTireAbout[0] + "</div>" + "<div id='AboutText2'>Installasjonspris er: " + CurrentTireAbout[1] + "kr </div>" 
+    }
+
+    About.appendChild(AboutText);
+
+
+}
+function RemoveProductAbout(){
+    //Removes about section (view product) for tires. This section was in ViewProduct(), but i had to split it up due to a bug
+    const RootSubDiv = document.getElementById("rootSubDiv");
+    RootSubDiv.remove();
 }
 
 function AddCart(ProductId){
-    let CurrentProduct = Datatable[ProductId];
-    let ProductStatus = Datatable[ProductId][8];
-
     if(Datatable[ProductId][8] != "0"){
         //Change cart image for product in table 
         const CurrentCart = document.getElementById("prod_" + ProductId);
@@ -215,42 +259,6 @@ function AddCart(ProductId){
             //Reopen checkout screen if it was open (refresh content)
         }
     }
-
-    /*
-
-
-
-    const index = CartItems.indexOf(ProductId);
-    if (index === -1) {
-        // checks if product id is not in array, then adds it
-        CartItems.push(ProductId);
-        UpdateCartNumber();
-        if(!CheckountStatusClosed){
-            DisplayCheckout();
-            DisplayCheckout();
-            //Reopen checkout screen if it was open (refresh content)
-        }
-        //Change cart image for product in table 
-        const CurrentCart = document.getElementById("prod_" + ProductId);
-        CurrentCart.src = "./assets/img/cart.svg";
-        
-    } else {
-        
-        //Checks if product id is in array, then removes it
-        CartItems.splice(index, 1);
-        UpdateCartNumber();
-        if(!CheckountStatusClosed){
-            DisplayCheckout();
-            DisplayCheckout();
-            //Reopen checkout screen if it was open (refresh content)
-        }
-
-        //Change cart image for product in table 
-        const CurrentCart = document.getElementById("prod_" + ProductId);
-        CurrentCart.src =  "./assets/img/cart-outline.svg";
-    }
-    //console.log(CartItems);
-    */
 }
 function DisplayCheckout(){
     const CheckOutWindowParent = document.getElementById("Checkout");
@@ -260,8 +268,7 @@ function DisplayCheckout(){
         if(CurrentCartStatus == "1"){
             CartItemLength ++
         } 
-    }
-    
+    }    
 
     if(CheckountStatusClosed){
         //Open checkout
@@ -315,44 +322,7 @@ function DisplayCheckout(){
                     NewtableDataRow.appendChild(NewtablecellRemFromCart);
                     NewtableDataRow.appendChild(NewtablecellRemFromCartBTN);
                 } 
-            }
-            /*
-            const DataTableLength = Datatable.length;
-            for(let ProductPointer = 0; ProductPointer < DataTableLength; ProductPointer ++){
-                const NewtableDataRow = document.createElement('tr');
-                Newtable.appendChild(NewtableDataRow);
-                const CurrentData = Datatable[ProductPointer];
-                const CurrentProductId = CurrentData[0];
-                const CurrentCartIndex = CartItems.indexOf(ProductPointer.toString());
-                //const CurrentCartIndex = CartItems.indexOf("5")
-                //console.log(CurrentCartIndex);                
-
-                if(CurrentCartIndex != -1){
-                    const CurrentProduct = Datatable[CurrentCartIndex];
-                    console.log(CurrentProduct);
-
-                    const NewtablecellModel = document.createElement('td');
-                    const NewtablecellPrice = document.createElement('td');
-                    const NewtablecellRemFromCart = document.createElement('td');
-                    const NewtablecellRemFromCartBTN = document.createElement("button");
-                    NewtablecellModel.innerHTML  = CurrentProduct[2];
-                    NewtablecellPrice.innerHTML = CurrentProduct[7] + "kr";
-
-                    NewtablecellRemFromCartBTN.addEventListener("click", function(){
-                        AddCart(CurrentProductId);   
-                    });
-                    NewtablecellRemFromCartBTN.innerHTML = "Remove from cart";
-                    
-                    NewtableDataRow.appendChild(NewtablecellModel);
-                    NewtableDataRow.appendChild(NewtablecellPrice);
-                    NewtableDataRow.appendChild(NewtablecellRemFromCart);
-                    NewtableDataRow.appendChild(NewtablecellRemFromCartBTN);
-                }
-                
-
-            }
-            */
-            
+            }           
                         
         }
 
@@ -375,8 +345,7 @@ function UpdateCartNumber(){
         if(CurrentCartStatus == "1"){
             CartItemLength ++
         } 
-    }
-    
+    }    
     if (CartItemLength > 0){
         CurrentItemInCartObject.innerHTML = CartItemLength;
         CurrentCartImageObject.src = "./assets/img/cart_full.svg";
