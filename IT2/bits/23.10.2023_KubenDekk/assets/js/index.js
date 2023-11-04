@@ -493,7 +493,7 @@ function ApplySort(){
     }
 }
 function searchItems(){
-    const WantedSort = 10;
+    SelectedSort = 10;
     const SearchBar = document.getElementById("SearchBox");
     const SearchQuery = SearchBar.value;
     const OldTable = document.getElementById("Table01");
