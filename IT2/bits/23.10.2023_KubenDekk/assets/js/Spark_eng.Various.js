@@ -146,6 +146,39 @@ function LocalStorageOP(op, Data1, Data2){
   }
 }
 
+//remove all capitalization
+function removeCapitalization(inputString) {
+    return inputString.toLowerCase();
+}
 
+//Searches trough array, if input is found, returns new array
+function search(input, Array) {
+    const normalizedInput = input.replace(/\s/g, "").toLowerCase();
+    //Blacklist of array keys
+    const ignoredKeys = [1, 8];
+    //Blacklist of array keys
 
+    const matchingRows = [];
+  
+    for (const row of Array) {
+      let found = false;
+  
+      for (let i = 0; i < row.length; i++) {
+        if (ignoredKeys.includes(i)) continue;
+        const cell = row[i];
+        const normalizedCell = cell.replace(/\s/g, "").toLowerCase();
+  
+        if (normalizedCell.includes(normalizedInput)) {
+          found = true;
+          break;
+        }
+      }
+  
+      if (found) {
+        matchingRows.push(row.slice()); // Copy the matching row to the new array
+      }
+    }
+  
+    return matchingRows;
+}
   
