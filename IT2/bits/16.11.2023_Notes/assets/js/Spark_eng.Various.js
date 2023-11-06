@@ -181,5 +181,24 @@ function search(input, Array) {
     return matchingRows;
 }
 
+//Read json files, and return their data
+function ReadJSON(file, IsAsync) {
+  if(IsAsync){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.send();
+  }
+  else{
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, false);
+      xhr.send();
+      return JSON.parse(xhr.responseText);
+  }
 
+}
   
