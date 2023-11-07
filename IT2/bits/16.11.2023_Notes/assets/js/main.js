@@ -10,11 +10,3 @@ function init(){
 }
 
   
-
-function WriteJSON(file, json) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", file, true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify(json));
-}
-
