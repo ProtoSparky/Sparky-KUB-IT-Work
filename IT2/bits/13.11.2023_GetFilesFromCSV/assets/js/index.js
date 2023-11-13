@@ -38,7 +38,7 @@ function init(){
         const Area2_3 = Data[6];
         const Area3 =   Data[7];
         const Area3_2 = Data[8];
-        const Area3_3 = Data[8];
+        const Area3_3 = Data[9];
         
         let ProcessedCSV = {
             [CurrentYear]:{
@@ -63,6 +63,9 @@ function init(){
         ProcessedData = { ...ProcessedData, ...ProcessedCSV };   
 
     }
+
+
+
     
 
 

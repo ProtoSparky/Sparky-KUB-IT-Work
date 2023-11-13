@@ -1,0 +1,37 @@
+:root{
+    --GraphSizeW:800px;
+    --GraphSizeH:450px;
+    --GraphSizeWA:370px; 
+    --Sections:3;
+    --SpacePrSection:30px;
+    --SectionWidth:40px;
+}
+.graph{
+    position:absolute;
+    width:var(--GraphSizeW);
+    height:var(--GraphSizeH);
+    background-color:#1f1f1f;
+}
+.graph_text{
+    position:absolute; 
+    background-color:#181818;
+    width:100%;
+    bottom:0px;
+    height:80px;
+    color:white;
+}
+.graph_area{
+    position:absolute;
+    width:100%;
+    bottom:80px;
+    height:var(--GraphSizeWA);
+}
+#section1{
+    position:absolute;
+    height:50%;
+    bottom:0px;
+    margin-left:calc(var(--SpacePrSection) + var(--SectionWidth));
+    width:var(--SectionWidth);
+    background-color:Red;
+    
+}
