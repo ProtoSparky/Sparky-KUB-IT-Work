@@ -34,16 +34,18 @@
     width: calc(var(--GraphSizeW) / 3);
 }
 .graph_area_section{
-    position:absolute;;
-    height:50%;
+    position:relative;    
     bottom:0px;
     margin-left:calc(var(--SpacePrSection) + var(--SectionWidth));
     width:var(--SectionWidth);
     background-color:Red;
     
 }
-#section2{
-    background-color:blue;
-    height:30%;
-    z-index:100;
+#graphs{
+    position:absolute;
+    left:25%; 
+    
+}
+body{
+    background-color:#2b2b31;
 }

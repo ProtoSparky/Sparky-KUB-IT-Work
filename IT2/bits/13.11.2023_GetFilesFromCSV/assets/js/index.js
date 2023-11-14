@@ -80,6 +80,7 @@ function init(){
 function SpawnBarChart(ProcessedData){
     const DataLength = Object.keys(ProcessedData).length;
     const YearKeys = Object.keys(ProcessedData);
+    const BarColor = ["Red", "Blue", "Green"];
     /*
     const GraphArea = document.getElementById("graph_text1");
     const GraphWhole = document.getElementById("graph1");
@@ -104,6 +105,26 @@ function SpawnBarChart(ProcessedData){
         GraphBody.appendChild(GraphArea);
         GraphArea.appendChild(graph_area);
         GraphArea.appendChild(graph_text);
+
+        //Create graph header
+        const GraphTextHeader = document.createElement("div");
+        GraphTextHeader.className = "GraphHeader";
+        GraphTextHeader.innerHTML =  CurrentYearKey; 
+        GraphTextHeader.style.color = "white";
+        GraphTextHeader.style.position = "absolute";
+        GraphTextHeader.style.left="50%";
+        GraphTextHeader.style.transform = "translate(-50%)";
+        GraphTextHeader.style.bottom = "2px";
+        GraphTextHeader.style.fontSize = "25px";
+        graph_text.appendChild(GraphTextHeader);
+        
+        const GraphColors = document.createElement("div");
+        GraphColors.style.position = "absolute";
+        GraphColors.style.height = "100%";
+        GraphColors.style.width = "200px";
+        graph_text.appendChild(GraphColors);
+
+
         
 
 
@@ -112,11 +133,13 @@ function SpawnBarChart(ProcessedData){
         for(let CurrentAreaKey = 0; CurrentAreaKey < AreaAmount; CurrentAreaKey ++){
             //create graph components
             const GraphSection = document.createElement("div");
-            GraphSection.class = "GraphSection";
+            GraphSection.className = "GraphSection";
             GraphSection.id= "GraphSection_" + CurrentAreaKey;
+            GraphSection.style.left = (graph_area.offsetWidth /AreaAmount) * CurrentAreaKey + "px";
             graph_area.appendChild(GraphSection);
 
-
+            
+            
 
             //get area in selected year
             let Areas = Object.keys(ProcessedData[YearKeys[CurrentKey]]);
@@ -129,7 +152,7 @@ function SpawnBarChart(ProcessedData){
                 //let CurrentFuelData = Object.keys(ProcessedData[YearKeys[CurrentKey]][Areas[CurrentAreaKey]][CurrentSelectedFuelType]);
                 let CurrentFuelData = ProcessedData[YearKeys[CurrentKey]][Areas[CurrentAreaKey]][CurrentSelectedFuelType];
                 AllFuelValues[SelectedFuelType] = parseInt(CurrentFuelData); 
-                SumOfAllValues = SumOfAllValues  + parseInt(CurrentFuelData)
+                SumOfAllValues = SumOfAllValues  + parseInt(CurrentFuelData);
                 
             } 
             //Calculate percentage
@@ -137,12 +160,89 @@ function SpawnBarChart(ProcessedData){
             for(let SelectedValue = 0; SelectedValue < AllFuelValues.length; SelectedValue ++){
                 let SelectedFuel = AllFuelValues[SelectedValue];
                 let PercentageValue = (SelectedFuel / SumOfAllValues) * 100; 
-                AllFuelValuesPercentage[SelectedValue] = PercentageValue; 
+                AllFuelValuesPercentage[SelectedValue] = PercentageValue;                 
+                const GraphCollumn = document.createElement("div");
+                GraphCollumn.className = "graph_area_section";
+                GraphCollumn.id ="section" + SelectedValue;
+                GraphCollumn.style.height = PercentageValue + "%";
+                GraphCollumn.style.backgroundColor = BarColor[SelectedValue];
+                GraphSection.appendChild(GraphCollumn);
+                const GraphText = document.createElement("div");
+                GraphText.innerHTML = SelectedFuel + " | " + Math.round(PercentageValue) + "%";
+                //GraphText.style.writingMode = "vertical-lr";
+                //GraphText.style.textOrientation = "Sideways";
+                GraphText.style.fontFamily="monospace";
+                GraphText.style.fontSize = "15px";
+                GraphText.style.zIndex = 300;
+
+                GraphText.style.width = "150px";
+                GraphText.style.height = "100%;"
+                GraphText.style.position = "absolute";
+                //GraphText.style.left="-30px";
+                GraphText.style.marginLeft = "50px";
+                GraphText.style.color = "white";        
+                GraphText.style.top = "0px";
+                GraphCollumn.appendChild(GraphText);
+
+                /*
+                //1st color
+                const ColorArea = document.createElement("div");
+                const ColorIndicator = document.createElement("div");
+                const ColorText = document.createElement("div");
+                ColorText.innerHTML = "text"
+                ColorText.style.color="white";
+                ColorArea.style.position = "absolute";
+                ColorArea.style.top = 20 * SelectedValue + "px";
+                ColorIndicator.style.height = "15px";
+                ColorIndicator.style.width = "15px";
+                ColorIndicator.style.backgroundColor = BarColor[SelectedValue];
+                GraphColors.appendChild(ColorArea);
+                ColorArea.appendChild(ColorIndicator);
+                ColorArea.appendChild(ColorText);
+                */  
+
+                
+
+
+
             }
+           
+            
+            //generate names
+            const CurrentGraphName = document.createElement("div");
+            CurrentGraphName.style.position = "absolute";
+            CurrentGraphName.style.color="white";
+            CurrentGraphName.style.left= (graph_area.offsetWidth /AreaAmount) * CurrentAreaKey +  + 100 +"px";
+            CurrentGraphName.style.top = "10px";
+            //CurrentGraphName.style.textAlign = "center"
+            CurrentGraphName.innerHTML=Areas[CurrentAreaKey];
+            CurrentGraphName.style.transform = "translate(-50%)";
+            graph_text.appendChild(CurrentGraphName);
 
 
 
-            console.log(AllFuelValuesPercentage.sort());       
+            //color bars
+            const ColorArea = document.createElement("div");
+            const ColorIndicator = document.createElement("div");
+            const ColorText = document.createElement("div");
+            ColorText.innerHTML = CurrentFuelType[CurrentAreaKey];
+            ColorText.style.color="white";
+            ColorArea.style.position = "absolute";
+            ColorArea.style.left = 55 * CurrentAreaKey + "px";
+            ColorArea.style.bottom = "0px";
+            ColorIndicator.style.height = "15px";
+            ColorIndicator.style.width = "30px";
+            ColorIndicator.style.backgroundColor = BarColor[CurrentAreaKey];
+            GraphColors.appendChild(ColorArea);
+            ColorArea.appendChild(ColorIndicator);
+            ColorArea.appendChild(ColorText);
+
+
+
+
+
+
+            //console.log(AllFuelValuesPercentage.sort());       
              
             
 
