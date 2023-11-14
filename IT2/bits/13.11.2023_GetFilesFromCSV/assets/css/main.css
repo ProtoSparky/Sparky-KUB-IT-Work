@@ -26,12 +26,24 @@
     bottom:80px;
     height:var(--GraphSizeWA);
 }
-#section1{
+.GraphSection{
     position:absolute;
+    bottom:0px;
+    left:0;
+    height:100%;
+    width: calc(var(--GraphSizeW) / 3);
+}
+.graph_area_section{
+    position:absolute;;
     height:50%;
     bottom:0px;
     margin-left:calc(var(--SpacePrSection) + var(--SectionWidth));
     width:var(--SectionWidth);
     background-color:Red;
     
+}
+#section2{
+    background-color:blue;
+    height:30%;
+    z-index:100;
 }
