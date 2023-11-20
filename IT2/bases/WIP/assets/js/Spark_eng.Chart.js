@@ -42,6 +42,7 @@ function SummonChart(Data, ChartAreaID){
                 //Summon normal collumns
                 
                 
+                
             }
         }
         else{
