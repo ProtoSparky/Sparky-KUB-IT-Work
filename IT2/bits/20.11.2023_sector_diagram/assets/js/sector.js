@@ -9,6 +9,7 @@ function DrawSector(Data){
     const DataSize = Data.length;
     const DataHeader = Data[0];    
     let SectorData = [];
+    let ColorData = [];
 
     const ListArea = document.getElementById("list"); 
     for(let DataPointer = 1; DataPointer < DataSize; DataPointer++){
@@ -49,8 +50,12 @@ function DrawSector(Data){
         ListColor.style.left= CurrentPartyName.length + 15 * 10 + "px";
         ListItem.appendChild(ListColor);
 
+        ColorData[DataPointer] = RandColor;
+
 
     }
+    //summon bar graph
+    SpawnGraph(Data,ColorData); 
 
     eksempel = document.querySelector("canvas").getContext("2d");
     //Array med navngitte attributter.
