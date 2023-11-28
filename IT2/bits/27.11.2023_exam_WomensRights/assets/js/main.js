@@ -28,10 +28,10 @@ function checkInput(inputOP){
         UserInput.type = "number";
         UserInput.value = 0;
         AnswerMenu.appendChild(UserInput);
-
+        CheckAnswer.innerHTML = "Check answer"; 
     }
     else{
-        console.log(QuestionLength + "key length");
+        //Game end
         if(CurrentQuestionKey +1 == QuestionLength){
             const MessageScreen = document.createElement("div");
             MessageScreen.style.position="absolute";
@@ -67,15 +67,57 @@ function checkInput(inputOP){
             CorrectNess.innerHTML = "You got " + CorrectAnswers + " correct, and " + WrongAnswers + " wrong"; 
             MessageScreen.appendChild(CorrectNess);
 
+            //Create diagram 
+
+            const Diagram = document.createElement("div");
+            const DiagramWidth = "300px"; 
+            Diagram.style.position = "absolute";
+            Diagram.style.top = "200px";
+            Diagram.style.width = DiagramWidth; 
+            Diagram.style.height = "50px";
+            Diagram.style.left = "50%";
+            Diagram.style.transform = "translate(-50%)";
+
+            const WinRate = document.createElement("div");
+            WinRate.style.position = "absolute";
+            WinRate.style.height = "100%";
+            WinRate.style.left = "0px";
+            WinRate.style.backgroundColor = "#9ecb8c";
+
+            const LoseRate = document.createElement("div");
+            LoseRate.style.position = "absolute";
+            LoseRate.style.height = "100%";
+            LoseRate.style.backgroundColor = "#cb8c8c";
+            
+            const WinPercentage = (CorrectAnswers/QuestionLength) * 100; 
+            const LosePercentage = 100 - WinPercentage; 
+
+
+            WinRate.style.width = WinPercentage + "%"; //replace
+            LoseRate.style.width = LosePercentage + "%" //Replace
+            LoseRate.style.left = WinPercentage + "%"; //Replace
+
+            
+
+            MessageScreen.appendChild(Diagram);
+            Diagram.appendChild(WinRate);
+            Diagram.appendChild(LoseRate); 
+
+
+            
+            
+            
+
         }
         else{
+            //Correct answer
             CurrentQuestion = Questions[CurrentQuestionKey];
             Question.innerHTML = Questions[CurrentQuestionKey +1][0];
             const CurrentUserInput = parseInt(document.getElementById("UserInput").value);
             console.log(CurrentUserInput);
             console.log(parseInt(CurrentQuestion[1]));
-
             if(CurrentUserInput ==  parseInt(CurrentQuestion[1])){
+                
                 console.log("yay");
                 const MessageScreen = document.createElement("div");
                 MessageScreen.style.position="absolute";
@@ -114,6 +156,7 @@ function checkInput(inputOP){
         
             }
             else{
+                //Wrong answer
                 const MessageScreen = document.createElement("div");
                 MessageScreen.style.position="absolute";
                 MessageScreen.style.width = "500px";

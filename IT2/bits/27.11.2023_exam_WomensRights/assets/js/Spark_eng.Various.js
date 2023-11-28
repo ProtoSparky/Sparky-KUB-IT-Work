@@ -79,22 +79,22 @@ function GetStringBetween(str_full, str1, str2) {
 
 //Converts html tables to arrays
 function Table2Array(tableID){
-const table = document.getElementById(tableID);
-const rows = table.querySelectorAll('tr');
-const tableData = [];
+  const table = document.getElementById(tableID);
+  const rows = table.querySelectorAll('tr');
+  const tableData = [];
 
-rows.forEach(row => {
-    const rowData = [];
-    const cells = row.querySelectorAll('td, th');
+  rows.forEach(row => {
+      const rowData = [];
+      const cells = row.querySelectorAll('td, th');
 
-    cells.forEach(cell => {
-        rowData.push(cell.textContent);
-    });
+      cells.forEach(cell => {
+          rowData.push(cell.textContent);
+      });
 
-    tableData.push(rowData);
-});
+      tableData.push(rowData);
+  });
 
-return tableData;
+  return tableData;
 }
 
 
@@ -128,21 +128,21 @@ if(op == 0 ){
     
     
 
-}
-else if(op == 1){
-    //Edit class name
-    if(Data1 != "" && Data2 != ""){
-        EditTableName(Data1 , Data2); 
-    }
-    else{
-      console.error("Input invalid. New and or old name cannot be empty");
-       
-    }
-   
-}
-else if(op == 2){
-    //delete class name
-    DeleteTable(Data1);
+  }
+  else if(op == 1){
+      //Edit class name
+      if(Data1 != "" && Data2 != ""){
+          EditTableName(Data1 , Data2); 
+      }
+      else{
+        console.error("Input invalid. New and or old name cannot be empty");
+        
+      }
+    
+  }
+  else if(op == 2){
+      //delete class name
+      DeleteTable(Data1);
 }
 }
 
@@ -183,47 +183,47 @@ function search(input, Array) {
 
 //Read json files, and return their data
 function ReadJSON(file, IsAsync) {
-if(IsAsync){
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", file, true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(JSON.parse(xhr.responseText));
-      }
-    };
-    xhr.send();
-}
-else{
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", file, false);
-    xhr.send();
-    return JSON.parse(xhr.responseText);
-}
+  if(IsAsync){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.send();
+  }
+  else{
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, false);
+      xhr.send();
+      return JSON.parse(xhr.responseText);
+  }
 
 }
 function ReadAnything(file){
-var xhr = new XMLHttpRequest();
-xhr.open("GET", file, false);
-xhr.send();
-return xhr.responseText;
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", file, false);
+  xhr.send();
+  return xhr.responseText;
 }
 
 function ParseCSV(csvString) {
-const lines = csvString.split('\n');
-const data = [];
-for (let i = 0; i < lines.length; i++) {
-  const line = lines[i].trim();
+  const lines = csvString.split('\n');
+  const data = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
 
-  // Skip empty lines
-  if (line === '') {
-    continue;
+    // Skip empty lines
+    if (line === '') {
+      continue;
+    }
+    const values = line.split(';');
+    const trimmedValues = values.map((value) => value.trim());
+    data.push(trimmedValues);
   }
-  const values = line.split(';');
-  const trimmedValues = values.map((value) => value.trim());
-  data.push(trimmedValues);
-}
 
-return data;
+  return data;
 }
 
 function RandCol() {
