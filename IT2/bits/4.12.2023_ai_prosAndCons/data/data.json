@@ -1,0 +1,71 @@
+{
+    "Hva er KI?":{
+        "0":{
+            "tx":"Kunstig intelligens (KI) er en teknologi som bruker algoritmer, maskinlæring, probabilistiske modeller og store datasett til å utføre og automatisere en rekke oppgaver.",
+            "class":"text"
+        },
+        "1":{
+            "tx":"Per i dag brukes KI innenfor en rekke samfunnsområder, som forsvar, etterretning, grensekontroll, finans, helse, diagnostikk og behandling, politiarbeid, forvaltning, romfart, industri, infrastruktur og transport",
+            "src":"https://www.uib.no/fag/dannelsesemner/122306/kunstig-intelligens-visjoner-realiteter-og-framtidige-konsekvenser-vit216",
+            "class":"text"
+        },
+        "2":{
+            "img":"ai",
+            "src":"https://www.uib.no/sites/w3.uib.no/files/styles/content_main_wide_1x/public/media/illustrasjonsbilete_vit216.jpg?itok=T0k2fUaf&timestamp=1576245537",
+            "class":"img"
+        }
+    },
+    "Det positive med KI":{
+        "0":{
+            "tx":"KI kan ha mange positive konsekvenser for samfunn og individ. For eksempel kan KI bidra til å løse komplekse problemer og utfordringer som mennesker ikke kan løse alene. KI kan også øke effektiviteten og produktiviteten i mange sektorer, og dermed frigjøre tid og ressurser som kan brukes til andre formål",
+            "class":"text"
+        },
+        "1":{
+            "tx":"KI kan også bidra til å redusere risikoen for menneskelige feil og forbedre sikkerheten i mange sammenhenger",
+            "src":"https://www.forskningsradet.no/forskningspolitikk-strategi/ltp/vi-mener/ki-barekraftig-samfunn/",
+            "class":"text"
+        }
+    },
+    "Ki sine negative sider":{
+        "0":{
+            "tx":"Samtidig kan KI også ha negative konsekvenser for samfunn og individ. For eksempel kan KI føre til arbeidsledighet og økonomisk ulikhet hvis den erstatter menneskelige arbeidere i stor skala. KI kan også føre til diskriminering og urettferdighet hvis den er basert på skjevhet i datasettene eller algoritmene som brukes",
+            "class":"text"
+        },
+        "1":{
+            "tx":"KI kan også føre til tap av personvern og økt overvåkning hvis den brukes til å samle inn og analysere store mengder persondata",
+            "src":"https://ndla.no/subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368/topic:1:f77c8919-a904-41b3-88a4-34281c13627c/topic:1:c0686776-6857-4ee6-b25e-e1e385309570/resource:30ed7612-c128-4159-8864-5ffa005e8946",
+            "class":"text"
+        }
+    },
+    "Oppsummering":{
+        "0":{
+            "tx":"I sum kan KI være en kraftig teknologi som kan gi store fordeler for samfunn og individ. Samtidig er det viktig å være oppmerksom på de potensielle negative konsekvensene og å jobbe for å minimere dem.",
+            "class":"text"
+        },
+        "1":{
+            "tx":"Det er også viktig å ha en åpen og inkluderende debatt om bruken av KI og å involvere et bredt spekter av interessenter i utviklingen og implementeringen av KI",
+            "src":"https://www.khrono.no/kunstig-intelligens-er-en-fundamental-samfunnsutfordring/810595",
+            "class":"text"
+        }
+    },
+    "Kilder":{
+        "0":{
+           "tx": "Kunstig intelligens: Visjoner, realiteter og framtidige konsekvenser (VIT216) - Universitetet I bergen",
+           "src":"https://www.uib.no/fag/dannelsesemner/122306/kunstig-intelligens-visjoner-realiteter-og-framtidige-konsekvenser-vit216"
+        },
+        "1":{
+            "tx": "Kunstig intelligens for et bedre og bærekraftig samfunn - Forskningsrådet",
+            "src":"https://www.forskningsradet.no/forskningspolitikk-strategi/ltp/vi-mener/ki-barekraftig-samfunn/"
+        },
+        "2":{
+            "tx": "Kunstig intelligens – gullgruve eller minefelt? - NDLA",
+            "src":"https://ndla.no/subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368/topic:1:f77c8919-a904-41b3-88a4-34281c13627c/topic:1:c0686776-6857-4ee6-b25e-e1e385309570/resource:30ed7612-c128-4159-8864-5ffa005e8946"
+        },
+        "3":{
+            "tx": "Kunstig intelligens er en fundamental samfunns­utfordring - Khrono",
+            "src":"https://www.khrono.no/kunstig-intelligens-er-en-fundamental-samfunnsutfordring/810595"
+        }
+    }
+    
+    
+}
