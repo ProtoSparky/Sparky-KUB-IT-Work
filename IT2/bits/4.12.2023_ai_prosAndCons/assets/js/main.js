@@ -102,7 +102,7 @@ function GeneratePagesFromJson(JsonObject,SelectedChapter,ParentID){
                 //Adds class to element
             }
             if(SelectedChapter["style"] != undefined){
-                //custom image style
+                //custom text style
                 if(SelectedChapter["style"]["width"] != undefined){
                     CurrentElement.style.width = SelectedChapter["style"]["width"];
                 }
@@ -111,7 +111,11 @@ function GeneratePagesFromJson(JsonObject,SelectedChapter,ParentID){
                 }    
                 if(SelectedChapter["style"]["color"] != undefined){
                     CurrentElement.style.color = SelectedChapter["style"]["color"]; 
-                }           
+                }
+                if(SelectedChapter["style"]["fontsize"] != undefined){
+                    CurrentElement.style.fontSize = SelectedChapter["style"]["fontsize"]; 
+                }       
+
             }
             ParentElement.appendChild(CurrentElement);
         }
