@@ -52,9 +52,7 @@ a:hover {
     color:var(--accent);
 }
 .img{
-    position:absolute;
-    bottom:10px;
-    right:0px;
+
     width:500px;
     height:auto;
 }

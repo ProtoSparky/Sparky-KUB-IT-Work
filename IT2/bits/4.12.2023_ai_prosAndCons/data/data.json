@@ -24,7 +24,24 @@
             "tx":"KI kan også bidra til å redusere risikoen for menneskelige feil og forbedre sikkerheten i mange sammenhenger",
             "src":"https://www.forskningsradet.no/forskningspolitikk-strategi/ltp/vi-mener/ki-barekraftig-samfunn/",
             "class":"text"
+        },
+        "2":{
+            "tx":"<br>",
+            "class":"text"
+        },
+        "3":{
+            "tx":"Forskning på KI vil komme næringslivet og samfunnet til nytte. For eksempel bruker helsevesenet stadig oftere KI for å håndtere store datamengder og rutineoppgaver.",
+            "class":"text"
+        },
+        "4":{
+            "tx":"KI analyserer nå røntgenbilder for beinbrudd og effektiviserer jobben med å se etter tegn på kreft. Vi har flere norske helsebedrifter som er langt fremme på KI. Eksempelvis DoMore Diagnostics AS som kommer fra forskningsmiljøet på Oslo universitetssykehus.",
+            "class":"text"
+        },
+        "5":{
+            "tx":"De utvikler KI for å stille raskere og sikrere diagnose for tykktarmskreft. KI er ikke nødvendigvis et mål i seg selv, men er et godt verktøy for å gi bedre og mer effektiv pasientbehandling.",
+            "class":"text"
         }
+
     },
     "Ki sine negative sider":{
         "0":{
@@ -32,10 +49,35 @@
             "class":"text"
         },
         "1":{
-            "tx":"KI kan også føre til tap av personvern og økt overvåkning hvis den brukes til å samle inn og analysere store mengder persondata",
+            "tx":"KI kan også føre til utfordringer knyttet til personvern, tillit, sikkerhet og bærekraft.",
             "src":"https://ndla.no/subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368/topic:1:f77c8919-a904-41b3-88a4-34281c13627c/topic:1:c0686776-6857-4ee6-b25e-e1e385309570/resource:30ed7612-c128-4159-8864-5ffa005e8946",
             "class":"text"
+        },
+        "2":{
+            "tx":"Det er derfor viktig å forske på digitale teknologier og digital sikkerhet og hvordan disse kan brukes til innovasjon i bedrifter og i offentlig sektor. Samtidig må vi forske for å forstå konsekvensene av kunstig intelligens.",
+            "class":"text"
+        },
+        "3":{
+            "tx":"På denne måten kan vi høste av mulighetene i de nye teknologiene og unngå negative og utilsiktede konsekvenser.",
+            "class":"text"
+        },
+        "4":{
+            "tx":"<br>"
+        },
+        "5":{
+            "tx":"Regjeringen har lansert en satsing på kunstig intelligens (KI) og digital sikkerhet og vil bruke 1 milliard kroner til forskning på feltet de neste fem årene.",
+            "class":"text"
+        },
+        "6":{
+            "tx":"Dette vil få stor betydning for samfunnsutviklingen videre. Forskningsrådet får ansvaret for satsingen.",
+            "class":"text"
+        },
+        "7":{
+            "tx":"«Vi vil utforme satsingen i tett dialog med fagmiljøene i forkant og underveis, for å sikre at den treffer planken fra start»",
+            "class":"text",
+            "src":"https://www.forskningsradet.no/forskningspolitikk-strategi/ltp/vi-mener/ki-barekraftig-samfunn/"
         }
+        
     },
     "Oppsummering":{
         "0":{

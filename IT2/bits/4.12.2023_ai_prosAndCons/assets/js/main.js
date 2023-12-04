@@ -35,11 +35,23 @@ function GeneratePagesFromJson(JsonObject,SelectedChapter,ParentID){
             }
             if(SelectedChapter["id"] != undefined){
                 CurrentElement.id = SelectedChapter["id"]; 
-                //Adds class to element
+                //Adds id to element
             }
             if(SelectedChapter["img"] != undefined){
                 CurrentElement.alt = SelectedChapter["img"]; 
-                //Adds class to element
+                
+            }
+            if(SelectedChapter["style"] != undefined){
+                //custom image style
+                if(SelectedChapter["style"]["width"] != undefined){
+                    CurrentElement.style.width = SelectedChapter["style"]["width"];
+                }
+                if(SelectedChapter["style"]["height"] != undefined){
+                    CurrentElement.style.height = SelectedChapter["style"]["height"];
+                }
+                else{
+                    CurrentElement.style.height = "auto";
+                }                
             }
             ParentElement.appendChild(CurrentElement);
         }
@@ -70,6 +82,18 @@ function GeneratePagesFromJson(JsonObject,SelectedChapter,ParentID){
             if(SelectedChapter["id"] != undefined){
                 CurrentElement.id = SelectedChapter["id"]; 
                 //Adds class to element
+            }
+            if(SelectedChapter["style"] != undefined){
+                //custom image style
+                if(SelectedChapter["style"]["width"] != undefined){
+                    CurrentElement.style.width = SelectedChapter["style"]["width"];
+                }
+                if(SelectedChapter["style"]["height"] != undefined){
+                    CurrentElement.style.height = SelectedChapter["style"]["height"];
+                }    
+                if(SelectedChapter["style"]["color"] != undefined){
+                    CurrentElement.style.color = SelectedChapter["style"]["color"]; 
+                }           
             }
             ParentElement.appendChild(CurrentElement);
         }
