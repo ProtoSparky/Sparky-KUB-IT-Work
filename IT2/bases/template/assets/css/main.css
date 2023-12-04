@@ -1,0 +1,29 @@
+:root{
+    --topbarWidth:80px;
+    --text: #ffffff;
+    --text_bright:#ffc73b; 
+    --background: #2B2B31;
+    --background_lighter : #46454f; 
+    --primary: #c6bdff;
+    --secondary: #f2c2ff;
+    --secondary_darker : #564d59; 
+    --accent: #e2a3ff;
+    --SubText:#d5cffe;
+}
+#topbar{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:var(--topbarWidth);
+    background-color:var(--background_lighter);
+
+}
+#content{
+    position:absolute;
+    top:var(--topbarWidth);
+    left:0px;
+    width:100%;
+    height:calc(100% - var(--topbarWidth));
+    background-color:var(--background);
+}
