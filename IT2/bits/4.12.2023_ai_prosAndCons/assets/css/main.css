@@ -65,7 +65,22 @@ a:hover {
     background-color:var(--secondary_darker);
     color:white;
     font-size:20;
-
+    border:none;
+    cursor:pointer;
+}
+.button:hover{
+    background-color:var(--background);
+    animation-name:Hover;
+    animation-duration: 200ms;
+    animation-timing-function:ease-in-out;
+}
+@keyframes Hover{
+    from{
+        background-color:var(--secondary_darker);
+    }
+    to{
+        background-color:var(--background);
+    }
 }
 #LeftNav{
     left:0px;
