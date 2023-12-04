@@ -7,6 +7,7 @@ function init(){
     console.info("init run");
     GeneratePagesFromJson(JsonObject,"Hva er KI?","ContentArea");
     SpawnNav();
+    //MoveChapters(false)
 
 
 }

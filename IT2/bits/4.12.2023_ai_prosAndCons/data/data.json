@@ -12,7 +12,11 @@
         "2":{
             "img":"ai",
             "src":"https://www.uib.no/sites/w3.uib.no/files/styles/content_main_wide_1x/public/media/illustrasjonsbilete_vit216.jpg?itok=T0k2fUaf&timestamp=1576245537",
-            "class":"img"
+            "class":"img",
+            "style":{
+                "width":300
+            }
+            
         }
     },
     "Det positive med KI":{
@@ -40,6 +44,13 @@
         "5":{
             "tx":"De utvikler KI for å stille raskere og sikrere diagnose for tykktarmskreft. KI er ikke nødvendigvis et mål i seg selv, men er et godt verktøy for å gi bedre og mer effektiv pasientbehandling.",
             "class":"text"
+        },
+        "6":{
+            "img":"Chatgpt",
+            "src":"https://coincodex.com/en/resources/images/admin/news/which-chat-gpt-stock/chat-gpt-stock.png:resizeboxcropjpg?1200x650.jpg",
+            "style":{
+                "width":300
+            }
         }
 
     },
@@ -93,19 +104,24 @@
     "Kilder":{
         "0":{
            "tx": "Kunstig intelligens: Visjoner, realiteter og framtidige konsekvenser (VIT216) - Universitetet I bergen",
-           "src":"https://www.uib.no/fag/dannelsesemner/122306/kunstig-intelligens-visjoner-realiteter-og-framtidige-konsekvenser-vit216"
+           "src":"https://www.uib.no/fag/dannelsesemner/122306/kunstig-intelligens-visjoner-realiteter-og-framtidige-konsekvenser-vit216",
+           "class":"text"
+           
         },
         "1":{
             "tx": "Kunstig intelligens for et bedre og bærekraftig samfunn - Forskningsrådet",
-            "src":"https://www.forskningsradet.no/forskningspolitikk-strategi/ltp/vi-mener/ki-barekraftig-samfunn/"
+            "src":"https://www.forskningsradet.no/forskningspolitikk-strategi/ltp/vi-mener/ki-barekraftig-samfunn/",
+            "class":"text"
         },
         "2":{
-            "tx": "Kunstig intelligens – gullgruve eller minefelt? - NDLA",
-            "src":"https://ndla.no/subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368/topic:1:f77c8919-a904-41b3-88a4-34281c13627c/topic:1:c0686776-6857-4ee6-b25e-e1e385309570/resource:30ed7612-c128-4159-8864-5ffa005e8946"
+            "tx": "Kunstig intelligens - gullgruve eller minefelt? - NDLA",
+            "src":"https://ndla.no/subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368/topic:1:f77c8919-a904-41b3-88a4-34281c13627c/topic:1:c0686776-6857-4ee6-b25e-e1e385309570/resource:30ed7612-c128-4159-8864-5ffa005e8946",
+            "class":"text"
         },
         "3":{
-            "tx": "Kunstig intelligens er en fundamental samfunns­utfordring - Khrono",
-            "src":"https://www.khrono.no/kunstig-intelligens-er-en-fundamental-samfunnsutfordring/810595"
+            "tx": "Kunstig intelligens er en fundamental samfunnsutfordring - Khrono",
+            "src":"https://www.khrono.no/kunstig-intelligens-er-en-fundamental-samfunnsutfordring/810595",
+            "class":"text"
         }
     }
     
