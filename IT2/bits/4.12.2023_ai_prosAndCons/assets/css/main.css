@@ -80,6 +80,7 @@ a:hover {
     }
     to{
         background-color:var(--background);
+        
     }
 }
 #LeftNav{
