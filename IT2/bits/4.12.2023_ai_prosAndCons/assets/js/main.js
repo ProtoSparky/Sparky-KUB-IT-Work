@@ -13,6 +13,23 @@ function init(){
 }
 
 function GeneratePagesFromJson(JsonObject,SelectedChapter,ParentID){
+    //generates text in ParentID from a json file
+    //example of usage
+    /*
+    header can be chonsen using SelectedChapter
+    Can also chose tx for text or img for image. If you want text to be hyperlinked, use src:link
+    If youre using img, use src for the image source. img label used for alt text on image
+    "Header:{
+        "0":{
+            "tx":"some text",
+            "class":"some class",
+            "style":{
+                "width":some width,
+                "height":some height,
+                "color":some color
+            }
+        },
+    */
     const CurrentChapterObject = JsonObject[SelectedChapter];
     const CurrentChapterSentences = Object.keys(CurrentChapterObject);
     const CurrentChapterSentencesAmount = CurrentChapterSentences.length;
@@ -40,6 +57,7 @@ function GeneratePagesFromJson(JsonObject,SelectedChapter,ParentID){
             }
             if(SelectedChapter["img"] != undefined){
                 CurrentElement.alt = SelectedChapter["img"]; 
+                CurrentElement.title = SelectedChapter["img"]; 
                 
             }
             if(SelectedChapter["style"] != undefined){
@@ -59,7 +77,6 @@ function GeneratePagesFromJson(JsonObject,SelectedChapter,ParentID){
         if(SelectedChapter["tx"] != undefined){
             //If element is text
             let CurrentElement = document.createElement("div");
-
             if(SelectedChapter["class"] != undefined){
                 CurrentElement.className = SelectedChapter["class"]; 
                 //Adds class to element
