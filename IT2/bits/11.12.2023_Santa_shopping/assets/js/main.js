@@ -58,12 +58,39 @@ function init(){
 
         const AccountWindowInputUserName = document.createElement("input");
         AccountWindowInputUserName.style.position = "absolute";
-        AccountWindowInputUserName.style.top = "300px";
+        AccountWindowInputUserName.style.top = "250px";
         AccountWindowInputUserName.style.left = "50%";
         AccountWindowInputUserName.style.transform = "translate(-50%)";
         AccountWindowInputUserName.placeholder = "Username";
         AccountWindowInputUserName.id = "AccountUserName";
-        
+
+        const AccountWindowInputUserAge = document.createElement("input");
+        AccountWindowInputUserAge.style.position = "absolute";
+        AccountWindowInputUserAge.style.top = "300px";
+        AccountWindowInputUserAge.style.left = "50%";
+        AccountWindowInputUserAge.style.transform = "translate(-50%)";
+        AccountWindowInputUserAge.placeholder = "Age";
+        AccountWindowInputUserAge.id = "AccountUserAge";
+        AccountWindowInputUserAge.type = "number";        
+        // Add an input event listener to handle non-numeric input
+        AccountWindowInputUserAge.addEventListener("input", function () {
+            // Remove non-numeric characters using a regular expression
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        AccountWindowInputUserAge.min = 3;
+        AccountWindowInputUserAge.max = 100;
+
+        const AccountWindowInputSubmit = document.createElement("button");
+        AccountWindowInputSubmit.style.position = "absolute";
+        AccountWindowInputSubmit.style.left = "50%";
+        AccountWindowInputSubmit.style.top = "350px";
+        AccountWindowInputSubmit.style.transform = "translate(-50%)";
+        AccountWindowInputSubmit.innerHTML = "Create Account";
+        AccountWindowInputSubmit.addEventListener("click",function(){
+            CreateAccount();
+        });
+
+
     
 
 
@@ -73,7 +100,76 @@ function init(){
         content_fullScreen.appendChild(AccountWindow); 
         AccountWindow.appendChild(AccountWindowHeader); 
         AccountWindow.appendChild(AccountWindowInputUserName); 
+        AccountWindow.appendChild(AccountWindowInputUserAge);
+        AccountWindow.appendChild(AccountWindowInputSubmit);
 
+    }
+
+}
+function CreateAccount(){
+    const AccountUserName = document.getElementById("AccountUserName").value;
+    const AccountUserAge = document.getElementById("AccountUserAge").value;
+    GenerateMessageBanner(0,"test");
+
+}
+function GenerateMessageBanner(FeedBackState, FeedBackText){
+    //Feedbackstate 0 == Green, good
+    //FeedBackState 1 == yellow, warning
+    //FeedbackState 2 == Red, Error
+    const ColorOK = "#00d573";
+    const ColorWarn = "#f39c12";
+    const ColorErr = "#ff2225"; 
+    const BannerTime  = 500; // ms * 10
+    let CurrentBannerTime = 0; 
+
+    const MessageBanner = document.createElement("div");
+    MessageBanner.style.position = "absolute";
+    MessageBanner.style.zIndex = "99999999";
+    MessageBanner.style.top = "30px";
+    MessageBanner.style.right = "-400px";
+    MessageBanner.style.width = "200px"; 
+    MessageBanner.id = "MessageBanner"; 
+
+
+    if(FeedBackState == 0){
+        //good message
+        MessageBanner.style.backgroundColor = ColorOK;
+
+    }
+    else if(FeedBackState == 1){
+        //Warning message
+        MessageBanner.style.backgroundColor = ColorWarn;
+    }
+    else if(FeedBackState == 2){
+        //Error message
+        MessageBanner.style.backgroundColor = ColorErr; 
+    }
+    MessageBanner.innerHTML = FeedBackText; 
+    document.body.appendChild(MessageBanner);
+
+    const intervalId = setInterval(AnimateBanner, 10);
+    
+    function AnimateBanner(){
+        CurrentBannerTime += 1;
+        if(CurrentBannerTime < BannerTime){
+            let BannerPost = document.getElementById("MessageBanner");
+            if(CurrentBannerTime < BannerTime / 5){
+                if(parseInt(BannerPost.style.right) < 0){
+                    BannerPost.style.right  = parseInt(BannerPost.style.right) + 10 + "px";
+                }
+            }
+            else if(CurrentBannerTime < (BannerTime / 5) * 5){
+                if(parseInt(BannerPost.style.right) > -400){
+                    BannerPost.style.right  = parseInt(BannerPost.style.right) - 10 + "px";
+                }
+                
+            }
+
+        }
+        else{
+            document.getElementById("MessageBanner").remove();
+            clearInterval(intervalId);
+        }
     }
 
 }

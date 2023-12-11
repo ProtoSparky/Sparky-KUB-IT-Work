@@ -13,7 +13,8 @@
     --col_bg_lighter:#2b2b31; 
     --col_bg_div:#ebf1f0; 
     --col_bg_div1:#89a6a1;
-    --CornerRad:3px; 
+    --CornerRad:4px; 
+    --ElementPadding:8px;
 }
 @font-face {
     font-family: main_font;
@@ -50,31 +51,36 @@
 
 
 input {
-    background-color: #2b2b31;
-    color: #ecf0f1;
-    border: 1px solid #3498db;
-    border-radius: 4px;
-    padding: 8px;
+    background-color: var(--col_bg_lighter);
+    color: var(--col_normalTXT);
+    border: 1px solid var(--col_link_TXT);
+    border-radius: var(--CornerRad);
+    padding: var(--ElementPadding);
     transition: border-color 0.3s ease;
-  }
+}
+
+input:hover {
+    border-color: var(--col_highlight_TXT);
+}
+
+input:focus {
+    border-color: var(--col_link_TXT);
+}
   
-  /* Hover Effect */
-  input:hover {
-    border-color: #2ecc71;
-  }
-  
-  /* Focus Effect */
-  input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-  }
-  
-  /* Placeholder Text */
-  ::placeholder {
-    color: #bdc3c7;
-  }
-  
-  /* Error State */
-  input.error {
-    border-color: #e74c3c;
-  }
+::placeholder {
+    color: var(--col_bold_TXT);
+}
+
+button {
+    background-color: var(--col_link_TXT);
+    color: var(--col_normalTXT);
+    border: none;
+    border-radius: var(--CornerRad);
+    padding: var(--ElementPadding);
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--col_highlight_TXT);
+}
+
