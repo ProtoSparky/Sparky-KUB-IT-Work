@@ -15,6 +15,8 @@
     --col_bg_div1:#89a6a1;
     --CornerRad:4px; 
     --ElementPadding:8px;
+
+    
 }
 @font-face {
     font-family: main_font;
@@ -83,4 +85,35 @@ button {
 button:hover {
     background-color: var(--col_highlight_TXT);
 }
+
+/*bar animation*/
+@keyframes BarMove{
+    0%{
+        right:-400px;
+    }
+    10%{
+        right:0px;
+    }
+    /*Do nothing ater this*/
+    90%{
+        right:0px;
+    }
+    100%{
+        right:-400px; 
+    }
+}
+
+select {
+    background-color: var(--col_bg_lighter);
+    color: var(--col_normalTXT);
+    border: 1px solid var(--col_link_TXT);
+    border-radius: var(--CornerRad);
+    padding: var(--ElementPadding);
+    transition: border-color 0.3s ease;
+}
+
+
+
+
+
 
