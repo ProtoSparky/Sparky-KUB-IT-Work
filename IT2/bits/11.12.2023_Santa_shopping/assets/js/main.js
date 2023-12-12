@@ -176,7 +176,6 @@ function CheckWishList (username){
         WishMenuHeader.style.fontWeight = "500";
         WishMenuHeader.style.color = "#f39c12";
         
-
         //Seletor
         const WishMenuWishType = document.createElement("select");
         WishMenuWishType.style.position = "absolute";
@@ -226,6 +225,7 @@ function CheckWishList (username){
         WishMenuWishText.style.ClassName ="text";
         WishMenuWishText.placeholder = "wish";
         WishMenuWishText.ClassName = "text";
+        WishMenuWishText.id = "WishText";
 
         //Wish save button
         const WishMenuInputSubmit = document.createElement("button");
@@ -254,7 +254,15 @@ function CheckWishList (username){
 
 
 function SaveWish(){
-
+    const WishType = document.getElementById("WishType").value;
+    const WishText = document.getElementById("WishText").value;
+    if(WishText != ""){
+        //save data
+    
+    }
+    else{
+        GenerateMessageBanner(2,"Wish cannot be empty"); 
+    }
 }
 
 
