@@ -57,6 +57,7 @@ function init(){
         AccountWindowHeader.style.textAlign = "center";
         AccountWindowHeader.style.fontWeight = "500";
         AccountWindowHeader.style.color = "#f39c12";
+        AccountWindowHeader.className = "text";
 
         const AccountWindowInputUserName = document.createElement("input");
         AccountWindowInputUserName.style.position = "absolute";
@@ -65,6 +66,7 @@ function init(){
         AccountWindowInputUserName.style.transform = "translate(-50%)";
         AccountWindowInputUserName.placeholder = "Username";
         AccountWindowInputUserName.id = "AccountUserName";
+        AccountWindowInputUserName.className = "text";
 
         const AccountWindowInputUserAge = document.createElement("input");
         AccountWindowInputUserAge.style.position = "absolute";
@@ -73,7 +75,8 @@ function init(){
         AccountWindowInputUserAge.style.transform = "translate(-50%)";
         AccountWindowInputUserAge.placeholder = "Age";
         AccountWindowInputUserAge.id = "AccountUserAge";
-        AccountWindowInputUserAge.type = "number";        
+        AccountWindowInputUserAge.type = "number";  
+        AccountWindowInputUserAge.className = "text";
         // Add an input event listener to handle non-numeric input
         AccountWindowInputUserAge.addEventListener("input", function () {
             // Remove non-numeric characters using a regular expression
@@ -88,6 +91,7 @@ function init(){
         AccountWindowInputSubmit.style.top = "350px";
         AccountWindowInputSubmit.style.transform = "translate(-50%)";
         AccountWindowInputSubmit.innerHTML = "Create Account";
+        AccountWindowInputSubmit.className = "text";
         AccountWindowInputSubmit.addEventListener("click",function(){
             CreateAccount();
         });    
@@ -114,22 +118,29 @@ function CreateAccount(){
     const AccountUserAge = document.getElementById("AccountUserAge").value;
     //GenerateMessageBanner(0,"Wrong password");
 
-    //create user profile 
-    const NewUserName = AccountUserName + UsernamePrefix;
-    let OldUserData = DataOP(1,true,"Accounts");
-    OldUserData[NewUserName] = {
-        "Age":AccountUserAge,
-        "IsSanta":false,
-        "wish":{
+    if(AccountUserName != "" && AccountUserName != ""){
+                //create user profile 
+        const NewUserName = AccountUserName + UsernamePrefix;
+        let OldUserData = DataOP(1,true,"Accounts");
+        OldUserData[NewUserName] = {
+            "Age":AccountUserAge,
+            "IsSanta":false,
+            "wish":{
 
+            }
         }
+        DataOP(0,true,"Accounts", OldUserData);
+        console.log(DataOP(1,true,"Accounts"));
+        document.getElementById("AccountWindow").remove(); 
+        CurrentUserName = AccountUserName;
+        
+        CheckWishList(CurrentUserName + UsernamePrefix);
     }
-    DataOP(0,true,"Accounts", OldUserData);
-    console.log(DataOP(1,true,"Accounts"));
-    document.getElementById("AccountWindow").remove(); 
-    CurrentUserName = AccountUserName;
-    
-    CheckWishList(CurrentUserName + UsernamePrefix);
+    else{
+        GenerateMessageBanner(2,"Password and age cannot be empty!");
+    }
+
+
 
 }
 
@@ -164,17 +175,18 @@ function CheckWishList (username){
         WishMenuHeader.style.textAlign = "center";
         WishMenuHeader.style.fontWeight = "500";
         WishMenuHeader.style.color = "#f39c12";
+        
 
         //Seletor
         const WishMenuWishType = document.createElement("select");
         WishMenuWishType.style.position = "absolute";
-        WishMenuWishType.style.top = "250px";
+        WishMenuWishType.style.top = "180px";
         WishMenuWishType.style.left = "50%";
         WishMenuWishType.style.transform = "translate(-50%)";
         WishMenuWishType.placeholder = "Wish type";
         WishMenuWishType.id = "WishType";
 
-        const WishTypes = ["Abstract", "Material"]
+        const WishTypes = ["Abstract", "Material"]; 
         for(let WishPointer = 0; WishPointer < 2; WishPointer ++){
             const WishMenuWishTypeOption = document.createElement("option");
             WishMenuWishTypeOption.value = WishTypes[WishPointer];
@@ -183,7 +195,54 @@ function CheckWishList (username){
             console.log(WishTypes[WishPointer]);
         }
 
+        //Selector header
+        const WishMenuWishTypeHeader = document.createElement("div");
+        WishMenuWishTypeHeader.style.position = "absolute";
+        WishMenuWishTypeHeader.style.left = "50%";
+        WishMenuWishTypeHeader.style.transform = "translate(-50%)";        
+        WishMenuWishTypeHeader.style.top = "150px";
+        WishMenuWishTypeHeader.style.color = "var(--col_normalTXT)";
+        WishMenuWishTypeHeader.style.Classname = "text";
+        WishMenuWishTypeHeader.style.fontSize = "20";
+        WishMenuWishTypeHeader.innerHTML = "Enter your wish type";
+        
+        //Wish header
+        const WishMenuWishWishHeader = document.createElement("div");
+        WishMenuWishWishHeader.style.position = "absolute";
+        WishMenuWishWishHeader.style.left = "50%";
+        WishMenuWishWishHeader.style.transform = "translate(-50%)";        
+        WishMenuWishWishHeader.style.top = "250px";
+        WishMenuWishWishHeader.style.color = "var(--col_normalTXT)";
+        WishMenuWishWishHeader.style.Classname = "text";
+        WishMenuWishWishHeader.style.fontSize = "20";
+        WishMenuWishWishHeader.innerHTML = "Enter your wish";
 
+        //Wish input menu
+        const WishMenuWishText = document.createElement("textarea")
+        WishMenuWishText.style.position = "absolute";
+        WishMenuWishText.style.transform = "translate(-50%)";
+        WishMenuWishText.style.top = "280px";
+        WishMenuWishText.style.left = "50%";
+        WishMenuWishText.style.ClassName ="text";
+        WishMenuWishText.placeholder = "wish";
+        WishMenuWishText.ClassName = "text";
+
+        //Wish save button
+        const WishMenuInputSubmit = document.createElement("button");
+        WishMenuInputSubmit.style.position = "absolute";
+        WishMenuInputSubmit.style.left = "50%";
+        WishMenuInputSubmit.style.top = "400px";
+        WishMenuInputSubmit.style.transform = "translate(-50%)";
+        WishMenuInputSubmit.innerHTML = "Save wish";
+        WishMenuInputSubmit.className = "text";
+        WishMenuInputSubmit.addEventListener("click",function(){
+            SaveWish();
+        }); 
+
+        WishMenu.appendChild(WishMenuInputSubmit);
+        WishMenu.appendChild(WishMenuWishText);
+        WishMenu.appendChild(WishMenuWishWishHeader); 
+        WishMenu.appendChild(WishMenuWishTypeHeader); 
         WishMenu.appendChild(WishMenuWishType); 
         WishMenu.appendChild(WishMenuHeader);
         document.body.appendChild(WishMenu);
@@ -194,7 +253,9 @@ function CheckWishList (username){
 }
 
 
+function SaveWish(){
 
+}
 
 
 

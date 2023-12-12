@@ -112,6 +112,15 @@ select {
     transition: border-color 0.3s ease;
 }
 
+textarea {
+    background-color: var(--col_bg_lighter);
+    color: var(--col_normalTXT);
+    border: 1px solid var(--col_link_TXT);
+    border-radius: var(--CornerRad);
+    padding: var(--ElementPadding);
+    transition: border-color 0.3s ease;
+}
+
 
 
 
