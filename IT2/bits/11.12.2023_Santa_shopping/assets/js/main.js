@@ -258,7 +258,17 @@ function SaveWish(){
     const WishText = document.getElementById("WishText").value;
     if(WishText != ""){
         //save data
-    
+        let SiteData = DataOP(1,true,"Accounts");
+        //let CurrentUserData = SiteData[CurrentUserName + UsernamePrefix];
+        //let CurrentUserWishes = CurrentUserData["wish"];
+        //let CurrentUserWishLength = Object.keys(CurrentUserWishes).length        
+        let WishTemplate = {
+            "wishname":WishText,
+            "wishtype":WishType
+        }
+        SiteData[CurrentUserName + UsernamePrefix]["wish"][Object.keys(SiteData[CurrentUserName + UsernamePrefix]["wish"]).length] = WishTemplate;
+        DataOP(0,true,"Accounts",SiteData);
+        console.log(SiteData);  
     }
     else{
         GenerateMessageBanner(2,"Wish cannot be empty"); 
