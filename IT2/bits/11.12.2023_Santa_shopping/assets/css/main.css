@@ -16,15 +16,19 @@
     --CornerRad:4px; 
     --ElementPadding:8px;    
 }
+/*
 body{
     background-color:var(--col_bg_content);
 }
+*/
 table, td, th {
     border: 1px solid var(--col_highlight_TXT);
     border-collapse:collapse;
     color:var(--col_normalTXT);
     font-family:main_font;
+    padding:var(--ElementPadding);
 }
+
 @font-face {
     font-family: main_font;
     src: url(../fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
@@ -66,6 +70,7 @@ input {
     border-radius: var(--CornerRad);
     padding: var(--ElementPadding);
     transition: border-color 0.3s ease;
+    font-family:main_font; 
 }
 
 input:hover {
@@ -87,9 +92,24 @@ button {
     border-radius: var(--CornerRad);
     padding: var(--ElementPadding);
     transition: background-color 0.3s ease-in-out;
+    font-family:main_font; 
 }
 
 button:hover {
+    background-color: var(--col_highlight_TXT);
+}
+
+#NewWishBTN{
+    background-color: var(--col_link_TXT);
+    color: var(--col_normalTXT);
+    border: none;
+    border-radius: var(--CornerRad);
+    padding: var(--ElementPadding);
+    transition: background-color 0.3s ease-in-out;
+    font-family:main_font; 
+    
+}
+#NewWishBTN:hover{
     background-color: var(--col_highlight_TXT);
 }
 

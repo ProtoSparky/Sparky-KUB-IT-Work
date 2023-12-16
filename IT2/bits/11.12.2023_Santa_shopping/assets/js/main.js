@@ -312,15 +312,135 @@ function CheckWishList(username){
         }
         WishTableArea.appendChild(WishTable);
 
-        
+        //Spawn new wish button
 
-
-
-
-
-
+        const NewWishBTN = document.createElement("div");
+        NewWishBTN.style.position = "absolute";
+        NewWishBTN.style.top = "50%";
+        NewWishBTN.style.transform = "translate(0,-50%)";
+        NewWishBTN.style.width = "100px";
+        NewWishBTN.style.height = "20px";
+        NewWishBTN.style.right = "var(--ElementPadding)";
+         /*
+        NewWishBTN.style.backgroundColor = "var(--col_link_TXT)";
+        NewWishBTN.style.borderRadius = "var(--CornerRad)";
+        NewWishBTN.style.padding = "var(--ElementPadding)";
+        */
+        NewWishBTN.innerHTML = "Add wish";
+        NewWishBTN.id = "NewWishBTN";
+        NewWishBTN.addEventListener("click",function(){
+            NewWishMenu();
+        });
+        TopBar.appendChild(NewWishBTN);
     }
 }
+
+
+
+function NewWishMenu(){
+    //Remove user's wish table
+    document.getElementById("content").remove();
+    document.getElementById("topbar").remove();
+    const newBG = document.createElement("div");
+    newBG.id = "content-fullScreen";
+    document.body.appendChild(newBG);
+
+    const WishMenu = document.createElement("div");
+    WishMenu.style.position = "absolute";
+    WishMenu.style.transform  ="translate(-50%,-50%)";
+    WishMenu.style.top = "50%";
+    WishMenu.style.left = "50%";
+    WishMenu.style.width = "500px";
+    WishMenu.style.height = "500px";
+    WishMenu.style.backgroundColor = "var(--col_bg_lighter)";
+    WishMenu.style.borderRadius  = "var(--CornerRad)";
+    WishMenu.id = "WishMenu"; 
+
+    //Header
+    const WishMenuHeader = document.createElement("div");
+    WishMenuHeader.innerHTML = "Enter your wish";
+    WishMenuHeader.style.position = "absolute";
+    WishMenuHeader.style.top = "30px";
+    WishMenuHeader.className = "text";
+    WishMenuHeader.style.fontSize = "35";
+    WishMenuHeader.style.width = "100%";
+    WishMenuHeader.style.left = "0px";
+    WishMenuHeader.style.textAlign = "center";
+    WishMenuHeader.style.fontWeight = "500";
+    WishMenuHeader.style.color = "#f39c12";
+    
+    //Seletor
+    const WishMenuWishType = document.createElement("select");
+    WishMenuWishType.style.position = "absolute";
+    WishMenuWishType.style.top = "180px";
+    WishMenuWishType.style.left = "50%";
+    WishMenuWishType.style.transform = "translate(-50%)";
+    WishMenuWishType.placeholder = "Wish type";
+    WishMenuWishType.id = "WishType";
+
+    const WishTypes = ["Abstract", "Material"]; 
+    for(let WishPointer = 0; WishPointer < 2; WishPointer ++){
+        const WishMenuWishTypeOption = document.createElement("option");
+        WishMenuWishTypeOption.value = WishTypes[WishPointer];
+        WishMenuWishTypeOption.innerHTML = WishTypes[WishPointer]; 
+        WishMenuWishType.appendChild(WishMenuWishTypeOption);
+        console.log(WishTypes[WishPointer]);
+    }
+
+    //Selector header
+    const WishMenuWishTypeHeader = document.createElement("div");
+    WishMenuWishTypeHeader.style.position = "absolute";
+    WishMenuWishTypeHeader.style.left = "50%";
+    WishMenuWishTypeHeader.style.transform = "translate(-50%)";        
+    WishMenuWishTypeHeader.style.top = "150px";
+    WishMenuWishTypeHeader.style.color = "var(--col_normalTXT)";
+    WishMenuWishTypeHeader.style.Classname = "text";
+    WishMenuWishTypeHeader.style.fontSize = "20";
+    WishMenuWishTypeHeader.innerHTML = "Enter your wish type";
+    
+    //Wish header
+    const WishMenuWishWishHeader = document.createElement("div");
+    WishMenuWishWishHeader.style.position = "absolute";
+    WishMenuWishWishHeader.style.left = "50%";
+    WishMenuWishWishHeader.style.transform = "translate(-50%)";        
+    WishMenuWishWishHeader.style.top = "250px";
+    WishMenuWishWishHeader.style.color = "var(--col_normalTXT)";
+    WishMenuWishWishHeader.style.Classname = "text";
+    WishMenuWishWishHeader.style.fontSize = "20";
+    WishMenuWishWishHeader.innerHTML = "Enter your wish";
+
+    //Wish input menu
+    const WishMenuWishText = document.createElement("textarea")
+    WishMenuWishText.style.position = "absolute";
+    WishMenuWishText.style.transform = "translate(-50%)";
+    WishMenuWishText.style.top = "280px";
+    WishMenuWishText.style.left = "50%";
+    WishMenuWishText.style.ClassName ="text";
+    WishMenuWishText.placeholder = "wish";
+    WishMenuWishText.ClassName = "text";
+    WishMenuWishText.id = "WishText";
+
+    //Wish save button
+    const WishMenuInputSubmit = document.createElement("button");
+    WishMenuInputSubmit.style.position = "absolute";
+    WishMenuInputSubmit.style.left = "50%";
+    WishMenuInputSubmit.style.top = "400px";
+    WishMenuInputSubmit.style.transform = "translate(-50%)";
+    WishMenuInputSubmit.innerHTML = "Save wish";
+    WishMenuInputSubmit.className = "text";
+    WishMenuInputSubmit.addEventListener("click",function(){
+        SaveWish();
+    }); 
+
+    WishMenu.appendChild(WishMenuInputSubmit);
+    WishMenu.appendChild(WishMenuWishText);
+    WishMenu.appendChild(WishMenuWishWishHeader); 
+    WishMenu.appendChild(WishMenuWishTypeHeader); 
+    WishMenu.appendChild(WishMenuWishType); 
+    WishMenu.appendChild(WishMenuHeader);
+    document.body.appendChild(WishMenu);
+}
+
 
 function SaveWish(){
     const WishType = document.getElementById("WishType").value;
@@ -343,10 +463,6 @@ function SaveWish(){
         GenerateMessageBanner(2,"Wish cannot be empty"); 
     }
 }
-
-
-
-
 
 
 
