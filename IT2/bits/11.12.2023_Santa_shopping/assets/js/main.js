@@ -396,21 +396,31 @@ function ShowUserSettings(){
         UserNameArea.style.padding = "var(--ElementPadding)";    
         UserNameArea.style.backgroundColor = "var(--col_bg_content)";
         UserNameArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
+        UserNameArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
         UserNameArea.style.left = "10px";
         UserNameArea.style.top = "30px"; 
         UserNameArea.style.borderRadius = "var(--CornerRad)";
         
 
         const UserNameAreaIcon = document.createElement("img");
+        UserNameAreaIcon.style.position = "absolute";
+        UserNameAreaIcon.style.top = "50%";
+        UserNameAreaIcon.style.transform = "translate(0,-50%)";
+        UserNameAreaIcon.style.left = "var(--ElementPadding)";
         UserNameAreaIcon.src = "./assets/img/account.svg";
         UserNameAreaIcon.style.height = "32px";
         UserNameAreaIcon.style.width = "auto";
         UserNameAreaIcon.style.filter = "invert()";
         const UserNameAreaName = document.createElement("div");
+        UserNameAreaName.style.position = "absolute";
+        UserNameAreaName.style.top = "50%";
+        UserNameAreaName.style.transform = "translate(0,-50%)";
+        UserNameAreaName.style.left = parseInt(CSSVARS.getPropertyValue('--ElementPadding')) + 32 + "px";
         UserNameAreaName.className = "text";
         UserNameAreaName.innerHTML = CurrentUserName;
         UserNameAreaName.style.color = "var(--col_normalTXT)";
 
+        
 
 
 
