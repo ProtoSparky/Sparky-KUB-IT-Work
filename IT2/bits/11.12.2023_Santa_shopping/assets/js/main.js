@@ -107,7 +107,6 @@ function init(){
     }
     else{
         //Spawn login menu
-        //TODO
         Login();
     }
 
@@ -116,9 +115,8 @@ function CreateAccount(){
     const AccountUserName = document.getElementById("AccountUserName").value;
     const AccountUserAge = document.getElementById("AccountUserAge").value;
     //GenerateMessageBanner(0,"Wrong password");
-
     if(AccountUserName != "" && AccountUserName != ""){
-                //create user profile 
+        //create user profile 
         const NewUserName = AccountUserName + UsernamePrefix;
         let OldUserData = DataOP(1,true,"Accounts");
         OldUserData[NewUserName] = {
@@ -128,11 +126,17 @@ function CreateAccount(){
 
             }
         }
-        DataOP(0,true,"Accounts", OldUserData);
-        console.log(DataOP(1,true,"Accounts"));
-        document.getElementById("AccountWindow").remove(); 
-        CurrentUserName = AccountUserName;        
-        CheckWishList(CurrentUserName + UsernamePrefix);
+        const AccountData = DataOP(1,true,"Accounts");
+        if(AccountData[NewUserName] == undefined){
+            DataOP(0,true,"Accounts", OldUserData);
+            console.log(DataOP(1,true,"Accounts"));
+            document.getElementById("AccountWindow").remove(); 
+            CurrentUserName = AccountUserName;        
+            CheckWishList(CurrentUserName + UsernamePrefix);
+        }
+        else{
+            GenerateMessageBanner(2,"Username is already used!");
+        }
     }
     else{
         GenerateMessageBanner(2,"Password and age cannot be empty!");
@@ -253,6 +257,7 @@ function CheckWishList(username){
         TopBar.id ="topbar";
         document.body.appendChild(Content);
         document.body.appendChild(TopBar);
+        const CurrentUserData = DataOP(1,true,"Accounts")[CurrentUserName + UsernamePrefix];
         //
         if(CurrentUserName != SantaUsername){
             //Normal users
@@ -260,10 +265,10 @@ function CheckWishList(username){
         }
         else{
             //Santa username
+            console.log("user logged in with santa account");
         }
 
-        //Create table area
-        const CurrentUserData = DataOP(1,true,"Accounts")[CurrentUserName + UsernamePrefix];
+        //Create table area        
         const WishTableArea = document.createElement("div");
         WishTableArea.style.position = "absolute";
         WishTableArea.style.transform  ="translate(-50%,-50%)";
@@ -744,7 +749,21 @@ function CreateAnotherAccount(){
     AccountWindowInputSubmit.innerHTML = "Create Account";
     AccountWindowInputSubmit.addEventListener("click",function(){
         CreateAccount();
-    });    
+    });   
+    
+    //Exit to login button
+    const AccountWindowInputExit = document.createElement("img");
+    AccountWindowInputExit.src = "./assets/img/close.svg";
+    AccountWindowInputExit.style.width = "30px";
+    AccountWindowInputExit.style.height = "auto";
+    AccountWindowInputExit.style.position = "absolute";
+    AccountWindowInputExit.style.top = "var(--ElementPadding)";
+    AccountWindowInputExit.style.right = "var(--ElementPadding)";
+    AccountWindowInputExit.style.filter = "invert()";
+    AccountWindowInputExit.style.cursor="pointer";
+    AccountWindowInputExit.addEventListener("click",function(){
+        Login();
+    });
 
 
 
@@ -755,6 +774,7 @@ function CreateAnotherAccount(){
     AccountWindow.appendChild(AccountWindowInputUserName); 
     AccountWindow.appendChild(AccountWindowInputUserAge);
     AccountWindow.appendChild(AccountWindowInputSubmit);
+    AccountWindow.appendChild(AccountWindowInputExit);
 }
 
 
