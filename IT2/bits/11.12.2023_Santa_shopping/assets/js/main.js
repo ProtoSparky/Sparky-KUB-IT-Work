@@ -2,6 +2,7 @@
 var UsernamePrefix = "_usrNane";
 var SantaUsername = "santa"+ UsernamePrefix;
 var CurrentUserName = null; 
+var UserSettingsWindowOpen = false; 
 function init(){
     const SantaAge = "1753"; 
     const SantaProfile = {
@@ -364,7 +365,46 @@ function CheckWishList(username){
 }
 
 function ShowUserSettings(){
-    console.log("UWU"); 
+    if(!UserSettingsWindowOpen){
+        //Open User settings window
+        UserSettingsWindowOpen = true; 
+
+        //Window
+        const UserSettingsWindow = document.createElement("div");
+        UserSettingsWindow.id = "UserSettingsWindow";
+        UserSettingsWindow.style.position = "absolute";
+        UserSettingsWindow.style.top = "0px";
+        UserSettingsWindow.style.left = "0px";
+        UserSettingsWindow.style.width = "300px";
+        UserSettingsWindow.style.height = "100%";
+        UserSettingsWindow.style.backgroundColor = "var(--col_bg_lighter)";
+
+        //Visual divider 
+        const UserSettingsWindowDivider = document.createElement("div");
+        UserSettingsWindowDivider.style.position = "absolute";
+        UserSettingsWindowDivider.style.left = "0px";
+        UserSettingsWindowDivider.style.width = "100%";
+        UserSettingsWindowDivider.style.height = "1px";
+        UserSettingsWindowDivider.style.backgroundColor = "var(--col_bg_div1)";
+        UserSettingsWindowDivider.style.filter = "opacity(50%)";
+
+        const UserNameArea = document.createElement("div");
+        UserNameArea.style.position = "absolute";
+        UserNameArea.style.padding = "var(--ElementPadding)";
+        
+
+
+
+        document.getElementById("content").appendChild(UserSettingsWindow);
+        UserSettingsWindow.appendChild(UserSettingsWindowDivider);
+        UserSettingsWindow.appendChild(UserNameArea);
+    }   
+    else{
+        //Close user settings window
+        UserSettingsWindowOpen = false; 
+        document.getElementById("UserSettingsWindow").remove();
+
+    }
 }
 
 
@@ -461,7 +501,35 @@ function NewWishMenu(){
     WishMenuInputSubmit.innerHTML = "Save wish";
     WishMenuInputSubmit.addEventListener("click",function(){
         SaveWish();
+
+        //This fix is a stupid workaround, and will probably cause issues, but eh... it works now. 
+        if(UserSettingsWindowOpen){
+            UserSettingsWindowOpen = false;
+            ShowUserSettings();
+        }
     }); 
+
+    //Exit button
+    const WishMenuExit = document.createElement("img");
+    WishMenuExit.src = "./assets/img/close.svg";
+    WishMenuExit.style.width = "30px";
+    WishMenuExit.style.height = "auto";
+    WishMenuExit.style.position = "absolute";
+    WishMenuExit.style.top = "var(--ElementPadding)";
+    WishMenuExit.style.right = "var(--ElementPadding)";
+    WishMenuExit.style.filter = "invert()";
+    WishMenuExit.style.cursor="pointer";
+    WishMenuExit.addEventListener("click",function(){
+        document.getElementById("WishMenu").remove();
+        CheckWishList(CurrentUserName + UsernamePrefix);
+
+        //This fix is a stupid workaround, and will probably cause issues, but eh... it works now. 
+        if(UserSettingsWindowOpen){
+            UserSettingsWindowOpen = false;
+            ShowUserSettings();
+        }
+    });
+
 
     WishMenu.appendChild(WishMenuInputSubmit);
     WishMenu.appendChild(WishMenuWishText);
@@ -469,6 +537,7 @@ function NewWishMenu(){
     WishMenu.appendChild(WishMenuWishTypeHeader); 
     WishMenu.appendChild(WishMenuWishType); 
     WishMenu.appendChild(WishMenuHeader);
+    WishMenu.appendChild(WishMenuExit);
     document.body.appendChild(WishMenu);
 }
 
