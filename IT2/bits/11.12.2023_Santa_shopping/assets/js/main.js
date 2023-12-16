@@ -3,6 +3,7 @@ var UsernamePrefix = "_usrNane";
 var SantaUsername = "santa"+ UsernamePrefix;
 var CurrentUserName = null; 
 var UserSettingsWindowOpen = false; 
+var CSSVARS = getComputedStyle(document.documentElement);
 function init(){
     const SantaAge = "1753"; 
     const SantaProfile = {
@@ -388,16 +389,39 @@ function ShowUserSettings(){
         UserSettingsWindowDivider.style.backgroundColor = "var(--col_bg_div1)";
         UserSettingsWindowDivider.style.filter = "opacity(50%)";
 
+
+        //Username and username icon
         const UserNameArea = document.createElement("div");
         UserNameArea.style.position = "absolute";
-        UserNameArea.style.padding = "var(--ElementPadding)";
+        UserNameArea.style.padding = "var(--ElementPadding)";    
+        UserNameArea.style.backgroundColor = "var(--col_bg_content)";
+        UserNameArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
+        UserNameArea.style.left = "10px";
+        UserNameArea.style.top = "30px"; 
+        UserNameArea.style.borderRadius = "var(--CornerRad)";
         
+
+        const UserNameAreaIcon = document.createElement("img");
+        UserNameAreaIcon.src = "./assets/img/account.svg";
+        UserNameAreaIcon.style.height = "32px";
+        UserNameAreaIcon.style.width = "auto";
+        UserNameAreaIcon.style.filter = "invert()";
+        const UserNameAreaName = document.createElement("div");
+        UserNameAreaName.className = "text";
+        UserNameAreaName.innerHTML = CurrentUserName;
+        UserNameAreaName.style.color = "var(--col_normalTXT)";
+
+
+
+
 
 
 
         document.getElementById("content").appendChild(UserSettingsWindow);
         UserSettingsWindow.appendChild(UserSettingsWindowDivider);
         UserSettingsWindow.appendChild(UserNameArea);
+        UserNameArea.appendChild(UserNameAreaIcon);
+        UserNameArea.appendChild(UserNameAreaName); 
     }   
     else{
         //Close user settings window
