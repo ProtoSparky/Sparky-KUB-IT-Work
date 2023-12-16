@@ -108,6 +108,7 @@ function init(){
     else{
         //Spawn login menu
         //TODO
+        Login();
     }
 
 }
@@ -392,6 +393,7 @@ function ShowUserSettings(){
 
         //Username and username icon
         const UserNameArea = document.createElement("div");
+        UserNameArea.style.userSelect = "none";
         UserNameArea.style.position = "absolute";
         UserNameArea.style.padding = "var(--ElementPadding)";    
         UserNameArea.style.backgroundColor = "var(--col_bg_content)";
@@ -420,9 +422,9 @@ function ShowUserSettings(){
         
         //user logout button
         const UserLogoutArea = document.createElement("div");
+        UserLogoutArea.style.userSelect = "none";
         UserLogoutArea.style.position = "absolute";
         UserLogoutArea.style.padding = "var(--ElementPadding)";
-        //UserLogoutArea.style.backgroundColor = "var(--col_bg_content)";
         UserLogoutArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
         UserLogoutArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
         UserLogoutArea.style.left = "10px";
@@ -430,7 +432,7 @@ function ShowUserSettings(){
         UserLogoutArea.style.top = 30 + (32 + parseInt(AccessCSSVar("--ElementPadding"))) + parseInt(AccessCSSVar("--ElementPadding")) * 4 + "px"; 
         UserLogoutArea.style.cursor = "pointer";
         UserLogoutArea.addEventListener("click",function(){
-            LogOut(); 
+            Login(true);
         });
         UserLogoutArea.id = "Fade2red";        
         
@@ -454,6 +456,7 @@ function ShowUserSettings(){
 
         //Delete user data
         const UserDeleteDataArea = document.createElement("div");
+        UserDeleteDataArea.style.userSelect = "none";
         UserDeleteDataArea.style.position = "absolute";
         UserDeleteDataArea.style.padding = "var(--ElementPadding)";    
         UserDeleteDataArea.id = "Fade2red";
@@ -464,7 +467,7 @@ function ShowUserSettings(){
         UserDeleteDataArea.style.borderRadius = "var(--CornerRad)"; 
         UserDeleteDataArea.style.cursor = "pointer";
         UserDeleteDataArea.addEventListener("click",function(){
-            //Delete user account 
+            DeleteAccount(CurrentUserName + UsernamePrefix);
         });
         const UserDeleteDataIcon = document.createElement("img");
         UserDeleteDataIcon.style.position = "absolute";
@@ -494,15 +497,13 @@ function ShowUserSettings(){
         SiteDeleteDataArea.style.bottom = "30px"; 
         SiteDeleteDataArea.style.borderRadius = "var(--CornerRad)"; 
         SiteDeleteDataArea.id = "Fade2red";
+        SiteDeleteDataArea.style.userSelect = "none";
         SiteDeleteDataArea.addEventListener("click",function(){
             DataOP(3,true,"Accounts","null");
             GenerateMessageBanner(1,"All site data cleared! Reloading in 3s");
             setTimeout(function() {
                 location.reload();
-            }, 3000);
-
-
-            
+            }, 3000);            
         });       
         const SiteDeleteDataIcon = document.createElement("img");
         SiteDeleteDataIcon.style.position = "absolute";
@@ -520,8 +521,7 @@ function ShowUserSettings(){
         SiteDeleteDataText.style.left = parseInt(CSSVARS.getPropertyValue('--ElementPadding')) + 32 + "px";
         SiteDeleteDataText.className = "text";
         SiteDeleteDataText.innerHTML = "Delete all site data";
-        SiteDeleteDataText.style.color = "var(--col_normalTXT)";
-        
+        SiteDeleteDataText.style.color = "var(--col_normalTXT)";        
 
 
 
@@ -549,8 +549,87 @@ function ShowUserSettings(){
     }
 }
 
-function LogOut(){
 
+function DeleteAccount(UserName){
+    const OldUserData = DataOP(1,true,"Accounts");
+    delete OldUserData[UserName];
+    console.log(OldUserData);
+    DataOP(0,true,"Accounts",OldUserData);
+    GenerateMessageBanner(1,"User deleted! Reloading in 3s");
+    setTimeout(function() {
+        location.reload();
+    }, 3000);   
+}
+
+function Login(){
+
+    const topbar = document.getElementById("topbar");
+    const content = document.getElementById("content");
+    const contentfullScreen = document.getElementById("content-fullScreen"); 
+    if(topbar != undefined){
+        topbar.remove();
+    }
+    if(content != undefined){
+        content.remove();
+    }
+    if(contentfullScreen != undefined){
+        contentfullScreen.remove();
+    }
+    const content_fullScreenWindow = document.createElement("div");
+    content_fullScreenWindow.id = "content-fullScreen";
+    document.body.appendChild(content_fullScreenWindow);
+    CurrentUserName = null;     
+
+    const AccountWindow = document.createElement("div");
+    AccountWindow.id = "AccountWindow";
+    AccountWindow.style.position = "absolute";
+    AccountWindow.style.left = "50%";
+    AccountWindow.style.top = "50%";
+    AccountWindow.style.width = "500px";
+    AccountWindow.style.height = "500px";
+    AccountWindow.style.transform = "translate(-50%,-50%)";
+    AccountWindow.style.backgroundColor = "var(--col_bg_lighter)";
+    AccountWindow.style.borderRadius = "var(--CornerRad)";
+
+    //header |  Create your first account
+    const AccountWindowHeader = document.createElement("div");
+    AccountWindowHeader.innerHTML = "Login";
+    AccountWindowHeader.style.position = "absolute";
+    AccountWindowHeader.style.top = "30px";
+    AccountWindowHeader.className = "text";
+    AccountWindowHeader.style.fontSize = "35";
+    AccountWindowHeader.style.width = "100%";
+    AccountWindowHeader.style.left = "0px";
+    AccountWindowHeader.style.textAlign = "center";
+    AccountWindowHeader.style.fontWeight = "500";
+    AccountWindowHeader.style.color = "#f39c12";
+    AccountWindowHeader.className = "text";
+
+    const AccountWindowInputUserName = document.createElement("input");
+    AccountWindowInputUserName.style.position = "absolute";
+    AccountWindowInputUserName.style.top = "250px";
+    AccountWindowInputUserName.style.left = "50%";
+    AccountWindowInputUserName.style.transform = "translate(-50%)";
+    AccountWindowInputUserName.placeholder = "Username";
+    AccountWindowInputUserName.id = "AccountUserName";
+    AccountWindowInputUserName.className = "text";
+
+    const AccountWindowInputSubmit = document.createElement("button");
+    AccountWindowInputSubmit.style.position = "absolute";
+    AccountWindowInputSubmit.style.left = "50%";
+    AccountWindowInputSubmit.style.top = "350px";
+    AccountWindowInputSubmit.style.transform = "translate(-50%)";
+    AccountWindowInputSubmit.innerHTML = "Create Account";
+    AccountWindowInputSubmit.addEventListener("click",function(){
+        CreateAccount();
+    }); 
+
+    //get parent window and append login window
+    const content_fullScreen = document.getElementById("content-fullScreen");
+    content_fullScreen.appendChild(AccountWindow); 
+    AccountWindow.appendChild(AccountWindowHeader); 
+    AccountWindow.appendChild(AccountWindowInputUserName); 
+    AccountWindow.appendChild(AccountWindowInputSubmit);
 }
 
 
