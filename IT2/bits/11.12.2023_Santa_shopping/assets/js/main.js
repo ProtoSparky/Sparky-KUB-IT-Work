@@ -399,8 +399,7 @@ function ShowUserSettings(){
         UserNameArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
         UserNameArea.style.left = "10px";
         UserNameArea.style.top = "30px"; 
-        UserNameArea.style.borderRadius = "var(--CornerRad)";        
-
+        UserNameArea.style.borderRadius = "var(--CornerRad)";
         const UserNameAreaIcon = document.createElement("img");
         UserNameAreaIcon.style.position = "absolute";
         UserNameAreaIcon.style.top = "50%";
@@ -423,12 +422,17 @@ function ShowUserSettings(){
         const UserLogoutArea = document.createElement("div");
         UserLogoutArea.style.position = "absolute";
         UserLogoutArea.style.padding = "var(--ElementPadding)";
-        UserLogoutArea.style.backgroundColor = "var(--col_bg_content)";
+        //UserLogoutArea.style.backgroundColor = "var(--col_bg_content)";
         UserLogoutArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
         UserLogoutArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
         UserLogoutArea.style.left = "10px";
         UserLogoutArea.style.borderRadius = "var(--CornerRad)";   
         UserLogoutArea.style.top = 30 + (32 + parseInt(AccessCSSVar("--ElementPadding"))) + parseInt(AccessCSSVar("--ElementPadding")) * 4 + "px"; 
+        UserLogoutArea.style.cursor = "pointer";
+        UserLogoutArea.addEventListener("click",function(){
+            LogOut(); 
+        });
+        UserLogoutArea.id = "Fade2red";        
         
         const UserLogoutAreaIcon = document.createElement("img"); 
         UserLogoutAreaIcon.style.position = "absolute";
@@ -448,6 +452,77 @@ function ShowUserSettings(){
         UserLogoutAreaText.innerHTML = "Logout";
         UserLogoutAreaText.style.color = "var(--col_normalTXT)";
 
+        //Delete user data
+        const UserDeleteDataArea = document.createElement("div");
+        UserDeleteDataArea.style.position = "absolute";
+        UserDeleteDataArea.style.padding = "var(--ElementPadding)";    
+        UserDeleteDataArea.id = "Fade2red";
+        UserDeleteDataArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
+        UserDeleteDataArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
+        UserDeleteDataArea.style.left = "10px";
+        UserDeleteDataArea.style.bottom = "102px"; 
+        UserDeleteDataArea.style.borderRadius = "var(--CornerRad)"; 
+        UserDeleteDataArea.style.cursor = "pointer";
+        UserDeleteDataArea.addEventListener("click",function(){
+            //Delete user account 
+        });
+        const UserDeleteDataIcon = document.createElement("img");
+        UserDeleteDataIcon.style.position = "absolute";
+        UserDeleteDataIcon.style.top = "50%";
+        UserDeleteDataIcon.style.transform = "translate(0,-50%)";
+        UserDeleteDataIcon.style.left = "var(--ElementPadding)";
+        UserDeleteDataIcon.src = "./assets/img/delete-forever.svg";
+        UserDeleteDataIcon.style.height = "32px";
+        UserDeleteDataIcon.style.width = "auto";
+        UserDeleteDataIcon.style.filter = "invert(47%) sepia(64%) saturate(7415%) hue-rotate(340deg) brightness(97%) contrast(127%)";        
+        const UserDeleteDataText = document.createElement("div");
+        UserDeleteDataText.style.position = "absolute";
+        UserDeleteDataText.style.top = "50%";
+        UserDeleteDataText.style.transform = "translate(0,-50%)";
+        UserDeleteDataText.style.left = parseInt(CSSVARS.getPropertyValue('--ElementPadding')) + 32 + "px";
+        UserDeleteDataText.className = "text";
+        UserDeleteDataText.innerHTML = "Delete user account";
+        UserDeleteDataText.style.color = "var(--col_normalTXT)";
+
+        //Delete all site data
+        const SiteDeleteDataArea = document.createElement("div");
+        SiteDeleteDataArea.style.position = "absolute";
+        SiteDeleteDataArea.style.padding = "var(--ElementPadding)";    
+        SiteDeleteDataArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
+        SiteDeleteDataArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
+        SiteDeleteDataArea.style.left = "10px";
+        SiteDeleteDataArea.style.bottom = "30px"; 
+        SiteDeleteDataArea.style.borderRadius = "var(--CornerRad)"; 
+        SiteDeleteDataArea.id = "Fade2red";
+        SiteDeleteDataArea.addEventListener("click",function(){
+            DataOP(3,true,"Accounts","null");
+            GenerateMessageBanner(1,"All site data cleared! Reloading in 3s");
+            setTimeout(function() {
+                location.reload();
+            }, 3000);
+
+
+            
+        });       
+        const SiteDeleteDataIcon = document.createElement("img");
+        SiteDeleteDataIcon.style.position = "absolute";
+        SiteDeleteDataIcon.style.top = "50%";
+        SiteDeleteDataIcon.style.transform = "translate(0,-50%)";
+        SiteDeleteDataIcon.style.left = "var(--ElementPadding)";
+        SiteDeleteDataIcon.src = "./assets/img/delete-forever.svg";
+        SiteDeleteDataIcon.style.height = "32px";
+        SiteDeleteDataIcon.style.width = "auto";
+        SiteDeleteDataIcon.style.filter = "invert(47%) sepia(64%) saturate(7415%) hue-rotate(340deg) brightness(97%) contrast(127%)";    
+        const SiteDeleteDataText = document.createElement("div");
+        SiteDeleteDataText.style.position = "absolute";
+        SiteDeleteDataText.style.top = "50%";
+        SiteDeleteDataText.style.transform = "translate(0,-50%)";
+        SiteDeleteDataText.style.left = parseInt(CSSVARS.getPropertyValue('--ElementPadding')) + 32 + "px";
+        SiteDeleteDataText.className = "text";
+        SiteDeleteDataText.innerHTML = "Delete all site data";
+        SiteDeleteDataText.style.color = "var(--col_normalTXT)";
+        
+
 
 
         document.getElementById("content").appendChild(UserSettingsWindow);
@@ -458,6 +533,12 @@ function ShowUserSettings(){
         UserSettingsWindow.appendChild(UserLogoutArea); 
         UserLogoutArea.appendChild(UserLogoutAreaIcon);
         UserLogoutArea.appendChild(UserLogoutAreaText);
+        UserSettingsWindow.appendChild(UserDeleteDataArea);
+        UserDeleteDataArea.appendChild(UserDeleteDataIcon);
+        UserDeleteDataArea.appendChild(UserDeleteDataText);
+        UserSettingsWindow.appendChild(SiteDeleteDataArea);
+        SiteDeleteDataArea.appendChild(SiteDeleteDataIcon); 
+        SiteDeleteDataArea.appendChild(SiteDeleteDataText);
         
     }   
     else{
@@ -466,6 +547,10 @@ function ShowUserSettings(){
         document.getElementById("UserSettingsWindow").remove();
 
     }
+}
+
+function LogOut(){
+
 }
 
 
