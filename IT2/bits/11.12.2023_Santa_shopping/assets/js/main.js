@@ -1,8 +1,8 @@
 
 var UsernamePrefix = "_usrNane";
+var SantaUsername = "santa"+ UsernamePrefix;
 var CurrentUserName = null; 
 function init(){
-    const SantaUsername = "santa"+ UsernamePrefix;
     const SantaAge = "1753"; 
     const SantaProfile = {
         [SantaUsername]:{
@@ -132,8 +132,7 @@ function CreateAccount(){
         DataOP(0,true,"Accounts", OldUserData);
         console.log(DataOP(1,true,"Accounts"));
         document.getElementById("AccountWindow").remove(); 
-        CurrentUserName = AccountUserName;
-        
+        CurrentUserName = AccountUserName;        
         CheckWishList(CurrentUserName + UsernamePrefix);
     }
     else{
@@ -145,12 +144,12 @@ function CreateAccount(){
 }
 
 
-function CheckWishList (username){
+function CheckWishList(username){
     const SiteData = DataOP(1,true,"Accounts");
 
     if(Object.keys(SiteData[username]["wish"]).length == 0){
         //user has no wishes, spawn wish menu
-        console.log("User has no wishes"); 
+        console.info("User has no wishes"); 
 
         const WishMenu = document.createElement("div");
         WishMenu.style.position = "absolute";
@@ -165,7 +164,7 @@ function CheckWishList (username){
 
         //Header
         const WishMenuHeader = document.createElement("div");
-        WishMenuHeader.innerHTML = "Enter your wish";
+        WishMenuHeader.innerHTML = "Enter your first wish";
         WishMenuHeader.style.position = "absolute";
         WishMenuHeader.style.top = "30px";
         WishMenuHeader.className = "text";
@@ -249,19 +248,86 @@ function CheckWishList (username){
     }
     else{
         //spawn list of wishes and wish menu
+        console.log("User has wishes!");
+
+        //Replace full screen content window with content window and top bar
+        document.getElementById("content-fullScreen").remove();
+        const Content = document.createElement("div");
+        Content.id = "content";
+        const TopBar = document.createElement("div");
+        TopBar.id ="topbar";
+        document.body.appendChild(Content);
+        document.body.appendChild(TopBar);
+        //
+        if(CurrentUserName != SantaUsername){
+            //Normal users
+            
+        }
+        else{
+            //Santa username
+        }
+
+        //Create table area
+        const CurrentUserData = DataOP(1,true,"Accounts")[CurrentUserName + UsernamePrefix];
+        const WishTableArea = document.createElement("div");
+        WishTableArea.style.position = "absolute";
+        WishTableArea.style.transform  ="translate(-50%,-50%)";
+        WishTableArea.style.top = "55%";
+        WishTableArea.style.left = "50%";
+        WishTableArea.style.width = "800px";
+        WishTableArea.style.height = "500px";
+        WishTableArea.style.backgroundColor = "var(--col_bg_lighter)";
+        WishTableArea.style.borderRadius  = "var(--CornerRad)";
+        WishTableArea.id = "WishTableArea"; 
+        Content.appendChild(WishTableArea);
+
+        //Create table with text
+        const WishTable = document.createElement("table");
+        WishTable.style.position = "absolute";
+        WishTable.style.width = "100%";
+        const CurrentUserWishes = CurrentUserData["wish"];
+        const CurrentUserWishesAmount = Object.keys(CurrentUserWishes).length; 
+
+        const TableHeader = document.createElement("tr");
+        const TableHeaderWishType = document.createElement("th");
+        TableHeaderWishType.innerHTML = "Wish type";
+        const TableHeaderWish = document.createElement("th");
+        TableHeaderWish.innerHTML = "Wish";
+        TableHeader.appendChild(TableHeaderWishType);
+        TableHeader.appendChild(TableHeaderWish);
+        WishTable.appendChild(TableHeader);
+        for(let WishPointer = 0; WishPointer < CurrentUserWishesAmount; WishPointer++){
+            const CurrentDataName = Object.keys(CurrentUserWishes)[WishPointer];
+            const CurrentData = CurrentUserData["wish"][CurrentDataName];  
+            const TableRow = document.createElement("tr");
+            const TableRowWishType = document.createElement("td");
+            TableRowWishType.innerHTML = CurrentData["wishtype"];            
+            const TableRowWish = document.createElement("td");
+            TableRowWish.innerHTML =  CurrentData["wishname"];
+
+            TableRow.appendChild(TableRowWishType);
+            TableRow.appendChild(TableRowWish);
+            WishTable.appendChild(TableRow); 
+
+        }
+        WishTableArea.appendChild(WishTable);
+
+        
+
+
+
+
+
+
     }
 }
-
 
 function SaveWish(){
     const WishType = document.getElementById("WishType").value;
     const WishText = document.getElementById("WishText").value;
     if(WishText != ""){
         //save data
-        let SiteData = DataOP(1,true,"Accounts");
-        //let CurrentUserData = SiteData[CurrentUserName + UsernamePrefix];
-        //let CurrentUserWishes = CurrentUserData["wish"];
-        //let CurrentUserWishLength = Object.keys(CurrentUserWishes).length        
+        let SiteData = DataOP(1,true,"Accounts");     
         let WishTemplate = {
             "wishname":WishText,
             "wishtype":WishType
@@ -269,6 +335,9 @@ function SaveWish(){
         SiteData[CurrentUserName + UsernamePrefix]["wish"][Object.keys(SiteData[CurrentUserName + UsernamePrefix]["wish"]).length] = WishTemplate;
         DataOP(0,true,"Accounts",SiteData);
         console.log(SiteData);  
+        document.getElementById("WishMenu").remove();
+        CheckWishList(CurrentUserName + UsernamePrefix);
+
     }
     else{
         GenerateMessageBanner(2,"Wish cannot be empty"); 
