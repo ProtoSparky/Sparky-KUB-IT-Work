@@ -432,7 +432,8 @@ function ShowUserSettings(){
         UserLogoutArea.style.top = 30 + (32 + parseInt(AccessCSSVar("--ElementPadding"))) + parseInt(AccessCSSVar("--ElementPadding")) * 4 + "px"; 
         UserLogoutArea.style.cursor = "pointer";
         UserLogoutArea.addEventListener("click",function(){
-            Login(true);
+            Login();
+            UserSettingsWindowOpen = false; 
         });
         UserLogoutArea.id = "Fade2red";        
         
@@ -544,7 +545,13 @@ function ShowUserSettings(){
     else{
         //Close user settings window
         UserSettingsWindowOpen = false; 
-        document.getElementById("UserSettingsWindow").remove();
+        if(document.getElementById("UserSettingsWindow") != undefined){
+            document.getElementById("UserSettingsWindow").remove();
+        }
+        else{
+            console.error("ShowUserSettings | UserSettingsWindowOpen is for some reason true but element does not exist")
+            document.getElementById("UserSettingsWindow").remove();
+        }
 
     }
 }
