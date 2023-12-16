@@ -399,8 +399,7 @@ function ShowUserSettings(){
         UserNameArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
         UserNameArea.style.left = "10px";
         UserNameArea.style.top = "30px"; 
-        UserNameArea.style.borderRadius = "var(--CornerRad)";
-        
+        UserNameArea.style.borderRadius = "var(--CornerRad)";        
 
         const UserNameAreaIcon = document.createElement("img");
         UserNameAreaIcon.style.position = "absolute";
@@ -419,11 +418,35 @@ function ShowUserSettings(){
         UserNameAreaName.className = "text";
         UserNameAreaName.innerHTML = CurrentUserName;
         UserNameAreaName.style.color = "var(--col_normalTXT)";
-
         
-
-
-
+        //user logout button
+        const UserLogoutArea = document.createElement("div");
+        UserLogoutArea.style.position = "absolute";
+        UserLogoutArea.style.padding = "var(--ElementPadding)";
+        UserLogoutArea.style.backgroundColor = "var(--col_bg_content)";
+        UserLogoutArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
+        UserLogoutArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
+        UserLogoutArea.style.left = "10px";
+        UserLogoutArea.style.borderRadius = "var(--CornerRad)";   
+        UserLogoutArea.style.top = 30 + (32 + parseInt(AccessCSSVar("--ElementPadding"))) + parseInt(AccessCSSVar("--ElementPadding")) * 4 + "px"; 
+        
+        const UserLogoutAreaIcon = document.createElement("img"); 
+        UserLogoutAreaIcon.style.position = "absolute";
+        UserLogoutAreaIcon.style.top = "50%";
+        UserLogoutAreaIcon.style.transform = "translate(0,-50%)";
+        UserLogoutAreaIcon.style.left = "var(--ElementPadding)";
+        UserLogoutAreaIcon.src = "./assets/img/logout.svg";
+        UserLogoutAreaIcon.style.height = "32px";
+        UserLogoutAreaIcon.style.width = "auto";
+        UserLogoutAreaIcon.style.filter = "invert()";
+        const UserLogoutAreaText = document.createElement("div");
+        UserLogoutAreaText.style.position = "absolute";
+        UserLogoutAreaText.style.top = "50%";
+        UserLogoutAreaText.style.transform = "translate(0,-50%)";
+        UserLogoutAreaText.style.left = parseInt(CSSVARS.getPropertyValue('--ElementPadding')) + 32 + "px";
+        UserLogoutAreaText.className = "text";
+        UserLogoutAreaText.innerHTML = "Logout";
+        UserLogoutAreaText.style.color = "var(--col_normalTXT)";
 
 
 
@@ -432,6 +455,10 @@ function ShowUserSettings(){
         UserSettingsWindow.appendChild(UserNameArea);
         UserNameArea.appendChild(UserNameAreaIcon);
         UserNameArea.appendChild(UserNameAreaName); 
+        UserSettingsWindow.appendChild(UserLogoutArea); 
+        UserLogoutArea.appendChild(UserLogoutAreaIcon);
+        UserLogoutArea.appendChild(UserLogoutAreaText);
+        
     }   
     else{
         //Close user settings window
