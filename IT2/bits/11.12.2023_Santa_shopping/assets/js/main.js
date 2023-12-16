@@ -20,18 +20,15 @@ function init(){
     DataOP(3,true,"Accounts","null"); //Delete all site data
 
     if(DataOP(1,true,"Accounts","null") == undefined){
-        console.info("Accounts empty, setting up new ones....")
+        console.info("init(); | Accounts empty, setting up new ones....")
         DataOP(0,true,"Accounts",SantaProfile); //set up santa's account
-        //console.log(DataOP(1,true,"Accounts","null"));
         
     }
     else{
-        console.info("Accounts populated, skipping setup..."); 
+        console.info("init(); | Accounts populated, skipping setup..."); 
     }
 
     //check if other users exist
-    //console.log(Object.keys(DataOP(1,true,"Accounts","null")));
-    //console.log(Object.keys(DataOP(1,true,"Accounts","null")).length);
     if(Object.keys(DataOP(1,true,"Accounts","null")).length == 1){
         // check if other acconts exist, if not, propt account creation
         const AccountWindow = document.createElement("div");
@@ -91,7 +88,6 @@ function init(){
         AccountWindowInputSubmit.style.top = "350px";
         AccountWindowInputSubmit.style.transform = "translate(-50%)";
         AccountWindowInputSubmit.innerHTML = "Create Account";
-        AccountWindowInputSubmit.className = "text";
         AccountWindowInputSubmit.addEventListener("click",function(){
             CreateAccount();
         });    
@@ -138,9 +134,6 @@ function CreateAccount(){
     else{
         GenerateMessageBanner(2,"Password and age cannot be empty!");
     }
-
-
-
 }
 
 
@@ -149,7 +142,7 @@ function CheckWishList(username){
 
     if(Object.keys(SiteData[username]["wish"]).length == 0){
         //user has no wishes, spawn wish menu
-        console.info("User has no wishes"); 
+        console.info("CheckWishList(); | User has no wishes"); 
 
         const WishMenu = document.createElement("div");
         WishMenu.style.position = "absolute";
@@ -190,9 +183,7 @@ function CheckWishList(username){
             WishMenuWishTypeOption.value = WishTypes[WishPointer];
             WishMenuWishTypeOption.innerHTML = WishTypes[WishPointer]; 
             WishMenuWishType.appendChild(WishMenuWishTypeOption);
-            console.log(WishTypes[WishPointer]);
         }
-
         //Selector header
         const WishMenuWishTypeHeader = document.createElement("div");
         WishMenuWishTypeHeader.style.position = "absolute";
@@ -233,22 +224,23 @@ function CheckWishList(username){
         WishMenuInputSubmit.style.top = "400px";
         WishMenuInputSubmit.style.transform = "translate(-50%)";
         WishMenuInputSubmit.innerHTML = "Save wish";
-        WishMenuInputSubmit.className = "text";
         WishMenuInputSubmit.addEventListener("click",function(){
             SaveWish();
         }); 
 
-        WishMenu.appendChild(WishMenuInputSubmit);
+        
         WishMenu.appendChild(WishMenuWishText);
         WishMenu.appendChild(WishMenuWishWishHeader); 
         WishMenu.appendChild(WishMenuWishTypeHeader); 
         WishMenu.appendChild(WishMenuWishType); 
         WishMenu.appendChild(WishMenuHeader);
+        WishMenu.appendChild(WishMenuInputSubmit);
         document.body.appendChild(WishMenu);
+        
     }
     else{
         //spawn list of wishes and wish menu
-        console.log("User has wishes!");
+        console.info("CheckWishList(); | User has wishes!");
 
         //Replace full screen content window with content window and top bar
         document.getElementById("content-fullScreen").remove();
@@ -313,26 +305,66 @@ function CheckWishList(username){
         WishTableArea.appendChild(WishTable);
 
         //Spawn new wish button
-
-        const NewWishBTN = document.createElement("div");
+        const NewWishBTN = document.createElement("button");
         NewWishBTN.style.position = "absolute";
         NewWishBTN.style.top = "50%";
         NewWishBTN.style.transform = "translate(0,-50%)";
         NewWishBTN.style.width = "100px";
-        NewWishBTN.style.height = "20px";
+ 
         NewWishBTN.style.right = "var(--ElementPadding)";
-         /*
-        NewWishBTN.style.backgroundColor = "var(--col_link_TXT)";
-        NewWishBTN.style.borderRadius = "var(--CornerRad)";
-        NewWishBTN.style.padding = "var(--ElementPadding)";
-        */
         NewWishBTN.innerHTML = "Add wish";
-        NewWishBTN.id = "NewWishBTN";
+
         NewWishBTN.addEventListener("click",function(){
             NewWishMenu();
         });
         TopBar.appendChild(NewWishBTN);
+
+        //spawn account settings
+
+        const AccountSettings = document.createElement("button");
+        AccountSettings.style.position = "absolute";
+        AccountSettings.style.transform = "translate(0,-50%)";
+        AccountSettings.style.top = "50%";
+        AccountSettings.style.left = "var(--ElementPadding)";
+        AccountSettings.style.padding = "var(--ElementPadding)";
+        AccountSettings.style.width = "120px";
+        AccountSettings.style.height = "32px";
+        AccountSettings.addEventListener("click", function(){
+            ShowUserSettings(); 
+        })
+
+        //account settings img
+        const AccountSettingsIMG = document.createElement("img")
+        AccountSettingsIMG.src = "./assets/img/account.svg";
+        AccountSettingsIMG.style.position = "absolute";
+        AccountSettingsIMG.style.left = "var(--ElementPadding)";
+        AccountSettingsIMG.style.top = "50%";
+        AccountSettingsIMG.style.transform = "translate(0,-50%)";
+        AccountSettingsIMG.style.height = "32px"; 
+        AccountSettingsIMG.style.width = "auto";
+        AccountSettingsIMG.style.filter = "invert()";
+
+
+        //account settings text
+        const AccountSettingsTXT = document.createElement("div");
+        AccountSettingsTXT.style.position = "absolute";
+        AccountSettingsTXT.style.left = "45px";
+        AccountSettingsTXT.innerHTML = "Settings";
+        AccountSettingsTXT.className = "text";
+        AccountSettingsTXT.style.color = "var(--col_normalTXT)";
+        AccountSettingsTXT.style.top = "50%";
+        AccountSettingsTXT.style.transform = "translate(0,-50%)";
+
+        TopBar.appendChild(AccountSettings);
+        AccountSettings.appendChild(AccountSettingsIMG);
+        AccountSettings.appendChild(AccountSettingsTXT); 
+
+
     }
+}
+
+function ShowUserSettings(){
+    console.log("UWU"); 
 }
 
 
@@ -378,13 +410,13 @@ function NewWishMenu(){
     WishMenuWishType.placeholder = "Wish type";
     WishMenuWishType.id = "WishType";
 
+
     const WishTypes = ["Abstract", "Material"]; 
     for(let WishPointer = 0; WishPointer < 2; WishPointer ++){
         const WishMenuWishTypeOption = document.createElement("option");
         WishMenuWishTypeOption.value = WishTypes[WishPointer];
         WishMenuWishTypeOption.innerHTML = WishTypes[WishPointer]; 
         WishMenuWishType.appendChild(WishMenuWishTypeOption);
-        console.log(WishTypes[WishPointer]);
     }
 
     //Selector header
@@ -427,7 +459,6 @@ function NewWishMenu(){
     WishMenuInputSubmit.style.top = "400px";
     WishMenuInputSubmit.style.transform = "translate(-50%)";
     WishMenuInputSubmit.innerHTML = "Save wish";
-    WishMenuInputSubmit.className = "text";
     WishMenuInputSubmit.addEventListener("click",function(){
         SaveWish();
     }); 
@@ -454,7 +485,6 @@ function SaveWish(){
         }
         SiteData[CurrentUserName + UsernamePrefix]["wish"][Object.keys(SiteData[CurrentUserName + UsernamePrefix]["wish"]).length] = WishTemplate;
         DataOP(0,true,"Accounts",SiteData);
-        console.log(SiteData);  
         document.getElementById("WishMenu").remove();
         CheckWishList(CurrentUserName + UsernamePrefix);
 

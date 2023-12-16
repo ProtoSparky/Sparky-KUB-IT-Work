@@ -97,21 +97,11 @@ button {
 
 button:hover {
     background-color: var(--col_highlight_TXT);
-}
-
-#NewWishBTN{
-    background-color: var(--col_link_TXT);
-    color: var(--col_normalTXT);
-    border: none;
-    border-radius: var(--CornerRad);
-    padding: var(--ElementPadding);
-    transition: background-color 0.3s ease-in-out;
-    font-family:main_font; 
     
 }
-#NewWishBTN:hover{
-    background-color: var(--col_highlight_TXT);
-}
+
+
+
 
 /*bar animation*/
 @keyframes BarMove{
@@ -137,6 +127,7 @@ select {
     border-radius: var(--CornerRad);
     padding: var(--ElementPadding);
     transition: border-color 0.3s ease;
+    font-family:main_font; 
 }
 
 textarea {
@@ -146,6 +137,7 @@ textarea {
     border-radius: var(--CornerRad);
     padding: var(--ElementPadding);
     transition: border-color 0.3s ease;
+    font-family:main_font; 
 }
 
 
