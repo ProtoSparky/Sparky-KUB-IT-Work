@@ -619,16 +619,134 @@ function Login(){
     AccountWindowInputSubmit.style.left = "50%";
     AccountWindowInputSubmit.style.top = "350px";
     AccountWindowInputSubmit.style.transform = "translate(-50%)";
-    AccountWindowInputSubmit.innerHTML = "Create Account";
+    AccountWindowInputSubmit.innerHTML = "Login";
     AccountWindowInputSubmit.addEventListener("click",function(){
-        CreateAccount();
+        CheckAccount();
     }); 
+
+    //Add create account option
+    const AccountWindowCreateAccountText = document.createElement("div");
+    AccountWindowCreateAccountText.style.position = "absolute";
+    AccountWindowCreateAccountText.style.bottom = "var(--ElementPadding)";
+    AccountWindowCreateAccountText.style.color = "var(--col_btn)";
+    AccountWindowCreateAccountText.style.left = "50%";
+    AccountWindowCreateAccountText.style.transform = "translate(-50%)";
+    AccountWindowCreateAccountText.className = "text";
+    AccountWindowCreateAccountText.innerHTML = "<i>Create a new account</i>";
+    AccountWindowCreateAccountText.style.cursor = "pointer";
+
+    AccountWindowCreateAccountText.addEventListener("click",function(){
+        CreateAnotherAccount();
+    });
 
     //get parent window and append login window
     const content_fullScreen = document.getElementById("content-fullScreen");
     content_fullScreen.appendChild(AccountWindow); 
     AccountWindow.appendChild(AccountWindowHeader); 
     AccountWindow.appendChild(AccountWindowInputUserName); 
+    AccountWindow.appendChild(AccountWindowInputSubmit);
+    AccountWindow.appendChild(AccountWindowCreateAccountText);
+}
+function CheckAccount(){
+    const UserInput = document.getElementById("AccountUserName").value;
+    const UserData = DataOP(1,true,"Accounts");
+    if(UserData[UserInput+UsernamePrefix] != undefined){
+        CurrentUserName = UserInput;
+        CheckWishList(CurrentUserName + UsernamePrefix);
+    }
+    else{
+        GenerateMessageBanner(2,"User does not exit. Consider making an account");
+    }
+    
+}
+function CreateAnotherAccount(){
+    //remove anything else that's on the window before showing other stuff
+    const topbar = document.getElementById("topbar");
+    const content = document.getElementById("content");
+    const contentfullScreen = document.getElementById("content-fullScreen"); 
+    if(topbar != undefined){
+        topbar.remove();
+    }
+    if(content != undefined){
+        content.remove();
+    }
+    if(contentfullScreen != undefined){
+        contentfullScreen.remove();
+    }
+    const content_fullScreenWindow = document.createElement("div");
+    content_fullScreenWindow.id = "content-fullScreen";
+    document.body.appendChild(content_fullScreenWindow)
+    //remove anything else that's on the window before showing other stuff
+
+    const AccountWindow = document.createElement("div");
+    AccountWindow.id = "AccountWindow";
+    AccountWindow.style.position = "absolute";
+    AccountWindow.style.left = "50%";
+    AccountWindow.style.top = "50%";
+    AccountWindow.style.width = "500px";
+    AccountWindow.style.height = "500px";
+    AccountWindow.style.transform = "translate(-50%,-50%)";
+    AccountWindow.style.backgroundColor = "var(--col_bg_lighter)";
+    AccountWindow.style.borderRadius = "var(--CornerRad)";
+
+    //header |  Create your first account
+    const AccountWindowHeader = document.createElement("div");
+    AccountWindowHeader.innerHTML = "Create an account";
+    AccountWindowHeader.style.position = "absolute";
+    AccountWindowHeader.style.top = "30px";
+    AccountWindowHeader.className = "text";
+    AccountWindowHeader.style.fontSize = "35";
+    AccountWindowHeader.style.width = "100%";
+    AccountWindowHeader.style.left = "0px";
+    AccountWindowHeader.style.textAlign = "center";
+    AccountWindowHeader.style.fontWeight = "500";
+    AccountWindowHeader.style.color = "#f39c12";
+    AccountWindowHeader.className = "text";
+
+    const AccountWindowInputUserName = document.createElement("input");
+    AccountWindowInputUserName.style.position = "absolute";
+    AccountWindowInputUserName.style.top = "250px";
+    AccountWindowInputUserName.style.left = "50%";
+    AccountWindowInputUserName.style.transform = "translate(-50%)";
+    AccountWindowInputUserName.placeholder = "Username";
+    AccountWindowInputUserName.id = "AccountUserName";
+    AccountWindowInputUserName.className = "text";
+
+    const AccountWindowInputUserAge = document.createElement("input");
+    AccountWindowInputUserAge.style.position = "absolute";
+    AccountWindowInputUserAge.style.top = "300px";
+    AccountWindowInputUserAge.style.left = "50%";
+    AccountWindowInputUserAge.style.transform = "translate(-50%)";
+    AccountWindowInputUserAge.placeholder = "Age";
+    AccountWindowInputUserAge.id = "AccountUserAge";
+    AccountWindowInputUserAge.type = "number";  
+    AccountWindowInputUserAge.className = "text";
+    // Add an input event listener to handle non-numeric input
+    AccountWindowInputUserAge.addEventListener("input", function () {
+        // Remove non-numeric characters using a regular expression
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    AccountWindowInputUserAge.min = 3;
+    AccountWindowInputUserAge.max = 100;
+
+    const AccountWindowInputSubmit = document.createElement("button");
+    AccountWindowInputSubmit.style.position = "absolute";
+    AccountWindowInputSubmit.style.left = "50%";
+    AccountWindowInputSubmit.style.top = "350px";
+    AccountWindowInputSubmit.style.transform = "translate(-50%)";
+    AccountWindowInputSubmit.innerHTML = "Create Account";
+    AccountWindowInputSubmit.addEventListener("click",function(){
+        CreateAccount();
+    });    
+
+
+
+    //get parent window and append login window
+    const content_fullScreen = document.getElementById("content-fullScreen");
+    content_fullScreen.appendChild(AccountWindow); 
+    AccountWindow.appendChild(AccountWindowHeader); 
+    AccountWindow.appendChild(AccountWindowInputUserName); 
+    AccountWindow.appendChild(AccountWindowInputUserAge);
     AccountWindow.appendChild(AccountWindowInputSubmit);
 }
 
