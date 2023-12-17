@@ -99,51 +99,58 @@ return tableData;
 
 
 
-//Save data to LocalStorage
-function LocalStorageOP(op, Data1, Data2){
-//0 Op to create
-//1 Op to edit
-//2 Op to delete
+function DataOP(operation,isArray,StorageName, Data){
+  /*
+  Operation = 0 | Put data in storagename 
+  Operation = 1 | Get data from storagename
+  Operation = 2 | Remove all data from storagename
+  Operation = 3 | Delete everything
+  */
 
-if(op == 0 ){
-    if(Data1 != ""){            
-        //Create class
-        SpawnTable(ButtonTable[0],["SettingTable","table00","table",]);
-        const DataTable = document.getElementById("table00");
-        const applyBTN = document.createElement("button");
-        applyBTN.id="apply_table";
-        applyBTN.class="input";
-        applyBTN.innerHTML="Save Table";
-        applyBTN.addEventListener("click", function(){
-            SaveTable("table00", ButtonTable, Data1); 
-        });
-        DataTable.appendChild(applyBTN);
-        const tableCaption = document.getElementById("caption_table00");
-        tableCaption.innerHTML = tableCaption.innerHTML + " " + Data1;
-
-    }
-    else{
-        console.error("Input invalid. Name cannot be empty");
-    }
-    
-    
-
-}
-else if(op == 1){
-    //Edit class name
-    if(Data1 != "" && Data2 != ""){
-        EditTableName(Data1 , Data2); 
-    }
-    else{
-      console.error("Input invalid. New and or old name cannot be empty");
-       
-    }
-   
-}
-else if(op == 2){
-    //delete class name
-    DeleteTable(Data1);
-}
+  if(operation == 0){
+      //put data in storageName
+      if(isArray){
+          localStorage.setItem(StorageName, JSON.stringify(Data));
+      }
+      else{
+          localStorage.setItem(StorageName, Data);
+          
+      }
+  }
+  else if(operation == 1){
+      //get data from StorageName
+      if(isArray){
+          //return JSON.parse(localStorage.getItem(StorageName));  
+          
+          //Error handling
+          if (localStorage.getItem(StorageName) == null || localStorage.getItem(StorageName) == "undefined"){
+              return null;
+          }
+          else{
+              return JSON.parse(localStorage.getItem(StorageName));
+          }
+      }
+      else{
+          //Error handling
+          if(localStorage.getItem(StorageName) == null || localStorage.getItem(StorageName) == "undefined"){
+              return null; 
+          }
+          else{
+              return localStorage.getItem(StorageName);
+          }
+      }
+  
+  }
+  else if(operation == 2){
+      //remove all data fom StorageName
+      localStorage.RemoveItem(StorageName); 
+      console.info("'" + StorageName + "' Storage cleared!");
+  }
+  else if(operation = 3){
+      //Remove everything
+      localStorage.clear();
+      console.info("ALL LocalStorage cleared!");
+  }
 }
 
 //remove all capitalization
@@ -230,115 +237,6 @@ function RandCol() {
   return '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 }
 
-function hexColorConverter(CurrentHexColor, WantedHexColor) {
-  function hexToRgb(hex) {
-      // Convert a hex color to RGB
-      const bigint = parseInt(hex.slice(1), 16);
-      const r = (bigint >> 16) & 255;
-      const g = (bigint >> 8) & 255;
-      const b = bigint & 255;
-      return { r, g, b };
-  }
-
-  function rgbToHex(rgb) {
-      // Convert RGB to hex
-      return `#${(1 << 24 | rgb.r << 16 | rgb.g << 8 | rgb.b).toString(16).slice(1)}`;
-  }
-
-  function rgbToHsl(rgb) {
-      // Convert RGB to HSL
-      const r = rgb.r / 255;
-      const g = rgb.g / 255;
-      const b = rgb.b / 255;
-
-      const max = Math.max(r, g, b);
-      const min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-
-      if (max === min) {
-          h = s = 0; // achromatic
-      } else {
-          const d = max - min;
-          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-          switch (max) {
-              case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-              case g: h = (b - r) / d + 2; break;
-              case b: h = (r - g) / d + 4; break;
-          }
-          h /= 6;
-      }
-
-      return { h, s, l };
-  }
-
-  function hslToRgb(hsl) {
-      // Convert HSL to RGB
-      const { h, s, l } = hsl;
-      let r, g, b;
-
-      if (s === 0) {
-          r = g = b = l; // achromatic
-      } else {
-          const hue2rgb = (p, q, t) => {
-              if (t < 0) t += 1;
-              if (t > 1) t -= 1;
-              if (t < 1 / 6) return p + (q - p) * 6 * t;
-              if (t < 1 / 2) return q;
-              if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-              return p;
-          };
-
-          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-          const p = 2 * l - q;
-          r = hue2rgb(p, q, h + 1 / 3);
-          g = hue2rgb(p, q, h);
-          b = hue2rgb(p, q, h - 1 / 3);
-      }
-
-      return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
-  }
-
-  function calculateColorDifference(hsl1, hsl2) {
-      // Calculate the Euclidean distance between two colors in HSL
-      const diffH = hsl1.h - hsl2.h;
-      const diffS = hsl1.s - hsl2.s;
-      const diffL = hsl1.l - hsl2.l;
-      return Math.sqrt(diffH * diffH + diffS * diffS + diffL * diffL);
-  }
-
-  const currentColor = hexToRgb(CurrentHexColor);
-  const wantedColor = hexToRgb(WantedHexColor);
-
-  const currentHSL = rgbToHsl(currentColor);
-  const wantedHSL = rgbToHsl(wantedColor);
-
-  const colorDifference = calculateColorDifference(currentHSL, wantedHSL);
-  
-  // Calculate the perfection value
-  const perfection = 1 - (colorDifference / Math.sqrt(3));
-
-  // Interpolate between the two colors
-  const interpolatedColor = hslToRgb({
-      h: wantedHSL.h,
-      s: currentHSL.s + (wantedHSL.s - currentHSL.s) * perfection,
-      l: currentHSL.l + (wantedHSL.l - currentHSL.l) * perfection,
-  });
-
-  // Generate filter commands
-  const filterCommands = `
-      filter: brightness(${perfection * 100}%);
-      filter: contrast(${perfection * 100}%);
-      filter: sepia(${perfection * 100}%);
-      filter: hue-rotate(${perfection * 360}deg);
-      filter: saturate(${perfection * 100}%);
-      filter: invert(${perfection * 100}%);
-      filter: opacity(${perfection * 100}%);
-      filter: drop-shadow(${perfection * 20}px ${perfection * 20}px ${perfection * 20}px ${rgbToHex(interpolatedColor)});
-  `;
-
-  return {
-      filterCommands,
-      perfection,
-      interpolatedColor: rgbToHex(interpolatedColor),
-  };
+function AccessCSSVar(VarName){
+  return getComputedStyle(document.documentElement).getPropertyValue(VarName); 
 }
