@@ -4,12 +4,16 @@ var SantaUsername = "santa"+ UsernamePrefix;
 var CurrentUserName = null; 
 var UserSettingsWindowOpen = false; 
 var CSSVARS = getComputedStyle(document.documentElement);
+var Music = new Audio('./assets/audio/All_I_Want_for_Christmas_Is_You.mp3');
+var MusicPlaying = true; 
+
 function init(){
     const SantaAge = "1753"; 
     const SantaProfile = {
         [SantaUsername]:{
             "Age":SantaAge,
             "IsSanta":true,
+            "AutoPlayMusic":true,
             "wish":{
                 0:{
                     "whs_type":"abstract",
@@ -122,6 +126,7 @@ function CreateAccount(){
         OldUserData[NewUserName] = {
             "Age":AccountUserAge,
             "IsSanta":false,
+            "AutoPlayMusic":true,
             "wish":{
 
             }
@@ -391,7 +396,7 @@ function CheckWishList(username){
 
 
         }
-        
+
         //Spawn new wish button
         const NewWishBTN = document.createElement("button");
         NewWishBTN.style.position = "absolute";
@@ -583,6 +588,7 @@ function ShowUserSettings(){
         SiteDeleteDataArea.style.bottom = "30px"; 
         SiteDeleteDataArea.style.borderRadius = "var(--CornerRad)"; 
         SiteDeleteDataArea.id = "Fade2red";
+        SiteDeleteDataArea.style.cursor = "pointer"
         SiteDeleteDataArea.style.userSelect = "none";
         SiteDeleteDataArea.addEventListener("click",function(){
             DataOP(3,true,"Accounts","null");
@@ -610,6 +616,51 @@ function ShowUserSettings(){
         SiteDeleteDataText.style.color = "var(--col_normalTXT)";        
 
 
+        //Music control
+        const MusicControlArea = document.createElement("div");
+        MusicControlArea.style.position = "absolute";
+        MusicControlArea.style.padding = "var(--ElementPadding)";    
+        MusicControlArea.style.width = parseInt(UserSettingsWindow.style.width) - (20 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2))  + "px";
+        MusicControlArea.style.height = 32 + (parseInt(CSSVARS.getPropertyValue('--ElementPadding')) * 2) + "px";
+        MusicControlArea.style.left = "10px";
+        MusicControlArea.style.top = 30 + (32 + parseInt(AccessCSSVar("--ElementPadding"))) + parseInt(AccessCSSVar("--ElementPadding")) + (32 + parseInt(AccessCSSVar("--ElementPadding"))) + parseInt(AccessCSSVar("--ElementPadding"))* 7 + "px"; 
+        MusicControlArea.style.borderRadius = "var(--CornerRad)"; 
+        MusicControlArea.style.userSelect = "none";
+        MusicControlArea.style.backgroundColor = "var(--col_bg_content)";
+        MusicControlArea.style.cursor = "pointer";
+        MusicControlArea.addEventListener("click",function(){
+            MusicControl();    
+            ShowUserSettings();
+            ShowUserSettings();      
+        });
+        const MusicControlAreaIcon = document.createElement("img");
+        MusicControlAreaIcon.style.position = "absolute";
+        MusicControlAreaIcon.style.top = "50%";
+        MusicControlAreaIcon.style.transform = "translate(0,-50%)";
+        MusicControlAreaIcon.style.left = "var(--ElementPadding)";
+        if(MusicPlaying){
+            MusicControlAreaIcon.src = "./assets/img/music.svg";
+        }
+        else{
+            MusicControlAreaIcon.src = "./assets/img/music-off.svg";
+        }
+        MusicControlAreaIcon.style.height = "32px";
+        MusicControlAreaIcon.style.width = "auto";
+        MusicControlAreaIcon.style.filter = "invert()";  
+        const MusicControlAreaText = document.createElement("div");
+        MusicControlAreaText.style.position = "absolute";
+        MusicControlAreaText.style.top = "50%";
+        MusicControlAreaText.style.transform = "translate(0,-50%)";
+        MusicControlAreaText.style.left = parseInt(CSSVARS.getPropertyValue('--ElementPadding')) + 32 + "px";
+        MusicControlAreaText.className = "text";
+        if(MusicPlaying){
+            MusicControlAreaText.innerHTML = "Start music playback";
+        }
+        else{
+            MusicControlAreaText.innerHTML = "Stop music playback";
+        }
+        MusicControlAreaText.style.color = "var(--col_normalTXT)";  
+
 
         document.getElementById("content").appendChild(UserSettingsWindow);
         UserSettingsWindow.appendChild(UserSettingsWindowDivider);
@@ -625,6 +676,9 @@ function ShowUserSettings(){
         UserSettingsWindow.appendChild(SiteDeleteDataArea);
         SiteDeleteDataArea.appendChild(SiteDeleteDataIcon); 
         SiteDeleteDataArea.appendChild(SiteDeleteDataText);
+        UserSettingsWindow.appendChild(MusicControlArea);
+        MusicControlArea.appendChild(MusicControlAreaIcon);
+        MusicControlArea.appendChild(MusicControlAreaText);
         
     }   
     else{
@@ -1093,4 +1147,17 @@ function GenerateMessageBanner(FeedBackState, FeedBackText){
 
     }
 
+}
+
+function MusicControl(){
+    if(MusicPlaying){
+        //play music
+        Music.play();
+        MusicPlaying = false; 
+    }
+    else{
+        //Stop music
+        Music.pause();
+        MusicPlaying = true; 
+    }
 }
