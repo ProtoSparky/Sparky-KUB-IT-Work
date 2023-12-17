@@ -19,7 +19,7 @@ function init(){
         }
     }
 
-    DataOP(3,true,"Accounts","null"); //Delete all site data
+    //DataOP(3,true,"Accounts","null"); //Delete all site data
 
     if(DataOP(1,true,"Accounts","null") == undefined){
         console.info("init(); | Accounts empty, setting up new ones....")
@@ -247,7 +247,6 @@ function CheckWishList(username){
     }
     else{
         //spawn list of wishes and wish menu
-        console.info("CheckWishList(); | User has wishes!");
 
         //Replace full screen content window with content window and top bar
         document.getElementById("content-fullScreen").remove();
@@ -258,60 +257,141 @@ function CheckWishList(username){
         document.body.appendChild(Content);
         document.body.appendChild(TopBar);
         const CurrentUserData = DataOP(1,true,"Accounts")[CurrentUserName + UsernamePrefix];
-        //
-        if(CurrentUserName != SantaUsername){
+        if(CurrentUserName + UsernamePrefix != SantaUsername){
             //Normal users
+
+            //Create table area        
+            const WishTableArea = document.createElement("div");
+            WishTableArea.style.position = "absolute";
+            WishTableArea.style.transform  ="translate(-50%,-50%)";
+            WishTableArea.style.top = "55%";
+            WishTableArea.style.left = "50%";
+            WishTableArea.style.width = "800px";
+            WishTableArea.style.height = "500px";
+            WishTableArea.style.backgroundColor = "var(--col_bg_lighter)";
+            WishTableArea.style.borderRadius  = "var(--CornerRad)";
+            WishTableArea.id = "WishTableArea"; 
+            Content.appendChild(WishTableArea);
+
+            //Create table with text
+            const WishTable = document.createElement("table");
+            WishTable.style.position = "absolute";
+            WishTable.style.width = "100%";
+            const CurrentUserWishes = CurrentUserData["wish"];
+            const CurrentUserWishesAmount = Object.keys(CurrentUserWishes).length; 
+
+            const TableHeader = document.createElement("tr");
+            const TableHeaderWishType = document.createElement("th");
+            TableHeaderWishType.innerHTML = "Wish type";
+            const TableHeaderWish = document.createElement("th");
+            TableHeaderWish.innerHTML = "Wish";
+            TableHeader.appendChild(TableHeaderWishType);
+            TableHeader.appendChild(TableHeaderWish);
+            WishTable.appendChild(TableHeader);
+            for(let WishPointer = 0; WishPointer < CurrentUserWishesAmount; WishPointer++){
+                const CurrentDataName = Object.keys(CurrentUserWishes)[WishPointer];
+                const CurrentData = CurrentUserData["wish"][CurrentDataName];  
+                const TableRow = document.createElement("tr");
+                const TableRowWishType = document.createElement("td");
+                TableRowWishType.innerHTML = CurrentData["wishtype"];            
+                const TableRowWish = document.createElement("td");
+                TableRowWish.innerHTML =  CurrentData["wishname"];
+
+                TableRow.appendChild(TableRowWishType);
+                TableRow.appendChild(TableRowWish);
+                WishTable.appendChild(TableRow); 
+
+            }
+            WishTableArea.appendChild(WishTable);
+
+            //Extends table background to match table height. Changes body background color to same as content
+            if(WishTableArea.offsetHeight < WishTable.offsetHeight){
+                WishTableArea.style.height = WishTable.offsetHeight + "px";
+                document.body.style.backgroundColor = "var(--col_bg_content)";
+            }
             
         }
         else{
             //Santa username
             console.log("user logged in with santa account");
+            const AllUserDataWithoutSanta = DataOP(1,true,"Accounts");
+            delete AllUserDataWithoutSanta[SantaUsername];
+            const UserAccountNames = Object.keys(AllUserDataWithoutSanta);
+            const UserAccountAmount = UserAccountNames.length; 
+            let Lastheightvalue = "20"; 
+            for(let UserAccountArrayPointer = 0;UserAccountArrayPointer < UserAccountAmount;UserAccountArrayPointer ++ ){
+                //loop iterates trough all accounts except
+                const CurrentUserAccountname = UserAccountNames[UserAccountArrayPointer];
+
+                //Create table area        
+                const WishTableArea = document.createElement("div");
+                WishTableArea.style.position = "absolute";
+                WishTableArea.style.transform  ="translate(-50%,0)";
+                WishTableArea.style.top = Lastheightvalue;
+                WishTableArea.style.left = "50%";
+                WishTableArea.style.width = "800px";
+                WishTableArea.style.height = "500px";
+                WishTableArea.style.backgroundColor = "var(--col_bg_lighter)";
+                WishTableArea.style.borderRadius  = "var(--CornerRad)";
+                WishTableArea.id = "WishTableArea" + UserAccountArrayPointer; 
+                Content.appendChild(WishTableArea);
+
+                //Create table with text
+                const WishTable = document.createElement("table");
+                WishTable.style.position = "absolute";
+                WishTable.style.width = "100%";
+                const CurrentUserWishes = AllUserDataWithoutSanta[CurrentUserAccountname]["wish"];
+                const CurrentUserWishesAmount = Object.keys(CurrentUserWishes).length; 
+
+                const TableHeader = document.createElement("tr");
+                const TableHeaderWishType = document.createElement("th");
+                TableHeaderWishType.innerHTML = "Wish type";
+                const TableHeaderWish = document.createElement("th");
+                TableHeaderWish.innerHTML = "Wish";
+                TableHeader.appendChild(TableHeaderWishType);
+                TableHeader.appendChild(TableHeaderWish);
+                WishTable.appendChild(TableHeader);
+                for(let WishPointer = 0; WishPointer < CurrentUserWishesAmount; WishPointer++){
+                    const CurrentDataName = Object.keys(CurrentUserWishes)[WishPointer];
+                    const CurrentData = AllUserDataWithoutSanta[CurrentUserAccountname]["wish"][CurrentDataName];  
+                    const TableRow = document.createElement("tr");
+                    const TableRowWishType = document.createElement("td");
+                    TableRowWishType.innerHTML = CurrentData["wishtype"];            
+                    const TableRowWish = document.createElement("td");
+                    TableRowWish.innerHTML =  CurrentData["wishname"];
+
+                    TableRow.appendChild(TableRowWishType);
+                    TableRow.appendChild(TableRowWish);
+                    WishTable.appendChild(TableRow); 
+
+                }
+                WishTableArea.appendChild(WishTable);
+
+                //Create table caption for username
+
+                const WishTableAreaCaption = document.createElement("caption");
+                WishTableAreaCaption.style.color = "var(--col_bold_TXT)";
+                WishTableAreaCaption.className = "text";
+                WishTableAreaCaption.innerHTML = "Username: " + GetStringBetween(CurrentUserAccountname,"",UsernamePrefix) + " | Age: " + AllUserDataWithoutSanta[CurrentUserAccountname]["Age"];
+                WishTable.appendChild(WishTableAreaCaption);
+
+
+                //Extends table background to match table height. Changes body background color to same as content
+                if(WishTableArea.offsetHeight < WishTable.offsetHeight){
+                    WishTableArea.style.height = WishTable.offsetHeight + "px";
+                }
+                document.body.style.backgroundColor = "var(--col_bg_content)";
+                //Sets next table to top + offset of last table so they dont stack ontop of eachother
+                Lastheightvalue = parseInt(WishTableArea.offsetHeight) + parseInt(WishTableArea.offsetTop) + 20+  "px"; 
+                
+    
+
+                             
+            }
+
+
         }
-
-        //Create table area        
-        const WishTableArea = document.createElement("div");
-        WishTableArea.style.position = "absolute";
-        WishTableArea.style.transform  ="translate(-50%,-50%)";
-        WishTableArea.style.top = "55%";
-        WishTableArea.style.left = "50%";
-        WishTableArea.style.width = "800px";
-        WishTableArea.style.height = "500px";
-        WishTableArea.style.backgroundColor = "var(--col_bg_lighter)";
-        WishTableArea.style.borderRadius  = "var(--CornerRad)";
-        WishTableArea.id = "WishTableArea"; 
-        Content.appendChild(WishTableArea);
-
-        //Create table with text
-        const WishTable = document.createElement("table");
-        WishTable.style.position = "absolute";
-        WishTable.style.width = "100%";
-        const CurrentUserWishes = CurrentUserData["wish"];
-        const CurrentUserWishesAmount = Object.keys(CurrentUserWishes).length; 
-
-        const TableHeader = document.createElement("tr");
-        const TableHeaderWishType = document.createElement("th");
-        TableHeaderWishType.innerHTML = "Wish type";
-        const TableHeaderWish = document.createElement("th");
-        TableHeaderWish.innerHTML = "Wish";
-        TableHeader.appendChild(TableHeaderWishType);
-        TableHeader.appendChild(TableHeaderWish);
-        WishTable.appendChild(TableHeader);
-        for(let WishPointer = 0; WishPointer < CurrentUserWishesAmount; WishPointer++){
-            const CurrentDataName = Object.keys(CurrentUserWishes)[WishPointer];
-            const CurrentData = CurrentUserData["wish"][CurrentDataName];  
-            const TableRow = document.createElement("tr");
-            const TableRowWishType = document.createElement("td");
-            TableRowWishType.innerHTML = CurrentData["wishtype"];            
-            const TableRowWish = document.createElement("td");
-            TableRowWish.innerHTML =  CurrentData["wishname"];
-
-            TableRow.appendChild(TableRowWishType);
-            TableRow.appendChild(TableRowWish);
-            WishTable.appendChild(TableRow); 
-
-        }
-        WishTableArea.appendChild(WishTable);
-
+        
         //Spawn new wish button
         const NewWishBTN = document.createElement("button");
         NewWishBTN.style.position = "absolute";
