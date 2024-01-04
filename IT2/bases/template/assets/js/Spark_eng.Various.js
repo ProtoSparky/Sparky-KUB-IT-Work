@@ -190,47 +190,47 @@ function search(input, Array) {
 
 //Read json files, and return their data
 function ReadJSON(file, IsAsync) {
-if(IsAsync){
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", file, true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(JSON.parse(xhr.responseText));
-      }
-    };
-    xhr.send();
-}
-else{
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", file, false);
-    xhr.send();
-    return JSON.parse(xhr.responseText);
-}
-
-}
-function ReadAnything(file){
-var xhr = new XMLHttpRequest();
-xhr.open("GET", file, false);
-xhr.send();
-return xhr.responseText;
-}
-
-function ParseCSV(csvString) {
-const lines = csvString.split('\n');
-const data = [];
-for (let i = 0; i < lines.length; i++) {
-  const line = lines[i].trim();
-
-  // Skip empty lines
-  if (line === '') {
-    continue;
+  if(IsAsync){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.send();
   }
-  const values = line.split(';');
-  const trimmedValues = values.map((value) => value.trim());
-  data.push(trimmedValues);
-}
+  else{
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, false);
+      xhr.send();
+      return JSON.parse(xhr.responseText);
+  }
 
-return data;
+  }
+  function ReadAnything(file){
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", file, false);
+  xhr.send();
+  return xhr.responseText;
+  }
+
+  function ParseCSV(csvString) {
+  const lines = csvString.split('\n');
+  const data = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    // Skip empty lines
+    if (line === '') {
+      continue;
+    }
+    const values = line.split(';');
+    const trimmedValues = values.map((value) => value.trim());
+    data.push(trimmedValues);
+  }
+
+  return data;
 }
 
 function RandCol() {
@@ -240,3 +240,81 @@ function RandCol() {
 function AccessCSSVar(VarName){
   return getComputedStyle(document.documentElement).getPropertyValue(VarName); 
 }
+
+function GenerateMessageBanner(FeedBackState, FeedBackText){
+  //Feedbackstate 0 == Green, good
+  //FeedBackState 1 == yellow, warning
+  //FeedbackState 2 == Red, Error
+  const ColorOK = "#00d573";
+  const ColorWarn = "#f39c12";
+  const ColorErr = "#ff2225"; 
+  const ColorFall  ="#89a6a1"; 
+  const BannerTime  = 4; // s
+  let CurrentBannerTime = 0; 
+  
+
+  const MessageBanner = document.createElement("div");
+  MessageBanner.style.position = "absolute";
+  MessageBanner.style.zIndex = "99999999";
+  MessageBanner.style.top = "30px";
+  MessageBanner.style.height = "30px";
+  MessageBanner.style.borderRadius = "var(--CornerRad)";
+  MessageBanner.style.right = "-400px";
+  if(FeedBackText.length < 25){
+      MessageBanner.style.width = "200px";
+  }
+  else{
+      MessageBanner.style.width = FeedBackText.length * 10 + "px"; 
+  }
+  MessageBanner.id = "MessageBanner";
+  const MessageBannerText = document.createElement("div");
+  MessageBannerText.style.position = "absolute";
+  MessageBannerText.style.top = "50%";
+  MessageBannerText.style.transform = "translate(0,-50%)";
+  MessageBannerText.style.width = "100%";
+  MessageBannerText.style.color = "white";
+  MessageBannerText.style.fontFamily = "main_font";
+  MessageBannerText.style.fontWeight  ="400";
+  MessageBannerText.style.padding = "var(--ElementPadding)";
+
+
+  if(FeedBackState == 0){
+      //good message
+      MessageBanner.style.backgroundColor = ColorOK;
+
+  }
+  else if(FeedBackState == 1){
+      //Warning message
+      MessageBanner.style.backgroundColor = ColorWarn;
+  }
+  else if(FeedBackState == 2){
+      //Error message
+      MessageBanner.style.backgroundColor = ColorErr; 
+  }
+  else{
+      //fallback if
+      MessageBanner.style.backgroundColor = ColorFall;
+  }
+  MessageBannerText.innerHTML = FeedBackText; 
+  MessageBanner.appendChild(MessageBannerText);
+  document.body.appendChild(MessageBanner);
+
+
+  MessageBanner.style.animationName = "BarMove";
+  MessageBanner.style.animationDuration = "5s";
+  MessageBanner.style.animationTimingFunction = "ease-in-out"
+
+
+  const intervalId = setInterval(AnimateBanner, 1000);
+  document.body.style.overflow = "hidden";
+  function AnimateBanner(){
+      CurrentBannerTime += 1;
+      if(CurrentBannerTime > BannerTime){
+          document.getElementById("MessageBanner").remove();
+          document.body.style.overflow = "visible";
+          clearInterval(intervalId);
+      }
+
+  }
+
+};
