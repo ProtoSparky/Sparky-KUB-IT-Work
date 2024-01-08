@@ -145,6 +145,7 @@ textarea {
     transition: border-color 0.3s ease;
     font-family:main_font; 
 }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 
 
