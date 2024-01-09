@@ -42,6 +42,7 @@ table, td, th {
     width:100%;
     height:var(--topbarWidth);
     background-color:var(--col_bg_lighter);
+    z-index:80;
 
 }
 #content{

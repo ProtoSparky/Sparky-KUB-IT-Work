@@ -34,6 +34,8 @@ function init(){
     SliderAreaSlider.addEventListener("input",function(){
         UpdateWind();
     }); 
+    
+    
     SliderArea.appendChild(SliderAreaSlider);
 
     //slider number
@@ -76,13 +78,10 @@ function init(){
     WindMillProp.style.width = "auto";
     WindMillProp.style.height = "150px";
     WindMillProp.style.top = "-80px";
-
     WindMillProp.style.animationName  ="spin";
     WindMillProp.style.animationDuration = 0 + "s";
     WindMillProp.style.animationIterationCount = "infinite";
     WindMillProp.style.animationTimingFunction = "linear";
-
-
 
     //windmill div
     const WindMill = document.createElement("div");
@@ -93,18 +92,22 @@ function init(){
     WindMill.style.right = "100px";
     WindMill.style.height = "300px";
     WindMill.style.zIndex = 99;
-    WindMill.style.transform = "rotateY(-40deg)";
-
+    
     document.getElementById("content").appendChild(WindMill);
     WindMill.appendChild(WindMillProp);
     WindMill.appendChild(WindMillMast); 
 
     //set background transition
-    document.getElementById("content").style.transition = "2s";
-
-
-
-    
+    const backgroundImage = document.createElement("img");
+    backgroundImage.style.position = "absolute";
+    backgroundImage.style.top = "-150px";
+    backgroundImage.style.left = "0px";
+    backgroundImage.style.width = "100%";
+    backgroundImage.style.height = "auto";
+    backgroundImage.src = "./assets/img/environment_states/0.png";
+    backgroundImage.style.overflow = "hidden";
+    document.getElementById("content").appendChild(backgroundImage);
+    document.getElementById("content").style.overflow = "hidden";
 }
 
 function UpdateWind(){
@@ -112,25 +115,22 @@ function UpdateWind(){
     //clamp values so windmill doesnt stop at max speed;
     if(SliderValue < SliderMaxRange- 0.1){
         WindSpeedMock = (SliderMaxRange - SliderValue);
+        //let scaledSliderValue = Math.pow(SliderValue, 0.5); // square root scaling
+        //WindSpeedMock = (SliderMaxRange - scaledSliderValue);
     }
     else{
         WindSpeedMock = 0.1;
     }
     ActualWindSpeed = SliderValue;     
     document.getElementById("windspeed").innerHTML = ActualWindSpeed + " m/s";
-
     //update windmill speed
     const WindMillProp = document.getElementById("windmillprop");
-
     WindMillProp.style.animationDuration =  WindSpeedMock + "s";
-
 
     //im not happy how this looks, but whatever i guess
     if(ActualWindSpeed < 0.2){
         //windstill
         document.getElementById("WindState").innerHTML = WindStatePrefix + "stille";
-        const Background = document.getElementById("content");
-        Background.style.background = "linear-gradient(180deg, rgba(0,157,234,1) 0%, rgba(15,146,6,1) 89%)";
     }
     else if(ActualWindSpeed > 0.3 && ActualWindSpeed < 1.5){
         //smoke moves in the wind direction
@@ -168,8 +168,6 @@ function UpdateWind(){
     }
     else if(ActualWindSpeed > 32.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Orkan";
-        const Background = document.getElementById("content");
-        Background.style.background = "linear-gradient(180deg, rgba(156,156,156,1) 0%, rgba(5,58,1,1) 89%)";
     }
 
 
