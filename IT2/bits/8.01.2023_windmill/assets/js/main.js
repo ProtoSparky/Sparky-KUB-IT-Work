@@ -106,6 +106,8 @@ function init(){
     backgroundImage.style.height = "auto";
     backgroundImage.src = "./assets/img/environment_states/0.png";
     backgroundImage.style.overflow = "hidden";
+    backgroundImage.id = "bgimg";
+    backgroundImage.style.transition = "2s";
     document.getElementById("content").appendChild(backgroundImage);
     document.getElementById("content").style.overflow = "hidden";
 }
@@ -131,10 +133,12 @@ function UpdateWind(){
     if(ActualWindSpeed < 0.2){
         //windstill
         document.getElementById("WindState").innerHTML = WindStatePrefix + "stille";
+        document.getElementById("bgimg").src = "./assets/img/environment_states/0.png";
     }
     else if(ActualWindSpeed > 0.3 && ActualWindSpeed < 1.5){
         //smoke moves in the wind direction
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Flau vind";
+        document.getElementById("bgimg").src = "./assets/img/environment_states/1.png";
     }
     else if(ActualWindSpeed > 1.6 && ActualWindSpeed < 3.3){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Svak vind";
@@ -147,6 +151,7 @@ function UpdateWind(){
     }
     else if(ActualWindSpeed > 8 && ActualWindSpeed < 10.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Frisk bris";
+        document.getElementById("bgimg").src = "./assets/img/environment_states/2.png";
     }
     else if(ActualWindSpeed > 10.8 && ActualWindSpeed < 13.8){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten kuling";
@@ -159,12 +164,14 @@ function UpdateWind(){
     }
     else if(ActualWindSpeed > 20.8 && ActualWindSpeed < 24.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten storm";
+        document.getElementById("bgimg").src = "./assets/img/environment_states/3.png";
     }
     else if(ActualWindSpeed > 24.5 && ActualWindSpeed < 28.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Full storm";
     }
     else if(ActualWindSpeed > 28.5 && ActualWindSpeed < 32.6){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Sterk storm";
+        document.getElementById("bgimg").src = "./assets/img/environment_states/4.png";
     }
     else if(ActualWindSpeed > 32.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Orkan";
