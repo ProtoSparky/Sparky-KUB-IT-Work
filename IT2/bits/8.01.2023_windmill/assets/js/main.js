@@ -115,14 +115,26 @@ function init(){
 function UpdateWind(){
     const SliderValue = document.getElementById("slider").value;
     //clamp values so windmill doesnt stop at max speed;
-    if(SliderValue < SliderMaxRange- 0.1){
-        WindSpeedMock = (SliderMaxRange - SliderValue);
-        //let scaledSliderValue = Math.pow(SliderValue, 0.5); // square root scaling
-        //WindSpeedMock = (SliderMaxRange - scaledSliderValue);
+    if(SliderValue == 0){
+        //clamp speed to zero
+        WindSpeedMock = 0;
     }
-    else{
-        WindSpeedMock = 0.1;
+    
+    else if(SliderValue < SliderMaxRange - 0.1 && SliderValue < SliderMaxRange -5){
+        WindSpeedMock = (SliderMaxRange - SliderValue)/10;
+        console.log("state1| " + SliderValue);
     }
+    
+    else if(SliderValue > (SliderMaxRange - 5) && SliderValue < (SliderMaxRange - 0.9)){
+        WindSpeedMock = (SliderMaxRange - SliderValue)/5;
+        console.log("state2| " + SliderValue);
+    }
+    else if(SliderValue > (SliderMaxRange - 0.9)){
+        console.log("state3| " + SliderValue );
+        WindSpeedMock = 0.2;
+    }
+   
+
     ActualWindSpeed = SliderValue;     
     document.getElementById("windspeed").innerHTML = ActualWindSpeed + " m/s";
     //update windmill speed
