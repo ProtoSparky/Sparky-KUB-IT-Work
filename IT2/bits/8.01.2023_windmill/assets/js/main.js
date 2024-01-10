@@ -66,6 +66,7 @@ function init(){
     WindMillMast.src = "./assets/img/mast.png";
     WindMillMast.style.width = "auto";
     WindMillMast.style.height = "200px";
+    WindMillMast.style.zIndex = 100;
 
     //spawn prop
     
@@ -123,34 +124,8 @@ function init(){
     WindMillSmoke.style.visibility = "hidden";
     WindMill.appendChild(WindMillSmoke);
 
-
-    //grass spawning
-    const grassX =  ["200px","400px"];
-    const grassY =  ["400px","400px"];
-    const grassWidth =["100px","100px"];    
-
-        //apply anymation
-    const animation = document.createElement("style");
-    animation.innerHTML = "@keyframes tilter {from {transform:rotate(0deg);}to {transform:rotate(10deg);}}";
-    document.head.appendChild(animation); 
-
-    for(let GrassPointer = 0; GrassPointer < grassX.length; GrassPointer ++){
-        const CurrentGrass = document.createElement("img");
-        CurrentGrass.className = "grass";
-        CurrentGrass.id = "grass"+ GrassPointer;
-        CurrentGrass.src = "./assets/img/foliage/1.png";
-        CurrentGrass.style.position = "absolute";
-        CurrentGrass.style.top = grassY[GrassPointer];
-        CurrentGrass.style.left = grassX[GrassPointer];
-        CurrentGrass.style.width = grassWidth[GrassPointer];
-        CurrentGrass.style.animationName = "tilter";
-        CurrentGrass.style.animationDuration = "5s";
-        CurrentGrass.style.animationIterationCount = "infinite";
-        CurrentGrass.style.animationTimingFunction = "ease-in-out";
-        CurrentGrass.style.animationDirection = "alternate";
-        document.getElementById("content").appendChild(CurrentGrass);
-    }
-
+    //spawn grass
+    SpawnGrass(RandomRangedIntiger(5,25));
 
 }
 
@@ -236,11 +211,11 @@ function UpdateWind(){
     else if(ActualWindSpeed > 28.5 && ActualWindSpeed < 32.6){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Sterk storm";
         document.getElementById("bgimg").src = "./assets/img/environment_states/4.png";
-        SetGrassState(2,WindSpeedMock);
+        SetGrassState(2,WindSpeedMock / 2);
     }
     else if(ActualWindSpeed > 32.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Orkan";
-        SetGrassState(2,WindSpeedMock);
+        SetGrassState(2,WindSpeedMock  );
     }
 
 
@@ -273,5 +248,43 @@ function SetGrassState(state, speed){
             CurrentGrassElement.src = "./assets/img/foliage/3.png";
         }
         CurrentGrassElement.style.animationDuration = speed + "s"; 
+    }
+}
+function SpawnGrass(amount){
+
+    //grass spawning
+    let grassX =  [];
+    let grassY =  [];
+    let grassWidth =[];
+    for(let CoordinatePointer = 0; CoordinatePointer < amount; CoordinatePointer ++){
+        grassX[CoordinatePointer] = RandomRangedIntiger(100,screen.width - 100); 
+        grassY[CoordinatePointer] = RandomRangedIntiger(350,500); 
+        //grassWidth[CoordinatePointer] = RandomRangedIntiger(50,250); 
+        grassWidth[CoordinatePointer] =  1.25 * grassY[CoordinatePointer] - 350;
+        console.log("id: "+CoordinatePointer + " | x " + grassX[CoordinatePointer] + " | y"+ grassY[CoordinatePointer] + " | z " + grassWidth[CoordinatePointer]);
+        
+    }    
+
+        //apply anymation
+    const animation = document.createElement("style");
+    animation.innerHTML = "@keyframes tilter {from {transform:rotate(0deg);}to {transform:rotate(10deg);}}";
+    document.head.appendChild(animation); 
+
+    for(let GrassPointer = 0; GrassPointer < grassX.length; GrassPointer ++){
+        const CurrentGrass = document.createElement("img");
+        CurrentGrass.className = "grass";
+        CurrentGrass.id = "grass"+ GrassPointer;
+        CurrentGrass.src = "./assets/img/foliage/1.png";
+        CurrentGrass.style.position = "absolute";
+        CurrentGrass.style.top = grassY[GrassPointer]+ "px";
+        CurrentGrass.style.left = grassX[GrassPointer] + "px";
+        CurrentGrass.style.width = grassWidth[GrassPointer]+ "px";
+        CurrentGrass.style.animationName = "tilter";
+        CurrentGrass.style.animationDuration = "0s";
+        CurrentGrass.style.animationIterationCount = "infinite";
+        CurrentGrass.style.animationTimingFunction = "ease-in-out";
+        CurrentGrass.style.animationDirection = "alternate";
+        CurrentGrass.style.zIndex = grassWidth[GrassPointer] * 20;
+        document.getElementById("content").appendChild(CurrentGrass);
     }
 }
