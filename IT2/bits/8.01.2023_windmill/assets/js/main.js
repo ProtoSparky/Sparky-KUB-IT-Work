@@ -2,6 +2,7 @@ var WindSpeedMock = 0;
 var ActualWindSpeed = 0;
 var SliderMaxRange =  33;
 var WindStatePrefix = "Vind navn: "
+var SoundState = 0;
 
 function init(){
     console.info("init run");
@@ -163,6 +164,7 @@ function UpdateWind(){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "stille";
         document.getElementById("bgimg").src = "./assets/img/environment_states/0.png";
         SetGrassState(0,WindSpeedMock);
+        SoundState = 0;
     }
     else if(ActualWindSpeed > 0.3 && ActualWindSpeed < 1.5){
         //smoke moves in the wind direction
@@ -177,6 +179,7 @@ function UpdateWind(){
     else if(ActualWindSpeed > 3.4 && ActualWindSpeed < 5.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Lett bris";
         SetGrassState(0,WindSpeedMock);
+        SoundState = 1; 
     }
     else if(ActualWindSpeed > 5.5 && ActualWindSpeed < 7.9){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Laber bris";
@@ -186,6 +189,7 @@ function UpdateWind(){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Frisk bris";
         document.getElementById("bgimg").src = "./assets/img/environment_states/2.png";
         SetGrassState(1,WindSpeedMock);
+        SoundState = 2;
     }
     else if(ActualWindSpeed > 10.8 && ActualWindSpeed < 13.8){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten kuling";
@@ -194,6 +198,7 @@ function UpdateWind(){
     else if(ActualWindSpeed > 13.9 && ActualWindSpeed < 17.1){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Stiv kuling";
         SetGrassState(1,WindSpeedMock);
+        SoundState = 3; 
     }
     else if(ActualWindSpeed > 17.2 && ActualWindSpeed < 20.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Sterk kuling";
@@ -203,6 +208,7 @@ function UpdateWind(){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten storm";
         document.getElementById("bgimg").src = "./assets/img/environment_states/3.png";
         SetGrassState(2,WindSpeedMock);
+        SoundState = 4;
     }
     else if(ActualWindSpeed > 24.5 && ActualWindSpeed < 28.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Full storm";    
@@ -216,6 +222,7 @@ function UpdateWind(){
     else if(ActualWindSpeed > 32.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Orkan";
         SetGrassState(2,WindSpeedMock  );
+        SoundState = 5; 
     }
 
 
