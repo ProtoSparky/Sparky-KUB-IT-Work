@@ -110,6 +110,48 @@ function init(){
     backgroundImage.style.transition = "2s";
     document.getElementById("content").appendChild(backgroundImage);
     document.getElementById("content").style.overflow = "hidden";
+
+    //smoke on windmill
+    const WindMillSmoke = document.createElement("img");
+    WindMillSmoke.id = "WindMillSmoke";
+    WindMillSmoke.src = "./assets/img/dynamic/smoke.png";
+    WindMillSmoke.style.position = "absolute";
+    WindMillSmoke.style.width = "400px";
+    WindMillSmoke.style.height = "auto";
+    WindMillSmoke.style.top = "-105px";
+    WindMillSmoke.style.left = "-280px";
+    WindMillSmoke.style.visibility = "hidden";
+    WindMill.appendChild(WindMillSmoke);
+
+
+    //grass spawning
+    const grassX =  ["200px","400px"];
+    const grassY =  ["400px","400px"];
+    const grassWidth =["100px","100px"];    
+
+        //apply anymation
+    const animation = document.createElement("style");
+    animation.innerHTML = "@keyframes tilter {from {transform:rotate(0deg);}to {transform:rotate(10deg);}}";
+    document.head.appendChild(animation); 
+
+    for(let GrassPointer = 0; GrassPointer < grassX.length; GrassPointer ++){
+        const CurrentGrass = document.createElement("img");
+        CurrentGrass.className = "grass";
+        CurrentGrass.id = "grass"+ GrassPointer;
+        CurrentGrass.src = "./assets/img/foliage/1.png";
+        CurrentGrass.style.position = "absolute";
+        CurrentGrass.style.top = grassY[GrassPointer];
+        CurrentGrass.style.left = grassX[GrassPointer];
+        CurrentGrass.style.width = grassWidth[GrassPointer];
+        CurrentGrass.style.animationName = "tilter";
+        CurrentGrass.style.animationDuration = "5s";
+        CurrentGrass.style.animationIterationCount = "infinite";
+        CurrentGrass.style.animationTimingFunction = "ease-in-out";
+        CurrentGrass.style.animationDirection = "alternate";
+        document.getElementById("content").appendChild(CurrentGrass);
+    }
+
+
 }
 
 function UpdateWind(){
@@ -121,19 +163,18 @@ function UpdateWind(){
     }
     
     else if(SliderValue < SliderMaxRange - 0.1 && SliderValue < SliderMaxRange -5){
-        WindSpeedMock = (SliderMaxRange - SliderValue)/10;
+        WindSpeedMock = (SliderMaxRange - SliderValue)/30;
         console.log("state1| " + SliderValue);
     }
     
     else if(SliderValue > (SliderMaxRange - 5) && SliderValue < (SliderMaxRange - 0.9)){
-        WindSpeedMock = (SliderMaxRange - SliderValue)/5;
+        WindSpeedMock = (SliderMaxRange - SliderValue)/7;
         console.log("state2| " + SliderValue);
     }
     else if(SliderValue > (SliderMaxRange - 0.9)){
         console.log("state3| " + SliderValue );
         WindSpeedMock = 0.2;
-    }
-   
+    }   
 
     ActualWindSpeed = SliderValue;     
     document.getElementById("windspeed").innerHTML = ActualWindSpeed + " m/s";
@@ -146,48 +187,91 @@ function UpdateWind(){
         //windstill
         document.getElementById("WindState").innerHTML = WindStatePrefix + "stille";
         document.getElementById("bgimg").src = "./assets/img/environment_states/0.png";
+        SetGrassState(0,WindSpeedMock);
     }
     else if(ActualWindSpeed > 0.3 && ActualWindSpeed < 1.5){
         //smoke moves in the wind direction
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Flau vind";
         document.getElementById("bgimg").src = "./assets/img/environment_states/1.png";
+        SetGrassState(0,WindSpeedMock);
     }
     else if(ActualWindSpeed > 1.6 && ActualWindSpeed < 3.3){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Svak vind";
+        SetGrassState(0,WindSpeedMock);
     }
     else if(ActualWindSpeed > 3.4 && ActualWindSpeed < 5.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Lett bris";
+        SetGrassState(0,WindSpeedMock);
     }
     else if(ActualWindSpeed > 5.5 && ActualWindSpeed < 7.9){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Laber bris";
+        SetGrassState(1,WindSpeedMock);
     }
     else if(ActualWindSpeed > 8 && ActualWindSpeed < 10.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Frisk bris";
         document.getElementById("bgimg").src = "./assets/img/environment_states/2.png";
+        SetGrassState(1,WindSpeedMock);
     }
     else if(ActualWindSpeed > 10.8 && ActualWindSpeed < 13.8){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten kuling";
+        SetGrassState(1,WindSpeedMock);
     }
     else if(ActualWindSpeed > 13.9 && ActualWindSpeed < 17.1){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Stiv kuling";
+        SetGrassState(1,WindSpeedMock);
     }
     else if(ActualWindSpeed > 17.2 && ActualWindSpeed < 20.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Sterk kuling";
+        SetGrassState(1,WindSpeedMock);
     }
     else if(ActualWindSpeed > 20.8 && ActualWindSpeed < 24.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten storm";
         document.getElementById("bgimg").src = "./assets/img/environment_states/3.png";
+        SetGrassState(2,WindSpeedMock);
     }
     else if(ActualWindSpeed > 24.5 && ActualWindSpeed < 28.4){
-        document.getElementById("WindState").innerHTML = WindStatePrefix + "Full storm";
+        document.getElementById("WindState").innerHTML = WindStatePrefix + "Full storm";    
+        SetGrassState(2,WindSpeedMock);    
     }
     else if(ActualWindSpeed > 28.5 && ActualWindSpeed < 32.6){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Sterk storm";
         document.getElementById("bgimg").src = "./assets/img/environment_states/4.png";
+        SetGrassState(2,WindSpeedMock);
     }
     else if(ActualWindSpeed > 32.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Orkan";
+        SetGrassState(2,WindSpeedMock);
     }
 
 
+    //damage to windturbine 
+    if(ActualWindSpeed > 28){
+        document.getElementById("WindMillSmoke").style.visibility = "visible";
+    }
+    else{
+        document.getElementById("WindMillSmoke").style.visibility = "hidden";
+    }
+
+}
+
+function SetGrassState(state, speed){
+    const GrassAmount = document.getElementsByClassName("grass").length;    
+    //go trough all grass
+    for(let GrassPointer = 0; GrassPointer < GrassAmount; GrassPointer ++){
+        let GrassID = "grass"+GrassPointer;
+        let CurrentGrassElement = document.getElementById(GrassID);
+        if(state == 0){
+            //still grass
+            CurrentGrassElement.src = "./assets/img/foliage/1.png";
+        }
+        else if(state ==1 ){
+            //smooshed grass
+            CurrentGrassElement.src = "./assets/img/foliage/2.png";
+        }
+        else if(state == 2){
+            //really smooshed grass
+            CurrentGrassElement.src = "./assets/img/foliage/3.png";
+        }
+        CurrentGrassElement.style.animationDuration = speed + "s"; 
+    }
 }

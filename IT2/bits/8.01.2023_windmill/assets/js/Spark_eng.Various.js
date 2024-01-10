@@ -3,7 +3,7 @@ function RandomRangedIntiger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//Kook up class index from element id
+//Look up class index from element id
 function ClassIndexLookup(id, class_name){
   const elements = document.getElementsByClassName(class_name);
   for(let arr_index = 0; arr_index <elements.length; arr_index ++){
