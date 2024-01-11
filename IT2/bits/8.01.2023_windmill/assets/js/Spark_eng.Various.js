@@ -2,6 +2,9 @@
 function RandomRangedIntiger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+function RandomRangedFloat(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 //Look up class index from element id
 function ClassIndexLookup(id, class_name){

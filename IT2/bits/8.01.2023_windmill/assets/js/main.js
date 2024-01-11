@@ -2,7 +2,9 @@ var WindSpeedMock = 0;
 var ActualWindSpeed = 0;
 var SliderMaxRange =  33;
 var WindStatePrefix = "Vind navn: "
-var SoundState = 0;
+var SoundState = 1;
+var LastSoundState = 0; 
+let audioPlayer = null;
 
 function init(){
     console.info("init run");
@@ -171,6 +173,7 @@ function UpdateWind(){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Flau vind";
         document.getElementById("bgimg").src = "./assets/img/environment_states/1.png";
         SetGrassState(0,WindSpeedMock);
+        SoundState = 0;
     }
     else if(ActualWindSpeed > 1.6 && ActualWindSpeed < 3.3){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Svak vind";
@@ -184,6 +187,7 @@ function UpdateWind(){
     else if(ActualWindSpeed > 5.5 && ActualWindSpeed < 7.9){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Laber bris";
         SetGrassState(1,WindSpeedMock);
+        SoundState = 1; 
     }
     else if(ActualWindSpeed > 8 && ActualWindSpeed < 10.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Frisk bris";
@@ -194,6 +198,7 @@ function UpdateWind(){
     else if(ActualWindSpeed > 10.8 && ActualWindSpeed < 13.8){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten kuling";
         SetGrassState(1,WindSpeedMock);
+        SoundState = 2;
     }
     else if(ActualWindSpeed > 13.9 && ActualWindSpeed < 17.1){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Stiv kuling";
@@ -203,6 +208,7 @@ function UpdateWind(){
     else if(ActualWindSpeed > 17.2 && ActualWindSpeed < 20.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Sterk kuling";
         SetGrassState(1,WindSpeedMock);
+        SoundState = 3; 
     }
     else if(ActualWindSpeed > 20.8 && ActualWindSpeed < 24.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Liten storm";
@@ -212,16 +218,18 @@ function UpdateWind(){
     }
     else if(ActualWindSpeed > 24.5 && ActualWindSpeed < 28.4){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Full storm";    
-        SetGrassState(2,WindSpeedMock);    
+        SetGrassState(2,WindSpeedMock);   
+        SoundState = 4; 
     }
     else if(ActualWindSpeed > 28.5 && ActualWindSpeed < 32.6){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Sterk storm";
         document.getElementById("bgimg").src = "./assets/img/environment_states/4.png";
         SetGrassState(2,WindSpeedMock / 2);
+        SoundState = 4;
     }
     else if(ActualWindSpeed > 32.7){
         document.getElementById("WindState").innerHTML = WindStatePrefix + "Orkan";
-        SetGrassState(2,WindSpeedMock  );
+        SetGrassState(2,WindSpeedMock);
         SoundState = 5; 
     }
 
@@ -292,6 +300,30 @@ function SpawnGrass(amount){
         CurrentGrass.style.animationTimingFunction = "ease-in-out";
         CurrentGrass.style.animationDirection = "alternate";
         CurrentGrass.style.zIndex = grassWidth[GrassPointer] * 20;
+        CurrentGrass.style.animationDelay = RandomRangedFloat(0,0.2) + "s";
         document.getElementById("content").appendChild(CurrentGrass);
     }
 }
+
+//set background audio
+function SetAudioState(){
+   console.info("checking audio state");
+   if(LastSoundState != SoundState){
+       //change sound
+       console.info("changing sound to " + SoundState);
+       
+       // Pause the current audio and reset the audio player
+       if(audioPlayer !== null){
+           audioPlayer.pause();
+           audioPlayer.currentTime = 0;
+       }
+       
+       // Create a new audio player
+       audioPlayer = new Audio('./assets/audio/'+ SoundState + ".mp3");
+       console.info("playing./assets/audio/"+ SoundState + ".mp3" )
+       audioPlayer.play();
+       LastSoundState = SoundState;
+   }
+}
+
+setInterval(SetAudioState, 3000);
