@@ -2,7 +2,7 @@ var GameState = {
     "player":{
         "position":{
             "x":0,
-            "y":0
+            "y":630
         },
         "size":{
             "x":40,
@@ -215,11 +215,8 @@ function spawn_enemies(){
             };
 
         }
-
-
     }
     console.info("spawning enemy... Caused " + collisions + " collisions"); //counter for how many enemies had to have their coordinates relocated
-
 
     for(let CurrentEnemy = 0; CurrentEnemy < Object.keys(GameState.enemies).length; CurrentEnemy ++){
         const enemy = document.createElement("div");
