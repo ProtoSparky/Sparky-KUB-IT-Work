@@ -2,8 +2,11 @@
 function RandomRangedIntiger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+function RandomRangedFloat(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
-//Kook up class index from element id
+//Look up class index from element id
 function ClassIndexLookup(id, class_name){
   const elements = document.getElementsByClassName(class_name);
   for(let arr_index = 0; arr_index <elements.length; arr_index ++){
@@ -99,51 +102,58 @@ return tableData;
 
 
 
-//Save data to LocalStorage
-function LocalStorageOP(op, Data1, Data2){
-//0 Op to create
-//1 Op to edit
-//2 Op to delete
+function DataOP(operation,isArray,StorageName, Data){
+  /*
+  Operation = 0 | Put data in storagename 
+  Operation = 1 | Get data from storagename
+  Operation = 2 | Remove all data from storagename
+  Operation = 3 | Delete everything
+  */
 
-if(op == 0 ){
-    if(Data1 != ""){            
-        //Create class
-        SpawnTable(ButtonTable[0],["SettingTable","table00","table",]);
-        const DataTable = document.getElementById("table00");
-        const applyBTN = document.createElement("button");
-        applyBTN.id="apply_table";
-        applyBTN.class="input";
-        applyBTN.innerHTML="Save Table";
-        applyBTN.addEventListener("click", function(){
-            SaveTable("table00", ButtonTable, Data1); 
-        });
-        DataTable.appendChild(applyBTN);
-        const tableCaption = document.getElementById("caption_table00");
-        tableCaption.innerHTML = tableCaption.innerHTML + " " + Data1;
-
-    }
-    else{
-        console.error("Input invalid. Name cannot be empty");
-    }
-    
-    
-
-}
-else if(op == 1){
-    //Edit class name
-    if(Data1 != "" && Data2 != ""){
-        EditTableName(Data1 , Data2); 
-    }
-    else{
-      console.error("Input invalid. New and or old name cannot be empty");
-       
-    }
-   
-}
-else if(op == 2){
-    //delete class name
-    DeleteTable(Data1);
-}
+  if(operation == 0){
+      //put data in storageName
+      if(isArray){
+          localStorage.setItem(StorageName, JSON.stringify(Data));
+      }
+      else{
+          localStorage.setItem(StorageName, Data);
+          
+      }
+  }
+  else if(operation == 1){
+      //get data from StorageName
+      if(isArray){
+          //return JSON.parse(localStorage.getItem(StorageName));  
+          
+          //Error handling
+          if (localStorage.getItem(StorageName) == null || localStorage.getItem(StorageName) == "undefined"){
+              return null;
+          }
+          else{
+              return JSON.parse(localStorage.getItem(StorageName));
+          }
+      }
+      else{
+          //Error handling
+          if(localStorage.getItem(StorageName) == null || localStorage.getItem(StorageName) == "undefined"){
+              return null; 
+          }
+          else{
+              return localStorage.getItem(StorageName);
+          }
+      }
+  
+  }
+  else if(operation == 2){
+      //remove all data fom StorageName
+      localStorage.RemoveItem(StorageName); 
+      console.info("'" + StorageName + "' Storage cleared!");
+  }
+  else if(operation = 3){
+      //Remove everything
+      localStorage.clear();
+      console.info("ALL LocalStorage cleared!");
+  }
 }
 
 //remove all capitalization
@@ -183,49 +193,131 @@ function search(input, Array) {
 
 //Read json files, and return their data
 function ReadJSON(file, IsAsync) {
-if(IsAsync){
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", file, true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(JSON.parse(xhr.responseText));
-      }
-    };
-    xhr.send();
-}
-else{
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", file, false);
-    xhr.send();
-    return JSON.parse(xhr.responseText);
-}
-
-}
-function ReadAnything(file){
-var xhr = new XMLHttpRequest();
-xhr.open("GET", file, false);
-xhr.send();
-return xhr.responseText;
-}
-
-function ParseCSV(csvString) {
-const lines = csvString.split('\n');
-const data = [];
-for (let i = 0; i < lines.length; i++) {
-  const line = lines[i].trim();
-
-  // Skip empty lines
-  if (line === '') {
-    continue;
+  if(IsAsync){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.send();
   }
-  const values = line.split(';');
-  const trimmedValues = values.map((value) => value.trim());
-  data.push(trimmedValues);
-}
+  else{
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", file, false);
+      xhr.send();
+      return JSON.parse(xhr.responseText);
+  }
 
-return data;
+  }
+  function ReadAnything(file){
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", file, false);
+  xhr.send();
+  return xhr.responseText;
+  }
+
+  function ParseCSV(csvString) {
+  const lines = csvString.split('\n');
+  const data = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    // Skip empty lines
+    if (line === '') {
+      continue;
+    }
+    const values = line.split(';');
+    const trimmedValues = values.map((value) => value.trim());
+    data.push(trimmedValues);
+  }
+
+  return data;
 }
 
 function RandCol() {
   return '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
 }
+
+function AccessCSSVar(VarName){
+  return getComputedStyle(document.documentElement).getPropertyValue(VarName); 
+}
+
+function GenerateMessageBanner(FeedBackState, FeedBackText){
+  //Feedbackstate 0 == Green, good
+  //FeedBackState 1 == yellow, warning
+  //FeedbackState 2 == Red, Error
+  const ColorOK = "#00d573";
+  const ColorWarn = "#f39c12";
+  const ColorErr = "#ff2225"; 
+  const ColorFall  ="#89a6a1"; 
+  const BannerTime  = 4; // s
+  let CurrentBannerTime = 0; 
+  
+
+  const MessageBanner = document.createElement("div");
+  MessageBanner.style.position = "absolute";
+  MessageBanner.style.zIndex = "99999999";
+  MessageBanner.style.top = "30px";
+  MessageBanner.style.height = "30px";
+  MessageBanner.style.borderRadius = "var(--CornerRad)";
+  MessageBanner.style.right = "-400px";
+  if(FeedBackText.length < 25){
+      MessageBanner.style.width = "200px";
+  }
+  else{
+      MessageBanner.style.width = FeedBackText.length * 10 + "px"; 
+  }
+  MessageBanner.id = "MessageBanner";
+  const MessageBannerText = document.createElement("div");
+  MessageBannerText.style.position = "absolute";
+  MessageBannerText.style.top = "50%";
+  MessageBannerText.style.transform = "translate(0,-50%)";
+  MessageBannerText.style.width = "100%";
+  MessageBannerText.style.color = "white";
+  MessageBannerText.style.fontFamily = "main_font";
+  MessageBannerText.style.fontWeight  ="400";
+  MessageBannerText.style.padding = "var(--ElementPadding)";
+
+
+  if(FeedBackState == 0){
+      //good message
+      MessageBanner.style.backgroundColor = ColorOK;
+
+  }
+  else if(FeedBackState == 1){
+      //Warning message
+      MessageBanner.style.backgroundColor = ColorWarn;
+  }
+  else if(FeedBackState == 2){
+      //Error message
+      MessageBanner.style.backgroundColor = ColorErr; 
+  }
+  else{
+      //fallback if
+      MessageBanner.style.backgroundColor = ColorFall;
+  }
+  MessageBannerText.innerHTML = FeedBackText; 
+  MessageBanner.appendChild(MessageBannerText);
+  document.body.appendChild(MessageBanner);
+
+
+  MessageBanner.style.animationName = "BarMove";
+  MessageBanner.style.animationDuration = "5s";
+  MessageBanner.style.animationTimingFunction = "ease-in-out"
+
+
+  const intervalId = setInterval(AnimateBanner, 1000);
+  document.body.style.overflow = "hidden";
+  function AnimateBanner(){
+      CurrentBannerTime += 1;
+      if(CurrentBannerTime > BannerTime){
+          document.getElementById("MessageBanner").remove();
+          document.body.style.overflow = "visible";
+          clearInterval(intervalId);
+      }
+
+  }
+
+};
