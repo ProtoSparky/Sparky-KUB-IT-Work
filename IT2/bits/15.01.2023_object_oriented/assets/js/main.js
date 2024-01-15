@@ -23,7 +23,35 @@ var GameState = {
     },
     "gamesettings":{
         "max_enemy":10,
-        "min_enemy":3
+        "min_enemy":3,
+        "enemy_size":{
+            "x":30,
+            "y":30
+        },
+        "safezones":{
+            "left_zone":{
+                "position":{
+                    "x":0,
+                    "-y":0,
+                    "z":10
+                },
+                "size":{
+                    "x":200,
+                    "y":80
+                }
+            },
+            "right_zone":{
+                "position":{
+                    "-x":0,
+                    "-y":0,
+                    "z":10
+                },
+                "size":{
+                    "x":200,
+                    "y":80
+                }
+            }
+        }
     }
 
 };
@@ -99,11 +127,11 @@ function init(){
     safezone1.className = "safezone";
     safezone1.style.position ="absolute";
     safezone1.style.backgroundColor = "white";
-    safezone1.style.left = "0px";
-    safezone1.style.bottom = "0px";
-    safezone1.style.width = "200px";
-    safezone1.style.height = "80px";
-    safezone1.style.zIndex = 10;
+    safezone1.style.left = GameState.gamesettings.safezones.left_zone.position.x + "px";
+    safezone1.style.bottom = GameState.gamesettings.safezones.left_zone.position["-y"] + "px";
+    safezone1.style.width = GameState.gamesettings.safezones.left_zone.size.x + "px";
+    safezone1.style.height = GameState.gamesettings.safezones.left_zone.size.y + "px";
+    safezone1.style.zIndex = GameState.gamesettings.safezones.left_zone.position.z;
     document.getElementById("content").appendChild(safezone1); 
 
     const safezone2 = document.createElement("div");
@@ -111,17 +139,16 @@ function init(){
     safezone2.className = "safezone";
     safezone2.style.position ="absolute";
     safezone2.style.backgroundColor = "white";
-    safezone2.style.right = "0px";
-    safezone2.style.bottom = "0px";
-    safezone2.style.width = "200px";
-    safezone2.style.height = "80px";
-    safezone2.style.zIndex = 10;
+    safezone2.style.right = GameState.gamesettings.safezones.right_zone.position["-x"] + "px";
+    safezone2.style.bottom = GameState.gamesettings.safezones.right_zone.position["-y"] + "px";
+    safezone2.style.width = GameState.gamesettings.safezones.right_zone.size.x + "px";
+    safezone2.style.height = GameState.gamesettings.safezones.right_zone.size.y + "px";
+    safezone2.style.zIndex = GameState.gamesettings.safezones.right_zone.position.z;
     document.getElementById("content").appendChild(safezone2);
     setInterval(ConstantUpdater,10);
 
     //set up enemies
-
-
+    spawn_enemies();
 }
 function ConstantUpdater(){
     check_player_input();
@@ -142,10 +169,70 @@ function ApplyPlayerState(){
 }
 function spawn_enemies(){
     //function that spawns enemies in the game area
-    const enemy_amount = randomRangedIntiger(GameState.gamesettings.min_enemy,GameState.gamesettings.max_enemy);
+    const enemy_amount = RandomRangedIntiger(GameState.gamesettings.min_enemy,GameState.gamesettings.max_enemy);
+    let collisions = 0; // this number increases if the "else" creates an overlapping enemy. It is super cursed as it is O^n 
+    //generate coordinates for all enemies
     for(let currentEnemy = 0; currentEnemy < enemy_amount; currentEnemy ++){
-        const CurrentEnemy_object = document.createElement("div");
-        CurrentEnemy_object.style.position = "absolute";
-        CurrentEnemy_object.style.top
+        let new_x = RandomRangedIntiger(10,window.innerWidth - 10);
+        let new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+
+        if(IScollidedObject(new_x, GameState.gamesettings.enemy_size.x, new_y, GameState.gamesettings.enemy_size.y, GameState.enemies) == null){
+            //spawn first object
+            //GameState.enemies = {}; initializes the object so that Object.keys could actually read it
+            GameState.enemies = {};
+            GameState.enemies[Object.keys(GameState.enemies).length] = {
+                "position":{
+                    "x":new_x,
+                    "y":new_y
+                },
+                "size":{
+                    "x":GameState.gamesettings.enemy_size.x,
+                    "y":GameState.gamesettings.enemy_size.y
+                }
+            };            
+        }
+        else{
+            //this is where things become outright cursed
+            const DataArray = IScollidedObject(new_x, GameState.gamesettings.enemy_size.x, new_y, GameState.gamesettings.enemy_size.y, GameState.enemies);
+            for(let RunnerPointer = 0; RunnerPointer < DataArray.length; RunnerPointer ++){
+                if(DataArray[RunnerPointer]){
+                    //checks if the coordinates are true. If they are, it'll set some new ones. 
+                    GameState.enemies[RunnerPointer].position.x = RandomRangedIntiger(10,document.getElementById("content").innerWidth - 10);
+                    GameState.enemies[RunnerPointer].position.y = RandomRangedIntiger(10,document.getElementById("content").innerHeight - 10);
+                    collisions = collisions + 1;
+                }
+            }
+            //set normal coordinate
+            GameState.enemies[Object.keys(GameState.enemies).length] = {
+                "position":{
+                    "x":new_x,
+                    "y":new_y
+                },
+                "size":{
+                    "x":GameState.gamesettings.enemy_size.x,
+                    "y":GameState.gamesettings.enemy_size.y
+                }
+            };
+
+        }
+
+
     }
+    console.info("spawning enemy... Caused " + collisions + " collisions"); //counter for how many enemies had to have their coordinates relocated
+
+
+    for(let CurrentEnemy = 0; CurrentEnemy < Object.keys(GameState.enemies).length; CurrentEnemy ++){
+        const enemy = document.createElement("div");
+        enemy.className = "enemy";
+        enemy.id = "enemy " + CurrentEnemy;
+        enemy.style.top = GameState.enemies[CurrentEnemy].position.y; 
+        enemy.style.left = GameState.enemies[CurrentEnemy].position.x; 
+        enemy.style.width = GameState.enemies[CurrentEnemy].size.x; 
+        enemy.style.height = GameState.enemies[CurrentEnemy].size.y; 
+        enemy.style.position = "absolute";
+        enemy.style.borderColor = "red";
+        enemy.style.borderStyle = "dashed";
+        document.getElementById("content").appendChild(enemy);
+    }
+
 }

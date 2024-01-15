@@ -1,9 +1,25 @@
 //Random number generator
+/*
 function RandomRangedIntiger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+*/
+function RandomRangedIntiger(min, max, not) {
+  //random number generator that can also skip some numbers in not array
+  if(not == undefined){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  else{
+    let num;
+    do {
+      num = Math.floor(Math.random() * (max - min + 1)) + min;
+    } 
+    while (not.includes(num));
+    return num;
+  }
+}
 
-//Kook up class index from element id
+//look up class index from element id
 function ClassIndexLookup(id, class_name){
   const elements = document.getElementsByClassName(class_name);
   for(let arr_index = 0; arr_index <elements.length; arr_index ++){
@@ -38,6 +54,7 @@ function ArraysCommon(arr1, arr2) {
   }
   return false; // No common elements found
 }
+
 
 //Returns the index length of a given class
 function ClassIndexLength(class_id){
