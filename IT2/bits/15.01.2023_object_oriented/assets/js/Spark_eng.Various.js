@@ -175,6 +175,7 @@ function removeCapitalization(inputString) {
   return inputString.toLowerCase();
 }
 
+/*
 //Searches trough array, if input is found, returns new array
 function search(input, Array) {
   const normalizedInput = input.replace(/\s/g, "").toLowerCase();
@@ -203,7 +204,40 @@ function search(input, Array) {
   }
 
   return matchingRows;
-}
+}*/
+function search(input, Array, includeBool) {
+  const normalizedInput = input.replace(/\s/g, "").toLowerCase();
+  const ignoredKeys = [1,2,3,4,5];
+  const matchingRows = [];
+ 
+  for (const row of Array) {
+    let found = false;
+ 
+    for (let i = 0; i < row.length; i++) {
+      if (ignoredKeys.includes(i)) continue;
+      const cell = row[i];
+      const normalizedCell = cell.replace(/\s/g, "").toLowerCase();
+ 
+      // Check if the cell is a boolean and includeBool is true
+      if (includeBool && typeof cell === 'boolean') {
+        if (cell === true || cell === false) {
+          found = true;
+          break;
+        }
+      }
+ 
+      if (normalizedCell.includes(normalizedInput)) {
+        found = true;
+        break;
+      }
+    } 
+    if (found) {
+      matchingRows.push(row.slice()); // Copy the matching row to the new array
+    }
+  }
+ 
+  return matchingRows;
+ }
 
 //Read json files, and return their data
 function ReadJSON(file, IsAsync) {

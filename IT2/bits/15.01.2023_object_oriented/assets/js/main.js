@@ -9,7 +9,8 @@ var GameState = {
             "y":40
         },
         "playerMaxSpeed":10,
-        "PlayerID":"player"
+        "PlayerID":"player",
+        "safe":true
         
     },
     "collectibles":{
@@ -32,7 +33,7 @@ var GameState = {
             "left_zone":{
                 "position":{
                     "x":0,
-                    "-y":0,
+                    "y":0,
                     "z":10
                 },
                 "size":{
@@ -42,8 +43,8 @@ var GameState = {
             },
             "right_zone":{
                 "position":{
-                    "-x":0,
-                    "-y":0,
+                    "x":0,
+                    "y":0,
                     "z":10
                 },
                 "size":{
@@ -128,7 +129,7 @@ function init(){
     safezone1.style.position ="absolute";
     safezone1.style.backgroundColor = "white";
     safezone1.style.left = GameState.gamesettings.safezones.left_zone.position.x + "px";
-    safezone1.style.bottom = GameState.gamesettings.safezones.left_zone.position["-y"] + "px";
+    safezone1.style.top = GameState.gamesettings.safezones.left_zone.position["y"] + "px";
     safezone1.style.width = GameState.gamesettings.safezones.left_zone.size.x + "px";
     safezone1.style.height = GameState.gamesettings.safezones.left_zone.size.y + "px";
     safezone1.style.zIndex = GameState.gamesettings.safezones.left_zone.position.z;
@@ -139,33 +140,84 @@ function init(){
     safezone2.className = "safezone";
     safezone2.style.position ="absolute";
     safezone2.style.backgroundColor = "white";
-    safezone2.style.right = GameState.gamesettings.safezones.right_zone.position["-x"] + "px";
-    safezone2.style.bottom = GameState.gamesettings.safezones.right_zone.position["-y"] + "px";
+    safezone2.style.left = GameState.gamesettings.safezones.right_zone.position["x"] + "px";
+    safezone2.style.top = GameState.gamesettings.safezones.right_zone.position["y"] + "px";
     safezone2.style.width = GameState.gamesettings.safezones.right_zone.size.x + "px";
     safezone2.style.height = GameState.gamesettings.safezones.right_zone.size.y + "px";
     safezone2.style.zIndex = GameState.gamesettings.safezones.right_zone.position.z;
     document.getElementById("content").appendChild(safezone2);
     setInterval(ConstantUpdater,10);
+    setInterval(ConstantUpdate_LP,1000);
+
+    //debug
+    setInterval(ApplyPlayerState,400)
 
     //set up enemies
     spawn_enemies();
 }
 function ConstantUpdater(){
     check_player_input();
-    ApplyPlayerState();
+    //ApplyPlayerState();
 }; 
+function ConstantUpdate_LP(){
+    //update safezone positions
+
+    //TODO FIX THIS BS
+    //
+    //
+    //
+    //
+    //
+    
+    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content").offsetHeight + GameState.gamesettings.safezones.left_zone.position.x) - GameState.gamesettings.safezones.left_zone.size.y;
+    const Safezone1 = document.getElementById("safezone1");
+    Safezone1.style.top = GameState.gamesettings.safezones.left_zone.position.y + "px" ;
+
+    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content").offsetHeight + GameState.gamesettings.safezones.right_zone.position.x) - GameState.gamesettings.safezones.right_zone.size.y;
+    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content").offsetWidth + GameState.gamesettings.safezones.right_zone.position.y) - GameState.gamesettings.safezones.right_zone.size.x;
+    const Safezone2 = document.getElementById("safezone2");
+    Safezone2.style.top = GameState.gamesettings.safezones.right_zone.position.y + "px" ;
+    Safezone2.style.left = GameState.gamesettings.safezones.right_zone.position.x;
+}
 
 function ApplyPlayerState(){
     document.getElementById(GameState.player.PlayerID).style.top = GameState.player.position.y;
     document.getElementById(GameState.player.PlayerID).style.left = GameState.player.position.x;
-    for(let SafezonePointer = 0; SafezonePointer < (document.getElementsByClassName("safezone").length)-1 ; SafezonePointer ++){
-        if(IScollided(GameState.player.position.x , GameState.player.size.x,  GameState.player.position.y,GameState.player.size.y, "safezone")[SafezonePointer]){
-            document.getElementById(GameState.player.PlayerID).style.borderColor = "black";
+    const colliderJSON = {
+        "0":{
+            "position":{
+                "x":GameState.gamesettings.safezones.left_zone.position.x,
+                "y":GameState.gamesettings.safezones.left_zone.position["y"]
+            },
+            "size":{
+                "x":GameState.gamesettings.safezones.left_zone.size.x,
+                "y":GameState.gamesettings.safezones.left_zone.size.y
+            }
+        },
+        "1":{
+            "position":{
+                "x":GameState.gamesettings.safezones.right_zone.position["-x"],
+                "y":GameState.gamesettings.safezones.right_zone.position["y"]
+            },
+            "size":{
+                "x":GameState.gamesettings.safezones.right_zone.size.x,
+                "y":GameState.gamesettings.safezones.right_zone.size.y
+            }
         }
-        else{
-            document.getElementById(GameState.player.PlayerID).style.borderColor = "white";
-        }
+    };
+
+    const SafeZoneChecker = IScollidedObject((GameState.player.position.x) , (GameState.player.size.x),  (GameState.player.position.y),(GameState.player.size.y),colliderJSON);
+    //console.log(SafeZoneChecker);
+    /*
+    if(search(true,SafeZoneChecker,true).length < 0){
+        document.getElementById(GameState.player.PlayerID).style.borderColor = "black";
+        console.log("balls");
     }
+    else{
+        document.getElementById(GameState.player.PlayerID).style.borderColor = "white";
+    }
+    */
+    
 }
 function spawn_enemies(){
     //function that spawns enemies in the game area
@@ -173,7 +225,7 @@ function spawn_enemies(){
     let collisions = 0; // this number increases if the "else" creates an overlapping enemy. It is super cursed as it is O^n 
     //generate coordinates for all enemies
     for(let currentEnemy = 0; currentEnemy < enemy_amount; currentEnemy ++){
-        let new_x = RandomRangedIntiger(10,window.innerWidth - 10);
+        let new_x = RandomRangedIntiger(10,window.innerWidth - 50);
         let new_y = RandomRangedIntiger(10,window.innerHeight - 10);
 
         if(IScollidedObject(new_x, GameState.gamesettings.enemy_size.x, new_y, GameState.gamesettings.enemy_size.y, GameState.enemies) == null){
