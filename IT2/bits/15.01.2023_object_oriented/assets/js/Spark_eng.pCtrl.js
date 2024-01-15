@@ -41,7 +41,7 @@ function check_player_input(){
             console.log("s");
         }
         //check if player is about to not collide, and move
-        if(!IScollided(GameState.player.position.x, GameState.player.size.x,  GameState.player.position.y - GameState.player.playerMaxSpeed,GameState.player.size.y, "col_mesh")[1]){
+        if(!IScollided(GameState.player.position.x, GameState.player.size.x,  GameState.player.position.y - GameState.player.playerMaxSpeed + 18,GameState.player.size.y, "col_mesh")[1]){
             GameState.player.position.y= GameState.player.position.y + GameState.player.playerMaxSpeed;
         }
     }
@@ -63,7 +63,7 @@ function check_player_input(){
     }
     /*DEBUG*/
 
-    
+
 
 }
 //-------------------------------------------------------------------------------------------------------------
