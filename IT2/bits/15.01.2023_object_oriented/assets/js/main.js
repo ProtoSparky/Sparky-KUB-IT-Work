@@ -24,7 +24,7 @@ var GameState = {
     },
     "gamesettings":{        
         "sheep":{
-            "sheep_amount":10,
+            "sheep_amount":3,
             "size":{
                 "x":15,
                 "y":15
@@ -240,8 +240,7 @@ function ApplyPlayerState(){
     else{
         document.getElementById(GameState.player.PlayerID).style.borderColor = "white";
         GameState.player.safe = false;
-    }
-    
+    }    
     
 }
 function spawn_enemies(){
@@ -322,14 +321,14 @@ function spawn_sheep(){
     }
     for(let SheepPointer = 0; SheepPointer < GameState.gamesettings.sheep.sheep_amount; SheepPointer ++){
         let new_x = RandomRangedIntiger(10,window.innerWidth - 50);
-        let new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+        let new_y = RandomRangedIntiger(10,window.innerHeight - 40);
         
         const NewObjectSpawned = Object.keys(ObjectsSpawned).length;
         for(let check_pointer = 0;check_pointer < NewObjectSpawned; check_pointer ++ ){
             if(IScollidedObject(new_x, GameState.gamesettings.sheep.size.x, new_y, GameState.gamesettings.sheep.size.y, ObjectsSpawned)[NewObjectSpawned]){
                 //this turns true if a sheep tried to spawn in an area where something is already occupied
                 new_x = RandomRangedIntiger(10,window.innerWidth - 50);
-                new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+                new_y = RandomRangedIntiger(10,window.innerHeight - 40);
             }
         }
         let SheepObject = {
@@ -340,7 +339,8 @@ function spawn_sheep(){
             "size":{
                 "x":GameState.gamesettings.sheep.size.x,
                 "y":GameState.gamesettings.sheep.size.y
-            }
+            },
+            "has_ai":true
         }
         //write new sheep to collectibles
         GameState.collectibles[SheepPointer] = SheepObject;
@@ -437,4 +437,7 @@ function spawn_hinderances(){
     console.info("spawn hinderances caused " + Collisions +" collisions"); 
 
 
+}
+function AI_update(type){
+    
 }
