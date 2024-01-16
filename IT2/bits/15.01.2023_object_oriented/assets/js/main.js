@@ -22,9 +22,13 @@ var GameState = {
     "enemies":{
 
     },
-    "gamesettings":{        
+    "gamesettings":{
+        "game_walls":{
+
+        },        
         "sheep":{
             "sheep_amount":3,
+            "speed":3,
             "size":{
                 "x":15,
                 "y":15
@@ -204,6 +208,9 @@ function ConstantUpdate_LP(){
     GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.right_zone.size.y);
     document.getElementById("safezone2").style.left = GameState.gamesettings.safezones.right_zone.position.x;
     document.getElementById("safezone2").style.top = GameState.gamesettings.safezones.right_zone.position.y;
+
+    //update AI
+    AI_update(0);
 }
 
 function ApplyPlayerState(){
@@ -334,13 +341,14 @@ function spawn_sheep(){
         let SheepObject = {
             "position":{
                 "x":new_x,
-                "y":new_y
+                "y":new_y,
+                "angle":null
             },
             "size":{
                 "x":GameState.gamesettings.sheep.size.x,
                 "y":GameState.gamesettings.sheep.size.y
             },
-            "has_ai":true
+            "has_ai":true,
         }
         //write new sheep to collectibles
         GameState.collectibles[SheepPointer] = SheepObject;
@@ -439,5 +447,46 @@ function spawn_hinderances(){
 
 }
 function AI_update(type){
-    
+    if(type == 0){
+        //this one is for the sheep
+        const SheepAmount = Object.keys(GameState.collectibles).length; 
+        for(let CurrentSheep = 0; CurrentSheep < SheepAmount; CurrentSheep ++){
+            if(GameState.collectibles[CurrentSheep].has_ai == true){
+                //checks if the sheep has an ai and is allowed to move
+                const AI_RNG = RandomRangedIntiger(0,1);
+                //checks if angle is nonexistent, sets new one
+                if(GameState.collectibles[CurrentSheep].position.angle == null){
+                    GameState.collectibles[CurrentSheep].position.angle = RandomRangedIntiger(0,360);
+                }
+
+                //set up some rng
+                if(AI_RNG == 0){
+                    //move in the same direction
+                    const New_coordinates = calculateCoordinates(GameState.collectibles[CurrentSheep].position.x,GameState.collectibles[CurrentSheep].position.angle,GameState.collectibles[CurrentSheep].position.y,GameState.gamesettings.sheep.speed);
+                    GameState.collectibles[CurrentSheep].position.x = New_coordinates[0];
+                    GameState.collectibles[CurrentSheep].position.y = New_coordinates[1];
+                }
+                else if(AI_RNG == 0){
+                    //pick new coordinate
+                    GameState.collectibles[CurrentSheep].position.angle =  RandomRangedIntiger(0,360);
+                    const New_coordinates = calculateCoordinates(GameState.collectibles[CurrentSheep].position.x,GameState.collectibles[CurrentSheep].position.angle,GameState.collectibles[CurrentSheep].position.y,GameState.gamesettings.sheep.speed);
+                    GameState.collectibles[CurrentSheep].position.x = New_coordinates[0];
+                    GameState.collectibles[CurrentSheep].position.y = New_coordinates[1];
+
+                }
+
+                const CurrentSheepDiv = document.getElementById("sheep"+CurrentSheep);
+                CurrentSheepDiv.style.left = GameState.collectibles[CurrentSheep].position.x;
+                CurrentSheepDiv.style.top = GameState.collectibles[CurrentSheep].position.y;
+                
+
+
+
+            }
+        }
+
+    }
+    else if(type == 1){
+        //this one is for the enemies
+    }
 }

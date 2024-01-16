@@ -19,6 +19,28 @@ function RandomRangedIntiger(min, max, not) {
   }
 }
 
+//px to angle
+function calculateAngle(x1, y1, x2, y2) {
+  let dx = x2 - x1;
+  let dy = y2 - y1;
+  let angle = Math.atan2(dy, dx);
+  angle = angle * (180 / Math.PI);
+  if (angle < 0) {
+      angle += 360;
+  }
+  return angle;
+}
+
+//px and angle to next coordinate
+function calculateCoordinates(x1, y1, angle, distance) {
+  let radian = angle * (Math.PI / 180); // Convert angle to radians
+  let dx = distance * Math.cos(radian);
+  let dy = distance * Math.sin(radian);
+  let x2 = Math.floor(x1 + dx);
+  let y2 = Math.floor(y1 + dy);
+  return [x2, y2];
+}
+
 //look up class index from element id
 function ClassIndexLookup(id, class_name){
   const elements = document.getElementsByClassName(class_name);
