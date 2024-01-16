@@ -22,8 +22,14 @@ var GameState = {
     "enemies":{
 
     },
-    "gamesettings":{
-        "sheep_amount":10,
+    "gamesettings":{        
+        "sheep":{
+            "sheep_amount":10,
+            "size":{
+                "x":15,
+                "y":15
+            }
+        },
         "min_hinderances":3,
         "max_hinderances":10,
         "max_enemy":10,
@@ -165,6 +171,9 @@ function init(){
 
     //set up enemies
     spawn_enemies();
+    
+    //set up sheep
+    spawn_sheep();
 
     setInterval(ConstantUpdater,10);
     setInterval(ConstantUpdate_LP,1000);
@@ -291,6 +300,55 @@ function spawn_enemies(){
 
 }
 function spawn_sheep(){
-    let current_objects = GameState.enemies; 
+    let ObjectsSpawned = GameState.enemies;
+    //add safezones
+    const safezone_amount = Object.keys(GameState.gamesettings.safezones).length; 
+    const enemies_amount = Object.keys(ObjectsSpawned).length; 
+    for(let Safezonepointer = enemies_amount; Safezonepointer < enemies_amount + safezone_amount; Safezonepointer ++){
+        //add all all safeazones and enemies to no spawn list
+        ObjectsSpawned[Safezonepointer] = GameState.gamesettings.safezones[Object.keys(GameState.gamesettings.safezones)[Safezonepointer-enemies_amount]];      
+    }
+    for(let SheepPointer = 0; SheepPointer < GameState.gamesettings.sheep.sheep_amount; SheepPointer ++){
+        let new_x = RandomRangedIntiger(10,window.innerWidth - 50);
+        let new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+        
+        const NewObjectSpawned = Object.keys(ObjectsSpawned).length;
+        for(let check_pointer = 0;check_pointer < NewObjectSpawned; check_pointer ++ ){
+            if(IScollidedObject(new_x, GameState.gamesettings.sheep.size.x, new_y, GameState.gamesettings.sheep.size.y, ObjectsSpawned)[NewObjectSpawned]){
+                //this turns true if a sheep tried to spawn in an area where something is already occupied
+                new_x = RandomRangedIntiger(10,window.innerWidth - 50);
+                new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+            }
+        }
+        let SheepObject = {
+            "position":{
+                "x":new_x,
+                "y":new_y
+            },
+            "size":{
+                "x":GameState.gamesettings.sheep.size.x,
+                "y":GameState.gamesettings.sheep.size.y
+            }
+        }
+        //write new sheep to collectibles
+        GameState.collectibles[SheepPointer] = SheepObject;
+
+    }
+
+    //spawn sheep
+    const SheepAmount = Object.keys(GameState.collectibles).length;
+    for(let SheepPointer = 0; SheepPointer < SheepAmount; SheepPointer ++){
+        const Sheep = document.createElement("div");
+        Sheep.id = "sheep" + SheepPointer;
+        Sheep.className = "Sheep";
+        Sheep.style.position =  "absolute";
+        Sheep.style.borderColor = "yellow";
+        Sheep.style.borderStyle = "dashed";
+        Sheep.style.left = GameState.collectibles[SheepPointer].position.x;
+        Sheep.style.top = GameState.collectibles[SheepPointer].position.y;
+        Sheep.style.width = GameState.gamesettings.sheep.size.x;
+        Sheep.style.height = GameState.gamesettings.sheep.size.y;
+        document.getElementById("content").appendChild(Sheep);
+    }
     
 }
