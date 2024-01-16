@@ -30,8 +30,17 @@ var GameState = {
                 "y":15
             }
         },
-        "min_hinderances":3,
-        "max_hinderances":10,
+        "hinderances":{
+            "min_hinderances":3,
+            "max_hinderances":10,
+            "size":{
+                "x":20,
+                "y":20
+            },
+            "style":{
+                "backgroundColor":"gray",
+            }
+        },
         "max_enemy":10,
         "min_enemy":3,
         "enemy_size":{
@@ -174,6 +183,9 @@ function init(){
     
     //set up sheep
     spawn_sheep();
+
+    //spawn hinderances
+    spawn_hinderances();
 
     setInterval(ConstantUpdater,10);
     setInterval(ConstantUpdate_LP,1000);
@@ -357,5 +369,72 @@ function spawn_hinderances(){
     let Sheep_Spawned = GameState.collectibles;
     let Safezones_Spawned = GameState.gamesettings.safezones;
     //combine everything into one object
-    let CombinedObject
+    let CombinedObject = {
+
+    };
+
+    let Collisions = 0; 
+    
+    //for loop for enemies
+    for(let loop_pointer = 0; loop_pointer < Object.keys(Enemies_Spawned).length; loop_pointer++){
+        CombinedObject[loop_pointer] = Enemies_Spawned[loop_pointer];
+    }
+
+    //Sheep spawned
+    const CombinedObjectLength1 = Object.keys(CombinedObject).length;
+    for(let loop_pointer1 = CombinedObjectLength1; loop_pointer1 < (Object.keys(Sheep_Spawned).length + CombinedObjectLength1); loop_pointer1 ++){
+        CombinedObject[loop_pointer1] = Sheep_Spawned[loop_pointer1 - CombinedObjectLength1]; 
+    }
+
+    //combine safezones
+    const CombinedObjectLength2 = Object.keys(CombinedObject).length; 
+    for(let loop_pointer2 = CombinedObjectLength2; loop_pointer2 <(Object.keys(Safezones_Spawned).length + CombinedObjectLength2); loop_pointer2 ++){
+        CombinedObject[loop_pointer2] = Safezones_Spawned[Object.keys(Safezones_Spawned)[loop_pointer2 - CombinedObjectLength2]];
+    }
+    
+    //generate random amount of hinderances
+    const HinderancesAmount = RandomRangedIntiger(GameState.gamesettings.hinderances.min_hinderances,GameState.gamesettings.hinderances.max_hinderances);
+    const TEMP_hinderances = {}
+
+    for(let HinderancePointer = 0; HinderancePointer < HinderancesAmount; HinderancePointer ++){
+        let new_x = RandomRangedIntiger(10,window.innerWidth - 50);
+        let new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+        
+        //check corrdinates against disallowed ones
+        for(let hinderance_pointer = 0; hinderance_pointer < Object.keys(CombinedObject).length; hinderance_pointer ++){
+            if(IScollidedObject(new_x,GameState.gamesettings.hinderances.size.x,new_y,GameState.gamesettings.hinderances.size.y, CombinedObject)[hinderance_pointer]){
+                //set new coordinates as the previous ones were in the way
+                new_x = RandomRangedIntiger(10,window.innerWidth - 50);
+                new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+                Collisions ++; 
+            };
+        };
+        const current_hinderance = {
+            "position":{
+                "x":new_x, 
+                "y":new_y
+            },
+            "size":{
+                "x":GameState.gamesettings.hinderances.size.x,
+                "y":GameState.gamesettings.hinderances.size.y
+            }
+        };
+        GameState.hinderances[HinderancePointer] = current_hinderance; 
+
+        //spawn the hinderances
+        const HinderanceObject = document.createElement("div");
+        HinderanceObject.className = "Hinderance";
+        HinderanceObject.id = "Hinderance" + HinderancePointer;
+        HinderanceObject.style.position = "absolute";
+        HinderanceObject.style.top = new_y;
+        HinderanceObject.style.left = new_y;
+        HinderanceObject.style.borderColor = GameState.gamesettings.hinderances.style.backgroundColor;
+        HinderanceObject.style.borderStyle = "dashed";
+        HinderanceObject.style.width = GameState.gamesettings.hinderances.size.x;
+        HinderanceObject.style.height = GameState.gamesettings.hinderances.size.y;
+        document.getElementById("content").appendChild(HinderanceObject);
+    }
+    console.info("spawn hinderances caused " + Collisions +" collisions"); 
+
+
 }
