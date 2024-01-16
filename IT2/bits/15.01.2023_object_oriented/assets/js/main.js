@@ -2,7 +2,7 @@ var GameState = {
     "player":{
         "position":{
             "x":0,
-            "y":630
+            "y":0
         },
         "size":{
             "x":40,
@@ -23,6 +23,9 @@ var GameState = {
 
     },
     "gamesettings":{
+        "sheep_amount":10,
+        "min_hinderances":3,
+        "max_hinderances":10,
         "max_enemy":10,
         "min_enemy":3,
         "enemy_size":{
@@ -127,7 +130,7 @@ function init(){
     safezone1.id = "safezone1";
     safezone1.className = "safezone";
     safezone1.style.position ="absolute";
-    safezone1.style.backgroundColor = "white";
+    safezone1.style.backgroundColor = "#9dff73";
     safezone1.style.left = GameState.gamesettings.safezones.left_zone.position.x + "px";
     safezone1.style.top = GameState.gamesettings.safezones.left_zone.position["y"] + "px";
     safezone1.style.width = GameState.gamesettings.safezones.left_zone.size.x + "px";
@@ -139,45 +142,47 @@ function init(){
     safezone2.id = "safezone2";
     safezone2.className = "safezone";
     safezone2.style.position ="absolute";
-    safezone2.style.backgroundColor = "white";
+    safezone2.style.backgroundColor = "#9dff73";
     safezone2.style.left = GameState.gamesettings.safezones.right_zone.position["x"] + "px";
     safezone2.style.top = GameState.gamesettings.safezones.right_zone.position["y"] + "px";
     safezone2.style.width = GameState.gamesettings.safezones.right_zone.size.x + "px";
     safezone2.style.height = GameState.gamesettings.safezones.right_zone.size.y + "px";
     safezone2.style.zIndex = GameState.gamesettings.safezones.right_zone.position.z;
     document.getElementById("content").appendChild(safezone2);
-    setInterval(ConstantUpdater,10);
-    setInterval(ConstantUpdate_LP,1000);
 
-    //debug
-    setInterval(ApplyPlayerState,400)
+    //set initial safezone positions at the bottom
+    GameState.gamesettings.safezones.left_zone.position.x = 0;
+    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.left_zone.size.y);
+    document.getElementById("safezone1").style.top = GameState.gamesettings.safezones.left_zone.position.y;
+    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content").offsetWidth - GameState.gamesettings.safezones.right_zone.size.x);
+    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.right_zone.size.y);
+    document.getElementById("safezone2").style.left = GameState.gamesettings.safezones.right_zone.position.x;
+    document.getElementById("safezone2").style.top = GameState.gamesettings.safezones.right_zone.position.y;
+
+    //set initial player position
+    GameState.player.position.y = GameState.gamesettings.safezones.left_zone.position.y + 10;
+
 
     //set up enemies
     spawn_enemies();
+
+    setInterval(ConstantUpdater,10);
+    setInterval(ConstantUpdate_LP,1000);
 }
 function ConstantUpdater(){
+    //update things once every 10 ms 
     check_player_input();
-    //ApplyPlayerState();
+    ApplyPlayerState();
 }; 
 function ConstantUpdate_LP(){
-    //update safezone positions
-
-    //TODO FIX THIS BS
-    //
-    //
-    //
-    //
-    //
-    
-    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content").offsetHeight + GameState.gamesettings.safezones.left_zone.position.x) - GameState.gamesettings.safezones.left_zone.size.y;
-    const Safezone1 = document.getElementById("safezone1");
-    Safezone1.style.top = GameState.gamesettings.safezones.left_zone.position.y + "px" ;
-
-    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content").offsetHeight + GameState.gamesettings.safezones.right_zone.position.x) - GameState.gamesettings.safezones.right_zone.size.y;
-    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content").offsetWidth + GameState.gamesettings.safezones.right_zone.position.y) - GameState.gamesettings.safezones.right_zone.size.x;
-    const Safezone2 = document.getElementById("safezone2");
-    Safezone2.style.top = GameState.gamesettings.safezones.right_zone.position.y + "px" ;
-    Safezone2.style.left = GameState.gamesettings.safezones.right_zone.position.x;
+    //update stuff once a second
+    GameState.gamesettings.safezones.left_zone.position.x = 0;
+    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.left_zone.size.y);
+    document.getElementById("safezone1").style.top = GameState.gamesettings.safezones.left_zone.position.y;
+    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content").offsetWidth - GameState.gamesettings.safezones.right_zone.size.x);
+    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.right_zone.size.y);
+    document.getElementById("safezone2").style.left = GameState.gamesettings.safezones.right_zone.position.x;
+    document.getElementById("safezone2").style.top = GameState.gamesettings.safezones.right_zone.position.y;
 }
 
 function ApplyPlayerState(){
@@ -187,7 +192,7 @@ function ApplyPlayerState(){
         "0":{
             "position":{
                 "x":GameState.gamesettings.safezones.left_zone.position.x,
-                "y":GameState.gamesettings.safezones.left_zone.position["y"]
+                "y":GameState.gamesettings.safezones.left_zone.position.y
             },
             "size":{
                 "x":GameState.gamesettings.safezones.left_zone.size.x,
@@ -196,8 +201,8 @@ function ApplyPlayerState(){
         },
         "1":{
             "position":{
-                "x":GameState.gamesettings.safezones.right_zone.position["-x"],
-                "y":GameState.gamesettings.safezones.right_zone.position["y"]
+                "x":GameState.gamesettings.safezones.right_zone.position.x,
+                "y":GameState.gamesettings.safezones.right_zone.position.y
             },
             "size":{
                 "x":GameState.gamesettings.safezones.right_zone.size.x,
@@ -205,18 +210,17 @@ function ApplyPlayerState(){
             }
         }
     };
-
-    const SafeZoneChecker = IScollidedObject((GameState.player.position.x) , (GameState.player.size.x),  (GameState.player.position.y),(GameState.player.size.y),colliderJSON);
-    //console.log(SafeZoneChecker);
-    /*
-    if(search(true,SafeZoneChecker,true).length < 0){
+    const SafeZoneChecker = IScollidedObject((GameState.player.position.x) , (GameState.player.size.x),  (GameState.player.position.y),(GameState.player.size.y),colliderJSON);    
+    if(SafeZoneChecker[0] || SafeZoneChecker[1]){
         document.getElementById(GameState.player.PlayerID).style.borderColor = "black";
-        console.log("balls");
+        //set state so player is outside of zones
+        GameState.player.safe = true;
     }
     else{
         document.getElementById(GameState.player.PlayerID).style.borderColor = "white";
+        GameState.player.safe = false;
     }
-    */
+    
     
 }
 function spawn_enemies(){
@@ -284,4 +288,9 @@ function spawn_enemies(){
         document.getElementById("content").appendChild(enemy);
     }
 
+
+}
+function spawn_sheep(){
+    let current_objects = GameState.enemies; 
+    
 }
