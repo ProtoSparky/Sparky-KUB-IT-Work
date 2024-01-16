@@ -352,3 +352,10 @@ function spawn_sheep(){
     }
     
 }
+function spawn_hinderances(){
+    let Enemies_Spawned = GameState.enemies;
+    let Sheep_Spawned = GameState.collectibles;
+    let Safezones_Spawned = GameState.gamesettings.safezones;
+    //combine everything into one object
+    let CombinedObject
+}
