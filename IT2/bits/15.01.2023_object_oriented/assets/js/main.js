@@ -24,7 +24,46 @@ var GameState = {
     },
     "gamesettings":{
         "game_walls":{
-
+            "top":{
+                "position":{
+                    "x":0,
+                    "y":-10
+                },
+                "size":{
+                    "x":window.innerWidth,
+                    "y":1
+                }
+            },
+            "right":{
+                "position":{
+                    "x":window.innerWidth,
+                    "y":0
+                },
+                "size":{
+                    "x":1,
+                    "y":window.innerHeight,
+                }
+            },
+            "bottom":{
+                "position":{
+                    "x":0,
+                    "y":window.innerHeight
+                },
+                "size":{
+                    "x":window.innerWidth,
+                    "y":1
+                }
+            },
+            "left":{
+                "position":{
+                    "x":0,
+                    "y":0
+                },
+                "size":{
+                    "x":1,
+                    "y":window.innerHeight
+                }
+            }
         },        
         "sheep":{
             "sheep_amount":3,
@@ -93,8 +132,8 @@ function init(){
     player.style.borderColor = "white";
     player.style.borderStyle = "dashed";
     player.style.zIndex = 99;
-    document.getElementById("content").appendChild(player);
-    document.body.style.overflow = "hidden";
+    document.getElementById("content-fullscreen").appendChild(player);
+    //document.body.style.overflow = "hidden";
 
 
     //spawn colision meshes
@@ -103,12 +142,11 @@ function init(){
     const col_mesh_top = document.createElement("div");
     col_mesh_top.className = "col_mesh";
     col_mesh_top.style.position = "absolute";
-    col_mesh_top.style.top = "-1px";
-    col_mesh_top.style.width = "1px";
-    col_mesh_top.style.left = "0px";
+    col_mesh_top.style.top = GameState.gamesettings.game_walls.top.position.y;
+    col_mesh_top.style.width = GameState.gamesettings.game_walls.top.size.x;
+    col_mesh_top.style.left = GameState.gamesettings.game_walls.top.position.x; 
     col_mesh_top.id = "col_mesh_top"; 
-    col_mesh_top.style.width = window.innerWidth + "px"; 
-    document.getElementById("content").appendChild(col_mesh_top);
+    document.getElementById("content-fullscreen").appendChild(col_mesh_top);
 
 
     //bottom mesh
@@ -116,33 +154,35 @@ function init(){
     col_mesh_bottom.className = "col_mesh";
     col_mesh_bottom.style.position ="absolute";
     col_mesh_bottom.id ="col_mesh_bottom";
-    col_mesh_bottom.style.width = window.innerWidth + "px";
-    col_mesh_bottom.style.bottom = "-1px";
-    col_mesh_bottom.style.height = "1px";
-    document.getElementById("content").appendChild(col_mesh_bottom);
+    col_mesh_bottom.style.width = GameState.gamesettings.game_walls.bottom.size.x;
+    col_mesh_bottom.style.left = GameState.gamesettings.game_walls.bottom.position.x;
+    col_mesh_bottom.style.top = GameState.gamesettings.game_walls.bottom.position.y; 
+    col_mesh_bottom.style.height = GameState.gamesettings.game_walls.bottom.size.y;
+    document.getElementById("content-fullscreen").appendChild(col_mesh_bottom);
+    
 
     //left mesh
-
     const col_mesh_left = document.createElement("div");
     col_mesh_left.style.position = "absolute";
-    col_mesh_left.style.width = "1px";
-    col_mesh_left.style.left = "-1px";
-    col_mesh_left.style.top = "0px";
-    col_mesh_left.style.height = window.innerHeight + "px";
+    col_mesh_left.style.width = GameState.gamesettings.game_walls.left.size.x; 
+    col_mesh_left.style.left = GameState.gamesettings.game_walls.left.position.x;
+    col_mesh_left.style.top = GameState.gamesettings.game_walls.left.position.y;
+    col_mesh_left.style.height = GameState.gamesettings.game_walls.left.size.y;
     col_mesh_left.className = "col_mesh";
     col_mesh_left.id = "col_mesh_left";
-    document.getElementById("content").appendChild(col_mesh_left);
+    document.getElementById("content-fullscreen").appendChild(col_mesh_left);
+
 
     //right mesh
     const col_mesh_right = document.createElement("div");
     col_mesh_right.style.position = "absolute";
-    col_mesh_right.style.top = "0px";
-    col_mesh_right.style.right = "-1px";
+    col_mesh_right.style.top = GameState.gamesettings.game_walls.right.position.y;
+    col_mesh_right.style.right = GameState.gamesettings.game_walls.
     col_mesh_right.className = "col_mesh";
     col_mesh_right.id = "col_mesh_right";
     col_mesh_right.style.height = window.innerHeight + "px";
     col_mesh_right.style.width = "1px"; 
-    document.getElementById("content").appendChild(col_mesh_right);
+    document.getElementById("content-fullscreen").appendChild(col_mesh_right);
 
     //create safezones
     const safezone1 = document.createElement("div");
@@ -155,7 +195,7 @@ function init(){
     safezone1.style.width = GameState.gamesettings.safezones.left_zone.size.x + "px";
     safezone1.style.height = GameState.gamesettings.safezones.left_zone.size.y + "px";
     safezone1.style.zIndex = GameState.gamesettings.safezones.left_zone.position.z;
-    document.getElementById("content").appendChild(safezone1); 
+    document.getElementById("content-fullscreen").appendChild(safezone1); 
 
     const safezone2 = document.createElement("div");
     safezone2.id = "safezone2";
@@ -167,14 +207,14 @@ function init(){
     safezone2.style.width = GameState.gamesettings.safezones.right_zone.size.x + "px";
     safezone2.style.height = GameState.gamesettings.safezones.right_zone.size.y + "px";
     safezone2.style.zIndex = GameState.gamesettings.safezones.right_zone.position.z;
-    document.getElementById("content").appendChild(safezone2);
+    document.getElementById("content-fullscreen").appendChild(safezone2);
 
     //set initial safezone positions at the bottom
     GameState.gamesettings.safezones.left_zone.position.x = 0;
-    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.left_zone.size.y);
+    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content-fullscreen").offsetHeight - GameState.gamesettings.safezones.left_zone.size.y);
     document.getElementById("safezone1").style.top = GameState.gamesettings.safezones.left_zone.position.y;
-    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content").offsetWidth - GameState.gamesettings.safezones.right_zone.size.x);
-    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.right_zone.size.y);
+    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content-fullscreen").offsetWidth - GameState.gamesettings.safezones.right_zone.size.x);
+    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content-fullscreen").offsetHeight - GameState.gamesettings.safezones.right_zone.size.y);
     document.getElementById("safezone2").style.left = GameState.gamesettings.safezones.right_zone.position.x;
     document.getElementById("safezone2").style.top = GameState.gamesettings.safezones.right_zone.position.y;
 
@@ -202,10 +242,10 @@ function ConstantUpdater(){
 function ConstantUpdate_LP(){
     //update stuff once a second
     GameState.gamesettings.safezones.left_zone.position.x = 0;
-    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.left_zone.size.y);
+    GameState.gamesettings.safezones.left_zone.position.y = (document.getElementById("content-fullscreen").offsetHeight - GameState.gamesettings.safezones.left_zone.size.y);
     document.getElementById("safezone1").style.top = GameState.gamesettings.safezones.left_zone.position.y;
-    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content").offsetWidth - GameState.gamesettings.safezones.right_zone.size.x);
-    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content").offsetHeight - GameState.gamesettings.safezones.right_zone.size.y);
+    GameState.gamesettings.safezones.right_zone.position.x = (document.getElementById("content-fullscreen").offsetWidth - GameState.gamesettings.safezones.right_zone.size.x);
+    GameState.gamesettings.safezones.right_zone.position.y = (document.getElementById("content-fullscreen").offsetHeight - GameState.gamesettings.safezones.right_zone.size.y);
     document.getElementById("safezone2").style.left = GameState.gamesettings.safezones.right_zone.position.x;
     document.getElementById("safezone2").style.top = GameState.gamesettings.safezones.right_zone.position.y;
 
@@ -280,8 +320,8 @@ function spawn_enemies(){
             for(let RunnerPointer = 0; RunnerPointer < DataArray.length; RunnerPointer ++){
                 if(DataArray[RunnerPointer]){
                     //checks if the coordinates are true. If they are, it'll set some new ones. 
-                    GameState.enemies[RunnerPointer].position.x = RandomRangedIntiger(10,document.getElementById("content").innerWidth - 10);
-                    GameState.enemies[RunnerPointer].position.y = RandomRangedIntiger(10,document.getElementById("content").innerHeight - 10);
+                    GameState.enemies[RunnerPointer].position.x = RandomRangedIntiger(10,document.getElementById("content-fullscreen").innerWidth - 10);
+                    GameState.enemies[RunnerPointer].position.y = RandomRangedIntiger(10,document.getElementById("content-fullscreen").innerHeight - 10);
                     collisions = collisions + 1;
                 }
             }
@@ -312,7 +352,7 @@ function spawn_enemies(){
         enemy.style.position = "absolute";
         enemy.style.borderColor = "red";
         enemy.style.borderStyle = "dashed";
-        document.getElementById("content").appendChild(enemy);
+        document.getElementById("content-fullscreen").appendChild(enemy);
     }
 
 
@@ -368,7 +408,8 @@ function spawn_sheep(){
         Sheep.style.top = GameState.collectibles[SheepPointer].position.y;
         Sheep.style.width = GameState.gamesettings.sheep.size.x;
         Sheep.style.height = GameState.gamesettings.sheep.size.y;
-        document.getElementById("content").appendChild(Sheep);
+        Sheep.style.transition = "2s";
+        document.getElementById("content-fullscreen").appendChild(Sheep);
     }
     
 }
@@ -440,7 +481,7 @@ function spawn_hinderances(){
         HinderanceObject.style.borderStyle = "dashed";
         HinderanceObject.style.width = GameState.gamesettings.hinderances.size.x;
         HinderanceObject.style.height = GameState.gamesettings.hinderances.size.y;
-        document.getElementById("content").appendChild(HinderanceObject);
+        document.getElementById("content-fullscreen").appendChild(HinderanceObject);
     }
     console.info("spawn hinderances caused " + Collisions +" collisions"); 
 

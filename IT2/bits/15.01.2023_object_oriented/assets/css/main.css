@@ -15,11 +15,11 @@
     --CornerRad:4px; 
     --ElementPadding:8px;    
 }
-/*
+
 body{
     background-color:var(--col_bg_content);
 }
-*/
+
 table, td, th {
     border: 1px solid var(--col_highlight_TXT);
     border-collapse:collapse;
