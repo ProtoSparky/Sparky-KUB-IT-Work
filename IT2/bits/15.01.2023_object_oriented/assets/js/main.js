@@ -8,30 +8,30 @@ var GameState = {
             "x":40,
             "y":40
         },
-        "playerMaxSpeed":10,
-        "stock_player_speed":10, 
-        "PlayerID":"player",
-        "safe":true,
-        "obstructed_state":{
-            "top":false,
-            "left":false,
-            "right":false,
-            "bottom":false
+        "playerMaxSpeed":10, //the actual speed the player has in any instance
+        "stock_player_speed":10, //the starting speed the player has
+        "PlayerID":"player", //div id for player
+        "safe":true, //is player in safezone
+        "playerHeading":null, //degrees headin
+        "inventory":{
+            "inventory_full":false, 
+            "captured_collectible_id":null,
         },
-        "playerHeading":null,
+        "points":0, 
         
     },
     "collectibles":{
-        
+        //this is where all the sheep stay
     },
     "hinderances":{
-
+        //this is where all the stone walls are placed
     },
     "enemies":{
-
+        //this is where the enemies are placed
     },
     "gamesettings":{
         "game_walls":{
+            //position for walls so player cannot exit game view
             "top":{
                 "position":{
                     "x":0,
@@ -74,6 +74,8 @@ var GameState = {
             }
         },        
         "sheep":{
+            //settings for sheep
+            "sheep_id":"sheep",
             "sheep_amount":3,
             "speed":3,
             "size":{
@@ -246,7 +248,8 @@ function ConstantUpdater(){
     //update things once every 10 ms 
     check_player_input();
     ApplyPlayerState();
-    checkforwall();
+    checkforwall(); //stops player if they hit grey walls
+    BindCollectible(); //if player captures sheep, bind sheep position to player. Also remove sheep once player is in safezone
 }; 
 function ConstantUpdate_LP(){
     //update stuff once a second
@@ -421,7 +424,7 @@ function spawn_sheep(){
     const SheepAmount = Object.keys(GameState.collectibles).length;
     for(let SheepPointer = 0; SheepPointer < SheepAmount; SheepPointer ++){
         const Sheep = document.createElement("div");
-        Sheep.id = "sheep" + SheepPointer;
+        Sheep.id = GameState.gamesettings.sheep.sheep_id + SheepPointer;
         Sheep.className = "Sheep";
         Sheep.style.position =  "absolute";
         Sheep.style.borderColor = "yellow";
@@ -573,5 +576,63 @@ function checkforwall(){
             }
         }
         return false; 
+    }
+}
+function capture_sheep(){
+    //this is the function for capturing the collectibles, and depositing them
+    const collisions = IScollidedObject(GameState.player.position.x,GameState.player.size.x,GameState.player.position.y,GameState.player.size.y,GameState.collectibles);
+    if(GameState.player.inventory.inventory_full == false){
+        //check that player has no sheep already captured 
+        if(captured_sheep_finder(collisions) != null){
+            const captured_sheep_id = captured_sheep_finder(collisions); 
+
+            //turn off ai for said sheep 
+            GameState.collectibles[captured_sheep_id].has_ai = false;
+
+            //set player inventory to true
+            GameState.player.inventory.inventory_full = true;
+
+            //set captured sheep id
+            GameState.player.inventory.captured_collectible_id = captured_sheep_id; 
+            console.log("sheep captured");
+        }
+    }
+
+
+    function captured_sheep_finder(collisions){
+        for(let collision_pointer = 0; collision_pointer < collisions.length; collision_pointer ++){
+            if(collisions[collision_pointer]){
+                return collision_pointer; 
+            }
+        }
+        return null; 
+    }
+}
+
+function BindCollectible(){
+    if(GameState.player.safe == false){
+        if(GameState.player.inventory.inventory_full == true && GameState.player.inventory.captured_collectible_id != null){
+            //if player has sheep, set sheep position to player
+            GameState.collectibles[GameState.player.inventory.captured_collectible_id].position = {
+                "x":GameState.player.position.x + (GameState.player.size.x /3),
+                "y":GameState.player.position.y + (GameState.player.size.y /3),
+            };
+            //set div position too
+    
+            const currentSheep = document.getElementById(GameState.gamesettings.sheep.sheep_id + GameState.player.inventory.captured_collectible_id); 
+            currentSheep.style.top = GameState.player.position.y + (GameState.player.size.y /3);
+            currentSheep.style.left = GameState.player.position.x + (GameState.player.size.x /3);
+            currentSheep.style.transition = ".1s";
+        }
+    }
+    else if(GameState.player.safe == true){
+        //kill the sheep
+        if(GameState.player.inventory.inventory_full == true && GameState.player.inventory.captured_collectible_id != null){
+            const currentSheep = document.getElementById(GameState.gamesettings.sheep.sheep_id + GameState.player.inventory.captured_collectible_id); 
+            currentSheep.remove();
+            GameState.player.inventory.inventory_full = false;
+            GameState.player.inventory.captured_collectible_id = null; 
+            GameState.player.points = GameState.player.points + 1; 
+        }
     }
 }

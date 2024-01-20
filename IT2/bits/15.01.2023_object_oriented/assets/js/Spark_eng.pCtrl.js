@@ -17,6 +17,7 @@ function check_player_input(){
     const key_A = keys["A"] || keys["a"];
     const key_S = keys["S"] || keys["s"];
     const key_D = keys["D"] || keys["d"];    
+    const key_space = keys[" "];  
     if(key_W){
         if(DEBUG){
             console.log("w");
@@ -69,6 +70,12 @@ function check_player_input(){
             GameState.player.position.y= new_coords[1];
         }
 
+    }
+    else if(key_space){
+        if(DEBUG){
+            console.log("space");   
+        }
+        capture_sheep();
     }
     
     /*DEBUG*/
