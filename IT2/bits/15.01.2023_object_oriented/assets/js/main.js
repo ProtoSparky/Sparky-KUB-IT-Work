@@ -94,8 +94,11 @@ var GameState = {
                 "backgroundColor":"gray",
             }
         },
-        "max_enemy":10,
+        "max_enemy":3,
         "min_enemy":3,
+        "enemy_walk_speed":5,
+        "enemy_agro_speed":10,
+        "enemy_id":"enemy",
         "enemy_size":{
             "x":30,
             "y":30
@@ -276,6 +279,7 @@ function ConstantUpdate_LP(){
 
     //update AI
     AI_update(0);
+    AI_update(1);
 }
 
 function ApplyPlayerState(){
@@ -324,52 +328,32 @@ function spawn_enemies(){
         let new_x = RandomRangedIntiger(10,window.innerWidth - 50);
         let new_y = RandomRangedIntiger(10,window.innerHeight - 10);
 
-        if(IScollidedObject(new_x, GameState.gamesettings.enemy_size.x, new_y, GameState.gamesettings.enemy_size.y, GameState.enemies) == null){
-            //spawn first object
-            //GameState.enemies = {}; initializes the object so that Object.keys could actually read it
-            GameState.enemies = {};
-            GameState.enemies[Object.keys(GameState.enemies).length] = {
-                "position":{
-                    "x":new_x,
-                    "y":new_y
-                },
-                "size":{
-                    "x":GameState.gamesettings.enemy_size.x,
-                    "y":GameState.gamesettings.enemy_size.y
-                }
-            };            
-        }
-        else{
-            //this is where things become outright cursed
-            const DataArray = IScollidedObject(new_x, GameState.gamesettings.enemy_size.x, new_y, GameState.gamesettings.enemy_size.y, GameState.enemies);
-            for(let RunnerPointer = 0; RunnerPointer < DataArray.length; RunnerPointer ++){
-                if(DataArray[RunnerPointer]){
-                    //checks if the coordinates are true. If they are, it'll set some new ones. 
-                    GameState.enemies[RunnerPointer].position.x = RandomRangedIntiger(10,document.getElementById("content-fullscreen").innerWidth - 10);
-                    GameState.enemies[RunnerPointer].position.y = RandomRangedIntiger(10,document.getElementById("content-fullscreen").innerHeight - 10);
-                    collisions = collisions + 1;
-                }
+        let enemies_already_saved = Object.keys(GameState.enemies).length; 
+        for(let enemy_checker_pointer = 0; enemy_checker_pointer < enemies_already_saved; enemy_checker_pointer ++){
+            if(IScollidedObject(new_x,GameState.gamesettings.enemy_size.x, new_y,GameState.gamesettings.enemy_size.y,GameState.enemies)[enemy_checker_pointer]){
+                new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+                new_x = RandomRangedIntiger(10,window.innerWidth - 50);
+                collisions = collisions + 1; 
             }
-            //set normal coordinate
-            GameState.enemies[Object.keys(GameState.enemies).length] = {
-                "position":{
-                    "x":new_x,
-                    "y":new_y
-                },
-                "size":{
-                    "x":GameState.gamesettings.enemy_size.x,
-                    "y":GameState.gamesettings.enemy_size.y
-                }
-            };
-
-        }
+        } 
+        GameState.enemies[currentEnemy] = {
+            "position":{
+                "x":new_x,
+                "y":new_y,
+            },
+            "size":{
+                "x":GameState.gamesettings.enemy_size.x,
+                "y":GameState.gamesettings.enemy_size.y,
+            },
+            "heading":null
+        }    
     }
     console.info("spawning enemy... Caused " + collisions + " collisions"); //counter for how many enemies had to have their coordinates relocated
 
     for(let CurrentEnemy = 0; CurrentEnemy < Object.keys(GameState.enemies).length; CurrentEnemy ++){
         const enemy = document.createElement("div");
         enemy.className = "enemy";
-        enemy.id = "enemy " + CurrentEnemy;
+        enemy.id = GameState.gamesettings.enemy_id+ CurrentEnemy;
         enemy.style.top = GameState.enemies[CurrentEnemy].position.y; 
         enemy.style.left = GameState.enemies[CurrentEnemy].position.x; 
         enemy.style.width = GameState.enemies[CurrentEnemy].size.x; 
@@ -383,42 +367,53 @@ function spawn_enemies(){
 
 }
 function spawn_sheep(){
-    let ObjectsSpawned = GameState.enemies;
+    let collisions = 0; 
+    let NoGoZones = {}; 
     //add safezones
     const safezone_amount = Object.keys(GameState.gamesettings.safezones).length; 
-    const enemies_amount = Object.keys(ObjectsSpawned).length; 
-    for(let Safezonepointer = enemies_amount; Safezonepointer < enemies_amount + safezone_amount; Safezonepointer ++){
-        //add all all safeazones and enemies to no spawn list
-        ObjectsSpawned[Safezonepointer] = GameState.gamesettings.safezones[Object.keys(GameState.gamesettings.safezones)[Safezonepointer-enemies_amount]];      
+    const enemies_amount = Object.keys(GameState.enemies).length; 
+    //add enemies
+    for(let enemy_nogo_pointer = 0; enemy_nogo_pointer < enemies_amount; enemy_nogo_pointer ++){
+        NoGoZones[enemy_nogo_pointer] = GameState.enemies[enemy_nogo_pointer];
     }
-    for(let SheepPointer = 0; SheepPointer < GameState.gamesettings.sheep.sheep_amount; SheepPointer ++){
+    //add safezones
+    for(let safezone_nogo_pointer = enemies_amount; safezone_nogo_pointer < safezone_amount + enemies_amount; safezone_nogo_pointer ++){
+        let current_pointer = safezone_nogo_pointer - enemies_amount;
+        let safezone_names = Object.keys(GameState.gamesettings.safezones)[current_pointer]; 
+        NoGoZones[safezone_nogo_pointer] = GameState.gamesettings.safezones[safezone_names];
+    }
+    
+    //spawn sheep
+    for(let sheep_pointer = 0; sheep_pointer < GameState.gamesettings.sheep.sheep_amount; sheep_pointer ++){
+        //create new coordinates
         let new_x = RandomRangedIntiger(10,window.innerWidth - 50);
-        let new_y = RandomRangedIntiger(10,window.innerHeight - 40);
-        
-        const NewObjectSpawned = Object.keys(ObjectsSpawned).length;
-        for(let check_pointer = 0;check_pointer < NewObjectSpawned; check_pointer ++ ){
-            if(IScollidedObject(new_x, GameState.gamesettings.sheep.size.x, new_y, GameState.gamesettings.sheep.size.y, ObjectsSpawned)[NewObjectSpawned]){
-                //this turns true if a sheep tried to spawn in an area where something is already occupied
+        let new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+
+        //check if coordinates conflict
+        let sheep_already_spawned = Object.keys(GameState.collectibles).length; 
+        for(let sheep_checker_pointer = 0; sheep_checker_pointer < sheep_already_spawned; sheep_checker_pointer ++){
+            if(IScollidedObject(new_x,GameState.gamesettings.sheep.size.x, new_y,GameState.gamesettings.sheep.size.y,NoGoZones)[sheep_checker_pointer]){
+                new_y = RandomRangedIntiger(10,window.innerHeight - 10);
                 new_x = RandomRangedIntiger(10,window.innerWidth - 50);
-                new_y = RandomRangedIntiger(10,window.innerHeight - 40);
+                collisions = collisions + 1; 
             }
-        }
-        let SheepObject = {
+        } 
+
+        GameState.collectibles[sheep_pointer] = {
             "position":{
                 "x":new_x,
                 "y":new_y,
-                "angle":null
             },
             "size":{
-                "x":GameState.gamesettings.sheep.size.x,
-                "y":GameState.gamesettings.sheep.size.y
+                "x":GameState.gamesettings.enemy_size.x,
+                "y":GameState.gamesettings.enemy_size.y,
             },
-            "has_ai":true,
-        }
-        //write new sheep to collectibles
-        GameState.collectibles[SheepPointer] = SheepObject;
+            "has_ai":true
+        };
 
     }
+    console.info("spawning sheep... Caused " + collisions + " collisions"); //counter for how many enemies had to have their coordinates relocated
+
 
     //spawn sheep
     const SheepAmount = Object.keys(GameState.collectibles).length;
@@ -553,6 +548,34 @@ function AI_update(type){
     }
     else if(type == 1){
         //this one is for the enemies
+        const Enemy_amount = Object.keys(GameState.enemies).length;
+        for(let current_enemy = 0; current_enemy < Enemy_amount; current_enemy ++){
+            let AI_RNG = RandomRangedIntiger(0,1);
+            if(AI_RNG == 0){
+                //continue in the same direction
+                if(GameState.enemies[current_enemy].heading == null){
+                    //pick new heading
+                    const New_heading = RandomRangedIntiger(0,360);
+                    GameState.enemies[current_enemy].heading = New_heading;
+                }
+                const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
+                GameState.enemies[current_enemy].position.x = new_coords[0];
+                GameState.enemies[current_enemy].position.y = new_coords[1];
+                
+            }
+            else if(AI_RNG == 1){
+                //pick new direction
+                const New_heading = RandomRangedIntiger(0,360);
+                GameState.enemies[current_enemy].heading = New_heading;
+                const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
+                GameState.enemies[current_enemy].position.x = new_coords[0];
+                GameState.enemies[current_enemy].position.y = new_coords[1];
+            }
+            const enemy_object = document.getElementById(GameState.gamesettings.enemy_id + current_enemy + "");
+            enemy_object.style.left = GameState.enemies[current_enemy].position.x;
+            enemy_object.style.top = GameState.enemies[current_enemy].position.y; 
+            
+        }
     }
 }
 
