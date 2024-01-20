@@ -21,9 +21,13 @@ function check_player_input(){
         if(DEBUG){
             console.log("w");
         }
-        //check if player is about to not collide, and move
-        if(!IScollided(GameState.player.position.x, GameState.player.size.x,  GameState.player.position.y - GameState.player.playerMaxSpeed,GameState.player.size.y, "col_mesh")[0]){
-            GameState.player.position.y=GameState.player.position.y - GameState.player.playerMaxSpeed;
+        
+        //checks if player is allowed to move in said direction
+        if(GameState.player.obstructed_state.top == false){
+            //check if player is about to not collide, and move
+            if(!IScollided(GameState.player.position.x, GameState.player.size.x,  GameState.player.position.y - GameState.player.playerMaxSpeed,GameState.player.size.y, "col_mesh")[0]){
+                GameState.player.position.y=GameState.player.position.y - GameState.player.playerMaxSpeed;
+            }
         }
         
     }
@@ -31,27 +35,36 @@ function check_player_input(){
         if(DEBUG){
             console.log("a");
         }
-        //check if player is about to not collide, and move
-        if(!IScollided(GameState.player.position.x - GameState.player.playerMaxSpeed, GameState.player.size.x,  GameState.player.position.y,GameState.player.size.y, "col_mesh")[2]){
-            GameState.player.position.x=GameState.player.position.x - GameState.player.playerMaxSpeed;
+        //checks if player is allowed to move in said direction
+        if(GameState.player.obstructed_state.left == false){
+            //check if player is about to not collide, and move
+            if(!IScollided(GameState.player.position.x - GameState.player.playerMaxSpeed, GameState.player.size.x,  GameState.player.position.y,GameState.player.size.y, "col_mesh")[2]){
+                GameState.player.position.x=GameState.player.position.x - GameState.player.playerMaxSpeed;
+            }
         }
     }
     else if(key_S){
         if(DEBUG){
             console.log("s");
         }
-        //check if player is about to not collide, and move
-        if(!IScollided(GameState.player.position.x, GameState.player.size.x,  GameState.player.position.y - GameState.player.playerMaxSpeed + 18,GameState.player.size.y, "col_mesh")[1]){
-            GameState.player.position.y= GameState.player.position.y + GameState.player.playerMaxSpeed;
+        //checks if player is allowed to move in said direction
+        if(GameState.player.obstructed_state.bottom == false){
+            //check if player is about to not collide, and move
+            if(!IScollided(GameState.player.position.x, GameState.player.size.x,  GameState.player.position.y - GameState.player.playerMaxSpeed + 18,GameState.player.size.y, "col_mesh")[1]){
+                GameState.player.position.y= GameState.player.position.y + GameState.player.playerMaxSpeed;
+            }
         }
     }
     else if(key_D){
         if(DEBUG){
             console.log("D");   
         }
-        //check if player is about to not collide, and move
-        if(!IScollided(GameState.player.position.x + GameState.player.playerMaxSpeed, GameState.player.size.x,  GameState.player.position.y,GameState.player.size.y, "col_mesh")[3]){
-            GameState.player.position.x= GameState.player.position.x + GameState.player.playerMaxSpeed;
+        //checks if player is allowed to move in said direction
+        if(GameState.player.obstructed_state.right == false){
+            //check if player is about to not collide, and move
+            if(!IScollided(GameState.player.position.x + GameState.player.playerMaxSpeed, GameState.player.size.x,  GameState.player.position.y,GameState.player.size.y, "col_mesh")[3]){
+                GameState.player.position.x= GameState.player.position.x + GameState.player.playerMaxSpeed;
+            }
         }
     }
     
@@ -59,9 +72,10 @@ function check_player_input(){
     //Press E, and things in here will run.
     const debug_key = keys["E"] || keys["e"];
     if(debug_key){
-        console.log(GameState.player);
+        checkforwall(); 
     }
     /*DEBUG*/
+
 
 
 

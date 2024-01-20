@@ -10,7 +10,13 @@ var GameState = {
         },
         "playerMaxSpeed":10,
         "PlayerID":"player",
-        "safe":true
+        "safe":true,
+        "obstructed_state":{
+            "top":false,
+            "left":false,
+            "right":false,
+            "bottom":false
+        },
         
     },
     "collectibles":{
@@ -249,6 +255,19 @@ function ConstantUpdate_LP(){
     document.getElementById("safezone2").style.left = GameState.gamesettings.safezones.right_zone.position.x;
     document.getElementById("safezone2").style.top = GameState.gamesettings.safezones.right_zone.position.y;
 
+
+    //i really fucking hate that i wasted hours trying to fix a problem, and this is the solution. 
+    //set hinderance positions to new places
+    for(let hinderance_pointer = 0; hinderance_pointer < Object.keys(GameState.hinderances).length; hinderance_pointer ++){
+        const current_hinderance = GameState.hinderances[hinderance_pointer];
+        const hinderance_object = document.getElementById("Hinderance"+hinderance_pointer);
+        hinderance_object.style.left = current_hinderance.position.x; 
+        hinderance_object.style.top = current_hinderance.position.y; 
+        hinderance_object.style.width = current_hinderance.size.x; 
+        hinderance_object.style.height = current_hinderance.size.y; 
+        
+    }
+
     //update AI
     AI_update(0);
 }
@@ -443,7 +462,6 @@ function spawn_hinderances(){
     
     //generate random amount of hinderances
     const HinderancesAmount = RandomRangedIntiger(GameState.gamesettings.hinderances.min_hinderances,GameState.gamesettings.hinderances.max_hinderances);
-    const TEMP_hinderances = {}
 
     for(let HinderancePointer = 0; HinderancePointer < HinderancesAmount; HinderancePointer ++){
         let new_x = RandomRangedIntiger(10,window.innerWidth - 50);
@@ -529,5 +547,15 @@ function AI_update(type){
     }
     else if(type == 1){
         //this one is for the enemies
+    }
+}
+
+function checkforwall(){
+    //this function checks for the grey walls, and if the player is about to intercept with them, stop the player
+    const collisions = IScollidedObject(GameState.player.position.x,GameState.player.size.x,GameState.player.position.y,GameState.player.size.y,GameState.hinderances);
+    for(let test = 0; test < collisions.length; test ++){
+        if(collisions[test]){
+            console.log("OWO what's this ");
+        }
     }
 }
