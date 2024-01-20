@@ -177,10 +177,10 @@ function init(){
     const col_mesh_right = document.createElement("div");
     col_mesh_right.style.position = "absolute";
     col_mesh_right.style.top = GameState.gamesettings.game_walls.right.position.y;
-    col_mesh_right.style.right = GameState.gamesettings.game_walls.
+    col_mesh_right.style.left = GameState.gamesettings.game_walls.right.position.x; 
     col_mesh_right.className = "col_mesh";
     col_mesh_right.id = "col_mesh_right";
-    col_mesh_right.style.height = window.innerHeight + "px";
+    col_mesh_right.style.height = GameState.gamesettings.game_walls.right.size.y;
     col_mesh_right.style.width = "1px"; 
     document.getElementById("content-fullscreen").appendChild(col_mesh_right);
 
