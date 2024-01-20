@@ -9,6 +9,7 @@ var GameState = {
             "y":40
         },
         "playerMaxSpeed":10,
+        "stock_player_speed":10, 
         "PlayerID":"player",
         "safe":true,
         "obstructed_state":{
@@ -17,6 +18,7 @@ var GameState = {
             "right":false,
             "bottom":false
         },
+        "playerHeading":null,
         
     },
     "collectibles":{
@@ -244,6 +246,7 @@ function ConstantUpdater(){
     //update things once every 10 ms 
     check_player_input();
     ApplyPlayerState();
+    checkforwall();
 }; 
 function ConstantUpdate_LP(){
     //update stuff once a second
@@ -553,9 +556,22 @@ function AI_update(type){
 function checkforwall(){
     //this function checks for the grey walls, and if the player is about to intercept with them, stop the player
     const collisions = IScollidedObject(GameState.player.position.x,GameState.player.size.x,GameState.player.position.y,GameState.player.size.y,GameState.hinderances);
-    for(let test = 0; test < collisions.length; test ++){
-        if(collisions[test]){
-            console.log("OWO what's this ");
+    
+    if(tester(collisions)){
+        GameState.player.playerMaxSpeed = -10;
+    }
+    else{
+        GameState.player.playerMaxSpeed = GameState.player.stock_player_speed;
+    }
+
+    //GameState.player.playerMaxSpeed = GameState.player.stock_player_speed;
+    function tester(collisions){
+        for(let current_collision = 0; current_collision < collisions.length; current_collision ++){
+            if(collisions[current_collision]){
+                return true
+    
+            }
         }
+        return false; 
     }
 }
