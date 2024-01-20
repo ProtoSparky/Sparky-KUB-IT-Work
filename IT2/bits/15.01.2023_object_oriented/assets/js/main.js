@@ -77,7 +77,7 @@ var GameState = {
             //settings for sheep
             "sheep_id":"sheep",
             "sheep_amount":3,
-            "speed":3,
+            "speed":5,
             "size":{
                 "x":15,
                 "y":15
@@ -94,10 +94,10 @@ var GameState = {
                 "backgroundColor":"gray",
             }
         },
-        "max_enemy":3,
+        "max_enemy":10,
         "min_enemy":3,
-        "enemy_walk_speed":5,
-        "enemy_agro_speed":10,
+        "enemy_walk_speed":6,
+        "enemy_agro_speed":13,
         "enemy_id":"enemy",
         "enemy_size":{
             "x":30,
@@ -253,6 +253,7 @@ function ConstantUpdater(){
     ApplyPlayerState();
     checkforwall(); //stops player if they hit grey walls
     BindCollectible(); //if player captures sheep, bind sheep position to player. Also remove sheep once player is in safezone
+    AI_update(1);
 }; 
 function ConstantUpdate_LP(){
     //update stuff once a second
@@ -279,7 +280,7 @@ function ConstantUpdate_LP(){
 
     //update AI
     AI_update(0);
-    AI_update(1);
+    //AI_update(1);
 }
 
 function ApplyPlayerState(){
@@ -345,7 +346,8 @@ function spawn_enemies(){
                 "x":GameState.gamesettings.enemy_size.x,
                 "y":GameState.gamesettings.enemy_size.y,
             },
-            "heading":null
+            "heading":null,
+            "agro":false, 
         }    
     }
     console.info("spawning enemy... Caused " + collisions + " collisions"); //counter for how many enemies had to have their coordinates relocated
@@ -408,7 +410,8 @@ function spawn_sheep(){
                 "x":GameState.gamesettings.enemy_size.x,
                 "y":GameState.gamesettings.enemy_size.y,
             },
-            "has_ai":true
+            "has_ai":true,
+            "heading":null,
         };
 
     }
@@ -515,27 +518,27 @@ function AI_update(type){
                 //checks if the sheep has an ai and is allowed to move
                 const AI_RNG = RandomRangedIntiger(0,1);
                 //checks if angle is nonexistent, sets new one
-                if(GameState.collectibles[CurrentSheep].position.angle == null){
-                    GameState.collectibles[CurrentSheep].position.angle = RandomRangedIntiger(0,360);
+                if(GameState.collectibles[CurrentSheep].heading == null){
+                    GameState.collectibles[CurrentSheep].heading = RandomRangedIntiger(0,360);
                 }
 
                 //set up some rng
                 if(AI_RNG == 0){
                     //move in the same direction
-                    const New_coordinates = calculateCoordinates(GameState.collectibles[CurrentSheep].position.x,GameState.collectibles[CurrentSheep].position.angle,GameState.collectibles[CurrentSheep].position.y,GameState.gamesettings.sheep.speed);
+                    const New_coordinates = calculateCoordinates(GameState.collectibles[CurrentSheep].position.x,GameState.collectibles[CurrentSheep].heading,GameState.collectibles[CurrentSheep].position.y,GameState.gamesettings.sheep.speed);
                     GameState.collectibles[CurrentSheep].position.x = New_coordinates[0];
                     GameState.collectibles[CurrentSheep].position.y = New_coordinates[1];
                 }
                 else if(AI_RNG == 0){
                     //pick new coordinate
-                    GameState.collectibles[CurrentSheep].position.angle =  RandomRangedIntiger(0,360);
-                    const New_coordinates = calculateCoordinates(GameState.collectibles[CurrentSheep].position.x,GameState.collectibles[CurrentSheep].position.angle,GameState.collectibles[CurrentSheep].position.y,GameState.gamesettings.sheep.speed);
+                    GameState.collectibles[CurrentSheep].heading =  RandomRangedIntiger(0,360);
+                    const New_coordinates = calculateCoordinates(GameState.collectibles[CurrentSheep].position.x,GameState.collectibles[CurrentSheep].heading,GameState.collectibles[CurrentSheep].position.y,GameState.gamesettings.sheep.speed);
                     GameState.collectibles[CurrentSheep].position.x = New_coordinates[0];
                     GameState.collectibles[CurrentSheep].position.y = New_coordinates[1];
 
                 }
 
-                const CurrentSheepDiv = document.getElementById("sheep"+CurrentSheep);
+                const CurrentSheepDiv = document.getElementById(GameState.gamesettings.sheep.sheep_id+CurrentSheep);
                 CurrentSheepDiv.style.left = GameState.collectibles[CurrentSheep].position.x;
                 CurrentSheepDiv.style.top = GameState.collectibles[CurrentSheep].position.y;
                 
@@ -550,30 +553,54 @@ function AI_update(type){
         //this one is for the enemies
         const Enemy_amount = Object.keys(GameState.enemies).length;
         for(let current_enemy = 0; current_enemy < Enemy_amount; current_enemy ++){
-            let AI_RNG = RandomRangedIntiger(0,1);
-            if(AI_RNG == 0){
-                //continue in the same direction
-                if(GameState.enemies[current_enemy].heading == null){
-                    //pick new heading
+            //check if the enemy selected is aggressive to the player before changing its position
+            if(GameState.enemies[current_enemy ].agro == false){
+                let AI_RNG = RandomRangedIntiger(0,1);
+                if(AI_RNG == 0){
+                    //continue in the same direction
+                    if(GameState.enemies[current_enemy].heading == null){
+                        //pick new heading
+                        const New_heading = RandomRangedIntiger(0,360);
+                        GameState.enemies[current_enemy].heading = New_heading;
+                    }
+                    let nogozones = {};
+                    
+                    //add world barriers
+                    for(let nogo_world_pointer =0; nogo_world_pointer < Object.keys(GameState.gamesettings.game_walls).length; nogo_world_pointer ++){
+                        let current_wall_name = Object.keys(GameState.gamesettings.game_walls)[nogo_world_pointer]; 
+                        nogozones[nogo_world_pointer] = GameState.gamesettings.game_walls[current_wall_name];
+                    }
+
+                    //add safezones
+                    for(let nogo_safezone_pointer = Object.keys(GameState.gamesettings.game_walls).length; nogo_safezone_pointer < (Object.keys(GameState.gamesettings.game_walls).length + Object.keys(GameState.gamesettings.safezones).length); nogo_safezone_pointer ++ ){
+                        let current_safezone_name = Object.keys(GameState.gamesettings.safezones)[nogo_safezone_pointer - Object.keys(GameState.gamesettings.game_walls).length];
+                        nogozones[nogo_safezone_pointer] = GameState.gamesettings.safezones[current_safezone_name];
+                    }
+
+                    //check if ne coordinates intersect with already existing stuff
+                    let new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
+                    for(let object_pointer = 0; object_pointer < nogozones.length; object_pointer ++){
+                        if(IScollidedObject(new_coords[0], GameState.gamesettings.enemy_size.x, new_coords[1], GameState.gamesettings.enemy_size.y,nogozones)[object_pointer]){
+                            new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,360 - GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
+                            console.log("fuuck");
+                        }
+                    }
+                    GameState.enemies[current_enemy].position.x = new_coords[0];
+                    GameState.enemies[current_enemy].position.y = new_coords[1];
+                    
+                }
+                else if(AI_RNG == 1){
+                    //pick new direction
                     const New_heading = RandomRangedIntiger(0,360);
                     GameState.enemies[current_enemy].heading = New_heading;
+                    const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
+                    GameState.enemies[current_enemy].position.x = new_coords[0];
+                    GameState.enemies[current_enemy].position.y = new_coords[1];
                 }
-                const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
-                GameState.enemies[current_enemy].position.x = new_coords[0];
-                GameState.enemies[current_enemy].position.y = new_coords[1];
-                
+                const enemy_object = document.getElementById(GameState.gamesettings.enemy_id + current_enemy + "");
+                enemy_object.style.left = GameState.enemies[current_enemy].position.x;
+                enemy_object.style.top = GameState.enemies[current_enemy].position.y; 
             }
-            else if(AI_RNG == 1){
-                //pick new direction
-                const New_heading = RandomRangedIntiger(0,360);
-                GameState.enemies[current_enemy].heading = New_heading;
-                const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
-                GameState.enemies[current_enemy].position.x = new_coords[0];
-                GameState.enemies[current_enemy].position.y = new_coords[1];
-            }
-            const enemy_object = document.getElementById(GameState.gamesettings.enemy_id + current_enemy + "");
-            enemy_object.style.left = GameState.enemies[current_enemy].position.x;
-            enemy_object.style.top = GameState.enemies[current_enemy].position.y; 
             
         }
     }
