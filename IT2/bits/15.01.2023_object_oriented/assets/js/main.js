@@ -18,6 +18,11 @@ var GameState = {
             "captured_collectible_id":null,
         },
         "points":0, 
+        "current_health":null,
+        "max_health":500,
+        "health_text":"Health ",
+        "dead":false,
+        "death_message":"You're dead!",
         
     },
     "collectibles":{
@@ -274,6 +279,28 @@ function init(){
     HUD_points.id = "HUD_points";
     HUD.appendChild(HUD_points)
 
+    //set player health
+    if(GameState.player.current_health == null){
+        GameState.player.current_health = GameState.player.max_health;
+    }
+    //show player health
+    const PlayerHealth = document.createElement("div");
+    PlayerHealth.style.position = "absolute";
+    PlayerHealth.className  ="text";
+    PlayerHealth.id = "PlayerHealth";
+    PlayerHealth.style.top = "50px";
+    PlayerHealth.style.left = "30px";
+    HUD.appendChild(PlayerHealth);
+
+    //create death message
+    const DeathMessage = document.createElement("div");
+    DeathMessage.style.position = "absolute";
+    DeathMessage.id = "DeathMessage";
+    DeathMessage.className = "text";
+    DeathMessage.style.top = "70px";
+    DeathMessage.style.left = "30px"; 
+    HUD.appendChild(DeathMessage); 
+
 
 
     //set up enemies
@@ -286,17 +313,27 @@ function init(){
     spawn_hinderances();
 
     setInterval(ConstantUpdater,10);
+    setInterval(ConstantUpdater_LLP,30);
     setInterval(ConstantUpdate_LP,1000);
 }
 function ConstantUpdater(){
     //update things once every 10 ms 
-    check_player_input();
-    ApplyPlayerState();
+    if(GameState.player.dead == true){
+        const DeathMessage = document.getElementById("DeathMessage");
+        DeathMessage.innerHTML = GameState.player.death_message; 
+    }
+    else if(GameState.player.dead == false){
+        check_player_input();
+        ApplyPlayerState();
+    }
     checkforwall(); //stops player if they hit grey walls
     BindCollectible(); //if player captures sheep, bind sheep position to player. Also remove sheep once player is in safezone
+}; 
+function ConstantUpdater_LLP(){
+    //had to set up a slightly slower updater due to fps drops
     UpdateAIPositions(); //update all ai positions to divs
     AI_update(1);
-}; 
+}
 function ConstantUpdate_LP(){
     //update stuff once a second
     GameState.gamesettings.safezones.left_zone.position.x = 0;
@@ -324,6 +361,8 @@ function ConstantUpdate_LP(){
     const HUD_points = document.getElementById("HUD_points");
     HUD_points.innerHTML = GameState.player.points + "/" + GameState.gamesettings.sheep.sheep_amount + GameState.gamesettings.HUD.text.added_text; 
 
+    const PlayerHealth = document.getElementById("PlayerHealth");
+    PlayerHealth.innerHTML = GameState.player.health_text + GameState.player.current_health + "/" + GameState.player.max_health; 
 
 
     //update AI
@@ -673,13 +712,20 @@ function AI_update(type){
                 //reset agro flag if player is safe
                 if(GameState.player.safe == true){
                     GameState.enemies[current_enemy].agro = false;
-                }
-                
+                }                
                 const PlayerToAiAngle = calculateAngle(GameState.player.position.x,GameState.player.position.y,GameState.enemies[current_enemy].position.x, GameState.enemies[current_enemy].position.y);
                 const new_enemy_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x, GameState.enemies[current_enemy].position.y,PlayerToAiAngle + 180,GameState.gamesettings.enemy_agro_speed);
                 GameState.enemies[current_enemy].position.x = new_enemy_coords[0];
-                GameState.enemies[current_enemy].position.y = new_enemy_coords[1];
+                GameState.enemies[current_enemy].position.y = new_enemy_coords[1];   
                 
+                if(IScollidedObject(GameState.player.position.x,GameState.player.size.x,GameState.player.position.y,GameState.player.size.y,GameState.enemies)[current_enemy]== true){
+                    if(GameState.player.current_health > 0){
+                        GameState.player.current_health = GameState.player.current_health - 1;
+                    }
+                    else if(GameState.player.current_health == 0){
+                        GameState.player.dead = true; 
+                    }
+                }
 
 
             }
