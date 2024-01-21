@@ -42,7 +42,7 @@ var GameState = {
           },
           "size":{
             "x":250,
-            "y":100
+            "y":130
           },
           "color":{
             "BackgroundColor":"white",
@@ -51,7 +51,8 @@ var GameState = {
           },
           "text":{
             "added_text":" sheep captured", 
-          }
+          },
+          "controls":"WASD for movement <br> SPACE to capture yellow <br> Green area = safezones", 
            
         },
         "game_walls":{
@@ -120,8 +121,8 @@ var GameState = {
         },
         "max_enemy":10,
         "min_enemy":3,
-        "enemy_walk_speed":6,
-        "enemy_agro_speed":6,
+        "enemy_walk_speed":3,
+        "enemy_agro_speed":10,
         "enemy_id":"enemy",
         "enemy_size":{
             "x":30,
@@ -274,7 +275,7 @@ function init(){
     const HUD_points = document.createElement("div");
     HUD_points.className = "text";
     HUD_points.style.position = "absolute";
-    HUD_points.style.top = "30";
+    HUD_points.style.top = "60";
     HUD_points.style.left = "30";
     HUD_points.id = "HUD_points";
     HUD.appendChild(HUD_points)
@@ -288,7 +289,7 @@ function init(){
     PlayerHealth.style.position = "absolute";
     PlayerHealth.className  ="text";
     PlayerHealth.id = "PlayerHealth";
-    PlayerHealth.style.top = "50px";
+    PlayerHealth.style.top = "80px";
     PlayerHealth.style.left = "30px";
     HUD.appendChild(PlayerHealth);
 
@@ -297,10 +298,19 @@ function init(){
     DeathMessage.style.position = "absolute";
     DeathMessage.id = "DeathMessage";
     DeathMessage.className = "text";
-    DeathMessage.style.top = "70px";
+    DeathMessage.style.top = "100px";
     DeathMessage.style.left = "30px"; 
     HUD.appendChild(DeathMessage); 
 
+    //tutorial message
+    const controls = document.createElement("div"); 
+    controls.id = "controls";
+    controls.className = "text";
+    controls.style.position ="absolute";
+    controls.style.left = "30px";
+    controls.style.top = "0px"; 
+    controls.innerHTML = GameState.gamesettings.HUD.controls;
+    HUD.appendChild(controls);
 
 
     //set up enemies
@@ -363,6 +373,8 @@ function ConstantUpdate_LP(){
 
     const PlayerHealth = document.getElementById("PlayerHealth");
     PlayerHealth.innerHTML = GameState.player.health_text + GameState.player.current_health + "/" + GameState.player.max_health; 
+
+
 
 
     //update AI
