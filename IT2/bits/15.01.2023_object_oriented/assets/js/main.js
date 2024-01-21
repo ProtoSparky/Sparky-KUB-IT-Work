@@ -684,8 +684,8 @@ function AI_update(type){
                     }
 
                     if(GameState.enemies[current_enemy].position.x < 0 || GameState.enemies[current_enemy].position.x > window.innerWidth || GameState.enemies[current_enemy].position.y < 0 || GameState.enemies[current_enemy].position.y > window.innerHeight){
-                        GameState.enemies[current_enemy].heading = GameState.enemies[current_enemy].heading;
-                        const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,-(GameState.gamesettings.enemy_walk_speed + 50)); 
+                        GameState.enemies[current_enemy].heading = calculateAngle(GameState.enemies[current_enemy].position.x, GameState.enemies[current_enemy].position.y,window.innerWidth /2, window.innerHeight)
+                        const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
                         GameState.enemies[current_enemy].position.x = new_coords[0];
                         GameState.enemies[current_enemy].position.y = new_coords[1];
                     }
@@ -699,9 +699,8 @@ function AI_update(type){
                 else if(AI_RNG == 1){
                     //pick new direction
                     if(GameState.enemies[current_enemy].position.x < 0 || GameState.enemies[current_enemy].position.x > window.innerWidth || GameState.enemies[current_enemy].position.y < 0 || GameState.enemies[current_enemy].position.y > window.innerHeight){
-                        const New_heading = RandomRangedIntiger(0,360);
-                        GameState.enemies[current_enemy].heading = New_heading ;
-                        const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,-(GameState.gamesettings.enemy_walk_speed + 50)); 
+                        GameState.enemies[current_enemy].heading = calculateAngle(GameState.enemies[current_enemy].position.x, GameState.enemies[current_enemy].position.y,window.innerWidth /2, window.innerHeight)
+                        const new_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x,GameState.enemies[current_enemy].position.y,GameState.enemies[current_enemy].heading,GameState.gamesettings.enemy_walk_speed); 
                         GameState.enemies[current_enemy].position.x = new_coords[0];
                         GameState.enemies[current_enemy].position.y = new_coords[1];
                     }
