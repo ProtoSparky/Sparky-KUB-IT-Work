@@ -30,6 +30,25 @@ var GameState = {
         //this is where the enemies are placed
     },
     "gamesettings":{
+        "HUD":{
+          "position":{
+            "x":0,
+            "y":0
+          },
+          "size":{
+            "x":250,
+            "y":100
+          },
+          "color":{
+            "BackgroundColor":"white",
+            "color":"black",
+            "opacity":0.7,
+          },
+          "text":{
+            "added_text":" sheep captured", 
+          }
+           
+        },
         "game_walls":{
             //position for walls so player cannot exit game view
             "top":{
@@ -103,6 +122,7 @@ var GameState = {
             "x":30,
             "y":30
         },
+        "enemy_agro_radius":470, //in pixels
         "safezones":{
             "left_zone":{
                 "position":{
@@ -147,7 +167,6 @@ function init(){
     player.style.zIndex = 99;
     document.getElementById("content-fullscreen").appendChild(player);
     //document.body.style.overflow = "hidden";
-
 
     //spawn colision meshes
 
@@ -235,6 +254,28 @@ function init(){
     GameState.player.position.y = GameState.gamesettings.safezones.left_zone.position.y + 10;
 
 
+    //set up hud
+    const HUD = document.createElement("div");
+    HUD.style.position = "absolute";
+    HUD.style.top = GameState.gamesettings.HUD.position.y;
+    HUD.style.left = GameState.gamesettings.HUD.position.x;
+    HUD.style.width = GameState.gamesettings.HUD.size.x;
+    HUD.style.height = GameState.gamesettings.HUD.size.y; 
+    HUD.style.backgroundColor = GameState.gamesettings.HUD.color.BackgroundColor; 
+    HUD.style.opacity = GameState.gamesettings.HUD.color.opacity;
+    document.getElementById("content-fullscreen").appendChild(HUD);
+
+    //set up points
+    const HUD_points = document.createElement("div");
+    HUD_points.className = "text";
+    HUD_points.style.position = "absolute";
+    HUD_points.style.top = "30";
+    HUD_points.style.left = "30";
+    HUD_points.id = "HUD_points";
+    HUD.appendChild(HUD_points)
+
+
+
     //set up enemies
     spawn_enemies();
     
@@ -253,7 +294,6 @@ function ConstantUpdater(){
     ApplyPlayerState();
     checkforwall(); //stops player if they hit grey walls
     BindCollectible(); //if player captures sheep, bind sheep position to player. Also remove sheep once player is in safezone
-    AI_update(1);
 }; 
 function ConstantUpdate_LP(){
     //update stuff once a second
@@ -278,9 +318,16 @@ function ConstantUpdate_LP(){
         
     }
 
+    //update HUD
+    const HUD_points = document.getElementById("HUD_points");
+    HUD_points.innerHTML = GameState.player.points + "/" + GameState.gamesettings.sheep.sheep_amount + GameState.gamesettings.HUD.text.added_text; 
+
+
+
     //update AI
     AI_update(0);
-    //AI_update(1);
+    AI_update(1);
+
 }
 
 function ApplyPlayerState(){
@@ -554,7 +601,34 @@ function AI_update(type){
         const Enemy_amount = Object.keys(GameState.enemies).length;
         for(let current_enemy = 0; current_enemy < Enemy_amount; current_enemy ++){
             //check if the enemy selected is aggressive to the player before changing its position
-            if(GameState.enemies[current_enemy ].agro == false){
+            if(GameState.enemies[current_enemy].agro == false){
+
+                if(GameState.player.safe == false){
+                    //check if player could be within agro range
+
+                    const X1 = GameState.enemies[current_enemy].position.x - GameState.gamesettings.enemy_agro_radius;
+                    const X1_W = GameState.enemies[current_enemy].size.x + GameState.gamesettings.enemy_agro_radius;
+                    const Y1 = GameState.enemies[current_enemy].position.y - GameState.gamesettings.enemy_agro_radius;
+                    const Y1_W = GameState.enemies[current_enemy].size.y + GameState.gamesettings.enemy_agro_radius;
+                    const DummyObject = {
+                        "0":{
+                            "position":{
+                                "x":X1,
+                                "y":Y1
+                            },
+                            "size":{
+                                "x":X1_W,
+                                "y":Y1_W
+                            }
+                        }
+                    };
+                    //check if player is in enemy radius
+                    if(IScollidedObject(GameState.player.position.x,GameState.player.size.x,GameState.player.position.y, GameState.player.size.y,DummyObject)[0]){
+                        GameState.enemies[current_enemy ].agro = true; 
+                    }
+                }
+
+                
                 let AI_RNG = RandomRangedIntiger(0,1);
                 if(AI_RNG == 0){
                     //continue in the same direction
@@ -600,6 +674,17 @@ function AI_update(type){
                 const enemy_object = document.getElementById(GameState.gamesettings.enemy_id + current_enemy + "");
                 enemy_object.style.left = GameState.enemies[current_enemy].position.x;
                 enemy_object.style.top = GameState.enemies[current_enemy].position.y; 
+            }
+            else if(GameState.enemies[current_enemy].agro == true){
+                //make the enemy follow the player
+
+                //reset agro flag if player is safe
+                if(GameState.player.safe == true){
+                    GameState.enemies[current_enemy].agro = false;
+                }
+                console.log("whats thus");
+
+
             }
             
         }
