@@ -23,6 +23,7 @@ var GameState = {
         "health_text":"Health ",
         "dead":false,
         "death_message":"You're dead!",
+        "win_message":"You Won!",
         
     },
     "collectibles":{
@@ -331,6 +332,10 @@ function ConstantUpdater(){
     if(GameState.player.dead == true){
         const DeathMessage = document.getElementById("DeathMessage");
         DeathMessage.innerHTML = GameState.player.death_message; 
+    }
+    else if(GameState.player.points == GameState.gamesettings.sheep.sheep_amount){
+        const DeathMessage = document.getElementById("DeathMessage");
+        DeathMessage.innerHTML = GameState.player.win_message; 
     }
     else if(GameState.player.dead == false){
         check_player_input();
