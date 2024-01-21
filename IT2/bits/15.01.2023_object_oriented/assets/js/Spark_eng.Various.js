@@ -25,11 +25,11 @@ function calculateAngle(x1, y1, x2, y2) {
   let dy = y2 - y1;
   let angle = Math.atan2(dy, dx);
   angle = angle * (180 / Math.PI);
-  if (angle < 0) {
-      angle += 360;
+  if ((dx >= 0 && dy < 0) || (dx < 0 && dy >= 0)) {
+     angle += 360;
   }
   return angle;
-}
+ }
 
 //px and angle to next coordinate
 function calculateCoordinates(x1, y1, angle, distance) {

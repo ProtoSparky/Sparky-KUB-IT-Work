@@ -116,7 +116,7 @@ var GameState = {
         "max_enemy":10,
         "min_enemy":3,
         "enemy_walk_speed":6,
-        "enemy_agro_speed":13,
+        "enemy_agro_speed":6,
         "enemy_id":"enemy",
         "enemy_size":{
             "x":30,
@@ -294,6 +294,8 @@ function ConstantUpdater(){
     ApplyPlayerState();
     checkforwall(); //stops player if they hit grey walls
     BindCollectible(); //if player captures sheep, bind sheep position to player. Also remove sheep once player is in safezone
+    UpdateAIPositions(); //update all ai positions to divs
+    AI_update(1);
 }; 
 function ConstantUpdate_LP(){
     //update stuff once a second
@@ -326,8 +328,6 @@ function ConstantUpdate_LP(){
 
     //update AI
     AI_update(0);
-    AI_update(1);
-
 }
 
 function ApplyPlayerState(){
@@ -583,12 +583,7 @@ function AI_update(type){
                     GameState.collectibles[CurrentSheep].position.x = New_coordinates[0];
                     GameState.collectibles[CurrentSheep].position.y = New_coordinates[1];
 
-                }
-
-                const CurrentSheepDiv = document.getElementById(GameState.gamesettings.sheep.sheep_id+CurrentSheep);
-                CurrentSheepDiv.style.left = GameState.collectibles[CurrentSheep].position.x;
-                CurrentSheepDiv.style.top = GameState.collectibles[CurrentSheep].position.y;
-                
+                }            
 
 
 
@@ -671,9 +666,6 @@ function AI_update(type){
                     GameState.enemies[current_enemy].position.x = new_coords[0];
                     GameState.enemies[current_enemy].position.y = new_coords[1];
                 }
-                const enemy_object = document.getElementById(GameState.gamesettings.enemy_id + current_enemy + "");
-                enemy_object.style.left = GameState.enemies[current_enemy].position.x;
-                enemy_object.style.top = GameState.enemies[current_enemy].position.y; 
             }
             else if(GameState.enemies[current_enemy].agro == true){
                 //make the enemy follow the player
@@ -682,11 +674,50 @@ function AI_update(type){
                 if(GameState.player.safe == true){
                     GameState.enemies[current_enemy].agro = false;
                 }
-                console.log("whats thus");
+                
+                const PlayerToAiAngle = calculateAngle(GameState.player.position.x,GameState.player.position.y,GameState.enemies[current_enemy].position.x, GameState.enemies[current_enemy].position.y);
+                const new_enemy_coords = calculateCoordinates(GameState.enemies[current_enemy].position.x, GameState.enemies[current_enemy].position.y,PlayerToAiAngle + 180,GameState.gamesettings.enemy_agro_speed);
+                GameState.enemies[current_enemy].position.x = new_enemy_coords[0];
+                GameState.enemies[current_enemy].position.y = new_enemy_coords[1];
+                
 
 
             }
             
+        }
+    }
+}
+
+function UpdateAIPositions(){
+    //updates all ai positions
+    for(let ai_picker = 0; ai_picker <= 1; ai_picker ++){
+        //picks between enemies and sheep
+        if(ai_picker == 0){
+            //update sheep
+            const SheepAmount = Object.keys(GameState.collectibles).length; 
+            for(let CurrentSheep = 0; CurrentSheep < SheepAmount; CurrentSheep ++){
+                if(GameState.collectibles[CurrentSheep].has_ai == true){
+
+                    const CurrentSheepDiv = document.getElementById(GameState.gamesettings.sheep.sheep_id+CurrentSheep);
+                    CurrentSheepDiv.style.left = GameState.collectibles[CurrentSheep].position.x;
+                    CurrentSheepDiv.style.top = GameState.collectibles[CurrentSheep].position.y;
+                }
+            }
+        }   
+        else if(ai_picker == 1){
+            //update enemies
+            const Enemy_amount = Object.keys(GameState.enemies).length;
+            for(let current_enemy = 0; current_enemy < Enemy_amount; current_enemy ++){
+                const enemy_object = document.getElementById(GameState.gamesettings.enemy_id + current_enemy + "");
+                enemy_object.style.left = GameState.enemies[current_enemy].position.x;
+                enemy_object.style.top = GameState.enemies[current_enemy].position.y; 
+                if(GameState.enemies[current_enemy].agro == true){
+                    enemy_object.style.transition = "0s";
+                }
+                else if(GameState.enemies[current_enemy].agro == false){
+                    enemy_object.style.transition = ".2s";
+                }
+            }
         }
     }
 }
