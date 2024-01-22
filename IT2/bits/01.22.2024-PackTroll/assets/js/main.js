@@ -11,7 +11,7 @@ var GameState = {
         "speed":{
             "starting_speed":1,
             "current_speed":null,
-            "speed_increments":1,
+            "speed_increments":0.1,
         },
         "heading":null,
         "points":null, 
@@ -21,7 +21,23 @@ var GameState = {
         },
         "id":"player",
     },
+    "food":{
+        //this is where the food resides
+    },
     "settings":{
+        "food":{
+            "size":{
+                "x":20,
+                "y":20,
+            },
+            "style":{
+                "backgroundColor_fresh":"yellow",
+                "backgroundColor_spoiled":"red",
+            },
+            "starting_amount":5,
+            "id":"food",
+
+        },
         "game_started":false, 
         "game_borders":{
             //position for walls so player cannot exit game view
@@ -134,6 +150,12 @@ function init(){
         GameState.player.heading = 0; 
     }
 
+
+    //spawn food
+    for(let food = 0; food < GameState.settings.food.starting_amount; food ++){
+        SpawnFood();
+    }
+
     //set up infinitly repeating updates
 
     setInterval(ConstantUpdate,10);
@@ -144,6 +166,7 @@ function ConstantUpdate(){
     check_player_input(); //check player for input
     UpdateDIVS();
     UpdatePlayerPos();
+    UpdateFood(); 
 
 }
 function ConstantUpdate_LP(){
@@ -163,8 +186,7 @@ function UpdatePlayerPos(){
         }
         
         const new_coords = calculateCoordinates(GameState.player.position.x, GameState.player.position.y,GameState.player.heading, GameState.player.speed.current_speed);
-        if(!tester(IScollidedObject(new_coords[0], GameState.player.size.x, new_coords[1],GameState.player.size.y,NOGO))){
-            
+        if(!tester(IScollidedObject(new_coords[0], GameState.player.size.x, new_coords[1],GameState.player.size.y,NOGO))){            
             GameState.player.position.x = new_coords[0];
             GameState.player.position.y = new_coords[1];
         }
@@ -200,3 +222,71 @@ function Startgame(){
     console.log("game started");
 }
 
+function SpawnFood(){
+    const new_x = RandomRangedIntiger(10,window.innerWidth - 50);
+    const new_y = RandomRangedIntiger(10,window.innerHeight - 10);
+    const FoodAmount = Object.keys(GameState.food).length; 
+    GameState.food[FoodAmount] = {
+        "position":{
+            "x":new_x,
+            "y":new_y,
+        },
+        "size":{
+            "x":GameState.settings.food.size.x,
+            "y":GameState.settings.food.size.y
+        },
+        "style":{
+            "backgroundColor":GameState.settings.food.style.backgroundColor_fresh, 
+        },
+        "food":true, 
+    };
+    const food_object = document.createElement("div"); 
+    food_object.id = GameState.settings.food.id + FoodAmount;
+    food_object.style.position = "absolute";
+    food_object.style.top = new_y,
+    food_object.style.left = new_x,
+    food_object.style.width = GameState.settings.food.size.x;
+    food_object.style.height = GameState.settings.food.size.y;
+    food_object.style.backgroundColor = GameState.settings.food.style.backgroundColor_fresh; 
+    document.getElementById("content-fullscreen").appendChild(food_object);
+
+
+}
+function UpdateFood(){
+    //check if player is on object
+    const collided_object = collided_id(IScollidedObject(GameState.player.position.x,GameState.player.size.x, GameState.player.position.y, GameState.player.size.y,GameState.food));
+    if(collided_object != null){
+        //shitty bugfix 
+
+        const current_food_name = Object.keys(GameState.food)[collided_object];
+        const food_object = GameState.food[current_food_name];
+        if(food_object.food == true){
+            //convert to non food
+            const FoodDIV = document.getElementById("food"+collided_object);
+            FoodDIV.style.backgroundColor = GameState.settings.food.style.backgroundColor_spoiled;
+
+            //set food as not food
+            GameState.food[collided_object].food = false; 
+
+            //spawn new food
+            SpawnFood();
+            
+            //speed up player
+            GameState.player.speed.current_speed = GameState.player.speed.current_speed + GameState.player.speed.speed_increments;
+            
+
+        }
+        else{
+
+        }
+    }
+
+    function collided_id(collisions){
+        for(let collision_pointer = 0; collision_pointer < collisions.length; collision_pointer ++){
+            if(collisions[collision_pointer]){
+                return collision_pointer; 
+            }
+        }
+        return null; 
+    }
+}

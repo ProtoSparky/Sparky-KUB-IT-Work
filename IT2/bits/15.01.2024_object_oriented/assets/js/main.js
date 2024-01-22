@@ -860,3 +860,4 @@ function BindCollectible(){
         }
     }
 }
+
