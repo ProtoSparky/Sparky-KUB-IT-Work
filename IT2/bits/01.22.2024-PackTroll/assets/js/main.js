@@ -20,6 +20,7 @@ var GameState = {
             "backgroundColor":"green", 
         },
         "id":"player",
+        "points":0,
     },
     "food":{
         //this is where the food resides
@@ -150,6 +151,26 @@ function init(){
         GameState.player.heading = 0; 
     }
 
+    //spawn hud
+    const HUD = document.createElement("div");
+    HUD.style.position = "absolute";
+    HUD.style.left = 0;
+    HUD.style.top = 0;
+    HUD.style.width = "200px";
+    HUD.style.height = "100px"; 
+    HUD.style.backgroundColor = "white";
+    HUD.style.opacity = "0.9";
+    
+    const Points = document.createElement("div");
+    Points.style.position = "absolute";
+    Points.style.left = "30px";
+    Points.style.top = "30px";
+    Points.className = "text";
+    Points.id = "Points";
+    Points.innerHTML = GameState.player.points + " Points"
+    HUD.appendChild(Points);
+    document.getElementById("content-fullscreen").appendChild(HUD);
+
 
     //spawn food
     for(let food = 0; food < GameState.settings.food.starting_amount; food ++){
@@ -273,6 +294,10 @@ function UpdateFood(){
             
             //speed up player
             GameState.player.speed.current_speed = GameState.player.speed.current_speed + GameState.player.speed.speed_increments;
+
+            //set points 
+            GameState.player.points = GameState.player.points + 1;
+            document.getElementById("Points").innerHTML = GameState.player.points + " Points"; 
             
 
         }
