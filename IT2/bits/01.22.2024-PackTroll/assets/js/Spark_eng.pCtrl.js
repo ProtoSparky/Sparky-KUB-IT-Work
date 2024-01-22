@@ -17,7 +17,8 @@ function check_player_input(){
     const key_A = keys["A"] || keys["a"];
     const key_S = keys["S"] || keys["s"];
     const key_D = keys["D"] || keys["d"];  
-      
+
+     
     if(key_W){
         if(DEBUG){
             console.log("w");
