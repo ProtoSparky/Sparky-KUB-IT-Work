@@ -1,12 +1,45 @@
-//Random number generator
-function RandomRangedIntiger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function RandomRangedFloat(min, max) {
-  return Math.random() * (max - min) + min;
+function RandomRangedIntiger(min, max, not) {
+  //random number generator that can also skip some numbers in not array
+  if(not == undefined){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  else{
+    let num;
+    do {
+      num = Math.floor(Math.random() * (max - min + 1)) + min;
+    } 
+    while (not.includes(num));
+    return num;
+  }
 }
 
-//Look up class index from element id
+//px to angle
+function calculateAngle(x1, y1, x2, y2) {
+  let dx = x2 - x1;
+  let dy = y2 - y1;
+  let angle = Math.atan2(dy, dx);
+  angle = angle * (180 / Math.PI);
+  if ((dx >= 0 && dy < 0) || (dx < 0 && dy >= 0)) {
+     angle += 360;
+  }
+  return angle;
+ }
+
+
+ 
+//px and angle to next coordinate
+
+function calculateCoordinates(x1, y1, angle, distance) {
+  let radian = angle * (Math.PI / 180); // Convert angle to radians
+  let dx = distance * Math.cos(radian);
+  let dy = distance * Math.sin(radian);
+  let x2 = Math.round(x1 + dx);
+  let y2 = Math.round(y1 + dy);
+  return [x2, y2];
+}
+
+
+//look up class index from element id
 function ClassIndexLookup(id, class_name){
   const elements = document.getElementsByClassName(class_name);
   for(let arr_index = 0; arr_index <elements.length; arr_index ++){
@@ -41,6 +74,7 @@ function ArraysCommon(arr1, arr2) {
   }
   return false; // No common elements found
 }
+
 
 //Returns the index length of a given class
 function ClassIndexLength(class_id){
@@ -161,6 +195,7 @@ function removeCapitalization(inputString) {
   return inputString.toLowerCase();
 }
 
+/*
 //Searches trough array, if input is found, returns new array
 function search(input, Array) {
   const normalizedInput = input.replace(/\s/g, "").toLowerCase();
@@ -189,7 +224,40 @@ function search(input, Array) {
   }
 
   return matchingRows;
-}
+}*/
+function search(input, Array, includeBool) {
+  const normalizedInput = input.replace(/\s/g, "").toLowerCase();
+  const ignoredKeys = [1,2,3,4,5];
+  const matchingRows = [];
+ 
+  for (const row of Array) {
+    let found = false;
+ 
+    for (let i = 0; i < row.length; i++) {
+      if (ignoredKeys.includes(i)) continue;
+      const cell = row[i];
+      const normalizedCell = cell.replace(/\s/g, "").toLowerCase();
+ 
+      // Check if the cell is a boolean and includeBool is true
+      if (includeBool && typeof cell === 'boolean') {
+        if (cell === true || cell === false) {
+          found = true;
+          break;
+        }
+      }
+ 
+      if (normalizedCell.includes(normalizedInput)) {
+        found = true;
+        break;
+      }
+    } 
+    if (found) {
+      matchingRows.push(row.slice()); // Copy the matching row to the new array
+    }
+  }
+ 
+  return matchingRows;
+ }
 
 //Read json files, and return their data
 function ReadJSON(file, IsAsync) {

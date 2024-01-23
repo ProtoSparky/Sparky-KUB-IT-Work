@@ -1,9 +1,3 @@
-//Random number generator
-/*
-function RandomRangedIntiger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-*/
 function RandomRangedIntiger(min, max, not) {
   //random number generator that can also skip some numbers in not array
   if(not == undefined){
