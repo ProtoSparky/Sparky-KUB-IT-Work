@@ -21,10 +21,12 @@ var GameState = {
         },
         "id":"player",
         "points":0,
+        "is_dead":false, 
     },
     "food":{
         //this is where the food resides
     },
+    "last_food_id":null, 
     "settings":{
         "food":{
             "size":{
@@ -145,6 +147,7 @@ function init(){
     GameMeshBottom.id = GameState.settings.game_borders.bottom.id;
     document.getElementById("content-fullscreen").appendChild(GameMeshBottom);
 
+
     document.body.style.overflow = "hidden";
 
     if(GameState.player.heading == null){
@@ -171,6 +174,15 @@ function init(){
     HUD.appendChild(Points);
     document.getElementById("content-fullscreen").appendChild(HUD);
 
+    //death message
+    const DeathMessage = document.createElement("div");
+    DeathMessage.style.position = "absolute";
+    DeathMessage.style.top = "50px";
+    DeathMessage.style.left = "30px";
+    DeathMessage.className = "text";
+    DeathMessage.id = "DeathMessage";
+    HUD.appendChild(DeathMessage); 
+
 
     //spawn food
     for(let food = 0; food < GameState.settings.food.starting_amount; food ++){
@@ -185,8 +197,10 @@ function init(){
 function ConstantUpdate(){
     //updates every 10ms
     check_player_input(); //check player for input
+    if(GameState.player.is_dead == false){
+        UpdatePlayerPos();
+    }
     UpdateDIVS();
-    UpdatePlayerPos();
     UpdateFood(); 
 
 }
@@ -213,6 +227,7 @@ function UpdatePlayerPos(){
         }
         else{
             GameState.settings.game_started == false;
+            death()
         }
         
 
@@ -238,9 +253,15 @@ function UpdateDIVS(){
     player.style.height = GameState.player.size.y;
 }
 function Startgame(){
+    if( GameState.settings.game_started == false){
+        GameState.player.speed.current_speed = GameState.player.speed.starting_speed; 
+        console.log("game started");
+    }
     GameState.settings.game_started = true;
-    GameState.player.speed.current_speed = GameState.player.speed.starting_speed; 
-    console.log("game started");
+
+    if(GameState.player.is_dead == true){
+        location.reload();
+    }
 }
 
 function SpawnFood(){
@@ -299,10 +320,19 @@ function UpdateFood(){
             GameState.player.points = GameState.player.points + 1;
             document.getElementById("Points").innerHTML = GameState.player.points + " Points"; 
             
+            //set a flag that player was on said food
+            GameState.last_food_id = collided_object; 
 
         }
         else{
-
+            
+            if(collided_object == GameState.last_food_id){
+                console.info("standing on old food");
+            }
+            else{
+                //kills player
+                death(); 
+            }
         }
     }
 
@@ -314,4 +344,10 @@ function UpdateFood(){
         }
         return null; 
     }
+}
+function death(){
+    GameState.player.is_dead = true;
+    const DeathMessage = document.getElementById("DeathMessage"); 
+    DeathMessage.innerHTML = "Youre dead!";
+    
 }
