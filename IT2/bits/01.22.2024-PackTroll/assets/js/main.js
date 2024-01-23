@@ -160,14 +160,14 @@ function init(){
     HUD.style.left = 0;
     HUD.style.top = 0;
     HUD.style.width = "200px";
-    HUD.style.height = "100px"; 
+    HUD.style.height = "120px"; 
     HUD.style.backgroundColor = "white";
     HUD.style.opacity = "0.9";
     
     const Points = document.createElement("div");
     Points.style.position = "absolute";
     Points.style.left = "30px";
-    Points.style.top = "30px";
+    Points.style.top = "60px";
     Points.className = "text";
     Points.id = "Points";
     Points.innerHTML = GameState.player.points + " Points"
@@ -177,11 +177,20 @@ function init(){
     //death message
     const DeathMessage = document.createElement("div");
     DeathMessage.style.position = "absolute";
-    DeathMessage.style.top = "50px";
+    DeathMessage.style.top = "90px";
     DeathMessage.style.left = "30px";
     DeathMessage.className = "text";
     DeathMessage.id = "DeathMessage";
     HUD.appendChild(DeathMessage); 
+
+    //controls
+    const Controls = document.createElement("div");
+    Controls.style.position = "absolute";
+    Controls.style.top  = "10px";
+    Controls.style.left = "30px";
+    Controls.className  ="text";
+    Controls.innerHTML  ="WASD for controls <br> E to re/start game";
+    HUD.appendChild(Controls);
 
 
     //spawn food
@@ -349,5 +358,5 @@ function death(){
     GameState.player.is_dead = true;
     const DeathMessage = document.getElementById("DeathMessage"); 
     DeathMessage.innerHTML = "Youre dead!";
-    
+
 }

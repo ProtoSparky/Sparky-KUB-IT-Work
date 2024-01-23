@@ -31,15 +31,19 @@ function calculateAngle(x1, y1, x2, y2) {
   return angle;
  }
 
+
+ 
 //px and angle to next coordinate
+
 function calculateCoordinates(x1, y1, angle, distance) {
   let radian = angle * (Math.PI / 180); // Convert angle to radians
   let dx = distance * Math.cos(radian);
   let dy = distance * Math.sin(radian);
-  let x2 = Math.floor(x1 + dx);
-  let y2 = Math.floor(y1 + dy);
+  let x2 = Math.round(x1 + dx);
+  let y2 = Math.round(y1 + dy);
   return [x2, y2];
 }
+
 
 //look up class index from element id
 function ClassIndexLookup(id, class_name){
