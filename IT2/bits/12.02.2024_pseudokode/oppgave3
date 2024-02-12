@@ -1,0 +1,22 @@
+//Oppgave 3
+//Tallene 1, 3, 6, 10. 15, 21 og så videre kalles for trekanttall. De tilsvarer antallet prikker som vil vises i en likesidet trekant når man bruker et grunnleggende trekantmønster for å bygge
+//trekanten. Se illustrasjonen nedenfor. 
+//Den følgende pseudokoden (trekanttall) beskriver en funksjon som regner ut og returner trekanttallet nummer n:
+//Bruk funksjonen som er beskrevet ovenfor, og skriv pseudokoden til et program som regner sammen og skriver ut totalsummen av de ti første trekanttallene. Bruk dobbelt mellomrom
+//for innrykk i koden der det er aktuelt Skriv svaret ditt nedenfor. 
+
+FUNCTION trekanttall (n)
+    SET tn TO n • (n+1)/2
+    RETURN
+ENDFUNCTION
+
+FUNCTION prikkteller
+    SET ganger TO 10
+    SET total TO 0
+    FOR hver trekanter LESSER THAN OR EQUAL TO ganger
+        total = total + trekanttall(trekanter)
+    ENDFOR
+    DISPLAY total
+ENDFUNCTION
+
+START prikkteller 
