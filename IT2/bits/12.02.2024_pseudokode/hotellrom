@@ -1,0 +1,46 @@
+//
+FUNCTION customer(operation)
+    //customer should
+
+ENDFUNCTION
+
+
+FUNCTION reception(operation)
+    
+ENDFUNCTION
+
+
+FUNCTION cleaners()
+    DISPLAY "Show rooms available, or mark room as clean?"
+    DISPLAY "Available commands : show_rooms, clean"
+    SET user_input TO READ() //get user input 
+    
+    IF user_input IS "show_rooms"
+        //show available rooms for cleaning
+        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
+        DISPLAY "Current rooms available: " + rooms_available
+
+    ELSEIF user_input IS "clean"
+        //mark room clean
+        DISPLAY "Enter room number to be marked as clean..."
+        SET user_input TO READ() //get user input
+        WRITE(rooms WHERE room_number IS user_input AND available IS true TO false)
+
+ENDFUNCTION 
+
+
+FUNCTION runner(username)
+    //check user permissions
+    SET current_user_permission TO READ(user_permissions WHERE user IS username) //read from database
+    IF current_user_permission IS "customer"
+        START customer()
+
+    ELSEIF current_user_permission IS "reception"
+        START reception()
+    
+    ELSEIF current_user_permission IS "cleaners"
+        START cleaners()
+ENDFUNCTION
+
+
+START runner("Ole_normann")
