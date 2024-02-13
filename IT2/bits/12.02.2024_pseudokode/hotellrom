@@ -5,8 +5,43 @@ FUNCTION customer(operation)
 ENDFUNCTION
 
 
-FUNCTION reception(operation)
-    
+FUNCTION reception()
+    DISPLAY "Show rooms available for customers, 
+    Sign in / out customer, 
+    Mark room for cleaning, 
+    Change customer room number, 
+    Cancel customer purchase, 
+    Reserve room for customer"
+
+    DISPLAY " Available commands: show_rooms, sign_in, sign_out, clean, cancel, reserve"
+    SET user_input TO READ() //get user input 
+
+    IF user_input IS "show_rooms"
+        //run for show rooms
+        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
+        WRITE "Currently available rooms " + rooms_available
+        reception()
+    ELSEIF user_input IS "sign_in"
+        //run for sign in
+        WRITE "Enter name of customer to sign in"
+        SET user_input TO READ() //get user input
+        WRITE(rooms WHERE customer IS user_input AND SET present TO true) //sets customer flag to present, therefore customer is signed in in database
+        reception()
+    ELSEIF user_input IS "sign_out"
+        //run for sign out
+        WRITE "Enter name of customer to sign out"
+        SET user_input TO READ() //get user input
+        WRITE(rooms WHERE customer IS user_input AND SET present TO false) //sets customer flag to not present, therefore customer is signed out  in database
+        reception()
+    ELSEIF user_input IS "clean"
+        //run for room cleaning
+        WRITE "Enter room number to mark for cleaning"
+        SET user_input TO READ() //get user input
+        WRITE(rooms WHERE room_number IS user_input AND SET dirty TO true) //set room as dirty in database
+        reception()
+    ELSEIF user_input "reserve"
+
+
 ENDFUNCTION
 
 
@@ -17,15 +52,18 @@ FUNCTION cleaners()
     
     IF user_input IS "show_rooms"
         //show available rooms for cleaning
-        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
-        DISPLAY "Current rooms available: " + rooms_available
+        SET rooms_dirty TO READ(rooms WHERE dirty IS true) //get data from database
+        DISPLAY "Current rooms available for cleaning: " + rooms_dirty
+        cleaners() //ask for user input again
 
     ELSEIF user_input IS "clean"
         //mark room clean
         DISPLAY "Enter room number to be marked as clean..."
         SET user_input TO READ() //get user input
-        WRITE(rooms WHERE room_number IS user_input AND available IS true TO false)
-
+        WRITE(rooms WHERE room_number IS user_input AND SET dirty TO false) //set available flag for a room to false (mark as clean)
+        cleaners() //ask for user input again
+    ELSE
+        DISPLAY "Command " + user_input + " is not recognized"
 ENDFUNCTION 
 
 
