@@ -20,27 +20,46 @@ FUNCTION reception()
         //run for show rooms
         SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
         WRITE "Currently available rooms " + rooms_available
-        reception()
+        reception() //Send back to options
+
     ELSEIF user_input IS "sign_in"
         //run for sign in
         WRITE "Enter name of customer to sign in"
         SET user_input TO READ() //get user input
         WRITE(rooms WHERE customer IS user_input AND SET present TO true) //sets customer flag to present, therefore customer is signed in in database
-        reception()
+        reception() //Send back to options
+
     ELSEIF user_input IS "sign_out"
         //run for sign out
         WRITE "Enter name of customer to sign out"
         SET user_input TO READ() //get user input
         WRITE(rooms WHERE customer IS user_input AND SET present TO false) //sets customer flag to not present, therefore customer is signed out  in database
-        reception()
+        reception() //Send back to options
+
     ELSEIF user_input IS "clean"
         //run for room cleaning
         WRITE "Enter room number to mark for cleaning"
         SET user_input TO READ() //get user input
         WRITE(rooms WHERE room_number IS user_input AND SET dirty TO true) //set room as dirty in database
-        reception()
-    ELSEIF user_input "reserve"
+        reception() //Send back to options
 
+    ELSEIF user_input "reserve"
+        //reserve room for customer
+        WRITE "Enter customer name"
+        SET customer_name_input TO READ() //get user input
+        WRITE "Enter room number"
+        SET room_number_input TO READ() //get user input
+
+        //check if room is not already used
+        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
+
+        IF room_number_input TO rooms_available IS NOT NULL //We check if the room is empty and ready to use.
+            SET room_reserved TO READ(rooms WHERE room_number IS room_number_input AND SET available TO false) //set selected room to false
+            SET room_reserved_customer_name TO READ(rooms WHERE room_number IS room_number_input AND SET room_owner TO customer_name_input) //set room owner
+        ELSE
+            DISPLAY "ERROR: Room already has an owner"
+        
+        reception() //Send back to option
 
 ENDFUNCTION
 
