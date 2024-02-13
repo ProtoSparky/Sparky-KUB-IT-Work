@@ -1,6 +1,55 @@
-//
-FUNCTION customer(operation)
-    //customer should
+FUNCTION customer()
+    DISPLAY "Show rooms available for customers,
+    Cancel customer purchase, 
+    Reserve room for customer"
+
+    DISPLAY " Available commands: show_rooms, cancel, reserve"
+    SET user_input TO READ() //get user input 
+
+    IF user_input IS "show_rooms"
+        //run for show rooms
+        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
+        WRITE "Currently available rooms " + rooms_available
+        customer() //Send back to options
+    
+    ELSEIF user_input "reserve"
+        //reserve customer room
+        WRITE "Enter customer name"
+        SET customer_name_input TO READ() //get user input
+        WRITE "Enter room number"
+        SET room_number_input TO READ() //get user input
+
+        //check if room is not already used
+        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
+
+        IF room_number_input TO rooms_available IS NOT NULL //We check if the room is empty and ready to use.
+            SET room_reserved TO READ(rooms WHERE room_number IS room_number_input AND SET available TO false) //set selected room to false
+            SET room_reserved_customer_name TO READ(rooms WHERE room_number IS room_number_input AND SET room_owner TO customer_name_input) //set room owner
+        ELSE
+            DISPLAY "ERROR: You cannot reserve an already reserved room"
+        customer() //Send back to option
+
+    ELSEIF user_input "cancel"
+        //reserve room for customer
+        WRITE "Enter customer name"
+        SET customer_name_input TO READ() //get user input
+        WRITE "Enter room number"
+        SET room_number_input TO READ() //get user input
+
+        //check if room is not already used
+        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
+
+        IF room_number_input TO rooms_available IS NULL //We check if the room is empty and ready to use. This should not be done as this allows the customer to cancel anyones room
+            SET room_reserved TO READ(rooms WHERE room_number IS room_number_input AND SET available TO true) //set selected room to false
+            SET room_reserved_customer_name TO READ(rooms WHERE room_number IS room_number_input AND SET room_owner TO NULL) //set room owner
+        ELSE
+            DISPLAY "ERROR: Room is already available"
+        
+        customer() //Send back to option
+    
+    ELSE 
+        WRITE "Command not supported"
+        customer() //Send back to option
 
 ENDFUNCTION
 
@@ -56,6 +105,24 @@ FUNCTION reception()
         IF room_number_input TO rooms_available IS NOT NULL //We check if the room is empty and ready to use.
             SET room_reserved TO READ(rooms WHERE room_number IS room_number_input AND SET available TO false) //set selected room to false
             SET room_reserved_customer_name TO READ(rooms WHERE room_number IS room_number_input AND SET room_owner TO customer_name_input) //set room owner
+        ELSE
+            DISPLAY "ERROR: Room already has an owner"
+        
+        reception() //Send back to option
+
+    ELSEIF user_input "cancel"
+        //reserve room for customer
+        WRITE "Enter customer name"
+        SET customer_name_input TO READ() //get user input
+        WRITE "Enter room number"
+        SET room_number_input TO READ() //get user input
+
+        //check if room is not already used
+        SET rooms_available TO READ(rooms WHERE available IS true) //get data from database
+
+        IF room_number_input TO rooms_available IS NULL //We check if the room is empty and ready to use.
+            SET room_reserved TO READ(rooms WHERE room_number IS room_number_input AND SET available TO true) //set selected room to false
+            SET room_reserved_customer_name TO READ(rooms WHERE room_number IS room_number_input AND SET room_owner TO NULL) //set room owner
         ELSE
             DISPLAY "ERROR: Room already has an owner"
         
