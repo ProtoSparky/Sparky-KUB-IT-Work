@@ -23,7 +23,7 @@ function customErrorHandler($errno, $errstr, $errfile, $errline) {
     $errorFilePath = __DIR__ . '/error_log.txt';
 
     // Write the error message to the error file
-    file_put_contents($errorFilePath, $errorMessage, FILE_APPEND);
+    //file_put_contents($errorFilePath, $errorMessage, FILE_APPEND); remove error writing to file
 
     // Prepare the error response
     $errorResponse = array(
@@ -49,10 +49,8 @@ set_error_handler("customErrorHandler");
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-
 //init
-$post_commands = ["create_data_storage", "add_server","remove_server", "timing_control"];
-$get_commands = ["is_data_present", "get_timing", "get_server_data", "get_all_server_data"];
+
 
 function DataOperation($operation, $json_data){
     $data_storage_loc = "../ServerData/1.json";
@@ -82,6 +80,9 @@ function DataOperation($operation, $json_data){
 }
 
 
+//$post_commands = ["create_data_storage", "add_server","remove_server", "timing_control"];
+//$get_commands = ["is_data_present", "get_timing", "get_server_data", "get_all_server_data"];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bodyContent = file_get_contents('php://input');   
     //get json from post
@@ -90,12 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $UserRequest = json_decode($bodyContent, true);
         //validate json
         if(array_key_exists("get",$UserRequest)){
-
             //process get commands
+
             
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
-
                 $json_data = DataOperation("read",null);                
                 $file_exists = $json_data['file_exists'];
                 $returned_json = array("is_data_present" => $file_exists);
@@ -110,8 +110,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         else if(array_key_exists("post",$UserRequest)){
             //process post commands
-            ShowError(2);
+            if(in_array("create_data_storage", $UserRequest["post"])){
+                $json_data = array("is_data_present" => 1, array())
+                DataOperation("write",$json_data);   
+            }
         }
+    }
+    else{
+        ShowError(0); 
     }
 }
 else{

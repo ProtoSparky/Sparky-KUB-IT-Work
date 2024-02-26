@@ -1,0 +1,26 @@
+{
+    "is_data_present":1,
+    "servers":{
+        "some_server_name":{
+            "domain":"http://192.168.50.197", 
+            "enabled":true,
+            "alive":true,
+            "ping":{
+                "avg":10,
+                "max":100,
+                "min":0.1
+            }
+
+        },
+        "some_other_server_name":{
+            "domain":"http://192.168.50.247",
+            "enabled":true,
+            "alive":true,
+            "ping":{
+                "avg":10,
+                "max":100,
+                "min":0.1
+            }
+        }
+    }
+}
