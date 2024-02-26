@@ -57,16 +57,21 @@ $get_commands = ["is_data_present", "get_timing", "get_server_data", "get_all_se
 function DataOperation($operation, $json_data){
     $data_storage_loc = "../ServerData/1.json";
     if($operation == "read"){
-        //read from data
-        $json = @file_get_contents($data_storage_loc);
-
-        if ($json === false) {
-            // File does not exist or could not be read, return null
-            return array("is_data_present"=>0);
-        }
+        if (file_exists($data_storage_loc)) {
+            // File exists, proceed to read its contents
+            $json = @file_get_contents($data_storage_loc);
         
-        $json_data = json_decode($json, true);
-        return $json_data;
+            if ($json === false) {
+                // File does not exist or could not be read, return null
+                return array("file_exists"=>0);
+            }
+            
+            $json_data = json_decode($json, true);
+            return $json_data;
+        } else {
+            // File does not exist, return the specified array
+            return array("file_exists"=>0);
+        }
     }
     else if($operation == "write"){
         //write brand new data to json file
@@ -90,8 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
-                
-                //$json_data = DataOperation("read",null);
+
                 $json_data = DataOperation("read",null);                
                 $file_exists = $json_data['file_exists'];
                 $returned_json = array("is_data_present" => $file_exists);
