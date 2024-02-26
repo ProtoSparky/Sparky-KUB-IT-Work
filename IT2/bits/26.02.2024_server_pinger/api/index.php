@@ -61,14 +61,14 @@ function DataOperation($operation, $json_data){
         
             if ($json === false) {
                 // File does not exist or could not be read, return null
-                return array("file_exists"=>0);
+                return array("is_data_present"=>0);
             }
             
             $json_data = json_decode($json, true);
             return $json_data;
         } else {
             // File does not exist, return the specified array
-            return array("file_exists"=>0);
+            return array("is_data_present"=>0);
         }
     }
     else if($operation == "write"){
@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
                 $json_data = DataOperation("read",null);                
-                $file_exists = $json_data['file_exists'];
+                $file_exists = $json_data['is_data_present'];
                 $returned_json = array("is_data_present" => $file_exists);
                 echo json_encode($returned_json);
             }
@@ -111,8 +111,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         else if(array_key_exists("post",$UserRequest)){
             //process post commands
             if(in_array("create_data_storage", $UserRequest["post"])){
-                $json_data = array("is_data_present" => 1, array())
+                //write data to file
+                //$json_data = array("is_data_present" =>  1, "servers" => array()); this line creates "servers":[] and not {}
+                $json_data = array(
+                    "is_data_present" =>  1,
+                    "servers" => new stdClass()
+                );
                 DataOperation("write",$json_data);   
+
+                //verify data
+                
+                $json_data_read = DataOperation("read",null);                
+                $file_exists = $json_data_read['is_data_present'];
+                $returned_json = array("is_data_present" => $file_exists);
+                echo json_encode($returned_json);
+                
             }
         }
     }
