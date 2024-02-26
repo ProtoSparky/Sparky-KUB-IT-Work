@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <form method="post" action="">
         <label for="jsonInput">Enter JSON:</label><br>
-        <textarea id="jsonInput" name="jsonInput" rows="10" cols="50"></textarea><br>
+        <textarea id="jsonInput" name="jsonInput" rows="10" cols="50"><?php echo isset($jsonInput) ? htmlspecialchars($jsonInput) : ''; ?></textarea><br>
         <input type="submit" value="Submit">
     </form>
 

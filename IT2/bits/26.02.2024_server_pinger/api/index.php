@@ -55,7 +55,7 @@ $post_commands = ["create_data_storage", "add_server","remove_server", "timing_c
 $get_commands = ["is_data_present", "get_timing", "get_server_data", "get_all_server_data"];
 
 function DataOperation($operation, $json_data){
-    $data_storage_loc = "./ServerData/1.json";
+    $data_storage_loc = "../ServerData/1.json";
     if($operation == "read"){
         //read from data
         $json = @file_get_contents($data_storage_loc);
@@ -91,12 +91,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
                 
-                $json_data = DataOperation("read",null); //TODO there's a bug here
-
+                //$json_data = DataOperation("read",null);
+                $json_data = DataOperation("read",null);
                 
-                //echo json_encode(array("is_data_present" => $json_data["is_data_present"]));
-                $returned_json = array("is_data_present"=> 0);
-
+                $file_exists = $json_data['file_exists'];
+                //$returned_json = array("is_data_present"=> 0);
+                $returned_json = array("is_data_present" => $file_exists);
                 echo json_encode($returned_json);
             }
             else{
