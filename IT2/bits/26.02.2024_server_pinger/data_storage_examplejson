@@ -1,5 +1,6 @@
 {
     "is_data_present":1,
+    "update_timing":10, 
     "servers":{
         "some_server_name":{
             "domain":"http://192.168.50.197", 

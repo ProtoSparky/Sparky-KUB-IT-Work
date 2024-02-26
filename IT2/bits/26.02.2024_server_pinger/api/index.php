@@ -115,17 +115,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //$json_data = array("is_data_present" =>  1, "servers" => array()); this line creates "servers":[] and not {}
                 $json_data = array(
                     "is_data_present" =>  1,
+                    "update_timing" =>10,
                     "servers" => new stdClass()
                 );
                 DataOperation("write",$json_data);   
 
-                //verify data
+                //verify file creation
                 
                 $json_data_read = DataOperation("read",null);                
                 $file_exists = $json_data_read['is_data_present'];
                 $returned_json = array("is_data_present" => $file_exists);
                 echo json_encode($returned_json);
                 
+            }
+            elseif(isset($UserRequest["post"]['add_server'])){ //clean this up for other functions
+                $api_data = $UserRequest["post"]['add_server'];
+                $json_data_read = DataOperation("read",null); 
+                $modified_json = array(
+                    $api_data["servername"] => array(
+                        "domain" => $api_data["domain"],
+                        "enabled" => $api_data["enabled"],
+                        "alive" => $api_data["alive"], 
+                        "ping" => new stdClass(),
+                    )
+                );
+                $json_data_read["servers"] = array_merge($json_data_read["servers"], $modified_json); //merge two arrays
+                DataOperation("write",$json_data_read); 
+                echo json_encode($json_data_read);
             }
         }
     }
