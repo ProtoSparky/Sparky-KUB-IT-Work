@@ -1,6 +1,6 @@
 <?php
 // Specify the API link
-$apiLink = './api';
+$apiLink = 'http://localhost/Sparky-KUB-IT-Work/IT2/bits/26.02.2024_server_pinger/api/';
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Prepare the POST request
     $ch = curl_init($apiLink);
-    curl_setopt($ch, CURLOPT_POST,  1);
+    curl_setopt($ch, CURLOPT_POST,   1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonInput);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
@@ -17,8 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Execute the POST request
     $response = curl_exec($ch);
 
-    // Close the cURL session
-    curl_close($ch);
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        $error_msg = curl_error($ch);
+        echo "cURL Error: $error_msg";
+    } else {
+        // Close the cURL session
+        curl_close($ch);
+    }
 }
 ?>
 
@@ -43,6 +49,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php endif; ?>
 </body>
 </html>
-<?php
-
-?>

@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
                 
-                $json_data = DataOperation("read"); //TODO there's a bug here
+                //$json_data = DataOperation("read"); //TODO there's a bug here
 
                 
                 //echo json_encode(array("is_data_present" => $json_data["is_data_present"]));
@@ -100,8 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo json_encode($returned_json);
             }
             else{
-                echo ($bodyContent);
-                //ShowError(0);
+                //echo ($bodyContent);
+                ShowError(0);
             }
             
 
@@ -148,7 +148,6 @@ function ShowError($input){
 
     // Always return a JSON response
     echo json_encode($response);
-    http_response_code(400); // Set the appropriate HTTP response code
 }
 
 
