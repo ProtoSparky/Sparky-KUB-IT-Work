@@ -7,9 +7,8 @@ function init(){
 
 function Send2API(){
     const query = {
-        "this is a fucking":"Test",
-        "query":[
-            "fuck"
+        "get":[
+            "is_data_present"
         ]
     };
 

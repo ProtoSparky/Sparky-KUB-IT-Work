@@ -17,21 +17,23 @@ $post_commands = ["create_data_storage", "add_server","remove_server", "timing_c
 $get_commands = ["is_data_present", "get_timing", "get_server_data", "get_all_server_data"];
 
 function DataOperation($operation, $json_data){
+    $data_storage_loc = "./ServerData/1.json";
     if($operation == "read"){
         //read from data
+        $json = @file_get_contents($data_storage_loc);
 
-        $json = file_get_contents($data_storage_loc); 
-        $json_data = json_decode($json,true); 
+        if ($json === false) {
+            // File does not exist or could not be read, return null
+            return array("is_data_present"=>0);
+        }
+        
+        $json_data = json_decode($json, true);
         return $json_data;
     }
     else if($operation == "write"){
         //write brand new data to json file
         $json_data_encoded = json_encode($json_data); 
         file_put_contents($data_storage_loc, $json_data_encoded);
-        
-    }
-    else if($operation == "create"){
-        //create a completely new json file
         
     }
 }
@@ -44,24 +46,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(validateJson($bodyContent)){
         $UserRequest = json_decode($bodyContent, true);
         //validate json
-
         if(array_key_exists("get",$UserRequest)){
 
             //process get commands
-            if(array_key_exists($get_commands[0], $UserRequest)){
+            
+            if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
-                $json_data = DataOperation("read");
-                if()
+                
+                $json_data = DataOperation("read"); //TODO there's a bug here
 
+                
+                //echo json_encode(array("is_data_present" => $json_data["is_data_present"]));
+                $returned_json = array("is_data_present"=> 0);
 
+                echo json_encode($returned_json);
             }
+            else{
+                echo ($bodyContent);
+                //ShowError(0);
+            }
+            
 
         }
         else if(array_key_exists("post",$UserRequest)){
             //process post commands
         }
-
-        echo json_encode($UserRequest);
     }
 }
 else{
