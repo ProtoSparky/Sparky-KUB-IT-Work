@@ -5,14 +5,26 @@ require "../assets/phpcomponents/validateANDclean.php"; //this fucking script ma
 $data_storage_loc = "../ServerData/1.json";
 
 //API php
-ini_set('display_errors',  1);
-ini_set('display_startup_errors',  1);
+ini_set('display_errors',   1);
+ini_set('display_startup_errors',   1);
 error_reporting(E_ALL);
 
 header('Content-Type: application/json');
 
 // Define a custom error handler
 function customErrorHandler($errno, $errstr, $errfile, $errline) {
+    // Prepare the error message
+    $errorMessage = "Error: [$errno] $errstr\n";
+    $errorMessage .= "File: $errfile\n";
+    $errorMessage .= "Line: $errline\n";
+    $errorMessage .= "Date: " . date("Y-m-d H:i:s") . "\n";
+
+    // Define the error file path
+    $errorFilePath = __DIR__ . '/error_log.txt';
+
+    // Write the error message to the error file
+    file_put_contents($errorFilePath, $errorMessage, FILE_APPEND);
+
     // Prepare the error response
     $errorResponse = array(
         "error" => array(
@@ -32,6 +44,7 @@ function customErrorHandler($errno, $errstr, $errfile, $errline) {
 
 // Set the custom error handler
 set_error_handler("customErrorHandler");
+
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -78,9 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
                 
-                //$json_data = DataOperation("read"); //TODO there's a bug here
+                $json_data = DataOperation("read"); //TODO there's a bug here
 
-
+                
                 //echo json_encode(array("is_data_present" => $json_data["is_data_present"]));
                 $returned_json = array("is_data_present"=> 0);
 
