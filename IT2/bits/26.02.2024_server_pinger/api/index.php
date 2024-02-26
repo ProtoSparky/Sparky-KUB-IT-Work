@@ -92,10 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //is_data_present // check if data storage is there
                 
                 //$json_data = DataOperation("read",null);
-                $json_data = DataOperation("read",null);
-                
+                $json_data = DataOperation("read",null);                
                 $file_exists = $json_data['file_exists'];
-                //$returned_json = array("is_data_present"=> 0);
                 $returned_json = array("is_data_present" => $file_exists);
                 echo json_encode($returned_json);
             }
