@@ -1,6 +1,11 @@
 {
     "is_data_present":1,
-    "update_timing":10, 
+    "settings":{
+        "update_timing":10, 
+        "client_settings":{
+            
+        }
+    },
     "servers":{
         "some_server_name":{
             "domain":"http://192.168.50.197", 
@@ -20,7 +25,8 @@
             "ping":{
                 "avg":10,
                 "max":100,
-                "min":0.1
+                "min":0.1,
+                "history":[]
             }
         }
     }

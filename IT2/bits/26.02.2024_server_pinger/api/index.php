@@ -111,11 +111,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         else if(array_key_exists("post",$UserRequest)){
             //process post commands
             if(in_array("create_data_storage", $UserRequest["post"])){
-                //write data to file
+                //create file storage (json)
                 //$json_data = array("is_data_present" =>  1, "servers" => array()); this line creates "servers":[] and not {}
                 $json_data = array(
                     "is_data_present" =>  1,
-                    "update_timing" =>10,
+                    "settings" => array(
+                        "update_timing" =>10,
+                        "client_settings" =>new stdClass()
+                    ),
                     "servers" => new stdClass()
                 );
                 DataOperation("write",$json_data);   
@@ -129,6 +132,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
             }
             elseif(isset($UserRequest["post"]['add_server'])){ //clean this up for other functions
+                //add a server to the json file
+
                 $api_data = $UserRequest["post"]['add_server'];
                 $json_data_read = DataOperation("read",null); 
                 $modified_json = array(
@@ -136,12 +141,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         "domain" => $api_data["domain"],
                         "enabled" => $api_data["enabled"],
                         "alive" => $api_data["alive"], 
-                        "ping" => new stdClass(),
+                        "ping" => array(
+                            "history" =>new stdClass()
+                        ),
                     )
                 );
                 $json_data_read["servers"] = array_merge($json_data_read["servers"], $modified_json); //merge two arrays
                 DataOperation("write",$json_data_read); 
+                echo json_encode($json_data_read); //return something more properly
+            }
+            elseif(isset($UserRequest["post"]['remove_server'])){
+                //remove a specific server from the list
+                $api_data = $UserRequest["post"]['remove_server'];
+                $json_data_read = DataOperation("read",null); 
+
+                unset($json_data_read['servers'][$api_data["servername"]]); //TODO fix whatever bug this is 
+                // Re-index the array
+                $json_data_read['servers'] = array_values($json_data_read['servers']);
+                DataOperation("write",$json_data_read); 
                 echo json_encode($json_data_read);
+
             }
         }
     }
