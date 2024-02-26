@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
                 
-                //$json_data = DataOperation("read"); //TODO there's a bug here
+                $json_data = DataOperation("read",null); //TODO there's a bug here
 
                 
                 //echo json_encode(array("is_data_present" => $json_data["is_data_present"]));
@@ -108,6 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         else if(array_key_exists("post",$UserRequest)){
             //process post commands
+            ShowError(2);
         }
     }
 }

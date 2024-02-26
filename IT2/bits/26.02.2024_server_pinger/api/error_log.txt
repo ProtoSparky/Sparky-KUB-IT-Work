@@ -1,0 +1,4 @@
+Error: [2] file_get_contents(./ServerData/1.json): failed to open stream: No such file or directory
+File: C:\Users\kakra038\Documents\webhost\Sparky-KUB-IT-Work\IT2\bits\26.02.2024_server_pinger\api\index.php
+Line: 61
+Date: 2024-02-26 17:41:21
