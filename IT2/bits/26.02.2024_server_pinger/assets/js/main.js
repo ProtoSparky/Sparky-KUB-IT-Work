@@ -22,7 +22,6 @@ function Send2API(){
     //.then(response=> console.log(response)); 
     .then(response => response.json())
     .then(data => ParseAPI(data));
-
 }
 function ParseAPI(data){
     console.log(data); 

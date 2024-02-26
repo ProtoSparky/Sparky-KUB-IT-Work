@@ -5,12 +5,37 @@ require "../assets/phpcomponents/validateANDclean.php"; //this fucking script ma
 $data_storage_loc = "../ServerData/1.json";
 
 //API php
-ini_set ('display_errors', 1); 
-ini_set ('display_startup_errors', 1); 
-error_reporting (E_ALL); 
-
+ini_set('display_errors',  1);
+ini_set('display_startup_errors',  1);
+error_reporting(E_ALL);
 
 header('Content-Type: application/json');
+
+// Define a custom error handler
+function customErrorHandler($errno, $errstr, $errfile, $errline) {
+    // Prepare the error response
+    $errorResponse = array(
+        "error" => array(
+            "type" => $errno,
+            "message" => $errstr,
+            "file" => $errfile,
+            "line" => $errline
+        )
+    );
+
+    // Output the error response as JSON
+    echo json_encode($errorResponse);
+
+    // Terminate the script
+    exit;
+}
+
+// Set the custom error handler
+set_error_handler("customErrorHandler");
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 //init
 $post_commands = ["create_data_storage", "add_server","remove_server", "timing_control"];
@@ -53,9 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
                 
-                $json_data = DataOperation("read"); //TODO there's a bug here
+                //$json_data = DataOperation("read"); //TODO there's a bug here
 
-                
+
                 //echo json_encode(array("is_data_present" => $json_data["is_data_present"]));
                 $returned_json = array("is_data_present"=> 0);
 
