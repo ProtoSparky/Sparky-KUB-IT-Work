@@ -52,6 +52,7 @@ function Check4Db(data){
         DropShadow();
         const dropshadow = document.getElementById("dropshadow");
         const textbox = document.createElement("div");
+        textbox.id = "textbox"; 
         textbox.style.position = "absolute";
         textbox.style.top = "50%";
         textbox.style.width = "1000px";
@@ -108,7 +109,33 @@ function setupfirstserver(){
     .then(data => spawn_setup2ndphase(data));
 }
 function spawn_setup2ndphase(data){
-    
+    if(data.RETURN == "OK"){
+        GenerateMessageBanner(0, "DB created successfully!");
+
+        //clear display for creation of first server
+        const textbox = document.getElementById("textbox");
+        textbox.innerHTML = "";
+
+        //spawn create new server menu
+        //textbox header
+        const header = document.createElement("div");
+        header.className = "text";
+        header.style.color = AccessCSSVar("--col_highlight_TXT");
+        header.style.position = "absolute";
+        header.style.left = "50%";
+        header.style.top = "5%";
+        header.style.transform = "translate(-50%, 0)";
+        header.style.fontSize = "25";
+        header.style.fontWeight = "800";
+        header.innerHTML = "Let's add our first server";
+        textbox.appendChild(header);
+
+        
+    }
+    else if(data.RETURN == "ERROR"){
+        GenerateMessageBanner(2, "Could not make the DB");
+        //add refresh
+    }
 }
 
 
