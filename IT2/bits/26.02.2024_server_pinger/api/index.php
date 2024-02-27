@@ -73,9 +73,9 @@ function DataOperation($operation, $json_data){
     }
     else if($operation == "write"){
         //write brand new data to json file
-        $json_data_encoded = json_encode($json_data); 
-        file_put_contents($data_storage_loc, $json_data_encoded);
-        
+        //$json_data_encoded = json_encode($json_data); this function does not make json pretty. Replaced one with prettyness
+        $json_data_encoded = json_encode($json_data, JSON_PRETTY_PRINT);  
+        file_put_contents($data_storage_loc, $json_data_encoded);        
     }
 }
 

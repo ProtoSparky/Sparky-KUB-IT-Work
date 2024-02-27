@@ -341,28 +341,91 @@ function DisplayPingerData(data){
         for(let pinger_pointer = 0; pinger_pointer < pinger_amount; pinger_pointer ++){
             //this loop spawns the boxes and pingers
             const current_pinger_name = pinger_names[pinger_pointer];
+            const current_server = data[current_pinger_name];
+
             const pinger_body = document.createElement("div");
             pinger_body.style.position = "absolute";
+            pinger_body.id = current_pinger_name;
             pinger_body.style.transform = "translate(-50%)";
             pinger_body.style.left = "50%";
             pinger_body.style.width = "95%";
             pinger_body.style.height = "100px";
-            pinger_body.style.top = "2" + (pinger_pointer *  100);
+            pinger_body.style.top =  (pinger_pointer * 120) + 16;
             pinger_body.style.borderRadius = AccessCSSVar("--CornerRad");
             pinger_body.style.backgroundColor = AccessCSSVar("--col_bg_content");
             document.getElementById("server_area").appendChild(pinger_body);
 
             //spawn pinger name
-            const PingerName = document.getElementById("div");
+            const PingerName = document.createElement("div");
             PingerName.innerHTML  = current_pinger_name; 
             PingerName.style.position = "absolute";
-            PingerName.style.transform="translate(0,-10%)";
+            PingerName.style.transform="translate(0,-50%)";
+            PingerName.style.top = "50%";
             PingerName.className = "text";
-            PingerName.
+            PingerName.style.left = 1 + AccessCSSVar("--ElementPadding");
+            PingerName.style.color = AccessCSSVar("--col_normalTXT");
+            PingerName.style.fontSize = "20";
+            pinger_body.appendChild(PingerName);
+
+
+            //spawn graph
+            const ping_graph = document.createElement("canvas");
+            ping_graph.style.position = "absolute";
+            ping_graph.style.top = "50%";
+            ping_graph.style.height = "100%";
+            ping_graph.style.width = "50%";
+            ping_graph.style.transform = "translate(0,-50%)";
+            ping_graph.style.right = "0px";
+            ping_graph.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            ping_graph.id = current_pinger_name + "graph";
+            pinger_body.appendChild(ping_graph);
+            drawGraph(current_server.ping.history, current_pinger_name + "graph");
+
+
 
 
 
 
         }
     }
+}
+
+function drawGraph(data, canvas_id) {
+    var canvas = document.getElementById(canvas_id);
+    var ctx = canvas.getContext("2d");
+    var width = canvas.offsetWidth;
+    var height = canvas.offsetHeight;
+    var padding =  20;
+    var xSpacing = (width -  2 * padding) / (data.length -  1);
+    var maxY = Math.max(...data);
+    var ySpacing = (height -  2 * padding) / maxY;
+
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 5;
+    ctx.clearRect(0,  0, width, height);
+    ctx.beginPath();
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.moveTo(padding, height - padding - data[0] * ySpacing);
+
+    for (var i =  0; i < data.length -  1; i++) {
+        var x1 = padding + i * xSpacing;
+        var y1 = height - padding - data[i] * ySpacing;
+        var x2 = padding + (i +  1) * xSpacing;
+        var y2 = height - padding - data[i +  1] * ySpacing;
+        var cx = (x1 + x2) /  2;
+        var cy = (y1 + y2) /  2;
+
+        ctx.quadraticCurveTo(x1, y1, cx, cy);
+    }
+
+    // Draw the last point to ensure the curve reaches the end
+    ctx.quadraticCurveTo(
+        padding + (data.length -  1) * xSpacing,
+        height - padding - data[data.length -  1] * ySpacing,
+        padding + (data.length -  1) * xSpacing,
+        height - padding - data[data.length -  1] * ySpacing
+    );
+
+    ctx.stroke();
 }
