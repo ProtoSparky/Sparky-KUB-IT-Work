@@ -163,8 +163,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $api_data = $UserRequest["post"]['add_server'];
                 $json_data_read = DataOperation("read",null); 
+                $server_id = "srv".generateRandomNumber(9);
+                
                 $modified_json = array(
-                    $api_data["servername"] => array(
+                    $server_id => array( //this can lead to bugs as the random number may not be so random
+                        "nickname" => $api_data["servername"],
                         "domain" => $api_data["domain"],
                         "enabled" => $api_data["enabled"],
                         "alive" => $api_data["alive"],
@@ -259,5 +262,10 @@ function ShowResponse($input){
     echo json_encode($response);
 }
 
+function generateRandomNumber($length) {
+    $min = pow(10, $length -  1);
+    $max = pow(10, $length) -  1;
+    return mt_rand($min, $max);
+}
 
 ?>
