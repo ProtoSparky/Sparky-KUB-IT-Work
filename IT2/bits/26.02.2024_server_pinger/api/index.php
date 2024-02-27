@@ -92,7 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //validate json
         if(array_key_exists("get",$UserRequest)){
             //process get commands
-
             
             if(in_array("is_data_present", $UserRequest["get"])){
                 //is_data_present // check if data storage is there
@@ -101,9 +100,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $returned_json = array("is_data_present" => $file_exists);
                 echo json_encode($returned_json);
             }
+            elseif(in_array("get_timing", $UserRequest["get"])){
+                //get backend and frontend timing
+                $json_data = DataOperation("read",null);
+                $timing = $json_data["settings"]["update_timing"];
+                echo json_encode($timing);
+            }
+            elseif(isset($UserRequest["get"]['get_server_data'])){
+                //get data for specific server
+                $api_data = $UserRequest["get"]['get_server_data'];
+                $json_data_read = DataOperation("read",null); 
+                $server_data = $json_data_read["servers"][$api_data];
+                if(array_key_exists($api_data,$json_data_read["servers"])){ //fix a bug here. API bugs out if key deos not exist
+                    echo json_encode($server_data);
+                }
+                else{
+                    ShowResponse(400);
+                }
+            }
+            elseif(in_array("get_all_server_data", $UserRequest["get"])){
+                //get all data for servers
+                $json_data_read = DataOperation("read",null); 
+                echo json_encode($json_data_read["servers"]);
+            }
             else{
                 //echo ($bodyContent);
-                ShowError(0);
+                ShowResponse(0);
             }
             
 
@@ -112,7 +134,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //process post commands
             if(in_array("create_data_storage", $UserRequest["post"])){
                 //create file storage (json)
-                //$json_data = array("is_data_present" =>  1, "servers" => array()); this line creates "servers":[] and not {}
                 $json_data = array(
                     "is_data_present" =>  1,
                     "settings" => array(
@@ -128,7 +149,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $json_data_read = DataOperation("read",null);                
                 $file_exists = $json_data_read['is_data_present'];
                 $returned_json = array("is_data_present" => $file_exists);
-                echo json_encode($returned_json);
+                //echo json_encode($returned_json);
+                ShowResponse(200);
                 
             }
             elseif(isset($UserRequest["post"]['add_server'])){ //clean this up for other functions
@@ -148,31 +170,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 );
                 $json_data_read["servers"] = array_merge($json_data_read["servers"], $modified_json); //merge two arrays
                 DataOperation("write",$json_data_read); 
-                echo json_encode($json_data_read); //return something more properly
+                //echo json_encode($json_data_read); //return something more properly
+                ShowResponse(200);
             }
             elseif(isset($UserRequest["post"]['remove_server'])){
                 //remove a specific server from the list
                 $api_data = $UserRequest["post"]['remove_server'];
                 $json_data_read = DataOperation("read",null); 
-
-                unset($json_data_read['servers'][$api_data["servername"]]); //TODO fix whatever bug this is 
-                // Re-index the array
-                $json_data_read['servers'] = array_values($json_data_read['servers']);
+                unset($json_data_read['servers'][$api_data["servername"]]); 
                 DataOperation("write",$json_data_read); 
-                echo json_encode($json_data_read);
-
+                ShowResponse(200);
+                //echo json_encode($json_data_read);
+            }
+            elseif(isset($UserRequest["post"]['timing_control'])){
+                //change timing of pings
+                $api_data = $UserRequest["post"]['timing_control'];
+                $json_data_read = DataOperation("read",null); 
+                if($api_data > 1 && $api_data < 100){
+                    //prevent users from blocking backend with wait commands
+                    $json_data_read["settings"]["update_timing"] = $api_data;
+                    DataOperation("write",$json_data_read); 
+                    //echo json_encode($json_data_read);
+                    ShowResponse(200);
+                }
+                else{
+                    ShowResponse(400);
+                }
             }
         }
     }
     else{
-        ShowError(0); 
+        ShowResponse(0); 
     }
 }
 else{
-    ShowError(3); 
+    ShowResponse(3); 
 }
 
-function ShowError($input){
+function ShowResponse($input){
     $JSON_error_invalid = array(
         "ERROR"=>0,
         "ERROR0"=>"The JSON command/s is invalid or not supported by my code"
@@ -188,6 +223,12 @@ function ShowError($input){
     $JSON_Info = array(
         "INFO"=>"This is a server API. Use POST!"
     );
+    $JSON_ok = array(
+        "RETURN"=>"OK"
+    );
+    $JSON_not_ok = array(
+        "RETURN"=>"ERROR"
+    );
 
     $response = array();
     if($input ==  0){
@@ -202,7 +243,12 @@ function ShowError($input){
     else if($input ==  3){
         $response = $JSON_Info;
     }
-
+    else if($input ==  200){
+        $response = $JSON_ok;
+    }
+    else if($input ==  400){
+        $response = $JSON_not_ok;
+    }
     // Always return a JSON response
     echo json_encode($response);
 }
