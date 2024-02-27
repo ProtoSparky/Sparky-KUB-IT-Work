@@ -2,29 +2,24 @@
     "is_data_present": 1,
     "settings": {
         "update_timing": 10,
-        "client_settings": []
+        "client_settings": [],
+        "backend_lastrun": null
     },
     "servers": {
-        "This is a server": {
-            "domain": "http://192.168.50.197",
-            "enabled": true,
-            "alive": false,
-            "ping": {
-                "history": []
-            }
-        },
-        "some other server": {
-            "domain": "http://192.168.50.197",
-            "enabled": true,
-            "alive": false,
-            "ping": {
-                "history": []
-            }
-        },
-        "some protosparky server": {
+        "some cool webserver": {
             "domain": "protosparky.uk",
             "enabled": true,
             "alive": false,
+            "ping_error": null,
+            "ping": {
+                "history": []
+            }
+        },
+        "some other": {
+            "domain": "192.168.50.197",
+            "enabled": true,
+            "alive": false,
+            "ping_error": null,
             "ping": {
                 "history": {}
             }

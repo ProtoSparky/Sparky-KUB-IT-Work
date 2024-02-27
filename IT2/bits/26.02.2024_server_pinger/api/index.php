@@ -139,7 +139,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "is_data_present" =>  1,
                     "settings" => array(
                         "update_timing" =>10,
-                        "client_settings" =>new stdClass()
+                        "client_settings" =>new stdClass(),
+                        "backend_lastrun" =>null,
                     ),
                     "servers" => new stdClass()
                 );
@@ -163,9 +164,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $api_data["servername"] => array(
                         "domain" => $api_data["domain"],
                         "enabled" => $api_data["enabled"],
-                        "alive" => $api_data["alive"], 
+                        "alive" => $api_data["alive"],
+                        "ping_error" =>null,
                         "ping" => array(
-                            "history" =>new stdClass()
+                            "history" =>new stdClass(),
                         ),
                     )
                 );
