@@ -332,7 +332,6 @@ function LoadPreparedData(){
 
 }
 function DisplayPingerData(data){
-    console.log(data);
     //this function displays the pingers 
     if(clientSettings.pinger.pingers_open == false){
         //display all pingers
@@ -379,8 +378,27 @@ function DisplayPingerData(data){
             ping_graph.style.backgroundColor = AccessCSSVar("--col_bg_content");
             ping_graph.id = current_pinger_name + "graph";
             pinger_body.appendChild(ping_graph);
-            drawGraph(current_server.ping.history, current_pinger_name + "graph");
+            
 
+            const canvas_data = {
+                "id":current_pinger_name + "graph",
+                "style":{
+                    "line":{
+                        "line_width":5,
+                        "color":AccessCSSVar("--col_bg_div1"),
+                    },
+                    "gradient":{
+                        "top":{
+                            "color":AccessCSSVar("--col_bg_lighter"),
+                        },
+                        "bottom":{
+                            "color":AccessCSSVar("--col_bg_content"),
+                        }
+                    }
+                    
+                }
+            };
+            drawGraph(current_server.ping.history, canvas_data);
 
 
 
@@ -390,15 +408,15 @@ function DisplayPingerData(data){
     }
 }
 
-function drawGraph(data, canvas_id) {
-    var canvas = document.getElementById(canvas_id);
+function drawGraph(data, canvas_data) {
+    var canvas = document.getElementById(canvas_data.id);
     var ctx = canvas.getContext("2d");
     var width = canvas.offsetWidth;
     var height = canvas.offsetHeight;
     var padding =   0;
-    const top_line_width = 5;
-    const gradient_color_bottom = "#1b1b1e";
-    const gradient_color_top = "#2b2b31";
+    const top_line_width = canvas_data.style.line.line_width;
+    const gradient_color_bottom = canvas_data.style.gradient.bottom.color ;
+    const gradient_color_top = canvas_data.style.gradient.top.color; 
 
     var xSpacing = (width -   2 * padding) / (data.length -   1);
     var maxY = Math.max(...data);
@@ -407,7 +425,7 @@ function drawGraph(data, canvas_id) {
     // Flip the y-axis and move the origin to the bottom of the canvas
     ctx.transform(1,   0,   0, -1,   0, canvas.height);
 
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = canvas_data.style.line.color;
     ctx.lineWidth =   top_line_width;
     ctx.clearRect(0,   0, width, height);
     ctx.beginPath();
