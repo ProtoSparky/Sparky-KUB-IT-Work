@@ -3,25 +3,53 @@
     "settings": {
         "update_timing": 10,
         "client_settings": [],
-        "backend_lastrun": null
+        "backend": {
+            "backend_lastrun": "27.02.2024@19:16",
+            "ping_history": 10
+        }
     },
     "servers": {
-        "some cool webserver": {
-            "domain": "protosparky.uk",
-            "enabled": true,
-            "alive": false,
-            "ping_error": null,
-            "ping": {
-                "history": []
-            }
-        },
-        "some other": {
+        "Main server": {
             "domain": "192.168.50.197",
             "enabled": true,
-            "alive": false,
-            "ping_error": null,
+            "alive": true,
+            "ping_status": null,
             "ping": {
-                "history": {}
+                "history": [
+                    4,
+                    1,
+                    166,
+                    1,
+                    1,
+                    1
+                ]
+            }
+        },
+        "protosparky.uk": {
+            "domain": "http://protosparky.uk",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    14,
+                    12,
+                    19,
+                    23,
+                    11,
+                    30
+                ]
+            }
+        },
+        "google": {
+            "domain": "http://informatikk6.net",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    15
+                ]
             }
         }
     }
