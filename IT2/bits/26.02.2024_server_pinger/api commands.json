@@ -1,0 +1,48 @@
+{
+  "post":{
+      "add_server":{
+        "servername":"some_server_name",
+        "domain":"http://192.168.50.197",
+        "enabled":true,
+        "alive":false,
+        "ping":{}
+      }
+  }
+},
+{
+  "post":[
+    "create_data_storage"
+  ]
+},
+{
+  "post":{
+      "remove_server":{
+        "servername":"some_server_name"
+      }
+  }
+},
+{
+  "post":{
+    "timing_control":100
+  }
+},
+{
+  "get":[
+    "is_data_present"
+  ]
+},
+{
+  "get":[
+    "get_timing"
+  ]
+}
+{
+  "get":{
+    "get_server_data":"some_server_name"
+  }
+}
+{
+  "get":[
+    "get_all_server_data"
+  ]
+}
