@@ -395,37 +395,60 @@ function drawGraph(data, canvas_id) {
     var ctx = canvas.getContext("2d");
     var width = canvas.offsetWidth;
     var height = canvas.offsetHeight;
-    var padding =  20;
-    var xSpacing = (width -  2 * padding) / (data.length -  1);
+    var padding =   0;
+    const top_line_width = 5;
+    const gradient_color_bottom = "#1b1b1e";
+    const gradient_color_top = "#2b2b31";
+
+    var xSpacing = (width -   2 * padding) / (data.length -   1);
     var maxY = Math.max(...data);
-    var ySpacing = (height -  2 * padding) / maxY;
+    var ySpacing = (height -   2 * padding) / maxY;
+
+    // Flip the y-axis and move the origin to the bottom of the canvas
+    ctx.transform(1,   0,   0, -1,   0, canvas.height);
 
     ctx.strokeStyle = "white";
-    ctx.lineWidth = 5;
-    ctx.clearRect(0,  0, width, height);
+    ctx.lineWidth =   top_line_width;
+    ctx.clearRect(0,   0, width, height);
     ctx.beginPath();
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    ctx.moveTo(padding, height - padding - data[0] * ySpacing);
 
-    for (var i =  0; i < data.length -  1; i++) {
+    // Create a linear gradient for the fill style
+    var gradient = ctx.createLinearGradient(0, height,   0,   0);
+    gradient.addColorStop(1, gradient_color_bottom); // Start color at the bottom
+    gradient.addColorStop(0, gradient_color_top); // End color at the top
+    ctx.fillStyle = gradient;
+
+    // Adjust the y-coordinate calculation
+    ctx.moveTo(padding, data[0] * ySpacing);
+
+    for (var i =   0; i < data.length -   1; i++) {
         var x1 = padding + i * xSpacing;
-        var y1 = height - padding - data[i] * ySpacing;
-        var x2 = padding + (i +  1) * xSpacing;
-        var y2 = height - padding - data[i +  1] * ySpacing;
-        var cx = (x1 + x2) /  2;
-        var cy = (y1 + y2) /  2;
+        var y1 = data[i] * ySpacing;
+        var x2 = padding + (i +   1) * xSpacing;
+        var y2 = data[i +   1] * ySpacing;
+        var cx = (x1 + x2) /   2;
+        var cy = (y1 + y2) /   2;
 
         ctx.quadraticCurveTo(x1, y1, cx, cy);
     }
 
-    // Draw the last point to ensure the curve reaches the end
     ctx.quadraticCurveTo(
-        padding + (data.length -  1) * xSpacing,
-        height - padding - data[data.length -  1] * ySpacing,
-        padding + (data.length -  1) * xSpacing,
-        height - padding - data[data.length -  1] * ySpacing
+        padding + (data.length -   1) * xSpacing,
+        data[data.length -   1] * ySpacing,
+        padding + (data.length -   1) * xSpacing,
+        data[data.length -   1] * ySpacing
     );
 
+    // Stroke the white line
     ctx.stroke();
+
+    // Close the path to the bottom of the canvas
+    ctx.lineTo(padding + (data.length -   1) * xSpacing, padding);
+    ctx.lineTo(padding, padding);
+    ctx.closePath();
+
+    // Fill the path with the gradient
+    ctx.fill();
 }
