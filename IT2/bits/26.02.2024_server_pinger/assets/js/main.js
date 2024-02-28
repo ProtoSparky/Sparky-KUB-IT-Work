@@ -26,6 +26,9 @@ const clientSettings = {
     },
     "API":{
         "link":window.location + "api/index.php"
+    },
+    "assorted_ids":{
+        "pinger_backdrop":"server_area",
     }
 }
 function init(){
@@ -38,13 +41,16 @@ function SpawnMenus(){
     server_area.style.position = "absolute";
     server_area.style.top = "50%";
     server_area.style.width = "1000px";
-    server_area.style.height = "600px";
+    server_area.style.height = "610px";
     server_area.style.left  ="50%";
-    server_area.id = "server_area"; 
+    server_area.id = clientSettings.assorted_ids.pinger_backdrop;  
     server_area.style.transform = "translate(-50%,-50%)";
     server_area.style.borderRadius = AccessCSSVar("--CornerRad")
     server_area.style.backgroundColor = AccessCSSVar("--col_bg_lighter");
     document.getElementById("content-fullscreen").appendChild(server_area);
+
+    //set background as background color
+    document.body.style.backgroundColor = AccessCSSVar("--col_bg_content");
 
     //check for database, else load in pingers
     const check_for_db = {
@@ -322,18 +328,7 @@ function LoadPreparedData(){
               "get_all_server_data"
             ]
         };
-    }/*
-    else if(clientSettings.pinger.load_all_data == false){
-        //load some data for specific pinger
-        data_request_query = {
-            "get":{
-              "get_server_data":clientSettings.pinger.specific_data
-            }
-        }; 
     }
-    else{
-        GenerateMessageBanner(2, "ERROR! Pinger cannot load data");
-    }*/
         
     fetch(clientSettings.API.link, {
         method: "POST",
@@ -351,10 +346,10 @@ function DisplayPingerData(data){
     const current_pingers = Object.keys(data);
     const last_pingers = clientSettings.pinger.pingers_onscreen;
     const pinger_changes = compareArrays(last_pingers, current_pingers);
-    AddPingers(data,pinger_changes);
-    RemoveOldPingers(data,pinger_changes);
-    UpdatePingersOnScreen(data);
-    UpdatePingerData(data);
+    AddPingers(data,pinger_changes); //create html structure for new pingers
+    RemoveOldPingers(data,pinger_changes); //remove old pingers
+    UpdatePingersOnScreen(data); //update client cashe of pingers
+    UpdatePingerData(data); //update html for existing pingers
 
 
     //Add pingers from server
@@ -402,7 +397,7 @@ function DisplayPingerData(data){
                 PingerPing.innerHTML = "Ping: "+ average(current_server_object.ping.history);
             }
             else{
-                PingerPing.innerHTML = "Unreachable";
+                PingerPing.innerHTML = "Ping: ----";
             }
             PingerPing.style.position = "absolute";
             PingerPing.className = "text";
@@ -458,8 +453,8 @@ function DisplayPingerData(data){
         const removed_pingers = changes_removed.length;  
         console.info("pingers to be removed : " + removed_pingers);
         for(let removed_pinger_pointer = 0; removed_pinger_pointer < removed_pingers; removed_pinger_pointer ++){
-            const current_pinger_name = changes_removed[removed_pinger_pointer];
-            const current_removed_pinger = document.getElementbyId(current_pinger_name);
+            const current_pinger_name = changes_removed[removed_pinger_pointer];         
+            const current_removed_pinger = document.getElementById(current_pinger_name);
             current_removed_pinger.remove();
         }             
     }
@@ -479,6 +474,11 @@ function DisplayPingerData(data){
             const pinger_id = pinger_names[pinger_pointer];
             const pinger_nickname = current_pinger_object.nickname; 
 
+            //update pinger location onframe
+            const CurrentPinger = document.getElementById(pinger_id);
+            CurrentPinger.style.top = ((pinger_pointer) * clientSettings.pinger.style.spacing.multiplier) + clientSettings.pinger.style.spacing.adder; 
+
+
             //update pinger name 
             const CurrentPingerName = document.getElementById(pinger_id + clientSettings.pinger.pinger_ids.PingerName);
             CurrentPingerName.innerHTML = pinger_nickname;
@@ -490,7 +490,7 @@ function DisplayPingerData(data){
                 CurrentPingerPing.innerHTML = "Ping: "+ average(current_pinger_object.ping.history);
             }
             else{
-                CurrentPingerPing.innerHTML = "Unreachable";
+                CurrentPingerPing.innerHTML = "Ping: ----";
             }
 
             //update graph
@@ -515,6 +515,16 @@ function DisplayPingerData(data){
             };
             drawGraph(current_pinger_object.ping.history, canvas_data);   
             drawGraph(current_pinger_object.ping.history, canvas_data);   //i hate how cheezy this is
+
+
+
+            //update pinger backdrop so it scales with amount of pingers
+            const backdrop = document.getElementById(clientSettings.assorted_ids.pinger_backdrop);
+            if(pinger_amount > 5){
+                backdrop.style.height = (pinger_amount * clientSettings.pinger.style.spacing.multiplier) + clientSettings.pinger.style.spacing.adder; //im not going to question how this works
+                backdrop.style.transform = "translate(-50%,0)";
+                backdrop.style.top = "50px";
+            }
             
 
         }
@@ -650,4 +660,62 @@ function drawGraph(data, canvas_data) {
 
     // Fill the path with the gradient
     ctx.fill();
+}
+
+function drawGraphSVG(data, canvas_data) {
+    // Create SVG element
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+    svg.setAttribute('viewBox', '0 0 ' + canvas_data.width + ' ' + canvas_data.height);
+
+    // Create gradient definition
+    var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+    var gradient = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+    gradient.setAttribute('id', 'gradient');
+    gradient.setAttribute('x1', '0%');
+    gradient.setAttribute('y1', '100%');
+    gradient.setAttribute('x2', '0%');
+    gradient.setAttribute('y2', '0%');
+
+    var stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+    stop1.setAttribute('offset', '0%');
+    stop1.setAttribute('stop-color', canvas_data.style.gradient.top.color);
+    gradient.appendChild(stop1);
+
+    var stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+    stop2.setAttribute('offset', '100%');
+    stop2.setAttribute('stop-color', canvas_data.style.gradient.bottom.color);
+    gradient.appendChild(stop2);
+
+    defs.appendChild(gradient);
+    svg.appendChild(defs);
+
+    // Create path element
+    var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute('fill', 'url(#gradient)');
+    path.setAttribute('stroke', canvas_data.style.line.color);
+    path.setAttribute('stroke-width', canvas_data.style.line.line_width);
+
+    // Calculate path data
+    var d = `M${canvas_data.padding},${data[0] * ySpacing} `;
+    for (var i = 0; i < data.length - 1; i++) {
+        var x1 = canvas_data.padding + i * xSpacing;
+        var y1 = data[i] * ySpacing;
+        var x2 = canvas_data.padding + (i + 1) * xSpacing;
+        var y2 = data[i + 1] * ySpacing;
+        var cx = (x1 + x2) / 2;
+        var cy = (y1 + y2) / 2;
+
+        d += `Q${x1},${y1} ${cx},${cy} `;
+    }
+    d += `Q${canvas_data.padding + (data.length - 1) * xSpacing},${data[data.length - 1] * ySpacing} ${canvas_data.padding + (data.length - 1) * xSpacing},${data[data.length - 1] * ySpacing} `;
+    d += `L${canvas_data.padding + (data.length - 1) * xSpacing},${canvas_data.padding} L${canvas_data.padding},${canvas_data.padding} Z`;
+
+    path.setAttribute('d', d);
+    svg.appendChild(path);
+
+    // Append SVG to the DOM
+    var container = document.getElementById(canvas_data.id);
+    container.appendChild(svg);
 }

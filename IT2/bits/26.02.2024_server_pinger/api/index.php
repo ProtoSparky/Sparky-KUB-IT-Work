@@ -180,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         "alive" => $api_data["alive"],
                         "ping_status" =>null,
                         "ping" => array(
-                            "history" =>new stdClass(),
+                            "history" =>array(),
                         ),
                     )
                 );

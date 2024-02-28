@@ -4,54 +4,54 @@
         "update_timing": 1,
         "client_settings": [],
         "backend": {
-            "backend_lastrun": "28.02.2024@09:30",
+            "backend_lastrun": "28.02.2024@22:07",
             "ping_history": 10
         }
     },
     "servers": {
-        "dawg806742398": {
-            "nickname": "some_server",
+        "srv875728080": {
+            "nickname": "Homelab",
             "domain": "192.168.50.197",
             "enabled": true,
             "alive": true,
             "ping_status": null,
             "ping": {
                 "history": [
-                    99,
-                    99,
-                    99,
-                    400,
-                    29,
-                    97,
-                    78,
-                    94,
-                    48,
-                    31
+                    1,
+                    1,
+                    2,
+                    2,
+                    1,
+                    1,
+                    1,
+                    1,
+                    9,
+                    1
                 ]
             }
         },
-        "srv654907733": {
-            "nickname": "google",
-            "domain": "google.com",
+        "srv195597402": {
+            "nickname": "website",
+            "domain": "http://protosparky.uk",
             "enabled": true,
             "alive": true,
             "ping_status": null,
             "ping": {
                 "history": [
-                    74,
-                    83,
-                    71,
-                    52,
-                    49,
-                    82,
-                    61,
-                    47,
-                    52,
-                    63
+                    12,
+                    16,
+                    15,
+                    14,
+                    11,
+                    12,
+                    13,
+                    12,
+                    12,
+                    11
                 ]
             }
         },
-        "srv943346366": {
+        "srv639584018": {
             "nickname": "kuben",
             "domain": "kuben.vgs.no",
             "enabled": true,
@@ -59,37 +59,31 @@
             "ping_status": null,
             "ping": {
                 "history": [
-                    0,
-                    78,
-                    67,
-                    47,
-                    47,
-                    73,
-                    38,
-                    33,
-                    46,
-                    37
+                    6,
+                    12,
+                    6,
+                    4,
+                    3,
+                    22,
+                    4,
+                    4,
+                    4,
+                    12
                 ]
             }
         },
-        "srv568483147": {
-            "nickname": "test",
-            "domain": "http://protosparky.uk",
+        "srv374485774": {
+            "nickname": "server dead",
+            "domain": "why",
             "enabled": true,
-            "alive": true,
+            "alive": false,
             "ping_status": null,
             "ping": {
                 "history": [
-                    74,
-                    103,
-                    63,
-                    42,
-                    93,
-                    65,
-                    42,
-                    55,
-                    64,
-                    40
+                    0,
+                    0,
+                    0,
+                    0
                 ]
             }
         }
