@@ -46,3 +46,8 @@
     "get_all_server_data"
   ]
 }
+{
+    "get":[
+        "get_server_names"
+    ]
+}

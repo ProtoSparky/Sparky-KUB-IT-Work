@@ -9,6 +9,20 @@ const clientSettings = {
         "load_all_data":true, //load all or some data for pingers
         "specific_data":null, //if load some data, here's the name for said pinger
         "pingers_created":false, //becomes true once pinger elements are created after first cycle
+        "pingers_onscreen":[], //this will be a list of pingers that are currently onscreen
+        "style":{
+            "spacing":{
+                "multiplier":120,
+                "adder":16
+            }
+        }, 
+        "pinger_ids":{
+            "PingerPing":"ping",
+            "PingerName":"name",
+            "PingerGraph":"graph",
+
+        }
+    
     },
     "API":{
         "link":window.location + "api/index.php"
@@ -296,8 +310,8 @@ function DataPreloader(data){
     }
     //shoudld run LoadPreparedData and updata all things
     setInterval(LoadPreparedData,clientSettings.update_speed * 60000);
-
 }
+
 function LoadPreparedData(){
     //this function prepares data for the pingers
     let data_request_query;
@@ -308,19 +322,19 @@ function LoadPreparedData(){
               "get_all_server_data"
             ]
         };
-    }
+    }/*
     else if(clientSettings.pinger.load_all_data == false){
         //load some data for specific pinger
         data_request_query = {
             "get":{
-              "get_server_data":"some_server_name"
+              "get_server_data":clientSettings.pinger.specific_data
             }
         }; 
     }
     else{
         GenerateMessageBanner(2, "ERROR! Pinger cannot load data");
-    }
-
+    }*/
+        
     fetch(clientSettings.API.link, {
         method: "POST",
         headers: {
@@ -330,188 +344,183 @@ function LoadPreparedData(){
     })
     .then(response => response.json())
     .then(data => DisplayPingerData(data));
-
 }
+
 function DisplayPingerData(data){
-    //this function displays the pingers 
-    if(clientSettings.pinger.pingers_open == false){
-        if(clientSettings.pinger.pingers_created == false){
-            //display all pingers
-            const pinger_names = Object.keys(data); 
-            const pinger_amount = pinger_names.length;
-            for(let pinger_pointer = 0; pinger_pointer < pinger_amount; pinger_pointer ++){
-                //this loop spawns the boxes and pingers
-                const current_pinger_id = pinger_names[pinger_pointer];
-                const current_server = data[current_pinger_id];
-                const current_pinger_name = current_server.nickname;
-
-                const pinger_body = document.createElement("div");
-                pinger_body.style.position = "absolute";
-                pinger_body.id = current_pinger_id;
-                pinger_body.style.transform = "translate(-50%)";
-                pinger_body.style.left = "50%";
-                pinger_body.style.width = "95%";
-                pinger_body.style.height = "100px";
-                pinger_body.style.top =  (pinger_pointer * 120) + 16;
-                pinger_body.style.borderRadius = AccessCSSVar("--CornerRad");
-                pinger_body.style.backgroundColor = AccessCSSVar("--col_bg_content");
-                document.getElementById("server_area").appendChild(pinger_body);
-
-                //spawn pinger name
-                const PingerName = document.createElement("div");
-                PingerName.innerHTML  = current_pinger_name; 
-                PingerName.style.position = "absolute";
-                PingerName.style.transform="translate(0,-50%)";
-                PingerName.style.top = "50%";
-                PingerName.className = "text";
-                PingerName.id = current_pinger_id + "name";
-                PingerName.style.left = 1 + AccessCSSVar("--ElementPadding");
-                PingerName.style.color = AccessCSSVar("--col_normalTXT");
-                PingerName.style.fontSize = "20";
-                pinger_body.appendChild(PingerName);
+    //check if amount of pingers match the ones in pingers_onscreen
+    const current_pingers = Object.keys(data);
+    const last_pingers = clientSettings.pinger.pingers_onscreen;
+    const pinger_changes = compareArrays(last_pingers, current_pingers);
+    AddPingers(data,pinger_changes);
+    RemoveOldPingers(data,pinger_changes);
+    UpdatePingersOnScreen(data);
+    UpdatePingerData(data);
 
 
-                //spawn graph
-                const ping_graph = document.createElement("canvas");
-                ping_graph.style.position = "absolute";
-                ping_graph.style.top = "50%";
-                ping_graph.style.height = "100%";
-                ping_graph.style.width = "50%";
-                ping_graph.style.transform = "translate(0,-50%)";
-                ping_graph.style.right = "0px";
-                ping_graph.style.backgroundColor = AccessCSSVar("--col_bg_content");
-                ping_graph.id = current_pinger_id + "graph";
-                pinger_body.appendChild(ping_graph);               
+    //Add pingers from server
+    function AddPingers(pinger_data,changes){
+        //this function adds new pingers to the table
+        const changes_added = changes.added; 
+        const added_pingers = changes_added.length;
+        console.info("pingers to be added : " + added_pingers);
+        for(let added_pinger_pointer = 0; added_pinger_pointer < added_pingers; added_pinger_pointer ++){
+            const current_pinger_name = changes_added[added_pinger_pointer];
+            const pinger_position = ((clientSettings.pinger.pingers_onscreen.length + added_pinger_pointer) * clientSettings.pinger.style.spacing.multiplier) + clientSettings.pinger.style.spacing.adder; 
+            const current_server_object = pinger_data[current_pinger_name];
+            const current_pinger_nickname = current_server_object.nickname;
+        
 
-                const canvas_data = {
-                    "id":current_pinger_id + "graph",
-                    "style":{
-                        "line":{
-                            "line_width":5,
-                            "color":AccessCSSVar("--col_bg_div1"),
-                        },
-                        "gradient":{
-                            "top":{
-                                "color":AccessCSSVar("--col_bg_lighter"),
-                            },
-                            "bottom":{
-                                "color":AccessCSSVar("--col_bg_content"),
-                            }
-                        }
-                        
-                    }
-                };
-                drawGraph(current_server.ping.history, canvas_data);
-                clientSettings.pinger.pingers_created = true;
+            //this loop spawns the boxes and pingers            
+            const PingerBody = document.createElement("div");
+            PingerBody.style.position = "absolute";
+            PingerBody.id = current_pinger_name;
+            PingerBody.style.transform = "translate(-50%)";
+            PingerBody.style.left = "50%";
+            PingerBody.style.width = "95%";
+            PingerBody.style.height = "100px";
+            PingerBody.style.top =  pinger_position; 
+            PingerBody.style.borderRadius = AccessCSSVar("--CornerRad");
+            PingerBody.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            document.getElementById("server_area").appendChild(PingerBody);
 
+            //spawn pinger name
+            const PingerName = document.createElement("div");
+            PingerName.innerHTML  = current_pinger_nickname; 
+            PingerName.style.position = "absolute";
+            PingerName.style.transform="translate(0,-50%)";
+            PingerName.style.top = "50%";
+            PingerName.className = "text";
+            PingerName.id = current_pinger_name + clientSettings.pinger.pinger_ids.PingerName;
+            PingerName.style.left = 1 + AccessCSSVar("--ElementPadding");
+            PingerName.style.color = AccessCSSVar("--col_normalTXT");
+            PingerName.style.fontSize = "30";
+            PingerBody.appendChild(PingerName);
+
+            //spawn pinger ping            
+            const PingerPing = document.createElement("div");
+            if(current_server_object.alive == true){
+                PingerPing.innerHTML = "Ping: "+ average(current_server_object.ping.history);
             }
-        }
-        else{
-            console.log("want to update pinger");
-
-            //update all pingers
-            const pinger_names = Object.keys(data); 
-            const pinger_amount = pinger_names.length;
-            for(let pinger_pointer = 0; pinger_pointer < pinger_amount; pinger_pointer ++){
-                //this loop spawns the boxes and pingers
-                const current_pinger_id = pinger_names[pinger_pointer];
-                const current_server = data[current_pinger_id];
-                const current_pinger_name = current_server.nickname;
-
-                //pinger name
-                const PingerName = document.getElementById(current_pinger_id +"name");
-                if(PingerName == null){
-                    //create new pinger
-                    //this loop spawns the boxes and pingers
-                    const current_pinger_id = pinger_names[pinger_pointer];
-                    const current_server = data[current_pinger_id];
-                    const current_pinger_name = current_server.nickname;
-
-                    const pinger_body = document.createElement("div");
-                    pinger_body.style.position = "absolute";
-                    pinger_body.id = current_pinger_id;
-                    pinger_body.style.transform = "translate(-50%)";
-                    pinger_body.style.left = "50%";
-                    pinger_body.style.width = "95%";
-                    pinger_body.style.height = "100px";
-                    pinger_body.style.top =  (pinger_pointer * 120) + 16;
-                    pinger_body.style.borderRadius = AccessCSSVar("--CornerRad");
-                    pinger_body.style.backgroundColor = AccessCSSVar("--col_bg_content");
-                    document.getElementById("server_area").appendChild(pinger_body);
-
-                    //spawn pinger name
-                    const PingerName = document.createElement("div");
-                    PingerName.innerHTML  = current_pinger_name; 
-                    PingerName.style.position = "absolute";
-                    PingerName.style.transform="translate(0,-50%)";
-                    PingerName.style.top = "50%";
-                    PingerName.className = "text";
-                    PingerName.id = current_pinger_id + "name";
-                    PingerName.style.left = 1 + AccessCSSVar("--ElementPadding");
-                    PingerName.style.color = AccessCSSVar("--col_normalTXT");
-                    PingerName.style.fontSize = "20";
-                    pinger_body.appendChild(PingerName);
+            else{
+                PingerPing.innerHTML = "Unreachable";
+            }
+            PingerPing.style.position = "absolute";
+            PingerPing.className = "text";
+            PingerPing.id = current_pinger_name + clientSettings.pinger.pinger_ids.PingerPing;
+            PingerPing.style.transform = "translate(0,-50%)";
+            PingerPing.style.top = "50%";
+            PingerPing.style.left = "300px";
+            PingerPing.style.fontSize = "25";
+            PingerPing.style.fontWeight = "250";
+            PingerPing.style.color = AccessCSSVar("--col_bg_div1");
+            PingerBody.appendChild(PingerPing);
 
 
-                    //spawn graph
-                    const ping_graph = document.createElement("canvas");
-                    ping_graph.style.position = "absolute";
-                    ping_graph.style.top = "50%";
-                    ping_graph.style.height = "100%";
-                    ping_graph.style.width = "50%";
-                    ping_graph.style.transform = "translate(0,-50%)";
-                    ping_graph.style.right = "0px";
-                    ping_graph.style.backgroundColor = AccessCSSVar("--col_bg_content");
-                    ping_graph.id = current_pinger_id + "graph";
-                    pinger_body.appendChild(ping_graph);               
+            //spawn ping graph            
+            const PingerGraph = document.createElement("canvas");
+            PingerGraph.style.position = "absolute";
+            PingerGraph.style.top = "50%";
+            PingerGraph.style.height = "100%";
+            PingerGraph.style.width = "50%";
+            PingerGraph.style.transform = "translate(0,-50%)";
+            PingerGraph.style.right = "0px";
+            PingerGraph.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            PingerGraph.id = current_pinger_name + clientSettings.pinger.pinger_ids.PingerGraph;
+            PingerBody.appendChild(PingerGraph);               
 
-                    const canvas_data = {
-                        "id":current_pinger_id + "graph",
-                        "style":{
-                            "line":{
-                                "line_width":5,
-                                "color":AccessCSSVar("--col_bg_div1"),
-                            },
-                            "gradient":{
-                                "top":{
-                                    "color":AccessCSSVar("--col_bg_lighter"),
-                                },
-                                "bottom":{
-                                    "color":AccessCSSVar("--col_bg_content"),
-                                }
-                            }
-                            
+            const canvas_data = {
+                "id":current_pinger_name + "graph",
+                "style":{
+                    "line":{
+                        "line_width":5,
+                        "color":AccessCSSVar("--col_bg_div1"),
+                    },
+                    "gradient":{
+                        "top":{
+                            "color":AccessCSSVar("--col_bg_lighter"),
+                        },
+                        "bottom":{
+                            "color":AccessCSSVar("--col_bg_content"),
                         }
-                    };
-                    drawGraph(current_server.ping.history, canvas_data);
+                    }
+                    
                 }
-                PingerName.innerHTML  = current_pinger_name; 
+            };
+            drawGraph(current_server_object.ping.history, canvas_data);      
+            
+        }
 
-                //pinger graph
-                const canvas_data = {
-                    "id":current_pinger_id + "graph",
-                    "style":{
-                        "line":{
-                            "line_width":5,
-                            "color":AccessCSSVar("--col_bg_div1"),
-                        },
-                        "gradient":{
-                            "top":{
-                                "color":AccessCSSVar("--col_bg_lighter"),
-                            },
-                            "bottom":{
-                                "color":AccessCSSVar("--col_bg_content"),
-                            }
-                        }
-                        
-                    }
-                };
-                drawGraph(current_server.ping.history, canvas_data);
-                drawGraph(current_server.ping.history, canvas_data); // i hate how cheezy this is. this will definitly cause bugs later!
+    }
+
+    function RemoveOldPingers(pinger_data,changes){
+        //this function removes old pingers from the table
+        const changes_removed = changes.removed; 
+        const removed_pingers = changes_removed.length;  
+        console.info("pingers to be removed : " + removed_pingers);
+        for(let removed_pinger_pointer = 0; removed_pinger_pointer < removed_pingers; removed_pinger_pointer ++){
+            const current_pinger_name = changes_removed[removed_pinger_pointer];
+            const current_removed_pinger = document.getElementbyId(current_pinger_name);
+            current_removed_pinger.remove();
+        }             
+    }
+
+    function UpdatePingersOnScreen(pinger_data){      
+        //set   clientSettings.pinger.pingers_onscreen to the new pingers
+        const PingerNames = Object.keys(pinger_data);   
+        clientSettings.pinger.pingers_onscreen = PingerNames; 
+    }
+
+    function UpdatePingerData(pinger_data){
+        //update pinger data to latest
+        const pinger_names = Object.keys(pinger_data);
+        const pinger_amount = pinger_names.length;
+        for(let pinger_pointer = 0; pinger_pointer < pinger_amount; pinger_pointer ++){
+            const current_pinger_object = pinger_data[pinger_names[pinger_pointer]];
+            const pinger_id = pinger_names[pinger_pointer];
+            const pinger_nickname = current_pinger_object.nickname; 
+
+            //update pinger name 
+            const CurrentPingerName = document.getElementById(pinger_id + clientSettings.pinger.pinger_ids.PingerName);
+            CurrentPingerName.innerHTML = pinger_nickname;
+
+            //update pinger ping
+            
+            const CurrentPingerPing = document.getElementById(pinger_id + clientSettings.pinger.pinger_ids.PingerPing);
+            if(current_pinger_object.alive == true){
+                CurrentPingerPing.innerHTML = "Ping: "+ average(current_pinger_object.ping.history);
+            }
+            else{
+                CurrentPingerPing.innerHTML = "Unreachable";
             }
 
+            //update graph
+            
+            const canvas_data = {
+                "id":pinger_id + "graph",
+                "style":{
+                    "line":{
+                        "line_width":5,
+                        "color":AccessCSSVar("--col_bg_div1"),
+                    },
+                    "gradient":{
+                        "top":{
+                            "color":AccessCSSVar("--col_bg_lighter"),
+                        },
+                        "bottom":{
+                            "color":AccessCSSVar("--col_bg_content"),
+                        }
+                    }
+                    
+                }
+            };
+            drawGraph(current_pinger_object.ping.history, canvas_data);   
+            drawGraph(current_pinger_object.ping.history, canvas_data);   //i hate how cheezy this is
+            
+
         }
+
     }
+    
 }
 /*
 function drawGraph(data, canvas_data) {

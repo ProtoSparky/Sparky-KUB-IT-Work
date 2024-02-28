@@ -1,3 +1,20 @@
+function average(numbers) {
+  return numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
+}
+
+function compareArrays(arr1, arr2) {
+  // Find elements added from arr1 to arr2
+  const added = arr2.filter(x => !arr1.includes(x));
+ 
+  // Find elements removed from arr1 to arr2
+  const removed = arr1.filter(x => !arr2.includes(x));
+ 
+  // Return an object containing both arrays
+  return {
+     added: added,
+     removed: removed
+  };
+}
 function RandomRangedIntiger(min, max, not) {
   //random number generator that can also skip some numbers in not array
   if(not == undefined){

@@ -17,10 +17,10 @@
             "ping_status": null,
             "ping": {
                 "history": [
-                    49,
-                    63,
-                    68,
-                    27,
+                    99,
+                    99,
+                    99,
+                    400,
                     29,
                     97,
                     78,
@@ -59,7 +59,7 @@
             "ping_status": null,
             "ping": {
                 "history": [
-                    61,
+                    0,
                     78,
                     67,
                     47,

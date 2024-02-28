@@ -124,6 +124,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $json_data_read = DataOperation("read",null); 
                 echo json_encode($json_data_read["servers"]);
             }
+            elseif(in_array("get_server_names", $UserRequest["get"])){
+                //this gets all names for all servers
+                $json_data_read = DataOperation("read",null); 
+                $server_data = $json_data_read["servers"];
+                $server_names = array_keys($server_data);
+                echo json_encode($server_names);
+            }
             else{
                 //echo ($bodyContent);
                 ShowResponse(0);
