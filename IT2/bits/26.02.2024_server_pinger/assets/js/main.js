@@ -9,6 +9,7 @@ const clientSettings = {
         "open":false,
     },
     "update_speed":1, //minutes
+    "ping_history":10,
     "pinger":{
         "pingers_open":false, //if a specific pinger has its settings open
         "open_pinger_name":null, //name of the open pinger
@@ -155,13 +156,7 @@ function SpawnMenus(){
     add_settings_btn_icon.style.transform = "translate(0,-50%)";
     add_settings_btn_icon.style.height = "90%"; 
     add_settings_btn_icon.style.filter = "invert(88%) sepia(0%) saturate(383%) hue-rotate(249deg) brightness(91%) contrast(88%)";
-    add_settings_btn.appendChild(add_settings_btn_icon);
-
-
-
-
-
-    
+    add_settings_btn.appendChild(add_settings_btn_icon);    
 
 
     //set background as background color
@@ -186,13 +181,13 @@ function SpawnMenus(){
 }
 function Check4Db(data){
     if(data.is_data_present == 1){
-        //read timing for selfubtating
+        //read timing for selfupdating
         console.info("database present");
         const data_timing  = {
             "get":[
               "get_timing"
             ]
-          };
+        };
     
         fetch(clientSettings.API.link, {
             method: "POST",
@@ -203,7 +198,27 @@ function Check4Db(data){
         })
         .then(response => response.json())
         .then(data => DataPreloader(data));
-        LoadPreparedData();       
+
+        //read ping history for settings
+
+        const ping_history_query = {
+            "get":[
+              "get_ping_history"
+            ]
+        };
+        
+        fetch(clientSettings.API.link, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ping_history_query)
+        })
+        .then(response => response.json())
+        .then(data => clientSettings.ping_history = data);
+
+
+        LoadPreparedData(); //get data for pingers, and send that to pinger updater       
     }
     else if(data.is_data_present == 0 ){
         //create first setup form

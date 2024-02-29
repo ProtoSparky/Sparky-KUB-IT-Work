@@ -11,10 +11,12 @@ function truncateString(str, maxLength) {
   }
   return str;
 }
-function average(numbers) {
-  //calculates an average of all the numbers
-  return numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
-}
+function average(numbers, decimals) {
+  // Calculates an average of all the numbers
+  const sum = numbers.reduce((acc, val) => acc + val, 0);
+  const average = sum / numbers.length;
+  return parseFloat(average.toFixed(decimals));
+ }
 
 function compareArrays(arr1, arr2) {
   // Find elements added from arr1 to arr2

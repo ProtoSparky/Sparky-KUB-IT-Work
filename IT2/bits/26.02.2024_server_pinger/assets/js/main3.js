@@ -68,7 +68,7 @@ function DisplayPingerData(data){
             //spawn pinger ping            
             const PingerPing = document.createElement("div");
             if(current_server_object.alive == true){
-                PingerPing.innerHTML = "Ping: "+ average(current_server_object.ping.history);
+                PingerPing.innerHTML = "Ping: "+ average(current_server_object.ping.history, 1);
             }
             else{
                 PingerPing.innerHTML = "Ping: ----";
@@ -161,7 +161,7 @@ function DisplayPingerData(data){
             
             const CurrentPingerPing = document.getElementById(pinger_id + clientSettings.pinger.pinger_ids.PingerPing);
             if(current_pinger_object.alive == true){
-                CurrentPingerPing.innerHTML = "Ping: "+ average(current_pinger_object.ping.history);
+                CurrentPingerPing.innerHTML = "Ping: "+ average(current_pinger_object.ping.history, 1);
             }
             else{
                 CurrentPingerPing.innerHTML = "Ping: ----";

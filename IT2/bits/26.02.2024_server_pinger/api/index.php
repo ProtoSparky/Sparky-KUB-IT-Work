@@ -107,6 +107,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $timing = $json_data["settings"]["update_timing"];
                 echo json_encode($timing);
             }
+            elseif(in_array("get_ping_history", $UserRequest["get"])){
+                //get backend and frontend timing
+                $json_data = DataOperation("read",null);
+                $timing = $json_data["settings"]["backend"]["ping_history"];
+                echo json_encode($timing);
+            }
             elseif(isset($UserRequest["get"]['get_server_data'])){
                 //get data for specific server
                 $api_data = $UserRequest["get"]['get_server_data'];
@@ -205,6 +211,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if($api_data > 0.9 && $api_data < 101){
                     //prevent users from blocking backend with wait commands
                     $json_data_read["settings"]["update_timing"] = $api_data;
+                    DataOperation("write",$json_data_read); 
+                    //echo json_encode($json_data_read);
+                    ShowResponse(200);
+                }
+                else{
+                    ShowResponse(400);
+                }
+            }
+            elseif(isset($UserRequest["post"]['ping_history'])){
+                //change history of pings
+                $api_data = $UserRequest["post"]['ping_history'];
+                $json_data_read = DataOperation("read",null); 
+                if($api_data > 2 && $api_data < 401){
+                    //prevent users from blocking backend with wait commands
+                    $json_data_read["settings"]["backend"]["ping_history"] = $api_data;
                     DataOperation("write",$json_data_read); 
                     //echo json_encode($json_data_read);
                     ShowResponse(200);

@@ -27,6 +27,11 @@
   }
 }
 {
+    "post":{
+      "ping_history":100
+    }
+}
+{
   "get":[
     "is_data_present"
   ]
@@ -49,5 +54,10 @@
 {
     "get":[
         "get_server_names"
+    ]
+}
+{
+    "get":[
+      "get_ping_history"
     ]
 }

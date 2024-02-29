@@ -111,7 +111,7 @@ function ManageSettings(){
         UpdateTimingTip.style.textAlign = "center";
         UpdateTimingTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
         UpdateTimingTip.style.width = "100%";
-        UpdateTimingTip.innerHTML = "<i>Controls how often the client and backend refresh in minutes</i>"
+        UpdateTimingTip.innerHTML = "<i>Controls how often the client and backend refresh in minutes</i>";
         UpdateTimingTip.className = "text";
         UpdateTimingTip.style.color =AccessCSSVar("--col_bg_div1");
         UpdateTimingTip.style.fontSize = "12";
@@ -155,9 +155,9 @@ function ManageSettings(){
                 body: JSON.stringify(Write2DB)
             })
             .then(response => response.json())
-            .then(data => SaveData(data));
+            .then(data => SaveData_update_speed(data));
         }
-        function SaveData(data){
+        function SaveData_update_speed(data){
             console.log(data);
             if(data["RETURN"] == "OK"){
                 GenerateMessageBanner(0,"Timings sucessfully updated");
@@ -174,6 +174,102 @@ function ManageSettings(){
             }
         }
 
+
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        const PingHistoryContainer = document.createElement("div");
+        PingHistoryContainer.style.position = "absolute";
+        PingHistoryContainer.style.top = 200 + removeLetters(AccessCSSVar("--ElementPadding")) + "px" ;
+        PingHistoryContainer.style.left = "50%";
+        PingHistoryContainer.style.transform = "translate(-50%,0)";
+        PingHistoryContainer.style.width = "484px";
+        PingHistoryContainer.style.height = "100px";
+        PingHistoryContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
+        PingHistoryContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+        dropshadow_ui_container.appendChild(PingHistoryContainer);
+        //Ping history header
+        const PingHistoryHeader = document.createElement("div");
+        PingHistoryHeader.style.position = "absolute";
+        PingHistoryHeader.style.left = "50%";
+        PingHistoryHeader.style.top = AccessCSSVar("--CornerRad");
+        PingHistoryHeader.style.transform = "translate(-50%,0)";
+        PingHistoryHeader.innerHTML = "Ping History"
+        PingHistoryHeader.className = "text";
+        PingHistoryHeader.style.color =AccessCSSVar("--col_bold_TXT");
+        PingHistoryHeader.style.fontSize = "20";
+        PingHistoryHeader.style.fontWeight = "500";
+        PingHistoryContainer.appendChild(PingHistoryHeader);
+        //Ping history tooltip
+        const PingHistoryTip = document.createElement("div");
+        PingHistoryTip.style.position = "absolute";
+        PingHistoryTip.style.left = "0px";
+        PingHistoryTip.style.textAlign = "center";
+        PingHistoryTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+        PingHistoryTip.style.width = "100%";
+        PingHistoryTip.innerHTML = "<i>Controls how long the ping history is. Affects graphs, and other data</i>";
+        PingHistoryTip.className = "text";
+        PingHistoryTip.style.color =AccessCSSVar("--col_bg_div1");
+        PingHistoryTip.style.fontSize = "12";
+        PingHistoryTip.style.fontWeight = "200";
+        PingHistoryContainer.appendChild(PingHistoryTip);
+        // update tooltip
+        const PingHistoryInput = document.createElement("input");
+        PingHistoryInput.style.position = "absolute";
+        PingHistoryInput.style.left = "170px";
+        PingHistoryInput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+        PingHistoryInput.min = 3;
+        PingHistoryInput.max = 400;
+        PingHistoryInput.value = clientSettings.ping_history; 
+        PingHistoryInput.id = "PingHistoryInput";
+        PingHistoryInput.style.width = "80px";
+        PingHistoryInput.type = "number";
+        PingHistoryContainer.appendChild(PingHistoryInput);
+        //update timing save button
+        const PingHistoryInputSave = document.createElement("button");
+        PingHistoryInputSave.style.position = "absolute";
+        PingHistoryInputSave.style.right  ="170px";
+        PingHistoryInputSave.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+        PingHistoryInputSave.innerHTML = "Save";
+        PingHistoryInputSave.addEventListener("click",function(){
+            SavePingHistory();
+        });    
+        PingHistoryContainer.appendChild(PingHistoryInputSave);  
+        //update 
+        function SavePingHistory(){
+            const Timing = document.getElementById("PingHistoryInput").value;
+            const Write2DB = {
+                "post":{
+                  "ping_history":parseInt(Timing)
+                }
+            };
+        
+            fetch(clientSettings.API.link, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Write2DB)
+            })
+            .then(response => response.json())
+            .then(data => SaveData_ping_history(data));
+        }
+        function SaveData_ping_history(data){
+            console.log(data);
+            if(data["RETURN"] == "OK"){
+                GenerateMessageBanner(0,"Ping history sucessfully updated");
+                ManageSettings();
+                setTimeout(function() {location.reload()}, 3000);
+            }
+            else if(data["RETURN"] == "ERROR"){
+                GenerateMessageBanner(2,"Error!");
+                setTimeout(function() {
+                    ManageSettings();
+                    ManageSettings();// i hate that i have to do this
+                }, 7000);
+            }
+        }
 
 
         //////////////////////////////////////////////////////////////////////
