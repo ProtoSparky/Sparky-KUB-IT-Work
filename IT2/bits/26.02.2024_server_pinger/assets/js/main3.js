@@ -189,18 +189,21 @@ function DisplayPingerData(data){
             };
             drawGraph(current_pinger_object.ping.history, canvas_data);   
             drawGraph(current_pinger_object.ping.history, canvas_data);   //i hate how cheezy this is
-
-
-
-            //update pinger backdrop so it scales with amount of pingers
-            const backdrop = document.getElementById(clientSettings.assorted_ids.pinger_backdrop);
-            if(pinger_amount > 5){
-                backdrop.style.height = (pinger_amount * clientSettings.pinger.style.spacing.multiplier) + clientSettings.pinger.style.spacing.adder; //im not going to question how this works
-                backdrop.style.transform = "translate(-50%,0)";
-                backdrop.style.top = "50px";
-            }
             
 
+        }
+
+        //update pinger backdrop so it scales with amount of pingers
+        const backdrop = document.getElementById(clientSettings.assorted_ids.pinger_backdrop);
+        if(pinger_amount < 5 || pinger_amount == 5){
+            backdrop.style.transform = "translate(-50%,-50%)";
+            backdrop.style.top = "50%";
+            backdrop.style.height = "610px";
+        }
+        else if(pinger_amount > 5){
+            backdrop.style.height = (pinger_amount * clientSettings.pinger.style.spacing.multiplier) + clientSettings.pinger.style.spacing.adder; //im not going to question how this works
+            backdrop.style.transform = "translate(-50%,0)";
+            backdrop.style.top = "50px";
         }
 
     }
