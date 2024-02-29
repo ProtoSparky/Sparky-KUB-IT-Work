@@ -2,7 +2,7 @@ const clientSettings = {
     "drop_shadow":{
         "open":false
     },
-    "update_speed":10, //minutes
+    "update_speed":1, //minutes
     "pinger":{
         "pingers_open":false, //if a specific pinger has its settings open
         "open_pinger_name":null, //name of the open pinger
