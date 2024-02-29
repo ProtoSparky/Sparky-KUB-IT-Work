@@ -202,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //change timing of pings
                 $api_data = $UserRequest["post"]['timing_control'];
                 $json_data_read = DataOperation("read",null); 
-                if($api_data > 1 && $api_data < 100){
+                if($api_data > 0.9 && $api_data < 101){
                     //prevent users from blocking backend with wait commands
                     $json_data_read["settings"]["update_timing"] = $api_data;
                     DataOperation("write",$json_data_read); 

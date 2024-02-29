@@ -1,3 +1,9 @@
+function removeLetters(str) {
+  //removes all letters from a string, and returns the numbers
+  return parseInt(str.replace(/\D/g, ''));
+}
+
+
 function truncateString(str, maxLength) {
   //truncates string
   if (str.length > maxLength) {
