@@ -4,7 +4,7 @@
         "update_timing": 1,
         "client_settings": [],
         "backend": {
-            "backend_lastrun": "29.02.2024@13:18",
+            "backend_lastrun": "29.02.2024@15:26",
             "ping_history": 10
         }
     },
@@ -17,16 +17,16 @@
             "ping_status": null,
             "ping": {
                 "history": [
+                    2,
+                    2,
+                    4,
+                    2,
+                    295,
+                    9,
                     7,
                     7,
-                    34,
                     8,
-                    8,
-                    34,
-                    27,
-                    7,
-                    11,
-                    8
+                    59
                 ]
             }
         },
@@ -38,16 +38,16 @@
             "ping_status": null,
             "ping": {
                 "history": [
-                    68,
                     14,
-                    47,
-                    11,
-                    11,
-                    38,
-                    36,
-                    12,
+                    17,
+                    17,
+                    19,
                     13,
-                    21
+                    60,
+                    16,
+                    12,
+                    19,
+                    80
                 ]
             }
         },
@@ -59,16 +59,16 @@
             "ping_status": null,
             "ping": {
                 "history": [
-                    5,
-                    5,
-                    49,
-                    7,
-                    5,
-                    29,
-                    39,
                     6,
+                    15,
+                    5,
+                    31,
                     8,
-                    12
+                    8,
+                    4,
+                    4,
+                    15,
+                    82
                 ]
             }
         },
@@ -101,17 +101,37 @@
             "ping_status": null,
             "ping": {
                 "history": [
+                    231,
                     227,
+                    228,
+                    223,
                     226,
-                    236,
+                    225,
                     227,
-                    229,
-                    253,
-                    247,
-                    224,
-                    229,
-                    260
+                    225,
+                    235,
+                    255
                 ]
+            }
+        },
+        "srv514126342": {
+            "nickname": "this name is way too long, but",
+            "domain": "ems.com.cn",
+            "enabled": true,
+            "alive": false,
+            "ping_status": null,
+            "ping": {
+                "history": []
+            }
+        },
+        "srv728413731": {
+            "nickname": "this name is way too long, but what about a longer name",
+            "domain": "ems.com.cn",
+            "enabled": true,
+            "alive": false,
+            "ping_status": null,
+            "ping": {
+                "history": []
             }
         }
     }

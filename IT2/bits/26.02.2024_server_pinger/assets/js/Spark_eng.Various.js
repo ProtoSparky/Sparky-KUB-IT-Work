@@ -1,4 +1,12 @@
+function truncateString(str, maxLength) {
+  //truncates string
+  if (str.length > maxLength) {
+     return str.slice(0, maxLength - 3) + '...';
+  }
+  return str;
+}
 function average(numbers) {
+  //calculates an average of all the numbers
   return numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
 }
 

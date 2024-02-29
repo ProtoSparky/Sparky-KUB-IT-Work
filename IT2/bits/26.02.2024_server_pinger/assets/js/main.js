@@ -14,12 +14,20 @@ const clientSettings = {
             "spacing":{
                 "multiplier":120,
                 "adder":16
+            },
+            "pinger_ping":{
+                "left":"300px",
+            },
+            "pinger_name":{
+                "truncate_length":33,
             }
         }, 
         "pinger_ids":{
-            "PingerPing":"ping",
-            "PingerName":"name",
-            "PingerGraph":"graph",
+            "PingerPing":"ping", //pinger ping in ms text
+            "PingerName":"name", //pinger nickname
+            "PingerGraph":"graph", //pinger graph
+            "pingerNameContainer":"ping_cont", //pinger nickname container
+            "TopbarContainer":"server_topbar"
 
         }
     
@@ -48,6 +56,63 @@ function SpawnMenus(){
     server_area.style.borderRadius = AccessCSSVar("--CornerRad")
     server_area.style.backgroundColor = AccessCSSVar("--col_bg_lighter");
     document.getElementById("content-fullscreen").appendChild(server_area);
+
+    //add topbar
+    const topbar = document.createElement("div");
+    topbar.style.position = "absolute";
+    topbar.style.left = "0px";
+    topbar.style.top = "0px";
+    topbar.style.width = "100%";
+    topbar.style.height = "50px";
+    topbar.id = clientSettings.pinger.pinger_ids.TopbarContainer;
+    document.getElementById("content-fullscreen").appendChild(topbar);
+
+    //add button container
+    const add_server_btn = document.createElement("div");
+    add_server_btn.style.position = "absolute";
+    add_server_btn.style.top = "50%";   
+    add_server_btn.style.left = AccessCSSVar("--ElementPadding");
+    add_server_btn.style.transform = "translate(0,-50%)";
+    add_server_btn.style.width = "150px";
+    add_server_btn.style.height = "40px";
+    add_server_btn.style.borderRadius = AccessCSSVar("--CornerRad");
+    add_server_btn.style.backgroundColor = AccessCSSVar("--col_bg_lighter");
+    add_server_btn.style.userSelect  ="none";
+    add_server_btn.style.cursor = "pointer";
+    add_server_btn.addEventListener("click",function(){
+        console.warn("add server");
+    });    
+
+    topbar.appendChild(add_server_btn);
+
+    //add button text
+    const add_server_btn_text = document.createElement("div");
+    add_server_btn_text.style.position = "absolute";
+    add_server_btn_text.style.top = "50%";
+    add_server_btn_text.style.transform = "translate(0,-50%)";
+    add_server_btn_text.className  ="text";
+    add_server_btn_text.style.fontSize = "17";
+    add_server_btn_text.style.right = "4px";
+    add_server_btn_text.innerHTML = "Add Server";
+    add_server_btn_text.style.color = AccessCSSVar("--col_bold_TXT");
+    add_server_btn_text.style.fontWeight = "bold";
+    add_server_btn.appendChild(add_server_btn_text);
+
+    const add_server_btn_icon = document.createElement("img");
+    add_server_btn_icon.src = "./assets/img/plus-box.svg";
+    add_server_btn_icon.style.position = "absolute";
+    add_server_btn_icon.style.top = "50%";
+    add_server_btn_icon.style.left = "4px";
+    add_server_btn_icon.style.transform = "translate(0,-50%)";
+    add_server_btn_icon.style.height = "100%"; 
+    add_server_btn_icon.style.filter = "invert(88%) sepia(0%) saturate(383%) hue-rotate(249deg) brightness(91%) contrast(88%)";
+    add_server_btn.appendChild(add_server_btn_icon);
+
+
+
+
+    
+
 
     //set background as background color
     document.body.style.backgroundColor = AccessCSSVar("--col_bg_content");
@@ -340,6 +405,11 @@ function LoadPreparedData(){
     .then(response => response.json())
     .then(data => DisplayPingerData(data));
 }
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 
 function DisplayPingerData(data){
     //check if amount of pingers match the ones in pingers_onscreen
@@ -378,9 +448,20 @@ function DisplayPingerData(data){
             PingerBody.style.backgroundColor = AccessCSSVar("--col_bg_content");
             document.getElementById("server_area").appendChild(PingerBody);
 
+            //pinger name container
+            const PingerNameContainer = document.createElement("div");
+            PingerNameContainer.style.position = "absolute";
+            PingerNameContainer.style.top = "0px";
+            PingerNameContainer.style.left = "0px";
+            PingerNameContainer.style.height = "100%";
+            PingerNameContainer.style.width = clientSettings.pinger.style.pinger_ping.left;
+            PingerNameContainer.id = current_pinger_name + clientSettings.pinger.pinger_ids.pingerNameContainer;
+            PingerBody.appendChild(PingerNameContainer);
+
+
             //spawn pinger name
             const PingerName = document.createElement("div");
-            PingerName.innerHTML  = current_pinger_nickname; 
+            PingerName.innerHTML  = truncateString(current_pinger_nickname, clientSettings.pinger.style.pinger_name.truncate_length); 
             PingerName.style.position = "absolute";
             PingerName.style.transform="translate(0,-50%)";
             PingerName.style.top = "50%";
@@ -389,7 +470,8 @@ function DisplayPingerData(data){
             PingerName.style.left = 1 + AccessCSSVar("--ElementPadding");
             PingerName.style.color = AccessCSSVar("--col_normalTXT");
             PingerName.style.fontSize = "30";
-            PingerBody.appendChild(PingerName);
+            PingerName.style.textOverflow = "break-word";
+            PingerNameContainer.appendChild(PingerName);
 
             //spawn pinger ping            
             const PingerPing = document.createElement("div");
@@ -404,7 +486,7 @@ function DisplayPingerData(data){
             PingerPing.id = current_pinger_name + clientSettings.pinger.pinger_ids.PingerPing;
             PingerPing.style.transform = "translate(0,-50%)";
             PingerPing.style.top = "50%";
-            PingerPing.style.left = "300px";
+            PingerPing.style.left = clientSettings.pinger.style.pinger_ping.left;
             PingerPing.style.fontSize = "25";
             PingerPing.style.fontWeight = "250";
             PingerPing.style.color = AccessCSSVar("--col_bg_div1");
@@ -481,7 +563,7 @@ function DisplayPingerData(data){
 
             //update pinger name 
             const CurrentPingerName = document.getElementById(pinger_id + clientSettings.pinger.pinger_ids.PingerName);
-            CurrentPingerName.innerHTML = pinger_nickname;
+            CurrentPingerName.innerHTML = truncateString(pinger_nickname, clientSettings.pinger.style.pinger_name.truncate_length); 
 
             //update pinger ping
             
