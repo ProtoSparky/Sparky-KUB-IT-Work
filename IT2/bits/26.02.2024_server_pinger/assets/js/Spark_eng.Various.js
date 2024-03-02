@@ -1,3 +1,14 @@
+function ADDopacityToHex(hex, opacity) {
+  // Ensure opacity is within the range 0 to 1
+  opacity = Math.min(Math.max(opacity, 0), 1);
+  // Convert opacity to a value between 0 and 255
+  var opacityHex = Math.round(opacity * 255).toString(16);
+  // Ensure the hex string is two characters long, padding with 0 if necessary
+  opacityHex = opacityHex.padStart(2, '0');
+  // Return the original hex color with the opacity value appended
+  return hex + opacityHex;
+}
+
 function removeLetters(str) {
   //removes all letters from a string, and returns the numbers
   return parseInt(str.replace(/\D/g, ''));

@@ -8,6 +8,9 @@ const clientSettings = {
     "add_server":{
         "open":false,
     },
+    "pingerSettings":{
+        "open":false
+    },
     "update_speed":1, //minutes
     "ping_history":10,
     "pinger":{
@@ -34,7 +37,8 @@ const clientSettings = {
             "PingerName":"name", //pinger nickname
             "PingerGraph":"graph", //pinger graph
             "pingerNameContainer":"ping_cont", //pinger nickname container
-            "TopbarContainer":"server_topbar"
+            "TopbarContainer":"server_topbar",
+            "HoverMenuCont":"hover",
 
         }
     

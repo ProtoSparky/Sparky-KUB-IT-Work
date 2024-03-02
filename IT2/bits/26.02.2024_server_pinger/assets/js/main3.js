@@ -38,6 +38,25 @@ function DisplayPingerData(data){
             PingerBody.style.top =  pinger_position; 
             PingerBody.style.borderRadius = AccessCSSVar("--CornerRad");
             PingerBody.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            
+            //set element mouse is currently hovering on
+            PingerBody.addEventListener("mouseover", function(event) {
+                // Check if the event target is a descendant of PingerBody and
+                // if the event is not triggered by moving from a child to the parent
+                if (this.contains(event.target) && !this.contains(event.relatedTarget)) {
+                    PingerHover(current_pinger_name,true); // Open hovering menu
+                }
+            });
+
+            PingerBody.addEventListener("mouseout", function(event) {
+                // Check if the event target is a descendant of PingerBody and
+                // if the event is not triggered by moving from a child to the parent
+                if (this.contains(event.target) && !this.contains(event.relatedTarget)) {
+                    PingerHover(current_pinger_name,false); // close hovering menu
+                }
+            });
+
+
             document.getElementById("server_area").appendChild(PingerBody);
 
             //pinger name container
@@ -209,6 +228,67 @@ function DisplayPingerData(data){
     }
     
 }
+
+function PingerHover(pinger_id, entered){
+    //this function creates a hover effect, and shows edit buttons for a specific pinger
+    const CurrentPingerBody = document.getElementById(pinger_id);    
+    if(entered){
+        //create container with hover effect 
+        const PingerHoverContainer = document.createElement("div");
+        PingerHoverContainer.id = pinger_id + clientSettings.pinger.pinger_ids.HoverMenuCont;
+        PingerHoverContainer.style.position = "absolute";
+        PingerHoverContainer.style.top = "0px";
+        PingerHoverContainer.style.left = "0px";
+        PingerHoverContainer.style.width = "100%";
+        PingerHoverContainer.style.height = "100%";
+        PingerHoverContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+        PingerHoverContainer.style.boxShadow = "0px -1px 45px 3px" + ADDopacityToHex(AccessCSSVar("--col_bg_div1"), 0.2);         
+        CurrentPingerBody.appendChild(PingerHoverContainer);
+
+        //create edit are
+        const PingerHoverEditContainer = document.createElement("div");
+        PingerHoverEditContainer.style.position = "absolute";
+        PingerHoverEditContainer.style.right = "0px";
+        PingerHoverEditContainer.style.width = "50px";
+        PingerHoverEditContainer.style.height = "100%";
+        PingerHoverEditContainer.style.top = "0px";;
+        PingerHoverContainer.appendChild(PingerHoverEditContainer);
+
+        //create edit button
+        const PingerHoverEditBTN = document.createElement("img");
+        PingerHoverEditBTN.style.position = "absolute";
+        PingerHoverEditBTN.style.top  = "50%";
+        PingerHoverEditBTN.style.left = "50%";
+        PingerHoverEditBTN.style.transform = "translate(-50%,-50%)";
+        PingerHoverEditBTN.src = "./assets/img/file-edit.svg";
+        PingerHoverEditBTN.style.width = "100%";
+        PingerHoverEditBTN.style.height = "auto";
+        PingerHoverEditBTN.style.filter = "invert(88%) sepia(0%) saturate(383%) hue-rotate(249deg) brightness(91%) contrast(88%) opacity(70%)";
+        PingerHoverEditBTN.style.cursor ="pointer";
+        PingerHoverEditBTN.addEventListener("click",function(){
+            console.log("uwu")
+        });
+        PingerHoverEditContainer.appendChild(PingerHoverEditBTN);
+
+    }
+    else if(!entered){
+        PingerHoverContainer = document.getElementById(pinger_id + clientSettings.pinger.pinger_ids.HoverMenuCont);
+        PingerHoverContainer.remove();
+    }
+}
+function PingerSettings(pinger_id){
+    if(clientSettings.pingerSettings.open == false){
+        //open settings
+        clientSettings.pingerSettings.open = true;
+    }
+    else if(clientSettings.pingerSettings.open == true){
+        //close settings
+        clientSettings.pingerSettings.open = false; 
+    }
+}
+
+
+
 /*
 function drawGraph(data, canvas_data) {
     var canvas = document.getElementById(canvas_data.id);
