@@ -51,6 +51,7 @@ const clientSettings = {
     },
     "assorted_ids":{
         "pinger_backdrop":"server_area",
+        "last_run":"refresh_last_run", 
     }
 }
 function init(){
@@ -164,6 +165,38 @@ function SpawnMenus(){
     add_settings_btn_icon.style.height = "90%"; 
     add_settings_btn_icon.style.filter = "invert(88%) sepia(0%) saturate(383%) hue-rotate(249deg) brightness(91%) contrast(88%)";
     add_settings_btn.appendChild(add_settings_btn_icon);    
+
+
+    //add last pinged bar
+    const LastRun_container = document.createElement("div");
+    LastRun_container.style.position = "absolute";
+    LastRun_container.style.top = "50%";
+    LastRun_container.style.transform = "translate(-50%,-50%)";
+    LastRun_container.style.left = "50%";
+    LastRun_container.style.height = "100%";
+    LastRun_container.style.borderRadius = AccessCSSVar("--CornerRad");
+    LastRun_container.style.width = "200px";
+    LastRun_container.style.cursor = "pointer";
+    LastRun_container.addEventListener("click",function(){
+        LoadPreparedData(); 
+    });
+    LastRun_container.style.backgroundColor = AccessCSSVar("--col_bg_lighter");
+    LastRun_container.style.userSelect = "none";
+
+    topbar.appendChild(LastRun_container);
+    const LastRun_Text = document.createElement("div");
+    LastRun_Text.className = "text";
+    LastRun_Text.innerHTML = "";
+    LastRun_Text.style.position = "absolute";
+    LastRun_Text.style.transform = "translate(-50%,-50%)";
+    LastRun_Text.style.top = "50%"; 
+    LastRun_Text.style.left = "50%";
+    LastRun_Text.style.fontSize = "15";
+    LastRun_Text.style.color = AccessCSSVar("--col_bg_div1");
+    LastRun_Text.id = clientSettings.assorted_ids.last_run;
+    LastRun_container.appendChild(LastRun_Text);
+ 
+
 
 
     //set background as background color

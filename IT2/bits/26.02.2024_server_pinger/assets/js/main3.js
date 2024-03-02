@@ -207,6 +207,19 @@ function DisplayPingerData(data){
                     
                 }
             };
+
+            /*
+            //make graph visible when ping empty
+            if(current_pinger_object.ping.history.length < 2){
+                const mockData = [1,1,1,1];
+                drawGraph(mockData, canvas_data); 
+                drawGraph(mockData, canvas_data); 
+            }
+            else{
+                drawGraph(current_pinger_object.ping.history, canvas_data);   
+                drawGraph(current_pinger_object.ping.history, canvas_data);   //i hate how cheezy this is
+            }
+            */
             drawGraph(current_pinger_object.ping.history, canvas_data);   
             drawGraph(current_pinger_object.ping.history, canvas_data);   //i hate how cheezy this is
             
@@ -225,6 +238,27 @@ function DisplayPingerData(data){
             backdrop.style.transform = "translate(-50%,0)";
             backdrop.style.top = "50px";
         }
+
+        //update lastrun time
+        const check_for_db = {
+            "get":[
+              "LastRun"
+            ]
+        };    
+        fetch(clientSettings.API.link, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(check_for_db)
+        })
+        .then(response => response.json())
+        .then(data => UpdateLastRun(data));
+        function UpdateLastRun(data){
+            const LastRunText = document.getElementById(clientSettings.assorted_ids.last_run);
+            LastRunText.innerHTML = "<i>Last Refreshed: " + data + "</i>";
+        }
+
 
     }
     

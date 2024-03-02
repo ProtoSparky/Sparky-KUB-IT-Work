@@ -107,6 +107,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $timing = $json_data["settings"]["update_timing"];
                 echo json_encode($timing);
             }
+            elseif(in_array("LastRun", $UserRequest["get"])){
+                //Return last run time by backend
+                $json_data = DataOperation("read",null);
+                $timing = $json_data["settings"]["backend"]["backend_lastrun"];
+                echo json_encode($timing);
+            }
             elseif(in_array("get_ping_history", $UserRequest["get"])){
                 //get backend and frontend timing
                 $json_data = DataOperation("read",null);

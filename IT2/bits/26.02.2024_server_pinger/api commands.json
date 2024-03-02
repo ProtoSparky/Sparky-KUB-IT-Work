@@ -85,3 +85,8 @@
       "get_ping_history"
     ]
 }
+{
+  "get":[
+    "LastRun"
+  ]
+}
