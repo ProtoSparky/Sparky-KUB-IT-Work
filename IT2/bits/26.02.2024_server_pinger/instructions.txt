@@ -1,0 +1,3 @@
+run backend.py in the background
+index.html is the client
+Run project in webserver as it relies on php

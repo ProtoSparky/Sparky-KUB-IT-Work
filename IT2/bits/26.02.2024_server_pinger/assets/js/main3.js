@@ -124,7 +124,7 @@ function DisplayPingerData(data){
             }
             PingerState.style.top = "75%";
             PingerState.style.left = clientSettings.pinger.style.pinger_ping.left;
-            PingerState.style.fontSize = "25";
+            PingerState.style.fontSize = "23.5";
             PingerState.style.fontWeight = "250";
             PingerState.style.color = AccessCSSVar("--col_bg_div1");
             PingerBody.appendChild(PingerState);
@@ -265,6 +265,7 @@ function DisplayPingerData(data){
             }
             else if(current_pinger_object.enabled == false){
                 PingerState.innerHTML = "State: Disabled";
+                PingerState.style.color = AccessCSSVar("--col_bg_div1");
             }
             
 
