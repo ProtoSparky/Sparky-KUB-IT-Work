@@ -97,12 +97,40 @@ function DisplayPingerData(data){
             PingerPing.className = "text";
             PingerPing.id = current_pinger_name + clientSettings.pinger.pinger_ids.PingerPing;
             PingerPing.style.transform = "translate(0,-50%)";
-            PingerPing.style.top = "50%";
+            PingerPing.style.top = "35%";
             PingerPing.style.left = clientSettings.pinger.style.pinger_ping.left;
             PingerPing.style.fontSize = "25";
             PingerPing.style.fontWeight = "250";
             PingerPing.style.color = AccessCSSVar("--col_bg_div1");
             PingerBody.appendChild(PingerPing);
+
+            //spawn stat
+            const PingerState = document.createElement("div");
+            PingerState.style.position = "absolute";
+            PingerState.className = "text";
+            PingerState.id = current_pinger_name+ clientSettings.pinger.pinger_ids.PingerState;
+            PingerState.style.transform = "translate(0,-50%)";
+            PingerState.style.zIndex = 5;
+            if(current_server_object.enabled == true){
+                if(current_server_object.alive == true){
+                    PingerState.innerHTML = "State: Alive"; 
+                } 
+                else if(current_server_object.alive == false){
+                    PingerState.innerHTML = "State: Dead";
+                }
+            }
+            else if(current_server_object.enabled == false){
+                PingerState.innerHTML = "State: Disabled";
+            }
+            PingerState.style.top = "75%";
+            PingerState.style.left = clientSettings.pinger.style.pinger_ping.left;
+            PingerState.style.fontSize = "25";
+            PingerState.style.fontWeight = "250";
+            PingerState.style.color = AccessCSSVar("--col_bg_div1");
+            PingerBody.appendChild(PingerState);
+
+
+
 
 
             //spawn ping graph            
@@ -222,6 +250,22 @@ function DisplayPingerData(data){
             */
             drawGraph(current_pinger_object.ping.history, canvas_data);   
             drawGraph(current_pinger_object.ping.history, canvas_data);   //i hate how cheezy this is
+
+            //update pinger state
+            const PingerState = document.getElementById(pinger_id + clientSettings.pinger.pinger_ids.PingerState);
+            if(current_pinger_object.enabled == true){
+                if(current_pinger_object.alive == true){
+                    PingerState.innerHTML = "State: Alive"; 
+                    PingerState.style.color = AccessCSSVar("--col_success");
+                } 
+                else if(current_pinger_object.alive == false){
+                    PingerState.innerHTML = "State: Dead";
+                    PingerState.style.color = AccessCSSVar("--col_error");
+                }
+            }
+            else if(current_pinger_object.enabled == false){
+                PingerState.innerHTML = "State: Disabled";
+            }
             
 
         }

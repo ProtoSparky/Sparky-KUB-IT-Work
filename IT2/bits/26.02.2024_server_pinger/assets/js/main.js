@@ -42,6 +42,7 @@ const clientSettings = {
             "pingerNameContainer":"ping_cont", //pinger nickname container
             "TopbarContainer":"server_topbar",
             "HoverMenuCont":"hover",
+            "PingerState":"state",
 
         }
     
