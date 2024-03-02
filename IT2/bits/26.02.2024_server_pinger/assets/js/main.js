@@ -26,7 +26,7 @@ const clientSettings = {
                 "adder":16
             },
             "pinger_ping":{
-                "left":"300px",
+                "left":300,
             },
             "pinger_name":{
                 "truncate_length":33,
@@ -92,6 +92,7 @@ function SpawnMenus(){
     add_server_btn.style.cursor = "pointer";
     add_server_btn.addEventListener("click",function(){
         console.warn("add server");
+        //tester
     });    
 
     topbar.appendChild(add_server_btn);
@@ -429,15 +430,11 @@ function DataPreloader(data){
 
 function LoadPreparedData(){
     //this function prepares data for the pingers
-    let data_request_query;
-    if(clientSettings.pinger.load_all_data == true){
-        //load all data for pingers
-        data_request_query = {
-            "get":[
-              "get_all_server_data"
-            ]
-        };
-    }
+    const data_request_query = {
+        "get":[
+            "get_all_server_data"
+        ]
+    };
         
     fetch(clientSettings.API.link, {
         method: "POST",

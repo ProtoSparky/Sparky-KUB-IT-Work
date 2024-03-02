@@ -202,7 +202,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 unset($json_data_read['servers'][$api_data["servername"]]); 
                 DataOperation("write",$json_data_read); 
                 ShowResponse(200);
-                //echo json_encode($json_data_read);
+            }
+            elseif(isset($UserRequest["post"]['edit_server_hostname'])){
+                //edit the specific hostname the pinger pings
+                $api_data = $UserRequest["post"]['edit_server_hostname']; 
+                $json_data_read = DataOperation("read",null); 
+                $servername = $api_data["servername"];
+                $hostname = $api_data["hostname"];
+                if(isset($servername) && isset($hostname) && $servername != "" && $hostname != ""){
+                    $json_data_read["servers"][$servername]["domain"] = $hostname;
+                    DataOperation("write",$json_data_read); 
+                    ShowResponse(200);
+                }
+                else{
+                    ShowResponse(400);
+                }
+            }
+            elseif(isset($UserRequest["post"]['edit_server_nickname'])){
+                //edit the specific nickname the pinger
+                $api_data = $UserRequest["post"]['edit_server_nickname']; 
+                $json_data_read = DataOperation("read",null); 
+                $servername = $api_data["servername"];
+                $nickname = $api_data["nickname"];
+                if(isset($servername) && isset($nickname) && $servername != "" && $nickname != ""){
+                    $json_data_read["servers"][$servername]["nickname"] = $nickname;
+                    DataOperation("write",$json_data_read); 
+                    ShowResponse(200);
+                }
+                else{
+                    ShowResponse(400);
+                }
+            }
+            elseif(isset($UserRequest["post"]['switch_server_on_or_off'])){
+                //Turn pinging for a specific server on or off
+                $api_data = $UserRequest["post"]['switch_server_on_or_off']; 
+                $json_data_read = DataOperation("read",null); 
+                $servername = $api_data["servername"];
+                $state = $api_data["state"];
+                if(isset($servername) && $servername != ""){
+                    $json_data_read["servers"][$servername]["enabled"] = $state;
+                    DataOperation("write",$json_data_read); 
+                    ShowResponse(200);
+                }
+                else{
+                    ShowResponse(400);
+                }
             }
             elseif(isset($UserRequest["post"]['timing_control'])){
                 //change timing of pings

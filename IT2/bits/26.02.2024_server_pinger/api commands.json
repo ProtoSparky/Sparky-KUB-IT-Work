@@ -23,6 +23,30 @@
 }
 {
   "post":{
+      "edit_server_hostname":{
+        "hostname":"google.com",
+        "servername":"some server name"
+      }
+  }
+}
+{
+  "post":{
+      "edit_server_nickname":{
+        "nickname":"google.com",
+        "servername":"some server name"
+      }
+  }
+}
+{ //tuns server on or off
+  "post":{
+      "switch_server_on_or_off":{
+        "state":true,
+        "servername":"some server name"
+      }
+  }
+}
+{
+  "post":{
     "timing_control":100
   }
 }

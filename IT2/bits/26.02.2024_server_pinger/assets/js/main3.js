@@ -65,7 +65,7 @@ function DisplayPingerData(data){
             PingerNameContainer.style.top = "0px";
             PingerNameContainer.style.left = "0px";
             PingerNameContainer.style.height = "100%";
-            PingerNameContainer.style.width = clientSettings.pinger.style.pinger_ping.left;
+            PingerNameContainer.style.width = clientSettings.pinger.style.pinger_ping.left - 50 + "px";
             PingerNameContainer.id = current_pinger_name + clientSettings.pinger.pinger_ids.pingerNameContainer;
             PingerBody.appendChild(PingerNameContainer);
 
@@ -81,7 +81,8 @@ function DisplayPingerData(data){
             PingerName.style.left = 1 + AccessCSSVar("--ElementPadding");
             PingerName.style.color = AccessCSSVar("--col_normalTXT");
             PingerName.style.fontSize = "30";
-            PingerName.style.textOverflow = "break-word";
+            PingerName.style.textOverflow = " break-all";
+            PingerName.style.width = "100%";
             PingerNameContainer.appendChild(PingerName);
 
             //spawn pinger ping            
@@ -294,9 +295,9 @@ function PingerSettings(pinger_id){
             body: JSON.stringify(GetServerDATA)
         })
         .then(response => response.json())
-        .then(data => SpawnUI(data));
+        .then(data => SpawnUI(data, pinger_id));
 
-        function SpawnUI(data){
+        function SpawnUI(data, server_id){
             //this function spawns the ui for the selected server with specific server data
 
             //create dropshadow
@@ -332,7 +333,7 @@ function PingerSettings(pinger_id){
             SettingsHeader.style.left = "0px"
             SettingsHeader.style.width = "100%";
             SettingsHeader.style.textAlign = "center";
-            SettingsHeader.innerHTML = 'Editing "' + data.nickname + '"';
+            SettingsHeader.innerHTML = 'Editing "' + truncateString(data.nickname,18) + '"';
             SettingsHeader.className = "text";
             SettingsHeader.style.color= AccessCSSVar("--col_normalTXT");
             SettingsHeader.style.fontSize  ="30";
@@ -348,6 +349,8 @@ function PingerSettings(pinger_id){
             CloseBTN.style.cursor = "pointer";
             CloseBTN.addEventListener("click",function(){
                 PingerSettings(pinger_id);
+                //refresh servers
+                
             });
             dropshadow_ui_container.appendChild(CloseBTN);
 
@@ -395,14 +398,7 @@ function PingerSettings(pinger_id){
             UpdatePingerStateInput.style.position = "absolute";
             UpdatePingerStateInput.style.left = "170px";
             UpdatePingerStateInput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
-            UpdatePingerStateInput.min = 1;
-            UpdatePingerStateInput.max = 100;
-            if(data.enabled == true){
-                UpdatePingerStateInput.value = 1;
-            }
-            else{
-                UpdatePingerStateInput.value = 0;
-            }
+            UpdatePingerStateInput.checked = data.enabled; 
             UpdatePingerStateInput.id = "UpdatePingerStateInput";
             UpdatePingerStateInput.style.width = "25px";
             UpdatePingerStateInput.style.height = "25px";
@@ -419,8 +415,35 @@ function PingerSettings(pinger_id){
             });    
             UpdatePingerStateContainer.appendChild(UpdatePingerStateInputSave);
             function SavePingerState(){
-                const value = document.getElementById("UpdatePingerStateInput").value;
-                console.warn("not implemented" + value);
+                const value = document.getElementById("UpdatePingerStateInput").checked;
+                const ChangeServerData = { //tuns server on or off
+                    "post":{
+                        "switch_server_on_or_off":{
+                            "state":value,
+                            "servername":server_id
+                        }
+                    }
+                    }
+            
+                fetch(clientSettings.API.link, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ChangeServerData)
+                })
+                .then(response => response.json())
+                .then(data => HandleData(data));
+                function HandleData(data){
+                    if(data.RETURN == "OK"){
+                        GenerateMessageBanner(0, "Settings saved");
+                        LoadPreparedData();
+                        PingerSettings(pinger_id);
+                        PingerSettings(pinger_id);
+                        
+                    }
+                }
+                
             }   
 
             //////////////////////////////////////////////////////////////////////
@@ -437,7 +460,7 @@ function PingerSettings(pinger_id){
             RenamePingerContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
             RenamePingerContainer.style.borderRadius = AccessCSSVar("--CornerRad");
             dropshadow_ui_container.appendChild(RenamePingerContainer);
-            //Ping history header
+            //Ping rename server header
             const RenamePingerHeader = document.createElement("div");
             RenamePingerHeader.style.position = "absolute";
             RenamePingerHeader.style.left = "50%";
@@ -449,7 +472,7 @@ function PingerSettings(pinger_id){
             RenamePingerHeader.style.fontSize = "20";
             RenamePingerHeader.style.fontWeight = "500";
             RenamePingerContainer.appendChild(RenamePingerHeader);
-            //Ping history tooltip
+            //Ping rename server tooltip
             const RenamePingerTip = document.createElement("div");
             RenamePingerTip.style.position = "absolute";
             RenamePingerTip.style.left = "0px";
@@ -474,7 +497,7 @@ function PingerSettings(pinger_id){
             RenamePingerNameInput.style.width = "150px";
             RenamePingerNameInput.type = "text";
             RenamePingerContainer.appendChild(RenamePingerNameInput);
-            //update timing save button
+            //Rename server nickname
             const RenamePingerNameInputSave = document.createElement("button");
             RenamePingerNameInputSave.style.position = "absolute";
             RenamePingerNameInputSave.style.right  ="170px";
@@ -486,7 +509,35 @@ function PingerSettings(pinger_id){
             RenamePingerContainer.appendChild(RenamePingerNameInputSave);  
             function SavePingerName(){
                 submit_value = document.getElementById("RenamePingerNameInput").value;
-                console.log("not implemented" + submit_value);
+                if(submit_value != ""){
+                    const ChangeServerData = {
+                        "post":{
+                            "edit_server_nickname":{
+                              "nickname":submit_value,
+                              "servername":server_id
+                            }
+                        }
+                      };
+                
+                    fetch(clientSettings.API.link, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(ChangeServerData)
+                    })
+                    .then(response => response.json())
+                    .then(data => HandleData(data));
+                    function HandleData(data){
+                        if(data.RETURN == "OK"){
+                            GenerateMessageBanner(0, "Name changed");
+                            LoadPreparedData();
+                            PingerSettings(pinger_id);
+                            PingerSettings(pinger_id);
+                            
+                        }
+                    }
+                }
             }
             //////////////////////////////////////////////////////////////////////
             //////////////////////////////////////////////////////////////////////
@@ -534,7 +585,7 @@ function PingerSettings(pinger_id){
             EditPingerDomainInput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
             EditPingerDomainInput.min = 3;
             EditPingerDomainInput.max = 400;
-            EditPingerDomainInput.placeholder = "eg: google.com";
+            EditPingerDomainInput.placeholder = "eg: " + data.domain;
             EditPingerDomainInput.id = "EditPingerDomainInput";
             EditPingerDomainInput.style.width = "150px";
             EditPingerDomainInput.type = "text";
@@ -551,8 +602,35 @@ function PingerSettings(pinger_id){
             EditPingerDomainContainer.appendChild(EditPingerDomainInputSave);
             function SaveNewPingerDomain(){
                 const Domain = document.getElementById("EditPingerDomainInput").value;
-
-                console.log("not implemented uwu" + Domain)
+                if(Domain != ""){
+                    const ChangeServerData = {
+                        "post":{
+                            "edit_server_hostname":{
+                              "hostname":Domain,
+                              "servername":server_id
+                            }
+                        }
+                      };
+                
+                    fetch(clientSettings.API.link, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(ChangeServerData)
+                    })
+                    .then(response => response.json())
+                    .then(data => HandleData(data));
+                    function HandleData(data){
+                        if(data.RETURN == "OK"){
+                            GenerateMessageBanner(0, "Domain changed");
+                            LoadPreparedData();
+                            PingerSettings(pinger_id);
+                            PingerSettings(pinger_id);
+                            
+                        }
+                    }
+                }
             }
             //////////////////////////////////////////////////////////////////////
             //////////////////////////////////////////////////////////////////////
@@ -613,7 +691,30 @@ function PingerSettings(pinger_id){
             });  
             DeletePingerContainer.appendChild(DeletePinger);
             function DeleteServer(){
-                console.log("not implemented uwu")
+                const GetServerDATA = {
+                    "post":{
+                        "remove_server":{
+                          "servername":server_id
+                        }
+                    }
+                  };
+            
+                fetch(clientSettings.API.link, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(GetServerDATA)
+                })
+                .then(response => response.json())
+                .then(data => HandleData(data));
+                function HandleData(data){
+                    if(data.RETURN == "OK"){
+                        GenerateMessageBanner(0, "Server deleted");
+                        PingerSettings(pinger_id);
+                        LoadPreparedData();
+                    }
+                }
             }
             //////////////////////////////////////////////////////////////////////
             //////////////////////////////////////////////////////////////////////
