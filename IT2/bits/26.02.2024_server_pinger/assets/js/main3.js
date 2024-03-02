@@ -384,7 +384,7 @@ function PingerSettings(pinger_id){
             dropshadow_container.style.left = "0px";
             dropshadow_container.style.width = "100%";
             dropshadow_container.style.height = "100%";
-            dropshadow_container.style.position = "absolute";
+            dropshadow_container.style.position = "fixed";
             dropshadow_container.id = "settings_dropshadow_container";
             dropshadow_container.style.zIndex = "9";
             document.getElementById("content-fullscreen").appendChild(dropshadow_container);
