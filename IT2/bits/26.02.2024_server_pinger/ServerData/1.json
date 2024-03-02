@@ -60,6 +60,16 @@
             "ping": {
                 "history": []
             }
+        },
+        "srv964298270": {
+            "nickname": "New server",
+            "domain": "google.com",
+            "enabled": true,
+            "alive": false,
+            "ping_status": null,
+            "ping": {
+                "history": []
+            }
         }
     }
 }

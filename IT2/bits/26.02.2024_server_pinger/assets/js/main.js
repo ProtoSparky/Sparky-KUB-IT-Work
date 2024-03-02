@@ -11,6 +11,9 @@ const clientSettings = {
     "pingerSettings":{
         "open":false
     },
+    "add_server":{
+        "open":false,
+    }, 
     "update_speed":1, //minutes
     "ping_history":10,
     "pinger":{
@@ -91,8 +94,7 @@ function SpawnMenus(){
     add_server_btn.style.userSelect  ="none";
     add_server_btn.style.cursor = "pointer";
     add_server_btn.addEventListener("click",function(){
-        console.warn("add server");
-        //tester
+        AddServer();
     });    
 
     topbar.appendChild(add_server_btn);
@@ -446,5 +448,239 @@ function LoadPreparedData(){
     .then(response => response.json())
     .then(data => DisplayPingerData(data));
 }
+function AddServer(){
+    if(clientSettings.add_server.open == false){
+        //create dropshadow
+        const dropshadow_container = document.createElement("div");
+        dropshadow_container.style.top = "0px";
+        dropshadow_container.style.left = "0px";
+        dropshadow_container.style.width = "100%";
+        dropshadow_container.style.height = "100%";
+        dropshadow_container.style.position = "absolute";
+        dropshadow_container.id = "add_server_dropshadow_container";
+        dropshadow_container.style.zIndex = "9";
+        document.getElementById("content-fullscreen").appendChild(dropshadow_container);
+        document.body.style.overflow = "hidden";
+
+        //ui
+        const dropshadow_ui_container = document.createElement("div");
+        dropshadow_ui_container.style.position = "absolute";
+        dropshadow_ui_container.style.top = "50%";
+        dropshadow_ui_container.style.width = "500px";
+        dropshadow_ui_container.style.height = "400px";
+        dropshadow_ui_container.style.zIndex = "999";
+        dropshadow_ui_container.style.left  ="50%";
+        dropshadow_ui_container.id = clientSettings.assorted_ids.pinger_backdrop;  
+        dropshadow_ui_container.style.transform = "translate(-50%,-50%)";
+        dropshadow_ui_container.style.borderRadius = AccessCSSVar("--CornerRad")
+        dropshadow_ui_container.style.backgroundColor = AccessCSSVar("--col_bg_lighter");
+        dropshadow_container.appendChild(dropshadow_ui_container);
+
+        //heading
+        const SettingsHeader = document.createElement("div");
+        SettingsHeader.style.position = "absolute";
+        SettingsHeader.style.top = AccessCSSVar("--ElementPadding");
+        SettingsHeader.style.left = "50%";
+        SettingsHeader.style.transform = "translate(-50%, 0)";
+        SettingsHeader.innerHTML = "Add server";
+        SettingsHeader.className = "text";
+        SettingsHeader.style.color= AccessCSSVar("--col_normalTXT");
+        SettingsHeader.style.fontSize  ="30";
+        dropshadow_ui_container.appendChild(SettingsHeader);
+
+        const CloseBTN = document.createElement("img");
+        CloseBTN.style.position = "absolute";
+        CloseBTN.style.top = AccessCSSVar("--ElementPadding");
+        CloseBTN.style.right = AccessCSSVar("--ElementPadding");
+        CloseBTN.src = "./assets/img/close.svg";
+        CloseBTN.style.width = "40px";
+        CloseBTN.style.filter = "invert(88%) sepia(0%) saturate(383%) hue-rotate(249deg) brightness(91%) contrast(88%)";
+        CloseBTN.style.cursor = "pointer";
+        CloseBTN.addEventListener("click",function(){
+            AddServer();
+        });
+        dropshadow_ui_container.appendChild(CloseBTN);
+
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        const AddPingerNameContainer = document.createElement("div");
+        AddPingerNameContainer.style.position = "absolute";
+        AddPingerNameContainer.style.top = 100 + removeLetters(AccessCSSVar("--ElementPadding")) + "px" ;
+        AddPingerNameContainer.style.left = "50%";
+        AddPingerNameContainer.style.transform = "translate(-50%,0)";
+        AddPingerNameContainer.style.width = "484px";
+        AddPingerNameContainer.style.height = "100px";
+        AddPingerNameContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
+        AddPingerNameContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+        dropshadow_ui_container.appendChild(AddPingerNameContainer);
+        //add pinger
+        const AddPingerNameHeader = document.createElement("div");
+        AddPingerNameHeader.style.position = "absolute";
+        AddPingerNameHeader.style.left = "50%";
+        AddPingerNameHeader.style.top = AccessCSSVar("--CornerRad");
+        AddPingerNameHeader.style.transform = "translate(-50%,0)";
+        AddPingerNameHeader.innerHTML = "Server name"
+        AddPingerNameHeader.className = "text";
+        AddPingerNameHeader.style.color =AccessCSSVar("--col_bold_TXT");
+        AddPingerNameHeader.style.fontSize = "20";
+        AddPingerNameHeader.style.fontWeight = "500";
+        AddPingerNameContainer.appendChild(AddPingerNameHeader);
+        //add pinger tooltip 
+        const AddPingerNameTip = document.createElement("div");
+        AddPingerNameTip.style.position = "absolute";
+        AddPingerNameTip.style.left = "0px";
+        AddPingerNameTip.style.textAlign = "center";
+        AddPingerNameTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+        AddPingerNameTip.style.width = "100%";
+        AddPingerNameTip.innerHTML = "<i>This is the header / name of your server pinger</i>";
+        AddPingerNameTip.className = "text";
+        AddPingerNameTip.style.color =AccessCSSVar("--col_bg_div1");
+        AddPingerNameTip.style.fontSize = "12";
+        AddPingerNameTip.style.fontWeight = "200";
+        AddPingerNameContainer.appendChild(AddPingerNameTip);
+        //server name input
+        const AddPingerNameinput = document.createElement("input");
+        AddPingerNameinput.style.position = "absolute";
+        AddPingerNameinput.style.left = "50%";
+        AddPingerNameinput.style.transform = "translate(-50%,0%)";
+        AddPingerNameinput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+        AddPingerNameinput.placeholder = "some cool name"
+        AddPingerNameinput.id = "AddPingerNameinput";
+        AddPingerNameinput.style.width = "200px";
+        AddPingerNameinput.type = "text";
+        AddPingerNameContainer.appendChild(AddPingerNameinput);
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        const AddPingerHostNameContainer = document.createElement("div");
+        AddPingerHostNameContainer.style.position = "absolute";
+        AddPingerHostNameContainer.style.top = 200 + removeLetters(AccessCSSVar("--ElementPadding")) * 2 + "px" ;
+        AddPingerHostNameContainer.style.left = "50%";
+        AddPingerHostNameContainer.style.transform = "translate(-50%,0)";
+        AddPingerHostNameContainer.style.width = "484px";
+        AddPingerHostNameContainer.style.height = "100px";
+        AddPingerHostNameContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
+        AddPingerHostNameContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+        dropshadow_ui_container.appendChild(AddPingerHostNameContainer);
+
+        const AddPingerHostNameHeader = document.createElement("div");
+        AddPingerHostNameHeader.style.position = "absolute";
+        AddPingerHostNameHeader.style.left = "50%";
+        AddPingerHostNameHeader.style.top = AccessCSSVar("--CornerRad");
+        AddPingerHostNameHeader.style.transform = "translate(-50%,0)";
+        AddPingerHostNameHeader.innerHTML = "Server Hostname"
+        AddPingerHostNameHeader.className = "text";
+        AddPingerHostNameHeader.style.color =AccessCSSVar("--col_bold_TXT");
+        AddPingerHostNameHeader.style.fontSize = "20";
+        AddPingerHostNameHeader.style.fontWeight = "500";
+        AddPingerHostNameContainer.appendChild(AddPingerHostNameHeader);
+        //add pinger tooltip 
+        const AddPingerHostNameTip = document.createElement("div");
+        AddPingerHostNameTip.style.position = "absolute";
+        AddPingerHostNameTip.style.left = "0px";
+        AddPingerHostNameTip.style.textAlign = "center";
+        AddPingerHostNameTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+        AddPingerHostNameTip.style.width = "100%";
+        AddPingerHostNameTip.innerHTML = "<i>This is the address or hostname the backend will ping for</i>";
+        AddPingerHostNameTip.className = "text";
+        AddPingerHostNameTip.style.color =AccessCSSVar("--col_bg_div1");
+        AddPingerHostNameTip.style.fontSize = "12";
+        AddPingerHostNameTip.style.fontWeight = "200";
+        AddPingerHostNameContainer.appendChild(AddPingerHostNameTip);
+        //server name input
+        const AddPingerHostNameInput = document.createElement("input");
+        AddPingerHostNameInput.style.position = "absolute";
+        AddPingerHostNameInput.style.left = "50%";
+        AddPingerHostNameInput.style.transform = "translate(-50%,0%)";
+        AddPingerHostNameInput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+        AddPingerHostNameInput.placeholder = 'eg: "google.com"'
+        AddPingerHostNameInput.id = "AddPingerHostNameInput";
+        AddPingerHostNameInput.style.width = "200px";
+        AddPingerHostNameInput.type = "text";
+        AddPingerHostNameContainer.appendChild(AddPingerHostNameInput);
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        
+        const SaveServer = document.createElement("button");
+        SaveServer.innerHTML = "Save Server";
+        SaveServer.style.position = "absolute";
+        SaveServer.style.left = "50%";
+        SaveServer.style.transform = "translate(-50%, 0%)";
+        SaveServer.style.top = 300 + removeLetters(AccessCSSVar("--ElementPadding")) * 3 + "px" ;
+        SaveServer.addEventListener("click", function(){
+            SaveData();
+        })
+        dropshadow_ui_container.appendChild(SaveServer);
+        function SaveData(){
+            const PingerHostname = document.getElementById("AddPingerHostNameInput").value;
+            const PingerName = document.getElementById("AddPingerNameinput").value;
+            if(PingerHostname != "" && PingerName != ""){
+                //save data
+                const ChangeServerData = {
+                    "post":{
+                        "add_server":{
+                          "servername":PingerName,
+                          "domain":PingerHostname,
+                          "enabled":true,
+                          "alive":false,
+                          "ping":{}
+                        }
+                    }
+                };
+            
+                fetch(clientSettings.API.link, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ChangeServerData)
+                })
+                .then(response => response.json())
+                .then(data => HandleData(data));
+                function HandleData(data){
+                    if(data.RETURN == "OK"){
+                        GenerateMessageBanner(0, "Server added!");
+                        LoadPreparedData();     
+                        AddServer();                   
+                    }
+                }
+
+            }
+            else{
+                GenerateMessageBanner(2,"Inputs cannot be empty!")
+            }
+        }
+
+
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        //dropshadow
+        const dropshadow = document.createElement("div");
+        dropshadow.style.top = "0px";
+        dropshadow.style.left = "0px";
+        dropshadow.style.width = "100%";
+        dropshadow.style.height = "100%";
+        dropshadow.style.position = "absolute";
+        dropshadow.style.backgroundColor = AccessCSSVar("--col_bg_content");
+        dropshadow.style.opacity = "0.7";
+        dropshadow_container.appendChild(dropshadow);
+
+        //open settings
+        clientSettings.add_server.open = true; 
+    }
+    else if(clientSettings.add_server.open == true){
+        //close settings
+        const dropshadow_container = document.getElementById("add_server_dropshadow_container");
+        dropshadow_container.remove(); 
+        document.body.style.overflow = "auto";
+        clientSettings.add_server.open = false;
+    }
+}
+
 
 
