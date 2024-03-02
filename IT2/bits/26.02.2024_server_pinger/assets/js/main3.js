@@ -258,7 +258,7 @@ function PingerHover(pinger_id, entered){
         const PingerHoverEditBTN = document.createElement("img");
         PingerHoverEditBTN.style.position = "absolute";
         PingerHoverEditBTN.style.top  = "50%";
-        PingerHoverEditBTN.style.left = "50%";
+        PingerHoverEditBTN.style.left = "55%";
         PingerHoverEditBTN.style.transform = "translate(-50%,-50%)";
         PingerHoverEditBTN.src = "./assets/img/file-edit.svg";
         PingerHoverEditBTN.style.width = "100%";
@@ -266,7 +266,8 @@ function PingerHover(pinger_id, entered){
         PingerHoverEditBTN.style.filter = "invert(88%) sepia(0%) saturate(383%) hue-rotate(249deg) brightness(91%) contrast(88%) opacity(70%)";
         PingerHoverEditBTN.style.cursor ="pointer";
         PingerHoverEditBTN.addEventListener("click",function(){
-            console.log("uwu")
+            //console.log("uwu")
+            PingerSettings(pinger_id);
         });
         PingerHoverEditContainer.appendChild(PingerHoverEditBTN);
 
@@ -279,10 +280,371 @@ function PingerHover(pinger_id, entered){
 function PingerSettings(pinger_id){
     if(clientSettings.pingerSettings.open == false){
         //open settings
+        const GetServerDATA = {
+            "get":{
+              "get_server_data":pinger_id
+            }
+        };
+    
+        fetch(clientSettings.API.link, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(GetServerDATA)
+        })
+        .then(response => response.json())
+        .then(data => SpawnUI(data));
+
+        function SpawnUI(data){
+            //this function spawns the ui for the selected server with specific server data
+
+            //create dropshadow
+            const dropshadow_container = document.createElement("div");
+            dropshadow_container.style.top = "0px";
+            dropshadow_container.style.left = "0px";
+            dropshadow_container.style.width = "100%";
+            dropshadow_container.style.height = "100%";
+            dropshadow_container.style.position = "absolute";
+            dropshadow_container.id = "settings_dropshadow_container";
+            dropshadow_container.style.zIndex = "9";
+            document.getElementById("content-fullscreen").appendChild(dropshadow_container);
+            document.body.style.overflow = "hidden";            
+
+            //ui
+            const dropshadow_ui_container = document.createElement("div");
+            dropshadow_ui_container.style.position = "absolute";
+            dropshadow_ui_container.style.top = "50%";
+            dropshadow_ui_container.style.width = "500px";
+            dropshadow_ui_container.style.height = "600px";
+            dropshadow_ui_container.style.zIndex = "999";
+            dropshadow_ui_container.style.left  ="50%";
+            dropshadow_ui_container.id = clientSettings.assorted_ids.pinger_backdrop;  
+            dropshadow_ui_container.style.transform = "translate(-50%,-50%)";
+            dropshadow_ui_container.style.borderRadius = AccessCSSVar("--CornerRad")
+            dropshadow_ui_container.style.backgroundColor = AccessCSSVar("--col_bg_lighter");
+            dropshadow_container.appendChild(dropshadow_ui_container);
+
+            //heading
+            const SettingsHeader = document.createElement("div");
+            SettingsHeader.style.position = "absolute";
+            SettingsHeader.style.top = AccessCSSVar("--ElementPadding");
+            SettingsHeader.style.left = "0px"
+            SettingsHeader.style.width = "100%";
+            SettingsHeader.style.textAlign = "center";
+            SettingsHeader.innerHTML = 'Editing "' + data.nickname + '"';
+            SettingsHeader.className = "text";
+            SettingsHeader.style.color= AccessCSSVar("--col_normalTXT");
+            SettingsHeader.style.fontSize  ="30";
+            dropshadow_ui_container.appendChild(SettingsHeader);
+
+            const CloseBTN = document.createElement("img");
+            CloseBTN.style.position = "absolute";
+            CloseBTN.style.top = AccessCSSVar("--ElementPadding");
+            CloseBTN.style.right = AccessCSSVar("--ElementPadding");
+            CloseBTN.src = "./assets/img/close.svg";
+            CloseBTN.style.width = "40px";
+            CloseBTN.style.filter = "invert(88%) sepia(0%) saturate(383%) hue-rotate(249deg) brightness(91%) contrast(88%)";
+            CloseBTN.style.cursor = "pointer";
+            CloseBTN.addEventListener("click",function(){
+                PingerSettings(pinger_id);
+            });
+            dropshadow_ui_container.appendChild(CloseBTN);
+
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            // turn pinger on or off
+            const UpdatePingerStateContainer = document.createElement("div");
+            UpdatePingerStateContainer.style.position = "absolute";
+            UpdatePingerStateContainer.style.top = "100px";
+            UpdatePingerStateContainer.style.left = "50%";
+            UpdatePingerStateContainer.style.transform = "translate(-50%,0)";
+            UpdatePingerStateContainer.style.width = "484px";
+            UpdatePingerStateContainer.style.height = "100px";
+            UpdatePingerStateContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            UpdatePingerStateContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+            dropshadow_ui_container.appendChild(UpdatePingerStateContainer);
+            //update pinger state header
+            const UUpdatePingerStateHeader = document.createElement("div");
+            UUpdatePingerStateHeader.style.position = "absolute";
+            UUpdatePingerStateHeader.style.left = "50%";
+            UUpdatePingerStateHeader.style.top = AccessCSSVar("--CornerRad");
+            UUpdatePingerStateHeader.style.transform = "translate(-50%,0)";
+            UUpdatePingerStateHeader.innerHTML = "Turn Pinger on or off"
+            UUpdatePingerStateHeader.className = "text";
+            UUpdatePingerStateHeader.style.color =AccessCSSVar("--col_bold_TXT");
+            UUpdatePingerStateHeader.style.fontSize = "20";
+            UUpdatePingerStateHeader.style.fontWeight = "500";
+            UpdatePingerStateContainer.appendChild(UUpdatePingerStateHeader);
+            //update pinger state tooltip
+            const UpdatePingerStateTip = document.createElement("div");
+            UpdatePingerStateTip.style.position = "absolute";
+            UpdatePingerStateTip.style.left = "0px";
+            UpdatePingerStateTip.style.textAlign = "center";
+            UpdatePingerStateTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            UpdatePingerStateTip.style.width = "100%";
+            UpdatePingerStateTip.innerHTML = "<i>Turn pinger on or off. Backend will pause pinging if turned off</i>";
+            UpdatePingerStateTip.className = "text";
+            UpdatePingerStateTip.style.color =AccessCSSVar("--col_bg_div1");
+            UpdatePingerStateTip.style.fontSize = "12";
+            UpdatePingerStateTip.style.fontWeight = "200";
+            UpdatePingerStateContainer.appendChild(UpdatePingerStateTip);
+            //upodate timing switch
+            const UpdatePingerStateInput = document.createElement("input");
+            UpdatePingerStateInput.style.position = "absolute";
+            UpdatePingerStateInput.style.left = "170px";
+            UpdatePingerStateInput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            UpdatePingerStateInput.min = 1;
+            UpdatePingerStateInput.max = 100;
+            if(data.enabled == true){
+                UpdatePingerStateInput.value = 1;
+            }
+            else{
+                UpdatePingerStateInput.value = 0;
+            }
+            UpdatePingerStateInput.id = "UpdatePingerStateInput";
+            UpdatePingerStateInput.style.width = "25px";
+            UpdatePingerStateInput.style.height = "25px";
+            UpdatePingerStateInput.type = "checkbox";
+            UpdatePingerStateContainer.appendChild(UpdatePingerStateInput);
+            //save timing
+            const UpdatePingerStateInputSave = document.createElement("button");
+            UpdatePingerStateInputSave.style.position = "absolute";
+            UpdatePingerStateInputSave.style.right  ="170px";
+            UpdatePingerStateInputSave.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            UpdatePingerStateInputSave.innerHTML = "Save";
+            UpdatePingerStateInputSave.addEventListener("click",function(){
+                SavePingerState();
+            });    
+            UpdatePingerStateContainer.appendChild(UpdatePingerStateInputSave);
+            function SavePingerState(){
+                const value = document.getElementById("UpdatePingerStateInput").value;
+                console.warn("not implemented" + value);
+            }   
+
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //rename server
+            const RenamePingerContainer = document.createElement("div");
+            RenamePingerContainer.style.position = "absolute";
+            RenamePingerContainer.style.top = 200 + removeLetters(AccessCSSVar("--ElementPadding")) + "px" ;
+            RenamePingerContainer.style.left = "50%";
+            RenamePingerContainer.style.transform = "translate(-50%,0)";
+            RenamePingerContainer.style.width = "484px";
+            RenamePingerContainer.style.height = "100px";
+            RenamePingerContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            RenamePingerContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+            dropshadow_ui_container.appendChild(RenamePingerContainer);
+            //Ping history header
+            const RenamePingerHeader = document.createElement("div");
+            RenamePingerHeader.style.position = "absolute";
+            RenamePingerHeader.style.left = "50%";
+            RenamePingerHeader.style.top = AccessCSSVar("--CornerRad");
+            RenamePingerHeader.style.transform = "translate(-50%,0)";
+            RenamePingerHeader.innerHTML = "Rename server"
+            RenamePingerHeader.className = "text";
+            RenamePingerHeader.style.color =AccessCSSVar("--col_bold_TXT");
+            RenamePingerHeader.style.fontSize = "20";
+            RenamePingerHeader.style.fontWeight = "500";
+            RenamePingerContainer.appendChild(RenamePingerHeader);
+            //Ping history tooltip
+            const RenamePingerTip = document.createElement("div");
+            RenamePingerTip.style.position = "absolute";
+            RenamePingerTip.style.left = "0px";
+            RenamePingerTip.style.textAlign = "center";
+            RenamePingerTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            RenamePingerTip.style.width = "100%";
+            RenamePingerTip.innerHTML = "<i>Renames the server to something else</i>";
+            RenamePingerTip.className = "text";
+            RenamePingerTip.style.color =AccessCSSVar("--col_bg_div1");
+            RenamePingerTip.style.fontSize = "12";
+            RenamePingerTip.style.fontWeight = "200";
+            RenamePingerContainer.appendChild(RenamePingerTip);
+            // update tooltip
+            const RenamePingerNameInput = document.createElement("input");
+            RenamePingerNameInput.style.position = "absolute";
+            RenamePingerNameInput.style.left = "100px";
+            RenamePingerNameInput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            RenamePingerNameInput.min = 3;
+            RenamePingerNameInput.max = 400;
+            RenamePingerNameInput.placeholder = "some cool name";
+            RenamePingerNameInput.id = "RenamePingerNameInput";
+            RenamePingerNameInput.style.width = "150px";
+            RenamePingerNameInput.type = "text";
+            RenamePingerContainer.appendChild(RenamePingerNameInput);
+            //update timing save button
+            const RenamePingerNameInputSave = document.createElement("button");
+            RenamePingerNameInputSave.style.position = "absolute";
+            RenamePingerNameInputSave.style.right  ="170px";
+            RenamePingerNameInputSave.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            RenamePingerNameInputSave.innerHTML = "Save";
+            RenamePingerNameInputSave.addEventListener("click",function(){
+                SavePingerName();
+            });    
+            RenamePingerContainer.appendChild(RenamePingerNameInputSave);  
+            function SavePingerName(){
+                submit_value = document.getElementById("RenamePingerNameInput").value;
+                console.log("not implemented" + submit_value);
+            }
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //edit domain
+            const EditPingerDomainContainer = document.createElement("div");
+            EditPingerDomainContainer.style.position = "absolute";
+            EditPingerDomainContainer.style.top = 300 + (removeLetters(AccessCSSVar("--ElementPadding"))*2) + "px" ;
+            EditPingerDomainContainer.style.left = "50%";
+            EditPingerDomainContainer.style.transform = "translate(-50%,0)";
+            EditPingerDomainContainer.style.width = "484px";
+            EditPingerDomainContainer.style.height = "100px";
+            EditPingerDomainContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            EditPingerDomainContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+            dropshadow_ui_container.appendChild(EditPingerDomainContainer);
+            //Ping domain header
+            const EditPingerDomainHeader = document.createElement("div");
+            EditPingerDomainHeader.style.position = "absolute";
+            EditPingerDomainHeader.style.left = "50%";
+            EditPingerDomainHeader.style.top = AccessCSSVar("--CornerRad");
+            EditPingerDomainHeader.style.transform = "translate(-50%,0)";
+            EditPingerDomainHeader.innerHTML = "Edit server domain"
+            EditPingerDomainHeader.className = "text";
+            EditPingerDomainHeader.style.color =AccessCSSVar("--col_bold_TXT");
+            EditPingerDomainHeader.style.fontSize = "20";
+            EditPingerDomainHeader.style.fontWeight = "500";
+            EditPingerDomainContainer.appendChild(EditPingerDomainHeader);
+            //Ping domain tooltip
+            const EditPingerDomainTip = document.createElement("div");
+            EditPingerDomainTip.style.position = "absolute";
+            EditPingerDomainTip.style.left = "0px";
+            EditPingerDomainTip.style.textAlign = "center";
+            EditPingerDomainTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            EditPingerDomainTip.style.width = "100%";
+            EditPingerDomainTip.innerHTML = "<i>Changes this servers domain to something else</i>";
+            EditPingerDomainTip.className = "text";
+            EditPingerDomainTip.style.color =AccessCSSVar("--col_bg_div1");
+            EditPingerDomainTip.style.fontSize = "12";
+            EditPingerDomainTip.style.fontWeight = "200";
+            EditPingerDomainContainer.appendChild(EditPingerDomainTip);
+            // ping  domain input
+            const EditPingerDomainInput = document.createElement("input");
+            EditPingerDomainInput.style.position = "absolute";
+            EditPingerDomainInput.style.left = "100px";
+            EditPingerDomainInput.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            EditPingerDomainInput.min = 3;
+            EditPingerDomainInput.max = 400;
+            EditPingerDomainInput.placeholder = "eg: google.com";
+            EditPingerDomainInput.id = "EditPingerDomainInput";
+            EditPingerDomainInput.style.width = "150px";
+            EditPingerDomainInput.type = "text";
+            EditPingerDomainContainer.appendChild(EditPingerDomainInput);
+            //update domain button
+            const EditPingerDomainInputSave = document.createElement("button");
+            EditPingerDomainInputSave.style.position = "absolute";
+            EditPingerDomainInputSave.style.right  ="170px";
+            EditPingerDomainInputSave.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            EditPingerDomainInputSave.innerHTML = "Save";
+            EditPingerDomainInputSave.addEventListener("click",function(){
+                SaveNewPingerDomain();
+            });  
+            EditPingerDomainContainer.appendChild(EditPingerDomainInputSave);
+            function SaveNewPingerDomain(){
+                const Domain = document.getElementById("EditPingerDomainInput").value;
+
+                console.log("not implemented uwu" + Domain)
+            }
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //delete domain
+            const DeletePingerContainer = document.createElement("div");
+            DeletePingerContainer.style.position = "absolute";
+            DeletePingerContainer.style.top = 400 + (removeLetters(AccessCSSVar("--ElementPadding"))*3) + "px" ;
+            DeletePingerContainer.style.left = "50%";
+            DeletePingerContainer.style.transform = "translate(-50%,0)";
+            DeletePingerContainer.style.width = "484px";
+            DeletePingerContainer.style.height = "100px";
+            DeletePingerContainer.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            DeletePingerContainer.style.borderRadius = AccessCSSVar("--CornerRad");
+            dropshadow_ui_container.appendChild(DeletePingerContainer);
+            //Delete domain header
+            const DeletePingerHeader = document.createElement("div");
+            DeletePingerHeader.style.position = "absolute";
+            DeletePingerHeader.style.left = "50%";
+            DeletePingerHeader.style.top = AccessCSSVar("--CornerRad");
+            DeletePingerHeader.style.transform = "translate(-50%,0)";
+            DeletePingerHeader.innerHTML = "Delete server"
+            DeletePingerHeader.className = "text";
+            DeletePingerHeader.style.color =AccessCSSVar("--col_bold_TXT");
+            DeletePingerHeader.style.fontSize = "20";
+            DeletePingerHeader.style.fontWeight = "500";
+            DeletePingerContainer.appendChild(DeletePingerHeader);     
+
+            //Delete domain tooltip
+            const DeletePingerTip = document.createElement("div");
+            DeletePingerTip.style.position = "absolute";
+            DeletePingerTip.style.left = "0px";
+            DeletePingerTip.style.textAlign = "center";
+            DeletePingerTip.style.top = (25 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            DeletePingerTip.style.width = "100%";
+            DeletePingerTip.innerHTML = "<i>Deletes this server and all data associated with it</i>";
+            DeletePingerTip.className = "text";
+            DeletePingerTip.style.color =AccessCSSVar("--col_bg_div1");
+            DeletePingerTip.style.fontSize = "12";
+            DeletePingerTip.style.fontWeight = "200";
+            DeletePingerContainer.appendChild(DeletePingerTip);
+            //update timing save button
+            const DeletePinger = document.createElement("div");
+            DeletePinger.style.position = "absolute";
+            DeletePinger.style.left  ="50%";
+            DeletePinger.style.transform = "translate(-50%,0%)";
+            DeletePinger.style.top = (48 + removeLetters(AccessCSSVar("--CornerRad"))) + "px";
+            DeletePinger.innerHTML = "Delete";
+            DeletePinger.style.padding = AccessCSSVar("--ElementPadding");
+            DeletePinger.style.borderRadius = AccessCSSVar("--CornerRad");
+            DeletePinger.style.color = AccessCSSVar("--col_normalTXT");
+            DeletePinger.className = "text";
+            DeletePinger.style.cursor = "pointer"; 
+            DeletePinger.style.userSelect = "none";
+            DeletePinger.style.backgroundColor = "Red";
+            DeletePinger.addEventListener("click",function(){
+                DeleteServer();
+            });  
+            DeletePingerContainer.appendChild(DeletePinger);
+            function DeleteServer(){
+                console.log("not implemented uwu")
+            }
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////
+
+
+            const dropshadow = document.createElement("div");
+            dropshadow.style.top = "0px";
+            dropshadow.style.left = "0px";
+            dropshadow.style.width = "100%";
+            dropshadow.style.height = "100%";
+            dropshadow.style.position = "absolute";
+            dropshadow.style.backgroundColor = AccessCSSVar("--col_bg_content");
+            dropshadow.style.opacity = "0.7";
+            dropshadow_container.appendChild(dropshadow);
+            
+        }
+        
+
+
+
+
         clientSettings.pingerSettings.open = true;
     }
     else if(clientSettings.pingerSettings.open == true){
-        //close settings
+        //close menu
+        const dropshadow_container = document.getElementById("settings_dropshadow_container");
+        dropshadow_container.remove(); 
+        clientSettings.settings.open = false;
+        document.body.style.overflow = "auto";
+
         clientSettings.pingerSettings.open = false; 
     }
 }

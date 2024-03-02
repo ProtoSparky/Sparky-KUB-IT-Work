@@ -1,3 +1,37 @@
+function tintColor(mainColor, secondaryColor, opacity) {
+  //this function uses secondary color to tint main usin opacity
+  // Convert hex color to RGBA
+  function hexToRgb(hex) {
+     const bigint = parseInt(hex.slice(1), 16);
+     const r = (bigint >> 16) & 255;
+     const g = (bigint >> 8) & 255;
+     const b = bigint & 255;
+     return [r, g, b, 255];
+  }
+ 
+  // Blend colors
+  function blendColors(color1, color2, opacity) {
+     const r = Math.round(color1[0] * opacity + color2[0] * (1 - opacity));
+     const g = Math.round(color1[1] * opacity + color2[1] * (1 - opacity));
+     const b = Math.round(color1[2] * opacity + color2[2] * (1 - opacity));
+     return [r, g, b];
+  }
+ 
+  // Convert RGB to hex
+  function rgbToHex(rgb) {
+     let hex = "#";
+     rgb.forEach(val => {
+       const hexVal = val.toString(16);
+       hex += hexVal.length === 1 ? "0" + hexVal : hexVal;
+     });
+     return hex;
+  }
+ 
+  const mainRgb = hexToRgb(mainColor);
+  const secondaryRgb = hexToRgb(secondaryColor);
+  const blendedRgb = blendColors(mainRgb, secondaryRgb, opacity);
+  return rgbToHex(blendedRgb);
+}
 function ADDopacityToHex(hex, opacity) {
   // Ensure opacity is within the range 0 to 1
   opacity = Math.min(Math.max(opacity, 0), 1);
