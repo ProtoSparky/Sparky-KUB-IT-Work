@@ -4,9 +4,193 @@
         "update_timing": 1,
         "client_settings": [],
         "backend": {
-            "backend_lastrun": "01.03.2024@20:00",
+            "backend_lastrun": "04.03.2024@10:38",
             "ping_history": 10
         }
     },
-    "servers": []
+    "servers": {
+        "srv253147555": {
+            "nickname": "navn",
+            "domain": "informatikk4.net",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    35,
+                    68,
+                    102,
+                    28,
+                    32,
+                    28,
+                    35,
+                    18,
+                    21,
+                    16
+                ]
+            }
+        },
+        "srv809699769": {
+            "nickname": "informatikk5",
+            "domain": "informatikk5.net",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    44,
+                    90,
+                    100,
+                    36,
+                    34,
+                    29,
+                    36,
+                    21,
+                    15,
+                    14
+                ]
+            }
+        },
+        "srv793250632": {
+            "nickname": "informatikk6",
+            "domain": "informatikk6.net",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    63,
+                    69,
+                    103,
+                    33,
+                    33,
+                    27,
+                    35,
+                    0,
+                    15,
+                    14
+                ]
+            }
+        },
+        "srv474660668": {
+            "nickname": "kuben",
+            "domain": "kuben.vgs.no",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    20,
+                    41,
+                    86,
+                    22,
+                    25,
+                    20,
+                    25,
+                    33,
+                    8,
+                    6
+                ]
+            }
+        },
+        "srv676316064": {
+            "nickname": "my server",
+            "domain": "protosparky.uk",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    28,
+                    129,
+                    112,
+                    40,
+                    34,
+                    27,
+                    30,
+                    34,
+                    72,
+                    13
+                ]
+            }
+        },
+        "srv204362532": {
+            "nickname": "google",
+            "domain": "google.com",
+            "enabled": false,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    20,
+                    19,
+                    16,
+                    23
+                ]
+            }
+        },
+        "srv472068896": {
+            "nickname": "example",
+            "domain": "example.com",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    115,
+                    167,
+                    154,
+                    108,
+                    113,
+                    114,
+                    102,
+                    115,
+                    97,
+                    91
+                ]
+            }
+        },
+        "srv332088304": {
+            "nickname": "china post",
+            "domain": "ems.com.cn",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    250,
+                    335,
+                    320,
+                    253,
+                    253,
+                    252,
+                    245,
+                    249,
+                    239,
+                    235
+                ]
+            }
+        },
+        "srv832514643": {
+            "nickname": "test",
+            "domain": "192.168.50.1",
+            "enabled": true,
+            "alive": true,
+            "ping_status": null,
+            "ping": {
+                "history": [
+                    28,
+                    54,
+                    76,
+                    16,
+                    27,
+                    22,
+                    15,
+                    26,
+                    10,
+                    4
+                ]
+            }
+        }
+    }
 }
