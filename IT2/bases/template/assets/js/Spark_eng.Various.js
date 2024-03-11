@@ -1,3 +1,47 @@
+function ADDopacityToHex(hex, opacity) {
+  // Ensure opacity is within the range 0 to 1
+  opacity = Math.min(Math.max(opacity, 0), 1);
+  // Convert opacity to a value between 0 and 255
+  var opacityHex = Math.round(opacity * 255).toString(16);
+  // Ensure the hex string is two characters long, padding with 0 if necessary
+  opacityHex = opacityHex.padStart(2, '0');
+  // Return the original hex color with the opacity value appended
+  return hex + opacityHex;
+}
+
+function removeLetters(str) {
+  //removes all letters from a string, and returns the numbers
+  return parseInt(str.replace(/\D/g, ''));
+}
+
+
+function truncateString(str, maxLength) {
+  //truncates string
+  if (str.length > maxLength) {
+     return str.slice(0, maxLength - 3) + '...';
+  }
+  return str;
+}
+function average(numbers, decimals) {
+  // Calculates an average of all the numbers
+  const sum = numbers.reduce((acc, val) => acc + val, 0);
+  const average = sum / numbers.length;
+  return parseFloat(average.toFixed(decimals));
+ }
+
+function compareArrays(arr1, arr2) {
+  // Find elements added from arr1 to arr2
+  const added = arr2.filter(x => !arr1.includes(x));
+ 
+  // Find elements removed from arr1 to arr2
+  const removed = arr1.filter(x => !arr2.includes(x));
+ 
+  // Return an object containing both arrays
+  return {
+     added: added,
+     removed: removed
+  };
+}
 function RandomRangedIntiger(min, max, not) {
   //random number generator that can also skip some numbers in not array
   if(not == undefined){
