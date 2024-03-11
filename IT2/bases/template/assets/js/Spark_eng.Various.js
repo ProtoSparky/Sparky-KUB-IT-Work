@@ -82,33 +82,6 @@ function calculateCoordinates(x1, y1, angle, distance) {
   return [x2, y2];
 }
 
-
-//look up class index from element id
-function ClassIndexLookup(id, class_name){
-  const elements = document.getElementsByClassName(class_name);
-  for(let arr_index = 0; arr_index <elements.length; arr_index ++){
-      if(elements[arr_index].id === id){
-          return arr_index; //return array index if id matches
-      }
-  }  
-  console.error("ERROR: ClassIndexLookup() could not find arr key for class: '" + class_name + "' id: '" + id + "'");
-  return -1; //return -1 if id not found  
-}
-
-function ClassIndexToId(class_name, index, DisableErrors) {
-  const elements = document.getElementsByClassName(class_name);
-  if (index >= 0 && index < elements.length) {
-    return elements[index].id;
-  } 
-  else {
-      if(!DisableErrors){
-          console.error("ERROR: ClassIndexToId() could not find ID for class: '" + class_name + "' and index: '" + index + "'");
-      }
-    return null; // return null on faliure
-  }
-}
-
-
 //This function checks if any of the two arrays have similar numbers
 function ArraysCommon(arr1, arr2) {
   for (let i = 0; i < arr1.length; i++) {
@@ -119,12 +92,6 @@ function ArraysCommon(arr1, arr2) {
   return false; // No common elements found
 }
 
-
-//Returns the index length of a given class
-function ClassIndexLength(class_id){
-  object = document.getElementsByClassName(class_id);
-  return object.length; 
-}
 
 // counts how many times funtion has been run, returns true after given amount
 function Counter(ReturnAfterRuns) {
@@ -239,36 +206,6 @@ function removeCapitalization(inputString) {
   return inputString.toLowerCase();
 }
 
-/*
-//Searches trough array, if input is found, returns new array
-function search(input, Array) {
-  const normalizedInput = input.replace(/\s/g, "").toLowerCase();
-  //Blacklist of array keys
-  const ignoredKeys = [1,2,3,4,5];
-  //Blacklist of array keys
-
-  const matchingRows = [];
-
-  for (const row of Array) {
-    let found = false;
-
-    for (let i = 0; i < row.length; i++) {
-      if (ignoredKeys.includes(i)) continue;
-      const cell = row[i];
-      const normalizedCell = cell.replace(/\s/g, "").toLowerCase();
-
-      if (normalizedCell.includes(normalizedInput)) {
-        found = true;
-        break;
-      }
-    }  
-    if (found) {
-      matchingRows.push(row.slice()); // Copy the matching row to the new array
-    }
-  }
-
-  return matchingRows;
-}*/
 function search(input, Array, includeBool) {
   const normalizedInput = input.replace(/\s/g, "").toLowerCase();
   const ignoredKeys = [1,2,3,4,5];
