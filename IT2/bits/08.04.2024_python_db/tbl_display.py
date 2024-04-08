@@ -4,7 +4,6 @@ from matplotlib import pyplot as plt
 import numpy as np
 connect = testdb.connect('uvUke33.db')
 
-print ("uvUke33, vis alle data.")
 
 with connect:
     #fetch data for different vehicle fuel types
@@ -33,7 +32,7 @@ with connect:
     #create plot
     connect.close()
     fig = plt.figure(figsize=(10, 7))
-    plt.pie(FuelTypeAmount, labels=FuelType)
+    plt.pie(FuelTypeAmount, labels=FuelType,autopct='%1.0f%%')
     plt.show()
     
 
