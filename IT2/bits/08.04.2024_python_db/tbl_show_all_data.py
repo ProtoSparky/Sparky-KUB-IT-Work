@@ -1,3 +1,4 @@
+#Oppgave 33B
 import sqlite3 as testdb
 connect = testdb.connect('uvUke33.db')
 
