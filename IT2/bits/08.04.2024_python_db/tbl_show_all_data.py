@@ -8,5 +8,4 @@ with connect:
     data = connect.execute("SELECT * FROM tbl_bruktbiler")
     for row in data:
         print(row);
-        
-print ("Script ferdig.");     
+
