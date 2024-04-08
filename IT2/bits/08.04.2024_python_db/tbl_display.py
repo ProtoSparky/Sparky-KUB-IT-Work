@@ -1,5 +1,7 @@
 #Oppg. 33C. Show sector diagram 
 import sqlite3 as testdb
+from matplotlib import pyplot as plt
+import numpy as np
 connect = testdb.connect('uvUke33.db')
 
 print ("uvUke33, vis alle data.")
