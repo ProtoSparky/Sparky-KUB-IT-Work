@@ -52,7 +52,6 @@ while iteration_pointer < len(db_id):
     iteration_pointer += 1
 
 #print final output
-
 print_pointer = 0
 while print_pointer < len(final_sorted):
     if(print_pointer == 0):
