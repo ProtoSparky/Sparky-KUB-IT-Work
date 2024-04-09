@@ -5,9 +5,7 @@ today = datetime.date.today()
 year = today.year
 veteran_year = year - 30
 connect = testdb.connect('uvUke33.db')
-
 #id, produsent, modell, drivstoff, gearbox, km_stand, prod_year, regnr, skilttype, farge, sitteplasser
-
 #get a list of all veteran vehicles
 vehicles = []
 with connect:
@@ -37,7 +35,6 @@ for vehicle_row in vehicles:
             temp_array.pop(pointer_row)
         pointer_row += 1
 
-
 #iterate trough found array keys
 final_sorted = []
 iteration_pointer = 0
@@ -50,16 +47,8 @@ while iteration_pointer < len(db_id):
 print_pointer = 0
 while print_pointer < len(final_sorted):
     if(print_pointer == 0):
-        print("|---------------------------------List of veteran vehicles------------------------------------| \n")
+        print("|-------------------------------------------------List of veteran vehicles----------------------------------------------------| \n")
         print("|   produsent  |  modell |  drivstoff |  gearbox  |  km_stand  |  prod_year  |  regnr |  skilttype  |  farge  |  sitteplasser\n")
     current_row = final_sorted[print_pointer]
     print_pointer += 1
     print(" | ", current_row[1] , " | ", current_row[2], " | ", current_row[3], " | " , current_row[4], " | ", current_row[5]," | ",current_row[6], " | ", current_row[7]," | ", current_row[8], " | ", current_row[9], " | ", current_row[10])
-
-
-
-
-
-
-
-
