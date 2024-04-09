@@ -41,8 +41,6 @@ for row in temp_array:
         if(row == current_vehicle_model):
             #vehicle model number found
             db_id.append(pointer)
-            #remove list from aphabetic list of vehicles
-            temp_array.pop(row_pointer)
 
 
 #iterate trough found array keys
