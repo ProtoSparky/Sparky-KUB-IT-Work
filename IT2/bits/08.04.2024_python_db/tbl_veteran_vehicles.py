@@ -15,11 +15,11 @@ with connect:
     data = connect.execute(sql)
     for row in data: 
         vehicles.append(row)
-
+'''
 print("Veteran Vehicles --------")
 print(vehicles)
 print("Veteran Vehicles --------")
-
+'''
 #sort vehicles alphabetically
 temp_array = []
 for row in vehicles:
@@ -54,7 +54,16 @@ while iteration_pointer < len(db_id):
     iteration_pointer += 1
 
 #print final output
-print(final_sorted)
+
+print_pointer = 0
+while print_pointer < len(final_sorted):
+    if(print_pointer == 0):
+        print("|-----------List of veteran vehicles--------------| \n")
+        print("produsent  |  modell |  drivstoff |  gearbox  |  km_stand  |  prod_year  |  regnr |  skilttype  |  farge  |  sitteplasser \n")
+    current_row = final_sorted[print_pointer]
+    print_pointer += 1
+    print(current_row[1] , " | ", current_row[2], " | ", current_row[3], " | " , current_row[4], " | ", current_row[5]," | ",current_row[6], " | ", current_row[7]," | ", current_row[8], " | ", current_row[9], " | ", current_row[10])
+
 
 
 
