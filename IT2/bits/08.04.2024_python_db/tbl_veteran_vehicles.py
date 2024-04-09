@@ -15,11 +15,7 @@ with connect:
     data = connect.execute(sql)
     for row in data: 
         vehicles.append(row)
-'''
-print("Veteran Vehicles --------")
-print(vehicles)
-print("Veteran Vehicles --------")
-'''
+
 #sort vehicles alphabetically
 temp_array = []
 for row in vehicles:
@@ -28,19 +24,18 @@ for row in vehicles:
 #take names and sort them
 temp_array.sort()
 
-#iterate torugh all names in temp array and add them to another temp array, but now sorted
+#iterate trough all names in temp array and add them to another temp array, but now sorted
 db_id = []
-row_pointer = -1
-for row in temp_array:
-    #current row is alphabetically sorted
-    row_pointer += 1
-    pointer = -1
-    for vehicle_row in vehicles:
-        current_vehicle_model = vehicle_row[2]
-        pointer += 1
+pointer = -1
+for vehicle_row in vehicles:
+    current_vehicle_model = vehicle_row[2]
+    pointer += 1
+    pointer_row = 0
+    for row in temp_array:
         if(row == current_vehicle_model):
-            #vehicle model number found
             db_id.append(pointer)
+            temp_array.pop(pointer_row)
+        pointer_row += 1
 
 
 #iterate trough found array keys
@@ -55,11 +50,11 @@ while iteration_pointer < len(db_id):
 print_pointer = 0
 while print_pointer < len(final_sorted):
     if(print_pointer == 0):
-        print("|-----------List of veteran vehicles--------------| \n")
-        print("produsent  |  modell |  drivstoff |  gearbox  |  km_stand  |  prod_year  |  regnr |  skilttype  |  farge  |  sitteplasser \n")
+        print("|---------------------------------List of veteran vehicles------------------------------------| \n")
+        print("|   produsent  |  modell |  drivstoff |  gearbox  |  km_stand  |  prod_year  |  regnr |  skilttype  |  farge  |  sitteplasser\n")
     current_row = final_sorted[print_pointer]
     print_pointer += 1
-    print(current_row[1] , " | ", current_row[2], " | ", current_row[3], " | " , current_row[4], " | ", current_row[5]," | ",current_row[6], " | ", current_row[7]," | ", current_row[8], " | ", current_row[9], " | ", current_row[10])
+    print(" | ", current_row[1] , " | ", current_row[2], " | ", current_row[3], " | " , current_row[4], " | ", current_row[5]," | ",current_row[6], " | ", current_row[7]," | ", current_row[8], " | ", current_row[9], " | ", current_row[10])
 
 
 
