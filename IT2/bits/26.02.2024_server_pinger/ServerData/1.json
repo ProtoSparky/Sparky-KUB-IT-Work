@@ -10,7 +10,7 @@
     },
     "servers": {
         "srv253147555": {
-            "nickname": "navn",
+            "nickname": "some cool name",
             "domain": "informatikk4.net",
             "enabled": true,
             "alive": true,
