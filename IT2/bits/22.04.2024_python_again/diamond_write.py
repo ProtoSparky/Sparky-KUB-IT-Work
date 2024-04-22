@@ -1,42 +1,39 @@
 import pandas
 import csv
 import json
+''''
 file_path = "./05.csv"
 file_array = pandas.read_csv(file_path,delimiter=",")
+'''
 
 
 
 ##################################################################################################
-def get_zigzag(df, headers):
-    # Calculate the number of rows needed for each header
-    num_rows = df.shape[0] // len(headers) + 1
-    # Initialize an empty list to store the zigzag data
-    zigzag_data = []
+import pandas as pd
 
-    # Loop through each row in the dataframe
-    for i in range(num_rows):
-        # Add a new row to the zigzag data
-        zigzag_row = []
-        
-        # Loop through each header in the headers list
-        for j, header in enumerate(headers):
-            # Calculate the column index based on the current row and header index
-            col_index = (i + j) % len(headers)
-            
-            # If the column index is within the bounds of the dataframe
-            if col_index < df.shape[1]:
-                # Add the data from the dataframe to the zigzag row
-                zigzag_row.append(df.iloc[i, col_index])
+def create_zigzag_csv(file_path, output_path):
+    # Step 1: Read the CSV file
+    df = pd.read_csv(file_path, delimiter=",")
+    
+    # Step 2: Determine the zigzag pattern
+    num_rows = df.shape[1] # Number of columns in the original DataFrame
+    num_cols = df.shape[0] # Number of rows in the original DataFrame
+    
+    # Step 3: Create the zigzag DataFrame
+    zigzag_df = pd.DataFrame(index=range(num_rows), columns=range(num_cols))
+    for col in range(num_cols):
+        for row in range(num_rows):
+            if (row + col) % 2 == 0: # Zigzag pattern
+                zigzag_df.iloc[row, col] = df.iloc[col, row]
             else:
-                # Add a null value to the zigzag row
-                zigzag_row.append(np.nan)
-        
-        # Add the zigzag row to the zigzag data list
-        zigzag_data.append(zigzag_row)
+                zigzag_df.iloc[row, col] = 'null'
+    
+    # Step 4: Write the zigzag DataFrame to a new CSV file
+    zigzag_df.to_csv(output_path, sep=';', index=False, header=False)
 
-    return pandas.DataFrame(zigzag_data, columns=headers)
+
 ############################################################################
-get_zigzag(file_array,)
+create_zigzag_csv("./05.csv", "./wtf.csv")
 
 
 
