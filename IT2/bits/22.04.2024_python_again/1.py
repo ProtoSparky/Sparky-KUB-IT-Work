@@ -2,4 +2,4 @@ import pandas
 #import dependency file
 file_path = "./05.csv"
 file_array = pandas.read_csv(file_path,delimiter=",")
-print(file_array)
+print(file_array["start_station_name"])
