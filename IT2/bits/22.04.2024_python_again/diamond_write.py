@@ -1,53 +1,42 @@
 import pandas
 import csv
+import json
 file_path = "./05.csv"
 file_array = pandas.read_csv(file_path,delimiter=",")
-collumns = file_array.columns.values.tolist()
-collumn_length = len(collumns)
-collumn_length_half = collumn_length/2 
-
-#write to CSV
-def write_to_csv(array, filename):
-    with open(filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        
-        # Add header if array has more than one element
-        if len(array) > 1:
-            header = ['key']
-            for row in array[0]:
-                header.append(row[0])
-            writer.writerow(header)
-
-        for row in array:
-            writer.writerow([row[0]] + [value if value else 'null' for value in row[1:]])
-
-temp_storage  = {}
-
-collumn_iterate = 0
-while collumn_iterate < collumn_length:
-    current_collun_name = collumns[collumn_iterate]
-    lines = file_array[current_collun_name]
-    total_lines = len(lines)    
-    #iterate trough lines
-    line_iterate = 0
-    print("writing collumn" + current_collun_name)
-    while line_iterate < total_lines:
-        current_data = file_array[current_collun_name][line_iterate]       
-
-        #iterate trough new collumns
-        new_collumn_pointer = 0
-        while new_collumn_pointer < collumn_length:
-            #temp_storage[current_collun_name][line_iterate+1] = current_data
-            temp_storage.setdefault(current_collun_name, {}).setdefault(line_iterate+1, current_data)
-            new_collumn_pointer += 1
 
 
 
-        #write data
-        line_iterate += 1
+##################################################################################################
 
-    collumn_iterate += 1
-write_to_csv(temp_storage, "wow.csv")
+def zigzag_csv(file_array, output_file):
+    # Read the input CSV file into a pandas dataframe
+    df = file_array
+
+    # Get the number of columns (headers)
+    num_cols = len(df.columns)
+
+    # Initialize an empty list to store the zigzag data
+    zigzag_data = []
+
+    # Iterate over each row in the dataframe
+    for i, row in enumerate(df.iterrows()):
+        # For each column, create a zigzag pattern with nulls
+        zigzag_row = []
+        for j, val in enumerate(row[1]):
+            if (i + j) % 2 == 0:  # even index
+                zigzag_row.append(str(val))
+            else:
+                zigzag_row.append('null')
+        zigzag_data.append(zigzag_row)
+
+    # Create a new dataframe with the zigzag data
+    zigzag_df = pandas.DataFrame(zigzag_data, columns=df.columns)
+
+    # Write the zigzag dataframe to the output CSV file
+    zigzag_df.to_csv(output_file, index=False)
+############################################################################
+zigzag_csv(file_array,"WTF.csv")
+
 
 
 
