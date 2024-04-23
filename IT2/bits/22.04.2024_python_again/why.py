@@ -40,7 +40,7 @@ fig, ax = plt.subplots()
 ax.plot(dates, values)
 
 # Adjusting the locator to generate ticks for each year
-ax.xaxis.set_major_locator(mdates.DayLocator(interval=365 * 50)) # every 10 years
+ax.xaxis.set_major_locator(mdates.DayLocator(interval=365 * 100)) # every 10 years
 #ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(ax.xaxis.get_major_locator()))
 ax.xaxis.set_major_locator(mdates.YearLocator())
 
