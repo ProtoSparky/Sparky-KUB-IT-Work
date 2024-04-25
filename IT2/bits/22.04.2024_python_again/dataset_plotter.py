@@ -2,13 +2,18 @@ import pandas
 import matplotlib.pyplot as plt
 import datetime
 import numpy as np
-import matplotlib.dates as mdates # Correct import statement
+import matplotlib.dates as mdates 
+import statistics
+import math
+
 #import dependency file
 file_path = "./GlobalLandTemperaturesByCity.csv"
 file_array = pandas.read_csv(file_path,delimiter=",")
 
 #Find all keys for said city
 find_city = "Århus"
+data_points = 300
+
 
 city_index = []
 total_keys = len(file_array)
@@ -26,11 +31,42 @@ while pointer < total_keys:
     pointer += 1
 
 print("------")
-print(city_index)
+#print(city_index)
 
 
 
+#create mean of numbers
+mean_pointer = 0
+meanify = []
+meanify_dates = []
+values_pr_point = len(city_index) / data_points 
+while mean_pointer < data_points:
+    #iterates trough all mean pointers
 
+    #iterates trough values pr point
+    vpp_pointer = 0
+    temp_array = []
+    temp_array.clear() #removes previous values from list
+    while vpp_pointer < values_pr_point:
+        city_pointer = vpp_pointer + mean_pointer #this pointer maps to the city index array
+        city_data = city_index[city_pointer][1] #should get temperatures
+        if(math.isnan(city_data)):
+            city_data = 0 #should prevent NAN values from appearing in dataset
+        temp_array.append(city_data)
+        vpp_pointer += 1 
+
+    #add dates
+    meanify_dates.append(city_index[mean_pointer + data_points][0])
+
+    #creates mean of values
+    #print(temp_array)
+    meanify.append(statistics.mean(temp_array))
+    mean_pointer += 1
+
+print(meanify)
+
+
+'''
 
 dates = [datetime.datetime.strptime(date, "%Y-%m-%d") for date, _ in city_index]
 values = [value for _, value in city_index]
@@ -43,8 +79,10 @@ ax.plot(dates, values)
 ax.xaxis.set_major_locator(mdates.DayLocator(interval=365 * 100)) # every 10 years
 #ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(ax.xaxis.get_major_locator()))
 ax.xaxis.set_major_locator(mdates.YearLocator())
+'''
 
-plt.title('Temperatures for ' + find_city + " 1700 - 2013")
+plt.plot(meanify_dates,meanify)
+plt.title('Temperatures for ' + find_city + " " + meanify_dates[0] + " - " + meanify_dates[len(meanify_dates) - 1])
 plt.xlabel('Date')
 plt.ylabel('Temperature (C)')
 plt.style.use('ggplot')
