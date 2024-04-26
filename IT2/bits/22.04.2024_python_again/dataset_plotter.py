@@ -1,20 +1,22 @@
 import pandas
 import matplotlib.pyplot as plt
-import datetime
 import numpy as np
 import matplotlib.dates as mdates 
 import statistics
 import math
 
 #import dependency file
+print("Loading CSV")
 file_path = "./GlobalLandTemperaturesByCity.csv"
 file_array = pandas.read_csv(file_path,delimiter=",")
+print("Done Loading CSV")
 
 #Find all keys for said city
-find_city = "Århus"
-data_points = 300
+find_city = "Oslo"
+data_points = 30
 
 
+print("Looking for " + find_city)
 city_index = []
 total_keys = len(file_array)
 pointer = 0
