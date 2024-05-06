@@ -12,9 +12,7 @@ def Inputs():
         temp_array[username].append(value)
     temp2_array = sum_totals(username,temp_array)
     plotter(temp2_array)
-
-
-    
+   
     
 
 def Ask4Number(current_day):
