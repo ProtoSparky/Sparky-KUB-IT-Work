@@ -2,15 +2,14 @@
 import matplotlib.pyplot as plt
 UserData = {}
 Temp = None
-def InputUsername():
-    
+def InputUsername():    
     username = input("Enter username: ")
     UserData[username] = {}
     UserData[username]["days"] = InputDays()
     UserData[username]["distance"] = InputDistance(username)
     UserData[username]["temp"] = InputTemperature(username)
     Sum_total_km()
-    print(UserData)
+    PlotData()
     
 
 def InputDays():
@@ -75,7 +74,27 @@ def Sum_total_km():
                 UserData[select_user]["distance_sum"].append(int(UserData[select_user]["distance_sum"][dist_pointer -1]) + int(distance[dist_pointer]))
             dist_pointer +=1
 
+def PlotData():
+    all_users = UserData.keys()
+    #show km
+    plt.title("Biking distances (KM) for a week")
+    for select_user in all_users:
+        plt.plot(UserData[select_user]["days"], UserData[select_user]["distance_sum"], label  = select_user)
+    plt.xlabel('Date')
+    plt.ylabel('Distance in KM')
+    plt.style.use('ggplot')
+    plt.legend() 
+    plt.show()
 
+    #show temp
+    plt.title("Temperatures during Biking (C) for a week")
+    for select_user in all_users:
+        plt.plot(UserData[select_user]["days"], UserData[select_user]["temp"], label  = select_user)
+    plt.xlabel('Date')
+    plt.ylabel('Temperature Degrees celcius')
+    plt.style.use('ggplot')
+    plt.legend() 
+    plt.show()
 
 #start the script
 InputUsername()
