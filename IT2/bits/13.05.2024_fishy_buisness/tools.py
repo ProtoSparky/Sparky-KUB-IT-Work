@@ -1,5 +1,7 @@
 #Dont run this file directly
 import re
+import csv
+import os
 def Ask(question, type = ["num","str","num_and_str", "pass", "num_and_str_special", "dec", "str_allowed"], error_msg = "Input wrong", allowed_strings = []):
     temp_var = input(question)
     if(type == "num"):
@@ -78,4 +80,52 @@ def contains_specific_strings(input_str, specific_strings):
 def is_str_and_num_special(input_str):
     # Checks if there are strings and numbers, including : and,
     return bool(re.search(r'[a-zA-Z\d:,;]', input_str)) or bool(re.search(r'[:;,]\d[a-zA-Z]', input_str))
+
+
+def read_csv(file_path, delimiter = ";"):
+    """
+    Reads a CSV file and returns its contents as a list of dictionaries.
+    
+    :param file_path: Path to the CSV file.
+    :return: A list of dictionaries representing the rows of the CSV file.
+             Returns None if the file does not exist.
+    """
+    if not os.path.exists(file_path):
+        return None
+    
+    try:
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file, delimiter = delimiter)
+            return list(reader)
+    except FileNotFoundError:
+        return None
+
+def write_csv(file_path, data, delimiter = ";"):
+    """
+    Writes a dictionary to a CSV file, creating the file if it does not exist.
+    Writes empty arrays as empty rows in the CSV file.
+    
+    :param file_path: Path to the CSV file.
+    :param data: Dictionary where keys are column headers and values are lists of data.
+    """
+    # Check if the directory exists, if not, create it
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    
+    try:
+        with open(file_path, mode='a', encoding='utf-8', newline='') as file:
+            writer = csv.writer(file, delimiter = delimiter)
+            # Write the header row
+            writer.writerow(data.keys())
+            # Check if any list in data is empty
+            if any(not values for values in data.values()):
+                # Write an empty row if any list is empty
+                writer.writerow([])
+            else:
+                # Write the data rows
+                for values in zip(*data.values()):
+                    writer.writerow(values)
+    except FileNotFoundError:
+        return None
 

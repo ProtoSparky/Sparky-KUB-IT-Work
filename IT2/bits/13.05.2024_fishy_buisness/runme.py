@@ -1,5 +1,4 @@
 data_loc = "./DATA/data.csv"
-import pandas as pd
 import tools
 
 '''
@@ -39,14 +38,12 @@ def setup():
 
 
 def setup_data():
-    try: 
-        file = pd.read_csv(data_loc, delimiter=";")
-    except:
-        #create new file
-        file = pd.DataFrame({
-            "Date":[], "Time":[], "Location":[], "Species":[], "Fish_length":[], "Fish_weight":[], "Capture_tool":[]
-        })
-        file.to_csv(data_loc, index=False)
+
+    if(tools.read_csv(data_loc) == None):
+        #creae file as it does not exist
+        data = {"Date":[], "Time":[], "Location":[], "Species":[], "Fish_length":[], "Fish_weight":[], "Capture_tool":[]}
+        tools.write_csv(data_loc, data)
+    
 
 
 def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,Fish_length=None,Fish_weight=None,Capture_tool=None):
@@ -54,7 +51,6 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
     if(Day == None and Month == None and Year == None and Time == None and Location == None and Species == None and Fish_length == None and Fish_weight == None and Capture_tool == None):
         #vars undefined, using Text UI
         print("vars not defined, launching text ui")
-
 
         Day = tools.Ask(question = "Which day was the fish caught (0-30)? : ", type = "num")
         Month = tools.Ask(question = "Which month was the fish caught (1-12)? : ", type = "num")
@@ -73,6 +69,23 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
 
     #write data to DB
     
+    ##get current data
+    file = pd.read_csv(data_loc, delimiter=";")
+
+    ###i know that this permanent implementation is not ideal
+    file["Date"].append(str(Day) + "." + str(Month) + "."+ str(Year))
+    file[Time].append(str(Time))
+    file["Location"].append(Location)
+    file["Species"].append(Species)
+    file["Fish_length"].append(Fish_length)
+    file["Fish_weight"].append(Fish_weight)
+    file["Capture_tool"].append(Capture_tool)
+
+    ##write to db
+
+    print(file)
+
+
 
 
 
