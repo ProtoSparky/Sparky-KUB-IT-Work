@@ -1,5 +1,6 @@
 data_loc = "./DATA/data.csv"
 import pandas as pd
+import tools
 
 '''
 DATA to be saved 
@@ -31,8 +32,9 @@ TODO
 def setup():
     print("Setting up stuff")
 
-    #check that file in DATA is actually there
-    setup_data()
+    setup_data() #setup data if it wanst there from the beginning
+
+    AddFish()
 
 
 
@@ -45,8 +47,24 @@ def setup_data():
             "Date":[], "Time":[], "Location":[], "Species":[], "Fish_length":[], "Fish_weight":[], "Capture_tool":[]
         })
         file.to_csv(data_loc, index=False)
-    print(file)
 
+
+def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,Fish_length=None,Fish_weight=None,Capture_tool=None):
+    #check if input vars are nonexistent
+    if(Day == None and Month == None and Year == None and Time == None and Location == None and Species == None and Fish_length == None and Fish_weight == None and Capture_tool == None):
+        #vars undefined, using Text UI
+        print("vars not defined, launching text ui")
+
+
+        Day = input("Which day (0-30) was the fish caught? : ")
+        if(tools.is_num(Day)):
+            
+
+
+
+
+    else:
+        print("vars drfined, adding fish to text file")
 
 
 
