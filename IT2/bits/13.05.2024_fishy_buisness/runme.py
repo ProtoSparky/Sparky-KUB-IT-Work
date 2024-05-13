@@ -56,8 +56,13 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
         print("vars not defined, launching text ui")
 
 
-        Day = input("Which day (0-30) was the fish caught? : ")
-        if(tools.is_num(Day)):
+        Day = tools.Ask(question = "Which day was the fish caught (0-30)? : ", type = "num")
+        Month = tools.Ask(question = "Which month was the fish caught (1-12)? : ", type = "num")
+        Year = tools.Ask(question = "Which year was the fish caught? : ", type = "num")
+        Time = tools.Ask(question = "On which time was the fish caught? : ", type = "num_and_str")
+        
+        
+        
             
 
 
