@@ -62,19 +62,17 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
         Time = tools.Ask(question = "On which time was the fish caught? : ", type = "num_and_str_special")
         Location = tools.Ask(question = "Where was the fish caught? : ", type = "str")
         Species = tools.Ask(question = "Which specie is this fish? : ", type = "str")
-        Fish_length = tools.Ask(question = "Hw long is the fish (cm) \n dont include cm : ", type = "dec")
+        Fish_length = tools.Ask(question = "---------\nHow long is the fish (cm)\ndont include cm \n: ", type = "dec")
         Allowed_capture_tools = ["meitefiske", "flue", "spinner",  "blink", "garn", "isfiske", "dorge"]
-        Capture_tool = tools.Ask(question = "What tool was used to capture \n Allowed tools " + Allowed_capture_tools + "\n :", type = "str_allowed", allowed_strings= Allowed_capture_tools)
-        
-        
-        
+        Capture_tool = tools.Ask(question = "---------\nWhat tool was used to capture \nAllowed tools " + str(Allowed_capture_tools) + "\n: ", type = "str_allowed", allowed_strings= Allowed_capture_tools)       
             
-
-
-
-
     else:
         print("vars drfined, adding fish to text file")
+
+
+
+    #write data to DB
+    
 
 
 
