@@ -59,7 +59,12 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
         Day = tools.Ask(question = "Which day was the fish caught (0-30)? : ", type = "num")
         Month = tools.Ask(question = "Which month was the fish caught (1-12)? : ", type = "num")
         Year = tools.Ask(question = "Which year was the fish caught? : ", type = "num")
-        Time = tools.Ask(question = "On which time was the fish caught? : ", type = "num_and_str")
+        Time = tools.Ask(question = "On which time was the fish caught? : ", type = "num_and_str_special")
+        Location = tools.Ask(question = "Where was the fish caught? : ", type = "str")
+        Species = tools.Ask(question = "Which specie is this fish? : ", type = "str")
+        Fish_length = tools.Ask(question = "Hw long is the fish (cm) \n dont include cm : ", type = "dec")
+        Allowed_capture_tools = ["meitefiske", "flue", "spinner",  "blink", "garn", "isfiske", "dorge"]
+        Capture_tool = tools.Ask(question = "What tool was used to capture \n Allowed tools " + Allowed_capture_tools + "\n :", type = "str_allowed", allowed_strings= Allowed_capture_tools)
         
         
         
