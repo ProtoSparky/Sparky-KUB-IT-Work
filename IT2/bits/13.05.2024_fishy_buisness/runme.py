@@ -32,7 +32,8 @@ def setup():
     print("Setting up stuff")
 
     setup_data() #setup data if it wanst there from the beginning
-    AddFish()
+    #AddFish()
+    EditRow("Date", 3, 100)
 
 
 
@@ -84,6 +85,15 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
     tools.write_csv(data_loc, file, write_header=True,mode = "overwrite")
 
 
+def EditRow(collunmName, row_id, new_data):
+    file = tools.read_csv(data_loc)
+    selected_collumn = file[collunmName]
+    collumn_length = len(selected_collumn)
+    if(row_id > (collumn_length -1)):
+        print("Selected collumn is bigger than amount of collumns| Index 0-" + str(collumn_length - 1))
+        return None
+    file[collunmName][row_id] = new_data
+    tools.write_csv(data_loc, file, write_header=True,mode = "overwrite")
 
 
 
