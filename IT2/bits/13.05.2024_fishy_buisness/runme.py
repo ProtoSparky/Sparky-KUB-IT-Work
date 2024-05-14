@@ -1,5 +1,6 @@
 data_loc = "./DATA/data.csv"
 import tools
+import matplotlib as plt 
 
 '''
 DATA to be saved 
@@ -90,12 +91,44 @@ def EditRow(collunmName, row_id, new_data):
     selected_collumn = file[collunmName]
     collumn_length = len(selected_collumn)
     if(row_id > (collumn_length -1)):
-        print("Selected collumn is bigger than amount of collumns| Index 0-" + str(collumn_length - 1))
+        print("Selected collumn is bigger than amount of collumns | Index 0-" + str(collumn_length - 1))
         return None
     file[collunmName][row_id] = new_data
     tools.write_csv(data_loc, file, write_header=True,mode = "overwrite")
 
 
+def DisplayFishSpecies():
+    file = tools.read_csv(data_loc)
+    species = file["Species"]
+
+    def fish_counter(species):
+        tmp_fish_names = []
+        tmp_fish_amount = []
+        for current_specie in species:
+            try:
+                tmp_fish_names[current_specie]
+            except NameError:
+                #fish name was undefined
+                tmp_fish_names.append(current_specie)
+                key_list = list(tmp_fish_names.keys())
+                key_for_fish_name = 
+
+            else:
+                #Fish was defined
+            
+
+
+
+
+    '''
+    plt.title("Biking distances (KM) for a week")
+    plt.xlabel('Date')
+    plt.ylabel('Distance in KM')
+    plt.style.use('ggplot')
+    plt.legend() 
+    plt.show()
+    plt.savefig('Biking distances_(KM)_for_a_week.png') #save as image
+    '''
 
 
 
