@@ -100,13 +100,16 @@ def read_csv_raw(file_path, delimiter = ";"):
     except FileNotFoundError:
         return None
 
-def write_csv(file_path, data, delimiter = ";"):
+def write_csv(file_path, data, delimiter=";", write_header=True, mode='append'):
     """
     Writes a dictionary to a CSV file, creating the file if it does not exist.
     Writes empty arrays as empty rows in the CSV file.
     
     :param file_path: Path to the CSV file.
     :param data: Dictionary where keys are column headers and values are lists of data.
+    :param delimiter: The delimiter to use in the CSV file.
+    :param write_header: Whether to write the header row or not.
+    :param mode: Mode to handle the file ('overwrite' or 'append').
     """
     # Check if the directory exists, if not, create it
     directory = os.path.dirname(file_path)
@@ -114,21 +117,32 @@ def write_csv(file_path, data, delimiter = ";"):
         os.makedirs(directory)
     
     try:
-        with open(file_path, mode='a', encoding='utf-8', newline='') as file:
-            writer = csv.writer(file, delimiter = delimiter)
-            # Write the header row
-            writer.writerow(data.keys())
-            # Check if any list in data is empty
-            if any(not values for values in data.values()):
-                # Write an empty row if any list is empty
-                writer.writerow([])
-            else:
+        # Open the file in the specified mode
+        if mode == 'overwrite':
+            with open(file_path, mode='w', encoding='utf-8', newline='') as file:
+                writer = csv.writer(file, delimiter=delimiter)
+                # Always write the header row if write_header is True
+                if write_header:
+                    writer.writerow(data.keys())
                 # Write the data rows
                 for values in zip(*data.values()):
                     writer.writerow(values)
+        elif mode == 'append':
+            with open(file_path, mode='a', encoding='utf-8', newline='') as file:
+                writer = csv.writer(file, delimiter=delimiter)
+                # Write the header row if write_header is True
+                if write_header:
+                    writer.writerow(data.keys())
+                # Check if any list in data is empty
+                if any(not values for values in data.values()):
+                    # Write an empty row if any list is empty
+                    writer.writerow([])
+                else:
+                    # Write the data rows
+                    for values in zip(*data.values()):
+                        writer.writerow(values)
     except FileNotFoundError:
         return None
-
 
 def read_csv(file_path, delimiter=";"):
     """

@@ -38,7 +38,7 @@ def setup():
 
 def setup_data():
 
-    if(tools.read_csv(data_loc) == None):
+    if(tools.read_csv_raw(data_loc) == None):
         #creae file as it does not exist
         data = {"Date":[], "Time":[], "Location":[], "Species":[], "Fish_length":[], "Fish_weight":[], "Capture_tool":[]}
         tools.write_csv(data_loc, data)
@@ -55,8 +55,8 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
         Month = tools.Ask(question = "Which month was the fish caught (1-12)? : ", type = "num")
         Year = tools.Ask(question = "Which year was the fish caught? : ", type = "num")
         Time = tools.Ask(question = "On which time was the fish caught? : ", type = "num_and_str_special")
-        Location = tools.Ask(question = "Where was the fish caught? : ", type = "str")
-        Species = tools.Ask(question = "Which specie is this fish? : ", type = "str")
+        Location = tools.Ask(question = "Where was the fish caught? : ", type = "pass")
+        Species = tools.Ask(question = "Which specie is this fish? : ", type = "pass")
         Fish_length = tools.Ask(question = "---------\nHow long is the fish (cm)\ndont include cm \n: ", type = "dec")
         Fish_weight = tools.Ask(question = "---------\nHow heavy is the fish (grams)\ndont include g \n: ", type = "dec")
         Allowed_capture_tools = ["meitefiske", "flue", "spinner",  "blink", "garn", "isfiske", "dorge"]
@@ -71,8 +71,6 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
     
     ##get current data
     file = tools.read_csv(data_loc)
-    print(file)
-
     ###i know that this permanent implementation is not ideal
     file["Date"].append(str(Day) + "." + str(Month) + "."+ str(Year))
     file["Time"].append(str(Time))
@@ -83,8 +81,7 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
     file["Capture_tool"].append(Capture_tool)
 
     ##write to db
-
-    print(file)
+    tools.write_csv(data_loc, file, write_header=True,mode = "overwrite")
 
 
 
