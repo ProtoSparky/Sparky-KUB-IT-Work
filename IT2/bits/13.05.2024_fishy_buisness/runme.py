@@ -32,7 +32,6 @@ def setup():
     print("Setting up stuff")
 
     setup_data() #setup data if it wanst there from the beginning
-
     AddFish()
 
 
@@ -59,6 +58,7 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
         Location = tools.Ask(question = "Where was the fish caught? : ", type = "str")
         Species = tools.Ask(question = "Which specie is this fish? : ", type = "str")
         Fish_length = tools.Ask(question = "---------\nHow long is the fish (cm)\ndont include cm \n: ", type = "dec")
+        Fish_weight = tools.Ask(question = "---------\nHow heavy is the fish (grams)\ndont include g \n: ", type = "dec")
         Allowed_capture_tools = ["meitefiske", "flue", "spinner",  "blink", "garn", "isfiske", "dorge"]
         Capture_tool = tools.Ask(question = "---------\nWhat tool was used to capture \nAllowed tools " + str(Allowed_capture_tools) + "\n: ", type = "str_allowed", allowed_strings= Allowed_capture_tools)       
             
@@ -70,11 +70,12 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
     #write data to DB
     
     ##get current data
-    file = pd.read_csv(data_loc, delimiter=";")
+    file = tools.read_csv(data_loc)
+    print(file)
 
     ###i know that this permanent implementation is not ideal
     file["Date"].append(str(Day) + "." + str(Month) + "."+ str(Year))
-    file[Time].append(str(Time))
+    file["Time"].append(str(Time))
     file["Location"].append(Location)
     file["Species"].append(Species)
     file["Fish_length"].append(Fish_length)

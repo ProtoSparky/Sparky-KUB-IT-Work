@@ -82,7 +82,7 @@ def is_str_and_num_special(input_str):
     return bool(re.search(r'[a-zA-Z\d:,;]', input_str)) or bool(re.search(r'[:;,]\d[a-zA-Z]', input_str))
 
 
-def read_csv(file_path, delimiter = ";"):
+def read_csv_raw(file_path, delimiter = ";"):
     """
     Reads a CSV file and returns its contents as a list of dictionaries.
     
@@ -129,3 +129,33 @@ def write_csv(file_path, data, delimiter = ";"):
     except FileNotFoundError:
         return None
 
+
+def read_csv(file_path, delimiter=";"):
+    """
+    Reads a CSV file and returns its contents as a dictionary where keys are column names and values are lists of column values.
+    
+    :param file_path: Path to the CSV file.
+    :return: A dictionary representing the columns of the CSV file.
+             Returns None if the file does not exist.
+    """
+    if not os.path.exists(file_path):
+        return None
+    
+    try:
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.reader(file, delimiter=delimiter)
+            
+            # Read the header row
+            headers = next(reader)
+            
+            # Initialize an empty dictionary to hold the column data
+            column_data = {header: [] for header in headers}
+            
+            # Iterate through the rows to populate the column data
+            for row in reader:
+                for i, value in enumerate(row):
+                    column_data[headers[i]].append(value)
+            
+            return column_data
+    except FileNotFoundError:
+        return None
