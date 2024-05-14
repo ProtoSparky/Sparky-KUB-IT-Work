@@ -1,6 +1,8 @@
 data_loc = "./DATA/data.csv"
 import tools
-import matplotlib as plt 
+import matplotlib.pyplot as plt
+from collections import Counter
+import numpy as np
 
 '''
 DATA to be saved 
@@ -34,7 +36,8 @@ def setup():
 
     setup_data() #setup data if it wanst there from the beginning
     #AddFish()
-    EditRow("Date", 3, 100)
+    #EditRow("Date", 3, 100)
+    DisplayFishSpecies()
 
 
 
@@ -100,21 +103,25 @@ def EditRow(collunmName, row_id, new_data):
 def DisplayFishSpecies():
     file = tools.read_csv(data_loc)
     species = file["Species"]
+    counted = Counter(species)
+    fish_names = []
+    fish_amounts = []
+    color = []
+    for current_counted in counted:
+        fish_names.append(current_counted)
+        fish_amounts.append(counted[current_counted])
+        col = (np.random.random(), np.random.random(), np.random.random())
+        color.append(col)
 
-    def fish_counter(species):
-        tmp_fish_names = []
-        tmp_fish_amount = []
-        for current_specie in species:
-            try:
-                tmp_fish_names[current_specie]
-            except NameError:
-                #fish name was undefined
-                tmp_fish_names.append(current_specie)
-                key_list = list(tmp_fish_names.keys())
-                key_for_fish_name = 
 
-            else:
-                #Fish was defined
+
+    fig, ax = plt.subplots()
+    ax.bar(fish_names, fish_amounts, label=fish_names, color = color )
+    ax.set_ylabel('Fish specie amount')
+    ax.set_title('Fish')
+    ax.legend(title='Fish species')
+
+    plt.show()
             
 
 
