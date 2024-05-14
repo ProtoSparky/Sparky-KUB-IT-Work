@@ -187,3 +187,19 @@ def find_indexes(array, search_term):
             indices.append(i)
     
     return indices
+
+def pad_string(desired_length, original_string):
+    # Calculate the difference between the desired length and the original string length
+    diff = desired_length - len(original_string)
+    
+    # If the original string is longer than the desired length, return the original string
+    if diff <= 0:
+        return original_string
+    
+    # Calculate the number of spaces needed for padding
+    spaces_needed = abs(diff) // 2
+    
+    # Add spaces to the start and end of the string
+    padded_string = " " * spaces_needed + original_string + " " * spaces_needed
+    
+    return padded_string

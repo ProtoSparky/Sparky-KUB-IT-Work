@@ -32,19 +32,18 @@ TODO
 '''
 
 def setup():
-    print("Setting up stuff")
-
     setup_data() #setup data if it wanst there from the beginning
     #AddFish()
     #EditRow("Date", 3, 100)
     #DisplayFishSpecies()
-    DisplayWeightBySpecies()
+    #DisplayWeightBySpecies()
+    display_fishes_tui()
 
 
 
 def setup_data():
-
     if(tools.read_csv_raw(data_loc) == None):
+        print("Setting up stuff")
         #creae file as it does not exist
         data = {"Date":[], "Time":[], "Location":[], "Species":[], "Fish_length":[], "Fish_weight":[], "Capture_tool":[]}
         tools.write_csv(data_loc, data)
@@ -129,7 +128,7 @@ def DisplayWeightBySpecies():
     fish_weight = file["Fish_weight"]
     fish_species_sorted = Counter(species) #List of all fish as amount
     fish_weight_int = tools.str_arr_to_int(fish_weight)
-    total_fish_weight = sum(fish_weight_int) #Total weight of all the species of fish in grams
+    total_fish_weight = sum(fish_weight_int) /1000 #Total weight of all the species of fish in kilograms
 
     #find total weight for the different species
     species_names = []
@@ -141,7 +140,7 @@ def DisplayWeightBySpecies():
         #check all keys for weight, and append that to the total weight 
         for current_index in fish_indexes:
             current_fish_weight = (fish_weight[current_index])
-            total_specie_weight = total_specie_weight + float(current_fish_weight)
+            total_specie_weight = total_specie_weight + (float(current_fish_weight) /1000)
         weight_by_fish_species.append(total_specie_weight)
     
     percentage_fish_weight = [(amount / total_fish_weight) * 100 for amount in weight_by_fish_species]
@@ -149,7 +148,99 @@ def DisplayWeightBySpecies():
     plt.pie(percentage_fish_weight, labels=species_names, autopct='%1.1f%%')
     plt.title('Percentage of weight by fish species')
     plt.show()
+   
 
+def display_fishes_tui():
+    file = tools.read_csv(data_loc)
+    keys = list(file.keys())
+    keys_with_index = keys.copy() #prevent data from being added to a variable that was defined by another one
+    index = "Index"
+    keys_with_index.insert(0, index)
+    longest_str = find_longest_string(file)
+    max_tbl_length = len(file[keys[0]])
+
+    #####
+    #I dont like this solution either
+    header = "/ The Fish Table \\"
+    header_len = len(header)
+    header_str = ""
+    for current_collumn in keys_with_index:
+        header_str = header_str + tools.pad_string(desired_length = longest_str, original_string = current_collumn)
+    header_str_len = len(header_str) * 1.4
+    padding_amount = (header_str_len / 2) - (header_len / 2)
+    padd_pointer = 0
+    p_str = ""
+    while padd_pointer < padding_amount:
+        p_str += "="
+        padd_pointer += 1
+    p_str = p_str + header
+    padd_pointer = 0
+    while padd_pointer < padding_amount:
+        p_str += "="
+        padd_pointer += 1
+    print(p_str)
+
+
+
+
+    tbl_pointer = 0
+    while tbl_pointer < max_tbl_length: 
+        if(tbl_pointer == 0):
+            printed_str = ""
+            for current_collumn in keys_with_index:
+                printed_str = printed_str + "| " + tools.pad_string(desired_length = longest_str, original_string = current_collumn) + " |"            
+            print(printed_str)
+
+        else:
+            printed_str = ""
+            for current_collumn in keys_with_index:
+                if(current_collumn == index):
+                    if(tbl_pointer < 10):
+                        printed_str = printed_str + "| " + tools.pad_string(desired_length = longest_str, original_string = "0"+str(tbl_pointer)) + " |"
+                    else:
+                        printed_str = printed_str + "| " + tools.pad_string(desired_length = longest_str, original_string = str(tbl_pointer)) + " |"
+                else:
+                    printed_str = printed_str + "| " + tools.pad_string(desired_length = longest_str, original_string = file[current_collumn][tbl_pointer],) + " |"
+
+            print(printed_str)
+
+        tbl_pointer += 1
+    
+
+    
+def find_longest_string(obj):
+    longest_length = 0
+    for key, value in obj.items():
+        if isinstance(value, dict):
+            # Recursively check nested dictionaries
+            nested_length = find_longest_string(value)
+            longest_length = max(longest_length, nested_length)
+        elif isinstance(value, list):
+            # Iterate through each item in the list
+            for item in value:
+                if isinstance(item, str):
+                    # Check if the current item is a string
+                    longest_length = max(longest_length, len(item))
+                else:
+                    # Convert non-string values to string and check
+                    try:
+                        item_str = str(item)
+                        longest_length = max(longest_length, len(item_str))
+                    except ValueError:
+                        # Item cannot be converted to string, skip
+                        continue
+        elif isinstance(value, str):
+            # Check if the current value is a string
+            longest_length = max(longest_length, len(value))
+        else:
+            # Convert non-string values to string and check
+            try:
+                value_str = str(value)
+                longest_length = max(longest_length, len(value_str))
+            except ValueError:
+                # Value cannot be converted to string, skip
+                continue
+    return longest_length
 
 
 
