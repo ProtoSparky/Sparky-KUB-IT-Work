@@ -37,7 +37,8 @@ def setup():
     setup_data() #setup data if it wanst there from the beginning
     #AddFish()
     #EditRow("Date", 3, 100)
-    DisplayFishSpecies()
+    #DisplayFishSpecies()
+    DisplayWeightBySpecies()
 
 
 
@@ -112,9 +113,6 @@ def DisplayFishSpecies():
         fish_amounts.append(counted[current_counted])
         col = (np.random.random(), np.random.random(), np.random.random())
         color.append(col)
-
-
-
     fig, ax = plt.subplots()
     ax.bar(fish_names, fish_amounts, label=fish_names, color = color )
     ax.set_ylabel('Fish specie amount')
@@ -124,18 +122,34 @@ def DisplayFishSpecies():
     plt.show()
             
 
+def DisplayWeightBySpecies():
+    #Vise prosentvis mengde fisk i kilo av hver art i et sektordiagram.
+    file = tools.read_csv(data_loc)
+    species = file["Species"]
+    fish_weight = file["Fish_weight"]
+    fish_species_sorted = Counter(species) #List of all fish as amount
+    fish_weight_int = tools.str_arr_to_int(fish_weight)
+    total_fish_weight = sum(fish_weight_int) #Total weight of all the species of fish in grams
 
+    #find total weight for the different species
+    species_names = []
+    weight_by_fish_species = []
+    for current_specie in fish_species_sorted: 
+        species_names.append(current_specie) #append current fish name to make a clean array with names
+        fish_indexes = tools.find_indexes(species, current_specie)
+        total_specie_weight = 0
+        #check all keys for weight, and append that to the total weight 
+        for current_index in fish_indexes:
+            current_fish_weight = (fish_weight[current_index])
+            total_specie_weight = total_specie_weight + float(current_fish_weight)
+        weight_by_fish_species.append(total_specie_weight)
+    
+    percentage_fish_weight = [(amount / total_fish_weight) * 100 for amount in weight_by_fish_species]
 
-
-    '''
-    plt.title("Biking distances (KM) for a week")
-    plt.xlabel('Date')
-    plt.ylabel('Distance in KM')
-    plt.style.use('ggplot')
-    plt.legend() 
+    plt.pie(percentage_fish_weight, labels=species_names, autopct='%1.1f%%')
+    plt.title('Percentage of weight by fish species')
     plt.show()
-    plt.savefig('Biking distances_(KM)_for_a_week.png') #save as image
-    '''
+
 
 
 

@@ -173,3 +173,17 @@ def read_csv(file_path, delimiter=";"):
             return column_data
     except FileNotFoundError:
         return None
+    
+def str_arr_to_int(array):
+    #this function converts an all string array with numbers inside to an array containing numbers
+    return [int(numeric_string) for numeric_string in array]
+
+
+def find_indexes(array, search_term):
+    #this function searches and returns the keys that the search term resides in the array
+    indices = []    
+    for i, item in enumerate(array):
+        if item == search_term:
+            indices.append(i)
+    
+    return indices
