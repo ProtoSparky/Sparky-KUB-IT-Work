@@ -20,14 +20,13 @@ DATA to be saved
 
 TODO 
 
-• Lagre data om hver fangst i filen/database.  
-• Kunne redigere innhold i filen/database.  
-• Lagre redigert innhold etter oppdatering.  
-• Utskrift av alt innhold i filen/database i en strukturert tabell.  
-• Vise antall fisk av hver art i søylediagram  
-• Vise prosentvis mengde fisk i kilo av hver art i et sektordiagram.  
-• Vise fangst fordelt på måneder. Velg her selv grafisk presentasjon. 
-• Brukergrensesnitt må være intuitivt og delikat (pent å se på) 
+[x] Kunne redigere innhold i filen/database.  
+[x]Lagre redigert innhold etter oppdatering.  
+[X]Utskrift av alt innhold i filen/database i en strukturert tabell.  
+[x]Vise antall fisk av hver art i søylediagram  
+[x]Vise prosentvis mengde fisk i kilo av hver art i et sektordiagram.  
+[ ]Vise fangst fordelt på måneder. Velg her selv grafisk presentasjon. 
+[ ]Brukergrensesnitt må være intuitivt og delikat (pent å se på) 
 
 '''
 
@@ -37,7 +36,7 @@ def setup():
     #EditRow("Date", 3, 100)
     #DisplayFishSpecies()
     #DisplayWeightBySpecies()
-    display_fishes_tui()
+    #display_fishes_tui()
 
 
 
@@ -212,25 +211,20 @@ def find_longest_string(obj):
     longest_length = 0
     for key, value in obj.items():
         if isinstance(value, dict):
-            # Recursively check nested dictionaries
             nested_length = find_longest_string(value)
             longest_length = max(longest_length, nested_length)
         elif isinstance(value, list):
-            # Iterate through each item in the list
             for item in value:
                 if isinstance(item, str):
-                    # Check if the current item is a string
                     longest_length = max(longest_length, len(item))
                 else:
-                    # Convert non-string values to string and check
                     try:
                         item_str = str(item)
                         longest_length = max(longest_length, len(item_str))
                     except ValueError:
-                        # Item cannot be converted to string, skip
+                        # Item cannot be converted to string
                         continue
         elif isinstance(value, str):
-            # Check if the current value is a string
             longest_length = max(longest_length, len(value))
         else:
             # Convert non-string values to string and check
@@ -241,6 +235,17 @@ def find_longest_string(obj):
                 # Value cannot be converted to string, skip
                 continue
     return longest_length
+
+
+
+
+
+
+
+
+
+
+
 
 
 
