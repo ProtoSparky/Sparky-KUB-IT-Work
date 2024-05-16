@@ -241,9 +241,27 @@ def find_longest_string(obj):
 def search_by_months():
     file = tools.read_csv(data_loc)
     dates = file["Date"]
-    fish_weight = file["fish_weight"]
+    fish_weight = file["Fish_weight"]
+
+    #extract all months and save their keys
+    iterate_array = {}
+    tmp_pointer  = 0
+    for current_date in dates: 
+        tmp_pointer += 1 #iterate this pointer as we need to keep track of which key we are working on
+        month = (current_date.split(".",1)[1]).split(".",1)[0] #get month from "day:month:year"
+        if month in iterate_array:
+            iterate_array[month].append(tmp_pointer)
+        else:
+            iterate_array[month] = []
+            iterate_array[month].append(tmp_pointer)
+
+   
+    #use extracted months to get the total fish weight
     
-    print(file)
+        
+
+
+    print(iterate_array)
 
 
 
