@@ -254,14 +254,20 @@ def search_by_months():
         else:
             iterate_array[month] = []
             iterate_array[month].append(tmp_pointer)
-
-   
-    #use extracted months to get the total fish weight
     
+    fish_weight_by_month = {}
+    #use extracted months to get the total fish weight
+    for current_month in iterate_array: 
+        current_month_keys = iterate_array[current_month]
+        #iterate trough these keys
+        total_weight = 0
+        for current_weight_key in current_month_keys:
+            current_weight = int(fish_weight[current_weight_key - 1])
+            total_weight += current_weight
+        fish_weight_by_month[int(current_month)]= (total_weight / 1000) #write total weight to new object and ocnvert to KG
+    fish_weight_by_month = dict(sorted(fish_weight_by_month.items())) # sort keys
+    print(fish_weight_by_month)
         
-
-
-    print(iterate_array)
 
 
 
