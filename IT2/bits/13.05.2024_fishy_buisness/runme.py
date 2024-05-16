@@ -282,7 +282,8 @@ Launch program with selected mode:
     [2] Graphic UI
 Type 1 or 2
     """
-    user_choise = input(input_msg)
+    #user_choise = input(input_msg)
+    user_choise = "2" #Temporary
     if(user_choise == "1"):
         print("Text UI")
     elif(user_choise == "2"):
@@ -294,6 +295,7 @@ Type 1 or 2
 
 
 def Spawn_Gui():
+    assets = "./gui_assets/"
     import PySimpleGUI as sg
     sg.theme('DarkAmber')
     home_option = [
@@ -311,7 +313,7 @@ def Spawn_Gui():
         [sg.Text("This is where it'll display harvested fish pr species")]
     ]
 
-
+    
     body =  [
         [sg.TabGroup([[
             sg.Tab('Home',home_option),
@@ -326,12 +328,13 @@ def Spawn_Gui():
 
 
 
-    window = sg.Window("F-I-S-H", body)
+    window = sg.Window("F-I-S-H", body, icon = ("./gui_assets/ico.ico"))
 
     ######
     #Logic
     def RunFunc():
         print("ran")
+        sg.popup("This is a test")
 
 
 
