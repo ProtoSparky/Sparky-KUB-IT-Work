@@ -37,6 +37,7 @@ def setup():
     #DisplayFishSpecies()
     #DisplayWeightBySpecies()
     #display_fishes_tui()
+    search_by_months()
 
 
 
@@ -237,8 +238,12 @@ def find_longest_string(obj):
     return longest_length
 
 
-
-
+def search_by_months():
+    file = tools.read_csv(data_loc)
+    dates = file["Date"]
+    fish_weight = file["fish_weight"]
+    
+    print(file)
 
 
 
