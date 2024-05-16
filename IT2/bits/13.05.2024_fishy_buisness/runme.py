@@ -334,6 +334,7 @@ def Spawn_Gui():
     #Logic
     def RunFunc():
         print("ran")
+        print(make_table(5,3))
         sg.popup("This is a test")
 
 
