@@ -1,5 +1,4 @@
-[x] Kunne redigere innhold i filen/database.  
-[x]Lagre redigert innhold etter oppdatering.  
+[x] Kunne redigere innhold i filen/database.  []
 [>]Utskrift av alt innhold i filen/database i en strukturert tabell.  
 [x]Vise antall fisk av hver art i søylediagram  
 [x]Vise prosentvis mengde fisk i kilo av hver art i et sektordiagram.  
