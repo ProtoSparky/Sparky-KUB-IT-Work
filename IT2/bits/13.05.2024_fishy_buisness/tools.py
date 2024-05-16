@@ -203,3 +203,6 @@ def pad_string(desired_length, original_string):
     padded_string = " " * spaces_needed + original_string + " " * spaces_needed
     
     return padded_string
+
+def Clear_Term():
+    os.system('cls' if os.name == 'nt' else 'clear')

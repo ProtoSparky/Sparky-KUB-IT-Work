@@ -37,7 +37,8 @@ def setup():
     #DisplayFishSpecies()
     #DisplayWeightBySpecies()
     #display_fishes_tui()
-    search_by_months()
+    #search_by_months()
+    UI_Mode()
 
 
 
@@ -266,8 +267,90 @@ def search_by_months():
             total_weight += current_weight
         fish_weight_by_month[int(current_month)]= (total_weight / 1000) #write total weight to new object and ocnvert to KG
     fish_weight_by_month = dict(sorted(fish_weight_by_month.items())) # sort keys
-    print(fish_weight_by_month)
+    return fish_weight_by_month
         
+
+
+
+
+def UI_Mode():
+    tools.Clear_Term()
+    input_msg = """
+Launch program with selected mode: 
+    [1] Text based UI
+    or 
+    [2] Graphic UI
+Type 1 or 2
+    """
+    user_choise = input(input_msg)
+    if(user_choise == "1"):
+        print("Text UI")
+    elif(user_choise == "2"):
+        print("Launching GUI")
+        Spawn_Gui()
+    else:
+        UI_Mode()
+
+
+
+def Spawn_Gui():
+    import PySimpleGUI as sg
+    sg.theme('DarkAmber')
+    home_option = [
+        [sg.Text("This is a fishy program")],
+        [sg.Text("Click the tabs above to view the fishy fish options")],
+        [sg.Button("Runner")]
+    ]
+    edit_db_option = [
+        [sg.Text("Edit database")]
+    ]
+    display_fish_option = [
+        [sg.Text("This is where displayed fishy fishyness will be displayed")]
+    ]
+    species_pr_harvested_kg_option = [
+        [sg.Text("This is where it'll display harvested fish pr species")]
+    ]
+
+
+    body =  [
+        [sg.TabGroup([[
+            sg.Tab('Home',home_option),
+            sg.Tab ('Edit "Database"', edit_db_option),
+            sg.Tab ('Fish species', display_fish_option),
+            sg.Tab ('Harvested fish', species_pr_harvested_kg_option),
+            
+        ]])],
+        [sg.Button('Cancel')]
+    ]
+
+
+
+
+    window = sg.Window("F-I-S-H", body)
+
+    ######
+    #Logic
+    def RunFunc():
+        print("ran")
+
+
+
+
+
+    # Create an event loop
+    while True:
+        event, values = window.read()
+        # End program if user closes window or
+        # presses the OK button
+        if event == "Cancel" or event == sg.WIN_CLOSED:
+            break
+        if event == "Runner":
+            RunFunc()
+
+    window.close()
+
+
+
 
 
 
