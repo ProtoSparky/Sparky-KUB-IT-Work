@@ -345,7 +345,7 @@ def Spawn_Gui():
             num_rows=20,
             key='table_fish_output'
         )],
-        [sg.Button("Refresh table", key = "refresh_table_fish_output")]
+        [sg.Button("Refresh table", key = "refresh_table_fish_output"), sg.Button("Edit cell", key= "edit_table_fish_output")]
     ]
 
     species_pr_harvested_kg_option = [
@@ -387,6 +387,22 @@ def Spawn_Gui():
             break
         if event == "Runner":
             RunFunc()
+        if(event == "edit_table_fish_output"):
+            #edit selected row from fish output table
+            table_selected = values["table_fish_output"]
+            if(bool(table_selected) == False):
+                #show error message
+                sg.popup_error("Select a row first!")
+            else:
+                txt = sg.popup_get_text("Enter the name of the column to be edited")
+                #check that input matches any of th already existing column names
+                file = tools.read_csv(data_loc)
+                column_names = list(file.keys())
+                if(str(txt) in column_names):
+                    print("it exists")
+                else:
+                    print("It does not exist")
+
         if(event == "refresh_table_fish_output"):
             window["table_fish_output"].update(values=DisplaySorter()[1])
             print("updated table")
