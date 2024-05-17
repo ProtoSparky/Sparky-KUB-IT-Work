@@ -312,11 +312,14 @@ def Spawn_Gui():
             tmp_arr = []
             for current_key in keys:
                 current_data = file[current_key][pointer]
-                tmp_arr.append(current_data)
+                if(current_key == "Fish_weight"):
+                    tmp_arr.append(int(current_data) / 1000)
+                else:
+                    tmp_arr.append(current_data)
             arrays.append(tmp_arr)  
             pointer += 1 
-
         return keys, arrays
+
 
     #############################
     #############################
@@ -331,28 +334,19 @@ def Spawn_Gui():
         [sg.Text("Edit database")]
     ]
     display_fish_option = [
-        [sg.Text("This is where displayed fishy fishyness will be displayed")],
-        [sg.Table(values=DisplaySorter()[1], headings=DisplaySorter()[0], max_col_width=25,
+        [sg.Text("Here's a printout of all the caught fishes."), sg.Text("Fish weight is in kg, and fish length is in cm")],
+        [sg.Table(
+            values=DisplaySorter()[1], 
+            headings=DisplaySorter()[0], 
+            max_col_width=25,
             auto_size_columns=True,
             display_row_numbers=True,
-            justification='right',
+            justification='left',
             num_rows=20,
-            key='-TABLE-',
-            tooltip='This is a table')]
+            key='table_fish_output'
+        )],
+        [sg.Button("Refresh table", key = "refresh_table_fish_output")]
     ]
-    '''
-    [sg.Table(values=DisplaySorter()[1], headings=DisplaySorter()[0], max_col_width=25,
-        auto_size_columns=True,
-        display_row_numbers=True,
-        justification='right',
-        num_rows=20,
-        key='-TABLE-',
-        tooltip='This is a table')],
-        [sg.Button('Read'), sg.Button('Double'), sg.Button('Change Colors')],
-        [sg.Text('Read = read which rows are selected')],
-        [sg.Text('Double = double the amount of data in the table')],
-        [sg.Text('Change Colors = Changes the colors of rows 8 and 9')
-    ]''' 
 
     species_pr_harvested_kg_option = [
         [sg.Text("This is where it'll display harvested fish pr species")]
@@ -367,7 +361,7 @@ def Spawn_Gui():
             sg.Tab ('Harvested fish', species_pr_harvested_kg_option),
             
         ]])],
-        [sg.Button('Cancel')]
+        [sg.Button('Close Program', key = "close")]
     ]
 
 
@@ -387,12 +381,15 @@ def Spawn_Gui():
     # Create an event loop
     while True:
         event, values = window.read()
-        # End program if user closes window or
-        # presses the OK button
         if event == "Cancel" or event == sg.WIN_CLOSED:
+            break
+        if event == "close":
             break
         if event == "Runner":
             RunFunc()
+        if(event == "refresh_table_fish_output"):
+            window["table_fish_output"].update(values=DisplaySorter()[1])
+            print("updated table")
 
     window.close()
 
