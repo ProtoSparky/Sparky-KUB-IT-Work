@@ -297,6 +297,23 @@ Type 1 or 2
 def Spawn_Gui():
     assets = "./gui_assets/"
     import PySimpleGUI as sg
+
+    #############################
+    #############################
+    #############################
+    def DisplaySorter():
+        #this is a helper function to sort the display from all fishes into something the GUI can understand
+        file = tools.read_csv(data_loc)
+        keys = list(file.keys()) #This will be our headers
+        arrays = [] #This is where we will store our output data
+        for current_header in keys: 
+            current_collumn_data = file[current_header]
+            arrays.append(current_collumn_data)
+        return keys, arrays
+
+    #############################
+    #############################
+    #############################
     sg.theme('DarkAmber')
     home_option = [
         [sg.Text("This is a fishy program")],
@@ -307,8 +324,29 @@ def Spawn_Gui():
         [sg.Text("Edit database")]
     ]
     display_fish_option = [
-        [sg.Text("This is where displayed fishy fishyness will be displayed")]
+        [sg.Text("This is where displayed fishy fishyness will be displayed")],
+        [sg.Table(values=DisplaySorter()[1], headings=DisplaySorter()[0], max_col_width=25,
+            auto_size_columns=True,
+            display_row_numbers=True,
+            justification='right',
+            num_rows=20,
+            key='-TABLE-',
+            tooltip='This is a table')]
     ]
+    '''
+    [sg.Table(values=DisplaySorter()[1], headings=DisplaySorter()[0], max_col_width=25,
+        auto_size_columns=True,
+        display_row_numbers=True,
+        justification='right',
+        num_rows=20,
+        key='-TABLE-',
+        tooltip='This is a table')],
+        [sg.Button('Read'), sg.Button('Double'), sg.Button('Change Colors')],
+        [sg.Text('Read = read which rows are selected')],
+        [sg.Text('Double = double the amount of data in the table')],
+        [sg.Text('Change Colors = Changes the colors of rows 8 and 9')
+    ]''' 
+
     species_pr_harvested_kg_option = [
         [sg.Text("This is where it'll display harvested fish pr species")]
     ]
@@ -334,9 +372,7 @@ def Spawn_Gui():
     #Logic
     def RunFunc():
         print("ran")
-        print(make_table(5,3))
         sg.popup("This is a test")
-
 
 
 

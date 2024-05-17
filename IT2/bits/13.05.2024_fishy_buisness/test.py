@@ -20,7 +20,43 @@ def make_table(num_rows, num_cols):
 data = make_table(num_rows=15, num_cols=6)
 headings = [str(data[0][x]) for x in range(len(data[0]))]
 
-print(headings)
+sg.theme('DarkAmber')
+
+
+
+tbl = [[sg.Table(values=data, headings=headings, max_col_width=25,
+    auto_size_columns=True,
+    display_row_numbers=True,
+    justification='right',
+    num_rows=20,
+    key='-TABLE-',
+    tooltip='This is a table')],
+    [sg.Button('Read'), sg.Button('Double'), sg.Button('Change Colors')],
+    [sg.Text('Read = read which rows are selected')],
+    [sg.Text('Double = double the amount of data in the table')],
+    [sg.Text('Change Colors = Changes the colors of rows 8 and 9')]
+]
+
+
+
+window = sg.Window("F-I-S-H", tbl, icon = ("./gui_assets/ico.ico"))
+
+
+
+
+# Create an event loop
+while True:
+    event, values = window.read()
+    # End program if user closes window or
+    # presses the OK button
+    if event == "Cancel" or event == sg.WIN_CLOSED:
+        break
+    if event == "Read":
+        print(data)
+        print(headings)
+
+window.close()
+
 
 
 
