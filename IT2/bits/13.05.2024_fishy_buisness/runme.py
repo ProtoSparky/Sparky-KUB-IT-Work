@@ -306,9 +306,16 @@ def Spawn_Gui():
         file = tools.read_csv(data_loc)
         keys = list(file.keys()) #This will be our headers
         arrays = [] #This is where we will store our output data
-        for current_header in keys: 
-            current_collumn_data = file[current_header]
-            arrays.append(current_collumn_data)
+        arr_len = len(file[keys[0]])
+        pointer = 0
+        while pointer < arr_len: 
+            tmp_arr = []
+            for current_key in keys:
+                current_data = file[current_key][pointer]
+                tmp_arr.append(current_data)
+            arrays.append(tmp_arr)  
+            pointer += 1 
+
         return keys, arrays
 
     #############################
