@@ -343,7 +343,8 @@ def Spawn_Gui():
             display_row_numbers=True,
             justification='left',
             num_rows=20,
-            key='table_fish_output'
+            key='table_fish_output',
+            select_mode='browse'
         )],
         [sg.Button("Refresh table", key = "refresh_table_fish_output"), sg.Button("Edit cell", key= "edit_table_fish_output")]
     ]
