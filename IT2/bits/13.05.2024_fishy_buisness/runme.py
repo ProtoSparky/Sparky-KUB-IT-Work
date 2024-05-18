@@ -394,15 +394,17 @@ def Spawn_Gui():
                 #show error message
                 sg.popup_error("Select a row first!")
             else:
-                txt = sg.popup_get_text("Enter the name of the column to be edited")
+                column_name_input = sg.popup_get_text("Enter the name of the column to be edited")
                 #check that input matches any of th already existing column names
                 file = tools.read_csv(data_loc)
                 column_names = list(file.keys())
-                if(str(txt) in column_names):
-                    print("it exists")
+                if(str(column_name_input) in column_names):
+                    new_txt = str(sg.popup_get_text("Enter text that will replace the previous text in the selected column"))
+                    EditRow(str(column_name_input), table_selected[0],new_txt)
+                    window["table_fish_output"].update(values=DisplaySorter()[1]) # refresh table
+                    print("Text edited")
                 else:
-                    print("It does not exist")
-
+                    sg.popup_error("Name of column cannot be found \nRemember to use correct capitalization") #Todo replace error popup with custom error popup
         if(event == "refresh_table_fish_output"):
             window["table_fish_output"].update(values=DisplaySorter()[1])
             print("updated table")
