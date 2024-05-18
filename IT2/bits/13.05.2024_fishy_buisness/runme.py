@@ -3,6 +3,8 @@ import tools
 import matplotlib.pyplot as plt
 from collections import Counter
 import numpy as np
+import re
+
 
 '''
 DATA to be saved 
@@ -335,6 +337,7 @@ def Spawn_Gui():
     ]
     display_fish_option = [
         [sg.Text("Here's a printout of all the caught fishes."), sg.Text("Fish weight is in kg, and fish length is in cm")],
+        [sg.Text("When editing a date or time, remeber to add a 0 in in front of the number if your input does not have a proper number pair")],
         [sg.Table(
             values=DisplaySorter()[1], 
             headings=DisplaySorter()[0], 
@@ -401,7 +404,33 @@ def Spawn_Gui():
                 column_names = list(file.keys())
                 if(str(column_name_input) in column_names):
                     new_txt = str(sg.popup_get_text("Enter text that will replace the previous text in the selected column"))
-                    EditRow(str(column_name_input), table_selected[0],new_txt)
+                    ##
+                    #check for some input requirements
+                    if(str(column_name_input) == "Date"):
+                        print("date")
+                        if(re.match("^(0[0-9]|1[0-9]|2[0-9]|30|31)\.(0[1-9]|1[0-2])\.\d{4}$", new_txt)):
+                            EditRow(str(column_name_input), table_selected[0],new_txt)
+                        else:
+                            sg.popup_error("Input does not match the column schema")
+                    elif(str(column_name_input) == "Time"):
+                        if(re.match("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", new_txt)):
+                            EditRow(str(column_name_input), table_selected[0],new_txt)
+                        else:
+                            sg.popup_error("Input does not match the column schema")
+                    elif(str(column_name_input) == "Fish_length"):
+                        if(re.match("[0-9]+", new_txt)):
+                            EditRow(str(column_name_input), table_selected[0],new_txt)
+                        else:
+                            sg.popup_error("Input does not match the column schema")
+                    elif(str(column_name_input) == "Fish_weight"):
+                        if(re.match("([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[Ee]([+-]?\d+))?",new_txt)):
+                            new_input = str(int(float(new_txt) * 1000))
+                            EditRow(str(column_name_input), table_selected[0],new_input)
+                        else:
+                           sg.popup_error("Input does not match the column schema") 
+                    else:
+                        print("everything else")
+
                     window["table_fish_output"].update(values=DisplaySorter()[1]) # refresh table
                     print("Text edited")
                 else:
