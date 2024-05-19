@@ -438,17 +438,19 @@ def Spawn_Gui():
             print("updated table")
         if(event == "add_fish"): 
             popup_layout = [
-                            [sg.Text('Enter Details to submit a new fish to the database')],
-                            [sg.Text('Date'), sg.Date(key='DATE')],
-                            [sg.Text('Name'), sg.InputText(key='NAME')],
-                            [sg.Text('Time'), sg.InputText(key='TIME')],
+                            [sg.Text('Enter details to submit a new fish to the database')],
+                            [sg.Text('Date'), sg.InputText(key='AddFish_Date')],
+                            [sg.Text('Time'), sg.InputText("00-24",key='AddFish_Hour'), sg.Text(":"), sg.InputText("00-59",key = "AddFish_Minute")],
+                            [sg.Text("Location"), sg.InputText("For example: 'Oslo'", key = "AddFish_Location")],
+                            [sg.Text("Species"), sg.InputText(key = "AddFish_Species")],
+                            [sg.Text("Fish length"), sg.InputText(key = "AddFish_Fish_Length")],
+                            [sg.Text("Fish weight"), sg.InputText(key = "AddFish_Fish_Weight")],
                             [sg.Button('Submit')]
                             ]
             popup_window = sg.Window('Enter fishy details', popup_layout)
             while True:
                 popup_event, popup_values = popup_window.read()
                 if popup_event == sg.WINDOW_CLOSED or popup_event == 'Submit':
-                    print(f"Submitted: Date={popup_values['DATE']}, Name={popup_values['NAME']}, Time={popup_values['TIME']}")
                     break
             popup_window.close()
 
