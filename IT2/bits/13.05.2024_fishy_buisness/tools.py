@@ -212,5 +212,8 @@ def Clear_Term():
 def extract_str_date(date_string, delimiter = "."):
     # Convert the string to a datetime object
     #04.05.2024 to separate numbers
-    dt = datetime.strptime(date_string, f"%d{delimiter}%m{delimiter}%Y")
-    return dt.day, dt.month, dt.year
+    try:
+        dt = datetime.strptime(date_string, f"%d{delimiter}%m{delimiter}%Y")
+        return dt.day, dt.month, dt.year
+    except:
+        return None, None, None

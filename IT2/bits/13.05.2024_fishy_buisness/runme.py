@@ -438,14 +438,14 @@ def Spawn_Gui():
             popup_layout = [
                             [sg.Text('Enter details to submit a new fish to the database')],
                             #[sg.Text('Date'), sg.InputText(key='AddFish_Date')],
-                            [sg.Text("Date"), sg.Text("",key = "AddFish_Date_TXT"), sg.CalendarButton("Select Date", close_when_date_chosen=True, format='%d.%m.%Y', key = "AddFish_Date", target = "AddFish_Date_TXT")],
+                            [sg.Text("Date"), sg.Text(""), sg.CalendarButton("Select Date", close_when_date_chosen=True, format='%d.%m.%Y', target = "AddFish_Date"), sg.In(key='AddFish_Date', enable_events=True, visible=False)],
                             #[sg.Text('Time'), sg.InputText("00-24",key='AddFish_Hour'), sg.Text(":"), sg.InputText("00-59",key = "AddFish_Minute")],
                             [sg.Text("Time"), sg.Slider((0, 24), orientation='horizontal', key = "AddFish_Hour"),sg.Text(":"),sg.Slider((0, 59), orientation='horizontal', key = "AddFish_Minute")],
-                            [sg.Text("Location"), sg.InputText("For example: 'Oslo'", key = "AddFish_Location")],
+                            [sg.Text("Location"), sg.InputText("", key = "AddFish_Location")],
                             [sg.Text("Species"), sg.InputText(key = "AddFish_Species")],
-                            [sg.Text("Fish length (kg)"), sg.InputText(key = "AddFish_Fish_Length")],
-                            [sg.Text("Fish weight (cm)"), sg.InputText(key = "AddFish_Fish_Weight")],
-                            [sg.Text("Capture tool"), sg.Radio("Meitefiske", group_id = "AddFish_CaptureTool",default = True),sg.Radio("Flue", group_id = "AddFish_CaptureTool"),sg.Radio("Spinner", group_id = "AddFish_CaptureTool"),sg.Radio("Blink", group_id = "AddFish_CaptureTool"), sg.Radio("Garn", group_id = "AddFish_CaptureTool"), sg.Radio("Isfiske", group_id = "AddFish_CaptureTool"), sg.Radio("Dorge", group_id = "AddFish_CaptureTool")], #As you can see i have absolutally no idea how do automate this without making it really complicated
+                            [sg.Text("Fish length (cm)"), sg.InputText(key = "AddFish_Fish_Length")],
+                            [sg.Text("Fish weight (kg)"), sg.InputText(key = "AddFish_Fish_Weight")],
+                            [sg.Text("Capture tool"), sg.Radio("Meitefiske", group_id = "AddFish_CaptureTool",default = True, key ="AddFish_CaptureTool_Meitefiske"),sg.Radio("Flue", group_id = "AddFish_CaptureTool",key ="AddFish_CaptureTool_Flue"),sg.Radio("Spinner", group_id = "AddFish_CaptureTool",key ="AddFish_CaptureTool_Spinner"),sg.Radio("Blink", group_id = "AddFish_CaptureTool",key ="AddFish_CaptureTool_Blink"), sg.Radio("Garn", group_id = "AddFish_CaptureTool",key ="AddFish_CaptureTool_Garn"), sg.Radio("Isfiske", group_id = "AddFish_CaptureTool",key ="AddFish_CaptureTool_IsFiske"), sg.Radio("Dorge", group_id = "AddFish_CaptureTool", key ="AddFish_CaptureTool_Dorge")], #As you can see i have absolutally no idea how do automate this without making it really complicated
                             [sg.Button('Save fish',key = "AddFish_Save")]
                             ]
             popup_window = sg.Window('Enter fishy details', popup_layout)
@@ -455,8 +455,49 @@ def Spawn_Gui():
                     break
                 if(popup_event == "AddFish_Save"):
                     #check if input is proper
-                    #AddFishDate = tools.extract_str_date(popup_values["AddFish_Date"])
-                    print(popup_values["AddFish_Date"])
+                    if(len(popup_values["AddFish_Date"]) == 0):
+                        sg.Popup("Date not selected")
+                    elif(len(str(popup_values["AddFish_Location"])) == 0):
+                        sg.Popup("Location not present\nFill it out!")
+                    elif(len(str(popup_values["AddFish_Species"])) == 0):
+                        sg.Popup("Fish species not filled out")
+                    elif(len(str(popup_values["AddFish_Fish_Length"])) == 0):
+                        sg.Popup("Fish length not filled out")
+                    elif(len(str(popup_values["AddFish_Fish_Weight"])) == 0):
+                        sg.Popup("Fish weight not filled out")                    
+                    else:  
+                        AddFishDate = tools.extract_str_date(popup_values["AddFish_Date"])   
+                        if(re.match("[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Length"])):
+                            Fish_length = float(popup_values["AddFish_Fish_Length"])
+                        else:
+                            sg.Popup("Fish length is not a number, or using wrong delimiter\nIf youre using(,) use (.) instead\nIt must end with a decimal")
+                            Fish_length = None
+                        if(re.match("[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Weight"])):
+                            Fish_weight = float(popup_values["AddFish_Fish_Weight"]) * 1000
+                        else:
+                            sg.Popup("Fish weight is not a number, or using wrong delimiter\nIf youre using(,) use (.) instead\nIt must end with a decimal")
+                            Fish_weight = None
+                        Fish_time = str(popup_values["AddFish_Hour"]) + ":" + str(popup_values["AddFish_Minute"])
+
+                        #apply capture_data to one str
+                        capture_tool = None
+                        if(popup_values["AddFish_CaptureTool_Meitefiske"] == True):
+                            capture_tool = "Meitefiske"
+                        elif(popup_values["AddFish_CaptureTool_Flue"] == True):
+                            capture_tool = "Flue"
+                        elif(popup_values["AddFish_CaptureTool_Spinner"] == True):
+                            capture_tool = "Spinner"
+                        elif(popup_values["AddFish_CaptureTool_Blink"] == True):
+                            capture_tool = "Blink"
+
+                        
+                        
+
+                        
+
+
+
+
             popup_window.close()
 
 
