@@ -27,7 +27,7 @@ TODO
 [X]Utskrift av alt innhold i filen/database i en strukturert tabell.  
 [x]Vise antall fisk av hver art i søylediagram  
 [x]Vise prosentvis mengde fisk i kilo av hver art i et sektordiagram.  
-[ ]Vise fangst fordelt på måneder. Velg her selv grafisk presentasjon. 
+[x]Vise fangst fordelt på måneder. Velg her selv grafisk presentasjon. 
 [ ]Brukergrensesnitt må være intuitivt og delikat (pent å se på) 
 
 '''
@@ -272,7 +272,22 @@ def search_by_months():
     return fish_weight_by_month
         
 
-
+def DisplayFishCatchByMonth():
+    fish_pr_months = search_by_months()
+    counted = Counter(fish_pr_months)
+    fish_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    color = []
+    fish_kg = []
+    for current_counted in counted:
+        fish_kg.append(fish_pr_months[current_counted])
+        col = (np.random.random(), np.random.random(), np.random.random())
+        color.append(col)
+    fig, ax = plt.subplots()
+    ax.bar(fish_months, fish_kg, label=fish_months, color = color )
+    ax.set_ylabel('Fish catch (Kg)')
+    ax.set_title('Fish catch pr month in kg')
+    ax.legend(title='Months')
+    plt.show()
 
 
 def UI_Mode():
@@ -330,10 +345,8 @@ def Spawn_Gui():
     home_option = [
         [sg.Text("This is a fishy program")],
         [sg.Text("Click the tabs above to view the fishy fish options")],
-        [sg.Button("Runner")]
-    ]
-    edit_db_option = [
-        [sg.Text("Edit database")]
+        [sg.Image(assets + "fish.png")],
+        [sg.Image(assets + "ico.png")]
     ]
     display_fish_option = [
         [sg.Text("Here's a printout of all the caught fishes."), sg.Text("Fish weight is in kg, and fish length is in cm")],
@@ -349,18 +362,23 @@ def Spawn_Gui():
             key='table_fish_output',
             select_mode='browse'
         )],
-        [sg.Button("Refresh table", key = "refresh_table_fish_output"), sg.Button("Edit cell", key= "edit_table_fish_output"), sg.Button("Add new fish", key="add_fish")]
+        [   
+            sg.Button("Refresh table", key = "refresh_table_fish_output"),
+            sg.Button("Edit cell", key= "edit_table_fish_output"), 
+            sg.Button("Add new fish", key="add_fish")
+        ]
     ]
 
     species_pr_harvested_kg_option = [
-        [sg.Text("This is where it'll display harvested fish pr species")]
+        [sg.Text("Here are all plots for fish data processing.")],
+        [sg.Button("Show all fish species", key = "Show_by_species"),sg.Button("Display weight by fish species", key = "Weight_by_species")], 
+        [sg.Button("View fish catch for all months", key = "Catch_pr_months")]
     ]
 
     
     body =  [
         [sg.TabGroup([[
             sg.Tab('Home',home_option),
-            sg.Tab ('Edit "Database"', edit_db_option),
             sg.Tab ('Fish species', display_fish_option),
             sg.Tab ('Harvested fish', species_pr_harvested_kg_option),
             
@@ -371,7 +389,7 @@ def Spawn_Gui():
 
 
 
-    window = sg.Window("F-I-S-H", body, icon = ("./gui_assets/ico.ico"))
+    window = sg.Window("F.I.S.H", body, icon = ( assets + "ico.ico"))
 
     ######
     #Logic
@@ -383,6 +401,12 @@ def Spawn_Gui():
             break
         if event == "close":
             break
+        if(event == "Show_by_species"):
+            DisplayFishSpecies()
+        if(event == "Weight_by_species"):
+            DisplayWeightBySpecies()
+        if(event == "Catch_pr_months"):
+            DisplayFishCatchByMonth()
         if(event == "edit_table_fish_output"):
             #edit selected row from fish output table
             table_selected = values["table_fish_output"]
