@@ -289,6 +289,45 @@ def DisplayFishCatchByMonth():
     ax.legend(title='Months')
     plt.show()
 
+def Spawn_TUI():
+    input_msg = """
+    Choose any of the following options
+        [1] View fish table
+        [2] Add fish to program
+        [3] Edit selected row
+        [4] View fish species
+        [5] Display fish caught by month
+        [6] Display percentage weight by species
+    """
+    user_choise = input(input_msg)
+    if(user_choise == "1"):
+        tools.Clear_Term()
+        display_fishes_tui()
+        Spawn_TUI()
+    elif(user_choise == "2"): 
+        AddFish()
+        tools.Clear_Term()
+        Spawn_TUI()
+    elif(user_choise == "3"):
+        print("Not implemented")
+        tools.Clear_Term()
+        Spawn_TUI()
+    elif(user_choise == "4"):
+        DisplayFishSpecies()
+        tools.Clear_Term()
+        Spawn_TUI()
+    elif(user_choise == "5"):
+        DisplayFishCatchByMonth()
+        tools.Clear_Term()
+        Spawn_TUI()
+    elif(user_choise == "6"):
+        DisplayWeightBySpecies()
+        tools.Clear_Term()
+        Spawn_TUI()
+    else:
+        tools.Clear_Term()
+        Spawn_TUI()
+        
 
 def UI_Mode():
     tools.Clear_Term()
@@ -299,10 +338,11 @@ Launch program with selected mode:
     [2] Graphic UI
 Type 1 or 2
     """
-    #user_choise = input(input_msg)
-    user_choise = "2" #Temporary
+    user_choise = input(input_msg)
+    #user_choise = "2" #Temporary
     if(user_choise == "1"):
         print("Text UI")
+        Spawn_TUI()
     elif(user_choise == "2"):
         print("Launching GUI")
         Spawn_Gui()
@@ -544,12 +584,5 @@ def Spawn_Gui():
 
 
             popup_window.close()
-
-
-
     window.close()
-
-
-
-
 setup()

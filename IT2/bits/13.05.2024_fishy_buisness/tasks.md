@@ -1,2 +1,7 @@
-[]Implement matprolib in display of fish by species
-[]-||- months
+AddFish
+EditRow
+DisplayFishSpecies
+DisplayFishCatchByMonth
+DisplayWeightBySpecies
+
+display_fishes_tui
