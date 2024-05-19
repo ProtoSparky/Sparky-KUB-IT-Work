@@ -2,6 +2,7 @@
 import re
 import csv
 import os
+from datetime import datetime
 def Ask(question, type = ["num","str","num_and_str", "pass", "num_and_str_special", "dec", "str_allowed"], error_msg = "Input wrong", allowed_strings = []):
     temp_var = input(question)
     if(type == "num"):
@@ -205,4 +206,11 @@ def pad_string(desired_length, original_string):
     return padded_string
 
 def Clear_Term():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    import os
+    os.system('cls' if os.name == 'nt' else 'clear')    
+
+def extract_str_date(date_string, delimiter = "."):
+    # Convert the string to a datetime object
+    #04.05.2024 to separate numbers
+    dt = datetime.strptime(date_string, f"%d{delimiter}%m{delimiter}%Y")
+    return dt.day, dt.month, dt.year

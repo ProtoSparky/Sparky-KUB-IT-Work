@@ -386,8 +386,6 @@ def Spawn_Gui():
             break
         if event == "close":
             break
-        if event == "Runner":
-            RunFunc()
         if(event == "edit_table_fish_output"):
             #edit selected row from fish output table
             table_selected = values["table_fish_output"]
@@ -439,19 +437,26 @@ def Spawn_Gui():
         if(event == "add_fish"): 
             popup_layout = [
                             [sg.Text('Enter details to submit a new fish to the database')],
-                            [sg.Text('Date'), sg.InputText(key='AddFish_Date')],
-                            [sg.Text('Time'), sg.InputText("00-24",key='AddFish_Hour'), sg.Text(":"), sg.InputText("00-59",key = "AddFish_Minute")],
+                            #[sg.Text('Date'), sg.InputText(key='AddFish_Date')],
+                            [sg.Text("Date"), sg.Text("",key = "AddFish_Date_TXT"), sg.CalendarButton("Select Date", close_when_date_chosen=True, format='%d.%m.%Y', key = "AddFish_Date", target = "AddFish_Date_TXT")],
+                            #[sg.Text('Time'), sg.InputText("00-24",key='AddFish_Hour'), sg.Text(":"), sg.InputText("00-59",key = "AddFish_Minute")],
+                            [sg.Text("Time"), sg.Slider((0, 24), orientation='horizontal', key = "AddFish_Hour"),sg.Text(":"),sg.Slider((0, 59), orientation='horizontal', key = "AddFish_Minute")],
                             [sg.Text("Location"), sg.InputText("For example: 'Oslo'", key = "AddFish_Location")],
                             [sg.Text("Species"), sg.InputText(key = "AddFish_Species")],
-                            [sg.Text("Fish length"), sg.InputText(key = "AddFish_Fish_Length")],
-                            [sg.Text("Fish weight"), sg.InputText(key = "AddFish_Fish_Weight")],
-                            [sg.Button('Submit')]
+                            [sg.Text("Fish length (kg)"), sg.InputText(key = "AddFish_Fish_Length")],
+                            [sg.Text("Fish weight (cm)"), sg.InputText(key = "AddFish_Fish_Weight")],
+                            [sg.Text("Capture tool"), sg.Radio("Meitefiske", group_id = "AddFish_CaptureTool",default = True),sg.Radio("Flue", group_id = "AddFish_CaptureTool"),sg.Radio("Spinner", group_id = "AddFish_CaptureTool"),sg.Radio("Blink", group_id = "AddFish_CaptureTool"), sg.Radio("Garn", group_id = "AddFish_CaptureTool"), sg.Radio("Isfiske", group_id = "AddFish_CaptureTool"), sg.Radio("Dorge", group_id = "AddFish_CaptureTool")], #As you can see i have absolutally no idea how do automate this without making it really complicated
+                            [sg.Button('Save fish',key = "AddFish_Save")]
                             ]
             popup_window = sg.Window('Enter fishy details', popup_layout)
             while True:
                 popup_event, popup_values = popup_window.read()
-                if popup_event == sg.WINDOW_CLOSED or popup_event == 'Submit':
+                if popup_event == sg.WINDOW_CLOSED:
                     break
+                if(popup_event == "AddFish_Save"):
+                    #check if input is proper
+                    #AddFishDate = tools.extract_str_date(popup_values["AddFish_Date"])
+                    print(popup_values["AddFish_Date"])
             popup_window.close()
 
 
