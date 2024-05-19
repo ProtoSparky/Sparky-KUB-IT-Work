@@ -468,12 +468,12 @@ def Spawn_Gui():
                     else:  
                         AddFishDate = tools.extract_str_date(popup_values["AddFish_Date"])   
                         if(re.match("[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Length"])):
-                            Fish_length = float(popup_values["AddFish_Fish_Length"])
+                            Fish_length = int(float(popup_values["AddFish_Fish_Length"]))
                         else:
                             sg.Popup("Fish length is not a number, or using wrong delimiter\nIf youre using(,) use (.) instead\nIt must end with a decimal")
                             Fish_length = None
                         if(re.match("[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Weight"])):
-                            Fish_weight = float(popup_values["AddFish_Fish_Weight"]) * 1000
+                            Fish_weight = int(float(popup_values["AddFish_Fish_Weight"]) * 1000)
                         else:
                             sg.Popup("Fish weight is not a number, or using wrong delimiter\nIf youre using(,) use (.) instead\nIt must end with a decimal")
                             Fish_weight = None
@@ -489,6 +489,28 @@ def Spawn_Gui():
                             capture_tool = "Spinner"
                         elif(popup_values["AddFish_CaptureTool_Blink"] == True):
                             capture_tool = "Blink"
+                        elif(popup_values["AddFish_CaptureTool_Garn"] == True):
+                            capture_tool = "Garn"
+                        elif(popup_values["AddFish_CaptureTool_IsFiske"] == True):
+                            capture_tool = "IsFiske"
+                        elif(popup_values["AddFish_CaptureTool_Dorge"] == True):
+                            capture_tool = "Dorge"
+                        
+                        if(Fish_weight==None or Fish_length==None or capture_tool == None):
+                            sg.Popup("Please check that your submitted data meets the form requirements")
+                        else:
+                            if(sg.popup_yes_no("Do you want to save this fish to the database?") == "Yes"):
+                                print("Saving fish")
+                                AddFish(AddFishDate[0],AddFishDate[1],AddFishDate[2],Fish_time,str(popup_values["AddFish_Location"]),str(popup_values["AddFish_Species"]),Fish_length, Fish_weight,capture_tool)
+                                window["table_fish_output"].update(values=DisplaySorter()[1])
+                                popup_window.close()
+
+                            else:
+                                print("exiting add fish")
+                                popup_window.close()
+                    
+                        
+
 
                         
                         
