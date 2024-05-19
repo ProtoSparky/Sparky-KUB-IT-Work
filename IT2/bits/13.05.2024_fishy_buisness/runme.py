@@ -349,7 +349,7 @@ def Spawn_Gui():
             key='table_fish_output',
             select_mode='browse'
         )],
-        [sg.Button("Refresh table", key = "refresh_table_fish_output"), sg.Button("Edit cell", key= "edit_table_fish_output")]
+        [sg.Button("Refresh table", key = "refresh_table_fish_output"), sg.Button("Edit cell", key= "edit_table_fish_output"), sg.Button("Add new fish", key="add_fish")]
     ]
 
     species_pr_harvested_kg_option = [
@@ -379,9 +379,6 @@ def Spawn_Gui():
         print("ran")
         sg.popup("This is a test")
 
-
-
-
     # Create an event loop
     while True:
         event, values = window.read()
@@ -406,6 +403,7 @@ def Spawn_Gui():
                     new_txt = str(sg.popup_get_text("Enter text that will replace the previous text in the selected column"))
                     ##
                     #check for some input requirements
+                    ##
                     if(str(column_name_input) == "Date"):
                         print("date")
                         if(re.match("^(0[0-9]|1[0-9]|2[0-9]|30|31)\.(0[1-9]|1[0-2])\.\d{4}$", new_txt)):
@@ -429,7 +427,7 @@ def Spawn_Gui():
                         else:
                            sg.popup_error("Input does not match the column schema") 
                     else:
-                        print("everything else")
+                        EditRow(str(column_name_input), table_selected[0],new_txt)
 
                     window["table_fish_output"].update(values=DisplaySorter()[1]) # refresh table
                     print("Text edited")
@@ -438,18 +436,25 @@ def Spawn_Gui():
         if(event == "refresh_table_fish_output"):
             window["table_fish_output"].update(values=DisplaySorter()[1])
             print("updated table")
+        if(event == "add_fish"): 
+            popup_layout = [
+                            [sg.Text('Enter Details to submit a new fish to the database')],
+                            [sg.Text('Date'), sg.Date(key='DATE')],
+                            [sg.Text('Name'), sg.InputText(key='NAME')],
+                            [sg.Text('Time'), sg.InputText(key='TIME')],
+                            [sg.Button('Submit')]
+                            ]
+            popup_window = sg.Window('Enter fishy details', popup_layout)
+            while True:
+                popup_event, popup_values = popup_window.read()
+                if popup_event == sg.WINDOW_CLOSED or popup_event == 'Submit':
+                    print(f"Submitted: Date={popup_values['DATE']}, Name={popup_values['NAME']}, Time={popup_values['TIME']}")
+                    break
+            popup_window.close()
+
+
 
     window.close()
-
-
-
-
-
-
-
-
-
-
 
 
 
