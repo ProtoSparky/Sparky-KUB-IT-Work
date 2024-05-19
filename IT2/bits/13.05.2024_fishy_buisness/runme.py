@@ -375,9 +375,6 @@ def Spawn_Gui():
 
     ######
     #Logic
-    def RunFunc():
-        print("ran")
-        sg.popup("This is a test")
 
     # Create an event loop
     while True:
@@ -438,7 +435,7 @@ def Spawn_Gui():
             popup_layout = [
                             [sg.Text('Enter details to submit a new fish to the database')],
                             #[sg.Text('Date'), sg.InputText(key='AddFish_Date')],
-                            [sg.Text("Date"), sg.Text(""), sg.CalendarButton("Select Date", close_when_date_chosen=True, format='%d.%m.%Y', target = "AddFish_Date"), sg.In(key='AddFish_Date', enable_events=True, visible=False)],
+                            [sg.Text("Date"), sg.Text("", key ="fish_date_text"), sg.CalendarButton("Select Date", close_when_date_chosen=True, format='%d.%m.%Y', target = "AddFish_Date", key ="AddFish_Date_btn"), sg.In(key='AddFish_Date', enable_events=True, visible=False)],
                             #[sg.Text('Time'), sg.InputText("00-24",key='AddFish_Hour'), sg.Text(":"), sg.InputText("00-59",key = "AddFish_Minute")],
                             [sg.Text("Time"), sg.Slider((0, 24), orientation='horizontal', key = "AddFish_Hour"),sg.Text(":"),sg.Slider((0, 59), orientation='horizontal', key = "AddFish_Minute")],
                             [sg.Text("Location"), sg.InputText("", key = "AddFish_Location")],
@@ -453,6 +450,9 @@ def Spawn_Gui():
                 popup_event, popup_values = popup_window.read()
                 if popup_event == sg.WINDOW_CLOSED:
                     break
+
+                popup_window["fish_date_text"].update(popup_values["AddFish_Date"]) #Updates the text in between Date header and date input
+                
                 if(popup_event == "AddFish_Save"):
                     #check if input is proper
                     if(len(popup_values["AddFish_Date"]) == 0):
@@ -508,7 +508,6 @@ def Spawn_Gui():
                             else:
                                 print("exiting add fish")
                                 popup_window.close()
-                    
                         
 
 
