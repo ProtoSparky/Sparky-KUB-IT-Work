@@ -183,9 +183,6 @@ def display_fishes_tui():
         padd_pointer += 1
     print(p_str)
 
-
-
-
     tbl_pointer = 0
     while tbl_pointer < max_tbl_length: 
         if(tbl_pointer == 0):
@@ -309,7 +306,7 @@ def Spawn_TUI():
         tools.Clear_Term()
         Spawn_TUI()
     elif(user_choise == "3"):
-        print("Not implemented")
+        TUI_Edit_row()
         tools.Clear_Term()
         Spawn_TUI()
     elif(user_choise == "4"):
@@ -327,7 +324,23 @@ def Spawn_TUI():
     else:
         tools.Clear_Term()
         Spawn_TUI()
-        
+
+def TUI_Edit_row():
+    file = tools.read_csv(data_loc)
+    keys = list(file.keys())
+    length = len(file[keys[0]])
+    row_id = tools.Ask("Input the row id: ", "num", "Input must be number")
+    if(int(row_id) > length):
+        print("Error | Row id is bigger than actual rows")
+        TUI_Edit_row()
+    column_name = input("Input column name: ")
+    if(column_name not in keys):
+        print("Error | Column name does not exist! Try a different one")
+        TUI_Edit_row()
+    
+    new_data = input("Enter new data to replace old data: ")    
+    EditRow(column_name, row_id, new_data)   
+
 
 def UI_Mode():
     tools.Clear_Term()
