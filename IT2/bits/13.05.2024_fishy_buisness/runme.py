@@ -5,7 +5,6 @@ from collections import Counter
 import numpy as np
 import re
 
-
 '''
 DATA to be saved 
 
@@ -18,8 +17,6 @@ DATA to be saved
 • Vekt på fisken.  
 • Redskap (Kan du avgrense det til: meitefiske, flue, spinner,  blink, garn, isfiske, dorge).  
 
-
-
 TODO 
 
 [x] Kunne redigere innhold i filen/database.  
@@ -28,20 +25,13 @@ TODO
 [x]Vise antall fisk av hver art i søylediagram  
 [x]Vise prosentvis mengde fisk i kilo av hver art i et sektordiagram.  
 [x]Vise fangst fordelt på måneder. Velg her selv grafisk presentasjon. 
-[ ]Brukergrensesnitt må være intuitivt og delikat (pent å se på) 
+[?]Brukergrensesnitt må være intuitivt og delikat (pent å se på) 
 
 '''
 
 def setup():
     setup_data() #setup data if it wanst there from the beginning
-    #AddFish()
-    #EditRow("Date", 3, 100)
-    #DisplayFishSpecies()
-    #DisplayWeightBySpecies()
-    #display_fishes_tui()
-    #search_by_months()
     UI_Mode()
-
 
 
 def setup_data():
@@ -50,8 +40,6 @@ def setup_data():
         #creae file as it does not exist
         data = {"Date":[], "Time":[], "Location":[], "Species":[], "Fish_length":[], "Fish_weight":[], "Capture_tool":[]}
         tools.write_csv(data_loc, data)
-    
-
 
 def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,Fish_length=None,Fish_weight=None,Capture_tool=None):
     #check if input vars are nonexistent
@@ -62,7 +50,7 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
         Day = tools.Ask(question = "Which day was the fish caught (0-30)? : ", type = "num")
         Month = tools.Ask(question = "Which month was the fish caught (1-12)? : ", type = "num")
         Year = tools.Ask(question = "Which year was the fish caught? : ", type = "num")
-        Time = tools.Ask(question = "On which time was the fish caught? : ", type = "num_and_str_special")
+        Time = tools.Ask(question = "On which time was the fish caught?\nTime should be separated by ':'\n: ", type = "num_and_str_special")
         Location = tools.Ask(question = "Where was the fish caught? : ", type = "pass")
         Species = tools.Ask(question = "Which specie is this fish? : ", type = "pass")
         Fish_length = tools.Ask(question = "---------\nHow long is the fish (cm)\ndont include cm \n: ", type = "dec")
@@ -73,10 +61,7 @@ def AddFish(Day=None,Month=None,Year=None,Time=None,Location=None,Species=None,F
     else:
         print("vars drfined, adding fish to text file")
 
-
-
-    #write data to DB
-    
+    #write data to DB    
     ##get current data
     file = tools.read_csv(data_loc)
     ###i know that this permanent implementation is not ideal
@@ -204,8 +189,7 @@ def display_fishes_tui():
 
             print(printed_str)
 
-        tbl_pointer += 1
-    
+        tbl_pointer += 1  
 
     
 def find_longest_string(obj):
@@ -291,10 +275,11 @@ def Spawn_TUI():
     Choose any of the following options
         [1] View fish table
         [2] Add fish to program
-        [3] Edit selected row
+        [3] Edit a row in the table
         [4] View fish species
         [5] Display fish caught by month
         [6] Display percentage weight by species
+        [7] Close
     """
     user_choise = input(input_msg)
     if(user_choise == "1"):
@@ -321,6 +306,8 @@ def Spawn_TUI():
         DisplayWeightBySpecies()
         tools.Clear_Term()
         Spawn_TUI()
+    elif(user_choise == "7"):
+        exit()
     else:
         tools.Clear_Term()
         Spawn_TUI()
@@ -339,7 +326,7 @@ def TUI_Edit_row():
         TUI_Edit_row()
     
     new_data = input("Enter new data to replace old data: ")    
-    EditRow(column_name, row_id, new_data)   
+    EditRow(column_name, int(row_id), new_data)   
 
 
 def UI_Mode():
@@ -361,7 +348,6 @@ Type 1 or 2
         Spawn_Gui()
     else:
         UI_Mode()
-
 
 
 def Spawn_Gui():
@@ -439,9 +425,6 @@ def Spawn_Gui():
         [sg.Button('Close Program', key = "close")]
     ]
 
-
-
-
     window = sg.Window("F.I.S.H", body, icon = ( assets + "ico.ico"))
 
     ######
@@ -478,22 +461,22 @@ def Spawn_Gui():
                     ##
                     if(str(column_name_input) == "Date"):
                         print("date")
-                        if(re.match("^(0[0-9]|1[0-9]|2[0-9]|30|31)\.(0[1-9]|1[0-2])\.\d{4}$", new_txt)):
+                        if(re.match(r"^(0[0-9]|1[0-9]|2[0-9]|30|31)\.(0[1-9]|1[0-2])\.\d{4}$", new_txt)):
                             EditRow(str(column_name_input), table_selected[0],new_txt)
                         else:
                             sg.popup_error("Input does not match the column schema")
                     elif(str(column_name_input) == "Time"):
-                        if(re.match("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", new_txt)):
+                        if(re.match(r"^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", new_txt)):
                             EditRow(str(column_name_input), table_selected[0],new_txt)
                         else:
                             sg.popup_error("Input does not match the column schema")
                     elif(str(column_name_input) == "Fish_length"):
-                        if(re.match("[0-9]+", new_txt)):
+                        if(re.match(r"[0-9]+", new_txt)):
                             EditRow(str(column_name_input), table_selected[0],new_txt)
                         else:
                             sg.popup_error("Input does not match the column schema")
                     elif(str(column_name_input) == "Fish_weight"):
-                        if(re.match("([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[Ee]([+-]?\d+))?",new_txt)):
+                        if(re.match(r"([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[Ee]([+-]?\d+))?",new_txt)):
                             new_input = str(int(float(new_txt) * 1000))
                             EditRow(str(column_name_input), table_selected[0],new_input)
                         else:
@@ -544,12 +527,12 @@ def Spawn_Gui():
                         sg.Popup("Fish weight not filled out")                    
                     else:  
                         AddFishDate = tools.extract_str_date(popup_values["AddFish_Date"])   
-                        if(re.match("[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Length"])):
+                        if(re.match(r"[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Length"])):
                             Fish_length = int(float(popup_values["AddFish_Fish_Length"]))
                         else:
                             sg.Popup("Fish length is not a number, or using wrong delimiter\nIf youre using(,) use (.) instead\nIt must end with a decimal")
                             Fish_length = None
-                        if(re.match("[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Weight"])):
+                        if(re.match(r"[0-9]*\.[0-9]+",popup_values["AddFish_Fish_Weight"])):
                             Fish_weight = int(float(popup_values["AddFish_Fish_Weight"]) * 1000)
                         else:
                             sg.Popup("Fish weight is not a number, or using wrong delimiter\nIf youre using(,) use (.) instead\nIt must end with a decimal")
@@ -581,21 +564,9 @@ def Spawn_Gui():
                                 AddFish(AddFishDate[0],AddFishDate[1],AddFishDate[2],Fish_time,str(popup_values["AddFish_Location"]),str(popup_values["AddFish_Species"]),Fish_length, Fish_weight,capture_tool)
                                 window["table_fish_output"].update(values=DisplaySorter()[1])
                                 popup_window.close()
-
                             else:
                                 print("exiting add fish")
                                 popup_window.close()
-                        
-
-
-                        
-                        
-
-                        
-
-
-
-
             popup_window.close()
     window.close()
 setup()

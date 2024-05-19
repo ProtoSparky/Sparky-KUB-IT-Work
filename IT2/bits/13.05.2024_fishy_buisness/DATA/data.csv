@@ -1,5 +1,5 @@
 Date;Time;Location;Species;Fish_length;Fish_weight;Capture_tool
-22.3.2010;17:54;Bergen;Cod;44;8090;blink
+22.3.2010;17:54;Oslo;Cod;44;8090;blink
 20.9.2024;12:25;ÅS;Flounder;82;7978;flue
 14.12.2009;14:5;Oslo;Trout;27;24754;spinner
 4.1.2006;17:54;Oslo;Perch;22;14360;flue
@@ -98,6 +98,3 @@ Date;Time;Location;Species;Fish_length;Fish_weight;Capture_tool
 15.6.2007;10:27;Malmø;Perch;104;15473;flue
 23.11.2006;3:44;ÅS;Flounder;121;28952;spinner
 3.12.2018;2:37;Bergen;Perch;31;48340;meitefiske
-1.7.2010;18:56;ÅS;Big ass fish;7;11790;isfiske
-20.5.2024;16.0:39.0;bergen;Testing fish;100;50000;Spinner
-1.1.2024;18.0:43.0;Oslo;Test_fish;10;1100;Spinner
