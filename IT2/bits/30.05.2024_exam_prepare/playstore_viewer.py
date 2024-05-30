@@ -79,4 +79,13 @@ def GetAppRatingsAndInstallations(decending_app_amount, sorted_appList, category
 
 
 
-print(GetAppRatingsAndInstallations(3, length_by_category_sorted, categories,csv_file))
+
+ratings_and_installations = GetAppRatingsAndInstallations(3, length_by_category_sorted, categories,csv_file)
+for current_category in ratings_and_installations:
+    category_data = ratings_and_installations[current_category]
+    keys = list(category_data.keys())
+    print("------------------------------------")
+    print("Category " + current_category)
+    for current_metric in keys:
+        metric_data = category_data[current_metric]
+        print(current_metric + ": "+ str(metric_data))
