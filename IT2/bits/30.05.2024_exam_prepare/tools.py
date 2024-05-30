@@ -217,3 +217,11 @@ def extract_str_date(date_string, delimiter = "."):
         return dt.day, dt.month, dt.year
     except:
         return None, None, None
+    
+
+def sort_dict(object_input, ascending=True):
+    #sorts a dict form either ascending sizes to decending
+    sorted_items = sorted(object_input.items(), key=lambda x: x[1], reverse=not ascending)    
+    sorted_dict = {k: v for k, v in sorted_items}    
+    return sorted_dict
+

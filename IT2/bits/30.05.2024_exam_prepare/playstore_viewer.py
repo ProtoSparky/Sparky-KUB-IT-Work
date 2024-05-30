@@ -12,28 +12,26 @@ print(csv_file_keys)
 #we count how many times a given category pops up
 categories = {}
 category_pointer = 0
-category_array_in_file = csv_file["Category"] #This is the category row in the CSV file
+category_array_in_file = csv_file["Category"] #This is the category column in the CSV file
 while category_pointer < csv_file_length:
     #iterate trough all rows
     current_category_in_file = category_array_in_file[category_pointer]
     try:
         categories[current_category_in_file].append(category_pointer) #If the category exists in the object, append the current key containing the category
     except:
-        categories[current_category_in_file] = [] #
+        categories[current_category_in_file] = [] #if the current category does not exist, make one and do the same as in try:
         categories[current_category_in_file].append(category_pointer)     
     category_pointer += 1 
 
-#we create an empty array, and store the keys with the longest length first
-category_by_app_amount = {}
-
+#we convert all of those object keys in the category to amount of apps in the given category
+length_by_category = {}
 for current_cat in categories:
-    category_app_amount = len(categories[current_cat])
-    if(len(category_by_app_amount) == 0):
-        category_by_app_amount[current_cat] = category_app_amount
-    else:
-        #something is already in the category by app amount object
-        for selected_app in category_by_app_amount:
-            if(int(category_by_app_amount[selected_app]) <= category_app_amount):
-                
-    print(category_app_amount)
+    category_length = len(categories[current_cat])
+    length_by_category[current_cat] = category_length
+
+#use premade function for sorting keys by values. 
+length_by_category_sorted = tk.sort_dict(length_by_category, ascending = False)
+
+
+
 
