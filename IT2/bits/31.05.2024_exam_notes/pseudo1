@@ -1,0 +1,19 @@
+set num to -2
+for every num less than or equal to 2
+    if num lesset han 0
+        if num % 2 equal to 0
+            display num + "er negativt og partall"
+        else
+            display num + "er negativt og oddetall"
+        endif
+    else if num equal to 0
+        display num + "er null"
+
+    else
+        if num %2 equal to 0
+            display num + "er positiv og partall"
+        else
+            display num + "er positivt og oddetall"
+        endif
+    endif
+endfor
